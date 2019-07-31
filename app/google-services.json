@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "155029413465",
+    "firebase_url": "https://woongjin-ai.firebaseio.com",
+    "project_id": "woongjin-ai",
+    "storage_bucket": "woongjin-ai.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:155029413465:android:b3900edeee81c651",
+        "android_client_info": {
+          "package_name": "edu.skku.woongjin_ai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "155029413465-0nhatmbt4qp2lelb5irbnm8f6gk90j37.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDC8-u3RSor-6DoXYcNpMOxhG4GAghEusI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "155029413465-0nhatmbt4qp2lelb5irbnm8f6gk90j37.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
