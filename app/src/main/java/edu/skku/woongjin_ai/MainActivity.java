@@ -1,10 +1,13 @@
 package edu.skku.woongjin_ai;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     ArrayList<String> quizList;
     ArrayAdapter<String> adapter;
+    Intent intent, intent2;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mListView = (ListView) findViewById(R.id.listView);
+        Button buttonSelectType = (Button) findViewById(R.id.selectType);
+
+        intent = getIntent();
+        id = intent.getStringExtra("id");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -36,6 +45,16 @@ public class MainActivity extends AppCompatActivity {
         mListView.setAdapter(adapter);
 
         getFirebaseDatabaseQuizList();
+
+        buttonSelectType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent2 = new Intent(MainActivity.this, SelectTypeActivity.class);
+                intent2.putExtra("id", id);
+                startActivity(intent2);
+                finish();
+            }
+        });
     }
 
     private void getFirebaseDatabaseQuizList(){
