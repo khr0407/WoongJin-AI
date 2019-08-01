@@ -38,6 +38,7 @@ public class ScriptActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_script);
 
+
         Intent intent = getIntent();
         scriptname_key = intent.getStringExtra("script name");
         mPostReference = FirebaseDatabase.getInstance().getReference().child("script_list").child(scriptname_key);

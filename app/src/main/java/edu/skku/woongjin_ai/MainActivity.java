@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> scriptList;
     ArrayAdapter<String> adapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
