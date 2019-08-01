@@ -54,7 +54,10 @@ public class RegisterActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 String key = snapshot.getKey();
-                                if(id.equals(key)) flag = 1;
+                                if(id.equals(key)) {
+                                    flag = 1;
+                                    break;
+                                }
                             }
                             if(flag == 0) {
                                 postFirebaseDatabaseUserInfo();
