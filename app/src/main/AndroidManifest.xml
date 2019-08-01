@@ -23,6 +23,14 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".RegisterActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".SelectTypeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".OXTypeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ChoiceTypeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ShortwordTypeActivity"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>
