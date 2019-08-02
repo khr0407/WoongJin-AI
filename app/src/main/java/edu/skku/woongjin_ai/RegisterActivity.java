@@ -52,25 +52,27 @@ public class RegisterActivity extends AppCompatActivity {
                     final ValueEventListener postListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                String key = snapshot.getKey();
-                                if(id.equals(key)) {
-                                    flag = 1;
-                                    break;
+                            if(flag > -1) {
+                                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    String key = snapshot.getKey();
+                                    if(id.equals(key)) {
+                                        Toast.makeText(RegisterActivity.this, "ID is overlapped", Toast.LENGTH_SHORT).show();
+                                        editTextID.setText("");
+                                        editTextNM.setText("");
+                                        editTextPW.setText("");
+                                        flag = 1;
+                                        break;
+                                    }
+                                    else flag = 0;
                                 }
-                            }
-                            if(flag == 0) {
-                                postFirebaseDatabaseUserInfo();
+                                if(flag == 0) {
+                                    flag = -1;
+                                    postFirebaseDatabaseUserInfo();
 
-                                intent = new Intent(RegisterActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                Toast.makeText(RegisterActivity.this, "ID is overlapped", Toast.LENGTH_SHORT).show();
-                                editTextID.setText("");
-                                editTextNM.setText("");
-                                editTextPW.setText("");
-                                flag = 0;
+                                    intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
                             }
                         }
                         @Override

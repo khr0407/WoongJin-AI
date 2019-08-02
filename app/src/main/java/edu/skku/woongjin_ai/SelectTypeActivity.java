@@ -10,7 +10,7 @@ import android.widget.ImageView;
 public class SelectTypeActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentOX, intentChoice, intentShortword;
-    String id;
+    String id, scriptnm;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,6 +24,7 @@ public class SelectTypeActivity extends AppCompatActivity {
 
         intent = getIntent();
         id = intent.getStringExtra("id");
+        scriptnm = intent.getStringExtra("scriptnm");
 
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,6 +41,7 @@ public class SelectTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intentOX = new Intent(SelectTypeActivity.this, OXTypeActivity.class);
                 intentOX.putExtra("id", id);
+                intentOX.putExtra("scriptnm", scriptnm);
                 startActivity(intentOX);
                 finish();
             }
@@ -50,6 +52,7 @@ public class SelectTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intentChoice = new Intent(SelectTypeActivity.this, ChoiceTypeActivity.class);
                 intentChoice.putExtra("id", id);
+                intentChoice.putExtra("scriptnm", scriptnm);
                 startActivity(intentChoice);
                 finish();
             }
@@ -60,6 +63,7 @@ public class SelectTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intentShortword = new Intent(SelectTypeActivity.this, ShortwordTypeActivity.class);
                 intentShortword.putExtra("id", id);
+                intentShortword.putExtra("scriptnm", scriptnm);
                 startActivity(intentShortword);
                 finish();
             }
