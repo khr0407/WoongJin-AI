@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -48,10 +49,13 @@ public class OXTypeActivity extends AppCompatActivity {
         imageStar5 = (ImageView) findViewById(R.id.star5);
         editQuiz = (EditText) findViewById(R.id.quiz);
         editDesc = (EditText) findViewById(R.id.desc);
+        TextView title = (TextView) findViewById(R.id.title);
 
         intent = getIntent();
         uid = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
+
+        title.setText("지문 제목: " + scriptnm);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
