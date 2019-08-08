@@ -216,7 +216,7 @@ public class OXTypeActivity extends AppCompatActivity {
     private void postFirebaseDatabaseQuizOX() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(uid, quiz, ans, Integer.toString(star), desc);
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(uid, quiz, ans, Integer.toString(star), desc, "0");
         postValues = post.toMap();
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();

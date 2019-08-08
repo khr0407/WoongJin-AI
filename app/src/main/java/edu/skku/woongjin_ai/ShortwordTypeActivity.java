@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+
 public class ShortwordTypeActivity extends AppCompatActivity {
 
     Intent intent, intentHome;

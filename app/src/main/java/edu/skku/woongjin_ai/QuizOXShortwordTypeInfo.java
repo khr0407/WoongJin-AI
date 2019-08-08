@@ -9,17 +9,19 @@ public class QuizOXShortwordTypeInfo {
     public String answer;
     public String star;
     public String desc;
+    public String like;
 
     public QuizOXShortwordTypeInfo() {
 
     }
 
-    public QuizOXShortwordTypeInfo(String uid, String question, String answer, String star, String desc) {
+    public QuizOXShortwordTypeInfo(String uid, String question, String answer, String star, String desc, String like) {
         this.uid = uid;
         this.question = question;
         this.answer = answer;
         this.star = star;
         this.desc = desc;
+        this.like = like;
     }
 
     public Map<String, Object> toMap() {
@@ -29,6 +31,7 @@ public class QuizOXShortwordTypeInfo {
         result.put("answer", answer);
         result.put("star", star);
         result.put("desc", desc);
+        result.put("like", like);
         return result;
     }
 }
