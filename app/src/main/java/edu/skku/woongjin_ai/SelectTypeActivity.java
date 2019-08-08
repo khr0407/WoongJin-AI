@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class SelectTypeActivity extends AppCompatActivity {
 
-    Intent intent, intentHome, intentOX, intentChoice, intentShortword;
+    Intent intent, intentHome, intentOX, intentChoice, intentShortword, intentTemplate;
     String id, scriptnm;
 
     @Override
@@ -21,10 +22,22 @@ public class SelectTypeActivity extends AppCompatActivity {
         ImageView imageOX = (ImageView) findViewById(R.id.quiz_ox);
         ImageView imageChoice = (ImageView) findViewById(R.id.quiz_choice);
         ImageView imageShortword = (ImageView) findViewById(R.id.quiz_shortword);
+        Button showTemplate = (Button) findViewById(R.id.template);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
+
+        showTemplate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentTemplate = new Intent(SelectTypeActivity.this, TemplateActivity.class);
+                intentTemplate.putExtra("id", id);
+                intentTemplate.putExtra("scriptnm", scriptnm);
+                startActivity(intentTemplate);
+                finish();
+            }
+        });
 
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -157,7 +157,7 @@
                 android:layout_weight="1"
                 android:hint="질문을 입력하세요"
                 android:textSize="10dp"
-                android:layout_gravity="bottom"/>
+                android:layout_gravity="center"/>
 
         </LinearLayout>
 
@@ -221,7 +221,7 @@
                 android:layout_weight="1"
                 android:hint="해설을 입력하세요"
                 android:textSize="10dp"
-                android:layout_gravity="bottom"/>
+                android:layout_gravity="center"/>
 
         </LinearLayout>
 

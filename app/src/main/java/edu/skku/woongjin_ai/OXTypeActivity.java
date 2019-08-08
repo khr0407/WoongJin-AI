@@ -27,7 +27,7 @@ public class OXTypeActivity extends AppCompatActivity {
     ImageView imageO, imageX, imageScript, imageCheck, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
     EditText editQuiz, editDesc;
     Intent intent, intentHome;
-    String uid, scriptnm;
+    String id, scriptnm;
     String quiz = "", ans = "", desc = "";
     int star = 0;
     int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0;
@@ -52,7 +52,7 @@ public class OXTypeActivity extends AppCompatActivity {
         TextView title = (TextView) findViewById(R.id.title);
 
         intent = getIntent();
-        uid = intent.getStringExtra("id");
+        id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
 
         title.setText("지문 제목: " + scriptnm);
@@ -68,8 +68,6 @@ public class OXTypeActivity extends AppCompatActivity {
                     Toast.makeText(OXTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                 } else {
                     postFirebaseDatabaseQuizOX();
-
-
                 }
             }
         });
@@ -78,24 +76,9 @@ public class OXTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 intentHome = new Intent(OXTypeActivity.this, MainActivity.class);
-                intentHome.putExtra("id", uid);
+                intentHome.putExtra("id", id);
                 startActivity(intentHome);
                 finish();
-            }
-        });
-
-        imageStar1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(flagS1 == 0) {
-                    star++;
-                    imageStar1.setImageResource(R.drawable.checked_circle_white);
-                    flagS1 = 1;
-                } else {
-                    star--;
-                    imageStar1.setImageResource(R.drawable.unchecked_circle_white);
-                    flagS1 = 0;
-                }
             }
         });
 
@@ -216,10 +199,11 @@ public class OXTypeActivity extends AppCompatActivity {
     private void postFirebaseDatabaseQuizOX() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(uid, quiz, ans, Integer.toString(star), desc);
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(star), desc, "0");
         postValues = post.toMap();
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
+        ts = ts + id;
         childUpdates.put("/quiz_list/" + scriptnm + "/type1/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
