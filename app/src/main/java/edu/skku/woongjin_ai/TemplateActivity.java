@@ -73,12 +73,10 @@ public class TemplateActivity extends AppCompatActivity {
                     if(key.equals(scriptnm)) {
                         for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                             String type = snapshot1.getKey();
-                            Log.d("typeeeeeee", type);
                             if(type.equals("type1")) {
                                 for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
                                     QuizOXShortwordTypeInfo getNew = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
                                     String getLike = getNew.like;
-                                    Log.d("likeeeeeeeeeee", getLike);
 
                                     if(cnt < 3) {
                                         quizListOX.add(getNew);
@@ -98,7 +96,6 @@ public class TemplateActivity extends AppCompatActivity {
                                             }
                                         }
                                     }
-                                    Log.d("hereeeeeeeeeeee", "cnt: "+cnt+"minLikQuiz: "+minLikeQuiz);
                                 }
                                 cnt = 0;
                                 minLikeQuiz = 0;
@@ -132,7 +129,6 @@ public class TemplateActivity extends AppCompatActivity {
                                 for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
                                     QuizOXShortwordTypeInfo getNew = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
                                     String getLike = getNew.like;
-                                    Log.d("likeeeeeeeeeee", getLike);
 
                                     if(cnt < 3) {
                                         quizListShortword.add(getNew);
@@ -152,7 +148,6 @@ public class TemplateActivity extends AppCompatActivity {
                                             }
                                         }
                                     }
-                                    Log.d("hereeeeeeeeeeee", "cnt: "+cnt+"minLikQuiz: "+minLikeQuiz);
                                 }
                                 cnt = 0;
                                 minLikeQuiz = 0;
