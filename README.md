@@ -40,6 +40,11 @@ select script to learn
 -> 
 
 
+8. TemplateActivity
+: show templates of each quiz type
+1 random template of 3 most favorite questions
+
+
 
 - Fragment
 
@@ -53,4 +58,8 @@ select script to learn
 
 
 2. QuizOXShortwordTypeInfo
-: OX type, short word type quiz info (uid, question, answer, star, desc)
+: OX type, short word type quiz info (uid, question, answer, star, desc, like)
+
+
+3. QuizChoiceTypeInfo
+: choice type quiz info (uid, question, answer, answer1, answer2, answer3, answer4, star, desc, like)

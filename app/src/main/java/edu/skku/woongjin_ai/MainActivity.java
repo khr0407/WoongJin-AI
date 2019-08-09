@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     ArrayList<String> quizList;
     ArrayAdapter<String> adapter;
-    Intent intent, intent2;
+    Intent intent, intentType;
     String id;
     String check = "";
 
@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         intent = getIntent();
         id = intent.getStringExtra("id");
-        intent2 = new Intent(MainActivity.this, SelectTypeActivity.class);
-        intent2.putExtra("id", id);
+        intentType = new Intent(MainActivity.this, SelectTypeActivity.class);
+        intentType.putExtra("id", id);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 if(check.length() == 0) {
                     Toast.makeText(MainActivity.this, "Choose a script", Toast.LENGTH_SHORT).show();
                 } else {
-                    startActivity(intent2);
+                    startActivity(intentType);
                     finish();
                 }
             }
@@ -66,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
-                intent2.putExtra("scriptnm", quizList.get(position));
-                check = intent2.getStringExtra("scriptnm");
+                intentType.putExtra("scriptnm", quizList.get(position));
+                check = intentType.getStringExtra("scriptnm");
             }
         });
     }
@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
                 quizList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String key = snapshot.getKey();
-                    Log.d("quiz key", key);
                     quizList.add(key);
                 }
                 adapter.clear();
