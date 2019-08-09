@@ -24,7 +24,7 @@ public class MyPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String find_id = id;
-                Intent test2 = new Intent(MyPageActivity.this, ScriptActivity.class);
+                Intent test2 = new Intent(MyPageActivity.this, ShowfriendActivity.class);
                 test2.putExtra("id", find_id);
                 startActivity(test2);
             }
