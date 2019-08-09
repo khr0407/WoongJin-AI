@@ -1,5 +1,6 @@
 package edu.skku.woongjin_ai;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +14,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 
 public class ScriptActivity extends AppCompatActivity {
@@ -27,6 +27,7 @@ public class ScriptActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_script);
+
 
         friend_list = findViewById(R.id.friend_list);
 
@@ -61,7 +62,9 @@ public class ScriptActivity extends AppCompatActivity {
                 }
             };
             mPostReference.addValueEventListener(postListener);
+
         } catch (java.lang.NullPointerException e) {
+
         }
     }
 }
