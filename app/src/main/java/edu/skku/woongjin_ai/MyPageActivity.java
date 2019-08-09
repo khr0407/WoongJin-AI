@@ -19,8 +19,9 @@ public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
     Intent intent, intentAddFriend;
-    String id;
+    String id, name = "", coin = "";
     Button buttonFriendList;
+    TextView userIDT, userNameT, userCoinT;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,9 +34,9 @@ public class MyPageActivity extends AppCompatActivity {
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         buttonFriendList = findViewById(R.id.friendList);
-        TextView userIDT = (TextView) findViewById(R.id.userID);
-        TextView userNameT = (TextView) findViewById(R.id.userName);
-        TextView userCoinT = (TextView) findViewById(R.id.userCoin);
+        userIDT = (TextView) findViewById(R.id.userID);
+        userNameT = (TextView) findViewById(R.id.userName);
+        userCoinT = (TextView) findViewById(R.id.userCoin);
 
         userIDT.setText("ID: " + id);
 
@@ -57,7 +58,17 @@ public class MyPageActivity extends AppCompatActivity {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String key = snapshot.getKey();
+                    if(id.equals(key)) {
+                        UserInfo get = snapshot.getValue(UserInfo.class);
+                        name = get.name;
+                        coin = get.coin;
+                        userNameT.setText("이름: " + name);
+                        userCoinT.setText("코인: " + coin);
+                        break;
+                    }
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
