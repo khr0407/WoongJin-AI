@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -75,23 +76,25 @@ public class TemplateActivity extends AppCompatActivity {
                             if(type.equals("type1")) {
                                 for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
                                     QuizOXShortwordTypeInfo getNew = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
-                                    String getLike = getNew.like;
 
                                     if(cnt < 3) {
                                         quizListOX.add(getNew);
                                         for(QuizOXShortwordTypeInfo findMinLike : quizListOX) {
                                             int findMin = Integer.parseInt(findMinLike.like);
-                                            if(findMin < Integer.parseInt(getLike)) minLikeQuiz = quizListOX.indexOf(findMinLike);
+                                            int minLike = Integer.parseInt(quizListOX.get(minLikeQuiz).like);
+                                            if(findMin < minLike) minLikeQuiz = quizListOX.indexOf(findMinLike);
                                         }
                                         cnt++;
                                     } else {
+                                        String getLike = getNew.like;
                                         int minLike = Integer.parseInt(quizListOX.get(minLikeQuiz).like);
                                         if(minLike < Integer.parseInt(getLike)) {
                                             quizListOX.remove(minLikeQuiz);
                                             quizListOX.add(minLikeQuiz, getNew);
                                             for(QuizOXShortwordTypeInfo findMinLike : quizListOX) {
                                                 int findMin = Integer.parseInt(findMinLike.like);
-                                                if(findMin < Integer.parseInt(getLike)) minLikeQuiz = quizListOX.indexOf(findMinLike);
+                                                int minLikeNew = Integer.parseInt(quizListOX.get(minLikeQuiz).like);
+                                                if(findMin < minLikeNew) minLikeQuiz = quizListOX.indexOf(findMinLike);
                                             }
                                         }
                                     }
@@ -101,23 +104,25 @@ public class TemplateActivity extends AppCompatActivity {
                             } else if(type.equals("type2")) {
                                 for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
                                     QuizChoiceTypeInfo getNew = snapshot2.getValue(QuizChoiceTypeInfo.class);
-                                    String getLike = getNew.like;
 
                                     if(cnt < 3) {
                                         quizListChoice.add(getNew);
                                         for(QuizChoiceTypeInfo findMinLike : quizListChoice) {
                                             int findMin = Integer.parseInt(findMinLike.like);
-                                            if(findMin < Integer.parseInt(getLike)) minLikeQuiz = quizListChoice.indexOf(findMinLike);
+                                            int minLike = Integer.parseInt(quizListChoice.get(minLikeQuiz).like);
+                                            if(findMin < minLike) minLikeQuiz = quizListChoice.indexOf(findMinLike);
                                         }
                                         cnt++;
                                     } else {
+                                        String getLike = getNew.like;
                                         int minLike = Integer.parseInt(quizListChoice.get(minLikeQuiz).like);
                                         if(minLike < Integer.parseInt(getLike)) {
                                             quizListChoice.remove(minLikeQuiz);
                                             quizListChoice.add(minLikeQuiz, getNew);
                                             for(QuizChoiceTypeInfo findMinLike : quizListChoice) {
                                                 int findMin = Integer.parseInt(findMinLike.like);
-                                                if(findMin < Integer.parseInt(getLike)) minLikeQuiz = quizListChoice.indexOf(findMinLike);
+                                                int minLikeNew = Integer.parseInt(quizListChoice.get(minLikeQuiz).like);
+                                                if(findMin < minLikeNew) minLikeQuiz = quizListChoice.indexOf(findMinLike);
                                             }
                                         }
                                     }
@@ -127,23 +132,27 @@ public class TemplateActivity extends AppCompatActivity {
                             } else {
                                 for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
                                     QuizOXShortwordTypeInfo getNew = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
-                                    String getLike = getNew.like;
 
                                     if(cnt < 3) {
                                         quizListShortword.add(getNew);
                                         for(QuizOXShortwordTypeInfo findMinLike : quizListShortword) {
                                             int findMin = Integer.parseInt(findMinLike.like);
-                                            if(findMin < Integer.parseInt(getLike)) minLikeQuiz = quizListShortword.indexOf(findMinLike);
+                                            int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz).like);
+                                            if(findMin < minLike) minLikeQuiz = quizListShortword.indexOf(findMinLike);
+                                            Log.d("cnt<", findMin + " " + minLike + " " + minLikeQuiz);
                                         }
                                         cnt++;
                                     } else {
+                                        String getLike = getNew.like;
                                         int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz).like);
                                         if(minLike < Integer.parseInt(getLike)) {
                                             quizListShortword.remove(minLikeQuiz);
                                             quizListShortword.add(minLikeQuiz, getNew);
                                             for(QuizOXShortwordTypeInfo findMinLike : quizListShortword) {
                                                 int findMin = Integer.parseInt(findMinLike.like);
-                                                if(findMin < Integer.parseInt(getLike)) minLikeQuiz = quizListShortword.indexOf(findMinLike);
+                                                int minLikeNew = Integer.parseInt(quizListShortword.get(minLikeQuiz).like);
+                                                if(findMin < minLikeNew) minLikeQuiz = quizListShortword.indexOf(findMinLike);
+                                                Log.d("cnt>", findMin + " " + minLikeNew + " " + minLikeQuiz);
                                             }
                                         }
                                     }
@@ -154,6 +163,16 @@ public class TemplateActivity extends AppCompatActivity {
                         }
                         break;
                     }
+                }
+
+                for(QuizOXShortwordTypeInfo test : quizListOX) {
+                    Log.d("oxxxxxxxxxxxxx", test.like);
+                }
+                for(QuizChoiceTypeInfo test : quizListChoice) {
+                    Log.d("choiceeeeeeeee", test.like);
+                }
+                for(QuizOXShortwordTypeInfo test : quizListShortword) {
+                    Log.d("shortwordddddddddd", test.like);
                 }
 
                 int rand = generator.nextInt(3);
