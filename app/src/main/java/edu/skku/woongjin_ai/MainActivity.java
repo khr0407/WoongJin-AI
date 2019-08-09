@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
     public DatabaseReference mPostReference;
-    ArrayList<String> scriptList;
+    ArrayList<String> quizList;
     ArrayAdapter<String> adapter;
     Intent intent, intentType, intentMyPage;
     String id;
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        scriptList = new ArrayList<String>();
+        quizList = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
         mListView.setAdapter(adapter);
 
@@ -90,18 +90,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void getFirebaseDatabaseScriptList(){
+    private void getFirebaseDatabaseQuizList(){
 
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                scriptList.clear();
+                quizList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String key = snapshot.getKey();
                     quizList.add(key);
                 }
                 adapter.clear();
-                adapter.addAll(scriptList);
+                adapter.addAll(quizList);
                 adapter.notifyDataSetChanged();
             }
             @Override
