@@ -1,5 +1,6 @@
 package edu.skku.woongjin_ai;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -29,11 +30,12 @@ public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
     public DatabaseReference mPostReference;
-    ArrayList<String> quizList;
+    ArrayList<String> scriptList;
     ArrayAdapter<String> adapter;
     Intent intent, intentType, intentMyPage;
     String id;
     String check = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        quizList = new ArrayList<String>();
+        scriptList = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
         mListView.setAdapter(adapter);
 
@@ -88,22 +90,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void getFirebaseDatabaseQuizList(){
+    private void getFirebaseDatabaseScriptList(){
+
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                quizList.clear();
+                scriptList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String key = snapshot.getKey();
                     quizList.add(key);
                 }
                 adapter.clear();
-                adapter.addAll(quizList);
+                adapter.addAll(scriptList);
                 adapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         };
-        mPostReference.child("quiz_list").addValueEventListener(postListener);
+        mPostReference.child("script_list").addValueEventListener(postListener);
     }
 }
