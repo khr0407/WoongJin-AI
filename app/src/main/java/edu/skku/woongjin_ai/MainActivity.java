@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
         mListView.setAdapter(adapter);
 
-        getFirebaseDatabaseQuizList();
+        getFirebaseDatabaseScriptList();
 
         buttonSelectType.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
-                intentType.putExtra("scriptnm", quizList.get(position));
+                intentType.putExtra("scriptnm", scriptList.get(position));
                 check = intentType.getStringExtra("scriptnm");
             }
         });
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 scriptList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String key = snapshot.getKey();
-                    quizList.add(key);
+                    scriptList.add(key);
                 }
                 adapter.clear();
                 adapter.addAll(scriptList);
