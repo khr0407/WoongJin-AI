@@ -22,7 +22,7 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
     EditText editTextID, editTextNM, editTextPW;
-    String id, nm, pw;
+    String id, nm, pw, coin = "100";
     DatabaseReference mPostReference;
     Intent intent;
     int flag = 0;
@@ -87,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void postFirebaseDatabaseUserInfo() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        UserInfo post = new UserInfo(id, nm, pw);
+        UserInfo post = new UserInfo(id, nm, pw, coin);
         postValues = post.toMap();
         childUpdates.put("/user_list/" + id + "/", postValues);
         mPostReference.updateChildren(childUpdates);
