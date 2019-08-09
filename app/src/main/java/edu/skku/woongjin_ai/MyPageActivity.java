@@ -22,9 +22,9 @@ public class MyPageActivity extends AppCompatActivity {
         id = intent.getStringExtra("id");
 
         buttonFriendList = findViewById(R.id.friendList);
-        TextView userNmT = (TextView) findViewById(R.id.userName);
+        TextView userNameT = (TextView) findViewById(R.id.userName);
 
-        userNmT.setText("ID: " + id);
+        userNameT.setText("ID: " + id);
 
         buttonFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
