@@ -1,7 +1,6 @@
 # WoongJin-AI
 웅진 독해 AI 서비스 개발
 
-
 - Activity
 
 1. MainActivity
@@ -63,3 +62,4 @@ select script to learn
 
 3. QuizChoiceTypeInfo
 : choice type quiz info (uid, question, answer, answer1, answer2, answer3, answer4, star, desc, like)
+
