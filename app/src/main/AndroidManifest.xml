@@ -37,5 +37,7 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".ShowfriendActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".Addfriend"
+            android:screenOrientation="landscape"/>
     </application>
 </manifest>

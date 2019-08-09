@@ -26,7 +26,7 @@ public class ShowfriendActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_script);
+        setContentView(R.layout.activity_showfriend);
 
 
         friend_list = findViewById(R.id.friend_list);
