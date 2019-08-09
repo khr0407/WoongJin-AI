@@ -6,11 +6,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MyPageActivity extends AppCompatActivity {
-    Intent intent, intentType;
+    Intent intent, intentAddFriend;
     String id;
-    Button enter;
+    Button buttonFriendList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -19,14 +20,19 @@ public class MyPageActivity extends AppCompatActivity {
 
         intent = getIntent();
         id = intent.getStringExtra("id");
-        enter = findViewById(R.id.friendList);
-        enter.setOnClickListener(new View.OnClickListener() {
+
+        buttonFriendList = findViewById(R.id.friendList);
+        TextView userNmT = (TextView) findViewById(R.id.userName);
+
+        userNmT.setText("ID: " + id);
+
+        buttonFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String find_id = id;
-                Intent test2 = new Intent(MyPageActivity.this, ScriptActivity.class);
-                test2.putExtra("id", find_id);
-                startActivity(test2);
+                intentAddFriend = new Intent(MyPageActivity.this, ScriptActivity.class);
+                intentAddFriend.putExtra("id", id);
+                startActivity(intentAddFriend);
+                finish();
             }
         });
 
