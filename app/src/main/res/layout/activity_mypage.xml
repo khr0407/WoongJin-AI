@@ -74,6 +74,16 @@
             android:layout_weight="1"
             android:text="내가 좋아요한 질문" />
 
+        <Button
+            android:id="@+id/friendList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="친구 리스트"/>
+
     </LinearLayout>
 
 </LinearLayout>
