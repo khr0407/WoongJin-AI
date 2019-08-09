@@ -35,6 +35,8 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".MyPageActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".ScriptActivity"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>
