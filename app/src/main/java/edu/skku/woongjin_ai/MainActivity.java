@@ -1,17 +1,20 @@
 package edu.skku.woongjin_ai;
 
-import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -21,109 +24,75 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
-    ArrayList<String> scriptList;
+    public DatabaseReference mPostReference;
+    ArrayList<String> quizList;
     ArrayAdapter<String> adapter;
-    private DatabaseReference mPostReference;
-    String ID, name = "", gender = "";
-    long age = 0;
-    String sort = "id";
-    EditText ageET, nameET, genderET, idET;
-    Button btn;
-    ListView listView;
-    ArrayList<String> data;
-    ArrayAdapter<String> arrayAdapter;
+    Intent intent, intentType;
+    String id;
+    String check = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        data = new ArrayList<String>();
-        ageET = (EditText) findViewById(R.id.ageet);
-        nameET = (EditText) findViewById(R.id.nameet);
-        genderET = (EditText) findViewById(R.id.genderet);
-        idET = (EditText) findViewById(R.id.idet);
-        btn = (Button) findViewById(R.id.button);
-        listView = (ListView) findViewById(R.id.datalist);
+
+        mListView = (ListView) findViewById(R.id.listView);
+        Button buttonSelectType = (Button) findViewById(R.id.selectType);
+
+        intent = getIntent();
+        id = intent.getStringExtra("id");
+        intentType = new Intent(MainActivity.this, SelectTypeActivity.class);
+        intentType.putExtra("id", id);
+
         mPostReference = FirebaseDatabase.getInstance().getReference();
-        btn.setOnClickListener(new View.OnClickListener() {
+
+        quizList = new ArrayList<String>();
+        adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
+        mListView.setAdapter(adapter);
+
+        getFirebaseDatabaseQuizList();
+
+        buttonSelectType.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                ID = idET.getText().toString();
-                name = nameET.getText().toString();
-                gender = genderET.getText().toString();
-                String aget = ageET.getText().toString();
-                if ((ID.length() * name.length() * gender.length() * aget.length()) == 0) {
-                    Toast.makeText(MainActivity.this, "Data is missing", Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {
+                if(check.length() == 0) {
+                    Toast.makeText(MainActivity.this, "Choose a script", Toast.LENGTH_SHORT).show();
                 } else {
-                    age = Long.parseLong(aget);
-                    postFirebaseDatabase(true);
-                    Intent intent1 = new Intent(MainActivity.this, ScriptActivity.class);
-                    startActivity(intent1);
+                    startActivity(intentType);
+                    finish();
                 }
             }
         });
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        listView.setAdapter(arrayAdapter);
-        getFirebaseDatabase();
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
+                intentType.putExtra("scriptnm", quizList.get(position));
+                check = intentType.getStringExtra("scriptnm");
+            }
+        });
     }
 
-    public void getFirebaseDatabase() {
+    private void getFirebaseDatabaseQuizList(){
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("onDataChange", "Data is Updated");
-                data.clear();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    String key = postSnapshot.getKey();
-                    FirebasePost_script get = postSnapshot.getValue(FirebasePost_script.class);
-                    String[] info = {get.id, get.name, String.valueOf(get.age), get.gender};
-                    String result = info[0] + " : " + info[1] + "(" + info[3] + ", " + info[2] + ")";
-                    data.add(result);
-                    Log.d("getFirebaseDatabase", "key: " + key);
-                    Log.d("getFirebaseDatabase", "info: " + info[0] + info[1] + info[2] + info[3]);
+                quizList.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    String key = snapshot.getKey();
+                    quizList.add(key);
                 }
-                arrayAdapter.clear();
-                arrayAdapter.addAll(data);
-                arrayAdapter.notifyDataSetChanged();
+                adapter.clear();
+                adapter.addAll(quizList);
+                adapter.notifyDataSetChanged();
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
         };
-        mPostReference.child("id_list").addValueEventListener(postListener);
-    }
-
-
-    public void postFirebaseDatabase(boolean add) {
-        Map<String, Object> childUpdates = new HashMap<>();
-        Map<String, Object> postValues = null;
-        if (add) {
-            FirebasePost_script post = new FirebasePost_script(ID, name, age, gender);
-            postValues = post.toMap();
-        }
-        childUpdates.put("/id_list/" + ID, postValues);
-        mPostReference.updateChildren(childUpdates);
-        clearET();
-    }
-
-
-    public void clearET() {
-        genderET.setText("");
-        ageET.setText("");
-        nameET.setText("");
-        idET.setText("");
-        gender = "";
-        age = 0;
-        name = "";
-        ID = "";
+        mPostReference.child("quiz_list").addValueEventListener(postListener);
     }
 }
-

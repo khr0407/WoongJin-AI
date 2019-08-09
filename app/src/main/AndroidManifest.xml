@@ -11,17 +11,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Addfriend">
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
-
-        <activity
-            android:name=".ScriptActivity" />
-        <activity android:name=".Give_id"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".RegisterActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SelectTypeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".OXTypeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ChoiceTypeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ShortwordTypeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".TemplateActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".MyPageActivity"
+            android:screenOrientation="landscape"/>
     </application>
+
 </manifest>
