@@ -35,5 +35,11 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".MyPageActivity"
             android:screenOrientation="landscape"/>
+        <activity
+            android:name=".LikeListActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".MyQuizActivity"
+            android:screenOrientation="landscape" />
     </application>
 </manifest>

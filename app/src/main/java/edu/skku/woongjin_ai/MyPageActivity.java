@@ -47,14 +47,14 @@ public class MyPageActivity extends AppCompatActivity {
                 Intent Lintent = new Intent(MyPageActivity.this, LikeListActivity.class);
                 Lintent.putExtra("id", id);
                 startActivity(Lintent);
-                //finish();
+                finish();
             }
         });
 
         QList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent Qintent = new Intent(MyPageActivity.this, QListActivity.class);
+                Intent Qintent = new Intent(MyPageActivity.this, MyQuizActivity.class);
                 Qintent.putExtra("id", id);
                 startActivity(Qintent);
                 finish();
