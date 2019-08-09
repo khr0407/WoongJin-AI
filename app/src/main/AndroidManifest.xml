@@ -41,5 +41,8 @@
         <activity
             android:name=".MyQuizActivity"
             android:screenOrientation="landscape" />
+        <activity
+            android:name=".FriendActivity"
+            android:screenOrientation="landscape" />
     </application>
 </manifest>
