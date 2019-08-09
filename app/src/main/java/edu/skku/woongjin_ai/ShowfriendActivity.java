@@ -16,7 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
-public class ScriptActivity extends AppCompatActivity {
+public class ShowfriendActivity extends AppCompatActivity {
     private DatabaseReference mPostReference;
     ListView friend_list;
     ArrayList<String> data;
@@ -37,7 +37,7 @@ public class ScriptActivity extends AppCompatActivity {
         id_key = intent.getStringExtra("id");
 
         mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("friend");
-        arrayAdapter = new ArrayAdapter<String>(ScriptActivity.this, android.R.layout.simple_list_item_1);
+        arrayAdapter = new ArrayAdapter<String>(ShowfriendActivity.this, android.R.layout.simple_list_item_1);
         friend_list.setAdapter(arrayAdapter);
         getFirebaseDatabase();
     }

@@ -45,7 +45,7 @@ public class MyPageActivity extends AppCompatActivity {
         buttonFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentAddFriend = new Intent(MyPageActivity.this, ScriptActivity.class);
+                intentAddFriend = new Intent(MyPageActivity.this, ShowfriendActivity.class);
                 intentAddFriend.putExtra("id", id);
                 startActivity(intentAddFriend);
                 finish();
