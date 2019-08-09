@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/orange">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/home"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:weightSum="4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/bot"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bot"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:text="이제 다른 친구들에게도 퀴즈를 내볼까? 유형을 선택해줘!"
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            android:weightSum="3">
+
+            <ImageView
+                android:id="@+id/quiz_ox"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/o_white"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <ImageView
+                android:id="@+id/quiz_choice"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/checked_circle_white"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <ImageView
+                android:id="@+id/quiz_shortword"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/script_white"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/template"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="show templates"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
