@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     ArrayList<String> quizList;
     ArrayAdapter<String> adapter;
-    Intent intent, intentType;
+    Intent intent, intentType, intentMyPage;
     String id;
     String check = "";
 
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         mListView = (ListView) findViewById(R.id.listView);
         Button buttonSelectType = (Button) findViewById(R.id.selectType);
+        Button buttonMyPage = (Button) findViewById(R.id.myPage);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
@@ -55,6 +56,16 @@ public class MainActivity extends AppCompatActivity {
         mListView.setAdapter(adapter);
 
         getFirebaseDatabaseQuizList();
+
+        buttonMyPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentMyPage = new Intent(MainActivity.this, MyPageActivity.class);
+                intentMyPage.putExtra("id", id);
+                startActivity(intentMyPage);
+                finish();
+            }
+        });
 
         buttonSelectType.setOnClickListener(new View.OnClickListener() {
             @Override
