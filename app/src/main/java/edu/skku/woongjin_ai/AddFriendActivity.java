@@ -28,6 +28,7 @@ public class AddFriendActivity extends AppCompatActivity {
     ArrayList<String> friendList, randomFriendList;
     ArrayAdapter<String> randomFriendAdapter;
     private DatabaseReference mPostReference;
+    private DatabaseReference mPostReference2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,12 +41,15 @@ public class AddFriendActivity extends AppCompatActivity {
         intent = getIntent();
         id = intent.getStringExtra("id");
 
-        mPostReference = FirebaseDatabase.getInstance().getReference();
+        //mPostReference = FirebaseDatabase.getInstance().getReference();
+        mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list");
+
 
         friendList = new ArrayList<String>();
         randomFriendList = new ArrayList<String>();
         randomFriendAdapter = new ArrayAdapter<String>(AddFriendActivity.this, android.R.layout.simple_list_item_1);
         mListview.setAdapter(randomFriendAdapter);
+
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
