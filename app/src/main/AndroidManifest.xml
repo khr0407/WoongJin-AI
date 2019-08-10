@@ -35,7 +35,9 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".MyPageActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".ScriptActivity"
+        <activity android:name=".ShowFriendActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".AddFriendActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".MyQuizActivity"
             android:screenOrientation="landscape"/>
