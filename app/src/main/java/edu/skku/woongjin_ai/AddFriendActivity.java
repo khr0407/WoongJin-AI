@@ -49,7 +49,7 @@ public class AddFriendActivity extends AppCompatActivity {
         randomFriendList = new ArrayList<String>();
         randomFriendAdapter = new ArrayAdapter<String>(AddFriendActivity.this, android.R.layout.simple_list_item_1);
         mListview.setAdapter(randomFriendAdapter);
-
+        getFirebaseDatabase();
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +62,7 @@ public class AddFriendActivity extends AppCompatActivity {
             }
         });
 
-        final ValueEventListener postListener = new ValueEventListener() {
+        /*final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -72,7 +72,37 @@ public class AddFriendActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
-        };
-        mPostReference.child("user_list/" + id + "/friend/").addValueEventListener(postListener);
+        };*/
+        //mPostReference.child("user_list/" + id + "/friend/").addValueEventListener(postListener);
+
+
+
+    }
+
+
+    public void getFirebaseDatabase() {
+        try {
+            final ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String key = snapshot.getKey();
+                        Log.d("user key", key);
+                        //if (key.equals(id_key))
+                        friendList.add(key);
+                    }
+                    randomFriendAdapter.clear();
+                    randomFriendAdapter.addAll(friendList);
+                    randomFriendAdapter.notifyDataSetChanged();
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            };
+            mPostReference.addValueEventListener(postListener);
+
+        } catch (java.lang.NullPointerException e) {
+
+        }
     }
 }
