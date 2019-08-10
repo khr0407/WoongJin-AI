@@ -182,7 +182,7 @@ public class TemplateActivity extends AppCompatActivity {
 
                 rand = generator.nextInt(3);
                 QuizChoiceTypeInfo post2 = quizListChoice.get(rand);
-                String postS2 = "객관식 퀴즈 예시\nQ. " + post2.question + "\nA. " + post2.answer + "\nA1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\nLike: " + post2.like + "\n";
+                String postS2 = "객관식 퀴즈 예시\nQ. " + post2.question + "\nA1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\nA. " + post2.answer + "\nLike: " + post2.like + "\n";
                 choiceT.setText(postS2);
 
                 rand = generator.nextInt(3);

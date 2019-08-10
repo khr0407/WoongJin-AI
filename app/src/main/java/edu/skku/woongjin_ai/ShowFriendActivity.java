@@ -18,22 +18,22 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
-public class ShowfriendActivity extends AppCompatActivity {
+public class ShowFriendActivity extends AppCompatActivity {
+
     private DatabaseReference mPostReference;
     ListView friend_list;
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
     String id_key;
-    Intent intent, intentAddFriend;
-    Button addfriend;
+    Intent intentAddFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showfriend);
 
-        addfriend = findViewById(R.id.addfriendbtn);
         friend_list = findViewById(R.id.friend_list);
+        Button buttonAddFriend = (Button) findViewById(R.id.addFriend);
 
         data = new ArrayList<String>();
 
@@ -41,21 +41,19 @@ public class ShowfriendActivity extends AppCompatActivity {
         id_key = intent.getStringExtra("id");
 
         mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("friend");
-        arrayAdapter = new ArrayAdapter<String>(ShowfriendActivity.this, android.R.layout.simple_list_item_1);
+        arrayAdapter = new ArrayAdapter<String>(ShowFriendActivity.this, android.R.layout.simple_list_item_1);
         friend_list.setAdapter(arrayAdapter);
         getFirebaseDatabase();
 
-        addfriend.setOnClickListener(new View.OnClickListener() {
+        buttonAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentAddFriend = new Intent(ShowfriendActivity.this, Addfriend.class);
+                intentAddFriend = new Intent(ShowFriendActivity.this, AddFriendActivity.class);
                 intentAddFriend.putExtra("id", id_key);
                 startActivity(intentAddFriend);
                 finish();
             }
         });
-
-
     }
 
     public void getFirebaseDatabase() {

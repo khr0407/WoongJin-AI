@@ -1,6 +1,5 @@
 package edu.skku.woongjin_ai;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -30,12 +29,11 @@ public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
     public DatabaseReference mPostReference;
-    ArrayList<String> quizList;
-    ArrayAdapter<String> adapter;
+    ArrayList<String> scriptList;
+    ArrayAdapter<String> scriptAdapter;
     Intent intent, intentType, intentMyPage;
     String id;
     String check = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        quizList = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
-        mListView.setAdapter(adapter);
+        scriptList = new ArrayList<String>();
+        scriptAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
+        mListView.setAdapter(scriptAdapter);
 
-        getFirebaseDatabaseQuizList();
+        getFirebaseDatabaseScriptList();
 
         buttonMyPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,25 +82,24 @@ public class MainActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
-                intentType.putExtra("scriptnm", quizList.get(position));
+                intentType.putExtra("scriptnm", scriptList.get(position));
                 check = intentType.getStringExtra("scriptnm");
             }
         });
     }
 
-    private void getFirebaseDatabaseQuizList(){
-
+    private void getFirebaseDatabaseScriptList(){
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                quizList.clear();
+                scriptAdapter.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String key = snapshot.getKey();
-                    quizList.add(key);
+                    scriptList.add(key);
                 }
-                adapter.clear();
-                adapter.addAll(quizList);
-                adapter.notifyDataSetChanged();
+                scriptAdapter.clear();
+                scriptAdapter.addAll(scriptList);
+                scriptAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
