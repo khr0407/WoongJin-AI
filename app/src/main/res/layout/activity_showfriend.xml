@@ -6,6 +6,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/addfriendbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="친구사귀기" />
+
     <ListView
         android:id="@+id/friend_list"
         android:layout_width="match_parent"

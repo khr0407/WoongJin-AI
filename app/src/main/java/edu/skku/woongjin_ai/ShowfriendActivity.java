@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -22,13 +24,15 @@ public class ShowfriendActivity extends AppCompatActivity {
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
     String id_key;
+    Intent intent, intentAddFriend;
+    Button addfriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showfriend);
 
-
+        addfriend = findViewById(R.id.addfriendbtn);
         friend_list = findViewById(R.id.friend_list);
 
         data = new ArrayList<String>();
@@ -40,6 +44,18 @@ public class ShowfriendActivity extends AppCompatActivity {
         arrayAdapter = new ArrayAdapter<String>(ShowfriendActivity.this, android.R.layout.simple_list_item_1);
         friend_list.setAdapter(arrayAdapter);
         getFirebaseDatabase();
+
+        addfriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentAddFriend = new Intent(ShowfriendActivity.this, Addfriend.class);
+                intentAddFriend.putExtra("id", id_key);
+                startActivity(intentAddFriend);
+                finish();
+            }
+        });
+
+
     }
 
     public void getFirebaseDatabase() {
