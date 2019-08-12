@@ -18,8 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 public class MyPageActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     Intent intent;
-    String id, name = "";
-    int coin;
+    String id, name = "", coin = "";
     Button buttonFriendList, buttonMyQuiz, buttonLikeList, buttonLetter;
     TextView userNameT, userCoinT;
 

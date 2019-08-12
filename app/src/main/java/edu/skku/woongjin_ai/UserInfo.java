@@ -7,12 +7,12 @@ public class UserInfo {
     public String id;
     public String name;
     public String pw;
-    public int coin;
+    public String coin;
     public UserInfo() {
 
     }
 
-    public UserInfo(String id, String name, String pw, int coin) {
+    public UserInfo(String id, String name, String pw, String coin) {
         this.id = id;
         this.name = name;
         this.pw = pw;
