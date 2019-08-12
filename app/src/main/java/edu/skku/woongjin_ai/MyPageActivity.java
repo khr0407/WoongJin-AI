@@ -16,63 +16,53 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MyPageActivity extends AppCompatActivity {
+
     public DatabaseReference mPostReference;
-    Intent intent;
+    Intent intent, intentAddFriend, intentMyQuiz;
     String id, name = "", coin = "";
-    Button buttonFriendList, buttonMyQuiz, buttonLikeList, buttonLetter;
-    TextView userNameT, userCoinT;
+    Button buttonFriendList, buttonMyQuiz;
+    TextView userIDT, userNameT, userCoinT;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
 
-        mPostReference = FirebaseDatabase.getInstance().getReference();
-
         intent = getIntent();
         id = intent.getStringExtra("id");
 
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+
         buttonMyQuiz = (Button) findViewById(R.id.QList);
         buttonFriendList = (Button) findViewById(R.id.friendList);
-        buttonLetter = (Button) findViewById(R.id.userLetter);
-        buttonLikeList = (Button) findViewById(R.id.LikeList);
-
+        userIDT = (TextView) findViewById(R.id.userID);
         userNameT = (TextView) findViewById(R.id.userName);
         userCoinT = (TextView) findViewById(R.id.userCoin);
 
-        userNameT.setText("ID: " + id);
+        userIDT.setText("ID: " + id);
 
         getFirebaseDatabaseUserInfo();
+
+        buttonMyQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentMyQuiz = new Intent(MyPageActivity.this, MyQuizActivity.class);
+                intentMyQuiz.putExtra("id", id);
+                startActivity(intentMyQuiz);
+                finish();
+            }
+        });
 
         buttonFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentAddFriend = new Intent(MyPageActivity.this, FriendActivity.class);
+                intentAddFriend = new Intent(MyPageActivity.this, FriendActivity.class);
                 intentAddFriend.putExtra("id", id);
                 startActivity(intentAddFriend);
                 finish();
             }
         });
 
-        buttonLikeList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentLikeList = new Intent(MyPageActivity.this, LikeListActivity.class);
-                intentLikeList.putExtra("id", id);
-                startActivity(intentLikeList);
-                finish();
-            }
-        });
-
-        buttonMyQuiz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intentMyQuiz = new Intent(MyPageActivity.this, MyQuizActivity.class);
-                intentMyQuiz.putExtra("id", id);
-                startActivity(intentMyQuiz);
-                finish();
-            }
-        });
     }
 
     private void getFirebaseDatabaseUserInfo() {
@@ -91,10 +81,8 @@ public class MyPageActivity extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
             }
         };
         mPostReference.child("user_list").addValueEventListener(postListener);
