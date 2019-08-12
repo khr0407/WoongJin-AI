@@ -18,9 +18,9 @@ import com.google.firebase.database.ValueEventListener;
 public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
-    Intent intent, intentAddFriend, intentMyQuiz;
+    Intent intent, intentAddFriend, intentMyQuiz, intentLikeList, intentUserLetter;
     String id, name = "", coin = "";
-    Button buttonFriendList, buttonMyQuiz;
+    Button buttonFriendList, buttonMyQuiz, buttonLikeList, buttonUserLetter;
     TextView userIDT, userNameT, userCoinT;
 
     @Override
@@ -33,8 +33,10 @@ public class MyPageActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
+        buttonLikeList = (Button) findViewById(R.id.LikeList);
         buttonMyQuiz = (Button) findViewById(R.id.QList);
         buttonFriendList = (Button) findViewById(R.id.friendList);
+        buttonUserLetter = (Button) findViewById(R.id.userLetter);
         userIDT = (TextView) findViewById(R.id.userID);
         userNameT = (TextView) findViewById(R.id.userName);
         userCoinT = (TextView) findViewById(R.id.userCoin);
@@ -59,6 +61,26 @@ public class MyPageActivity extends AppCompatActivity {
                 intentAddFriend = new Intent(MyPageActivity.this, FriendActivity.class);
                 intentAddFriend.putExtra("id", id);
                 startActivity(intentAddFriend);
+                finish();
+            }
+        });
+
+        buttonUserLetter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentUserLetter = new Intent(MyPageActivity.this, ChatListActivity.class);
+                intentUserLetter.putExtra("id", id);
+                startActivity(intentUserLetter);
+                finish();
+            }
+        });
+
+        buttonLikeList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentLikeList = new Intent(MyPageActivity.this, LikeListActivity.class);
+                intentLikeList.putExtra("id", id);
+                startActivity(intentLikeList);
                 finish();
             }
         });

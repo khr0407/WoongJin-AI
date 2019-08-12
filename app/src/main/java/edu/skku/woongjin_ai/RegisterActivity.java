@@ -22,7 +22,7 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
     EditText editTextID, editTextNM, editTextPW;
-    String id, nm, pw, coin;
+    String id, nm, pw, coin, age, gender, birth;
     DatabaseReference mPostReference;
     Intent intent;
     int flag = 0;
