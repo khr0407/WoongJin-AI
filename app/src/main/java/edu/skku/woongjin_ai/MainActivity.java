@@ -23,7 +23,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -31,8 +30,6 @@ import java.util.ArrayList;
 import static com.kakao.util.helper.Utility.getPackageInfo;
 
 public class MainActivity extends AppCompatActivity {
-
-    private Context mContext;
 
     ListView mListView;
     public DatabaseReference mPostReference;
@@ -46,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mContext = getApplicationContext();
-        getHashKey(mContext);
 
         mListView = (ListView) findViewById(R.id.listView);
         Button buttonSelectType = (Button) findViewById(R.id.selectType);
@@ -66,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         mListView.setAdapter(adapter);
 
         getFirebaseDatabaseQuizList();
+
 
         buttonMyPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,50 +94,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Nullable
-    public static String getHashKey(Context context) {
-        final String TAG = "KeyHash";
-        String keyHash = null;
-        try {
-            PackageInfo info =
-                    context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
 
-            for (Signature signature : info.signatures) {
-                MessageDigest md;
-                md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                keyHash = new String(Base64.encode(md.digest(), 0));
-                Log.d(TAG, keyHash);
-            }
-        } catch (Exception e) {
-            Log.e("name not found", e.toString());
-        }
-
-        if (keyHash != null) {
-            return keyHash;
-        } else {
-            return null;
-        }
-    }
-
-    /*
-    public static String getKeyHash(final Context context) {
-        PackageInfo packageInfo = getPackageInfo(context, PackageManager.GET_SIGNATURES);
-        if (packageInfo == null)
-            return null;
-
-        for (Signature signature : packageInfo.signatures) {
-            try {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
-            } catch (NoSuchAlgorithmException e) {
-                Log.w("main", "Unable to get MessageDigest. signature=" + signature, e);
-            }
-        }
-        return null;
-    }
-    */
     private void getFirebaseDatabaseQuizList(){
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
