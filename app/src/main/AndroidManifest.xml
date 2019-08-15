@@ -41,5 +41,7 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".MyQuizActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".ChatListActivity"
+            android:screenOrientation="landscape"/>
     </application>
 </manifest>
