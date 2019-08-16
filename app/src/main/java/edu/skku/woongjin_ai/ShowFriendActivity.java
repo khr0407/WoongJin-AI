@@ -1,42 +1,51 @@
 package edu.skku.woongjin_ai;
 
-
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.LinkObject;
+import com.kakao.message.template.TextTemplate;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
+import com.kakao.util.helper.log.Logger;
+
 import java.util.ArrayList;
-import java.util.InputMismatchException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
-public class ShowFriendActivity extends AppCompatActivity {
-    private DatabaseReference mPostReference, mPostReference2;
+public class ShowFriendActivity extends Activity {
+    private DatabaseReference mPostReference, mPostReference2;;
     ListView friend_list, recommendListView;
     ArrayList<String> data, recommendListArrayList;
     ArrayAdapter<String> arrayAdapter, recommendListArrayAdapter;
     ArrayList<UserInfo> recommendList;
     UserInfo me;
     String id_key;
-
+    Button invitefriend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showfriend);
 
+        invitefriend = (Button) findViewById(R.id.invitefriend);
         friend_list = findViewById(R.id.friend_list);
         recommendListView = findViewById(R.id.recommendfriend_list);
-
         data = new ArrayList<String>();
         recommendListArrayList = new ArrayList<String>();
         me = new UserInfo();
@@ -52,19 +61,58 @@ public class ShowFriendActivity extends AppCompatActivity {
         recommendListArrayAdapter = new ArrayAdapter<String>(ShowFriendActivity.this, android.R.layout.simple_list_item_1);
         friend_list.setAdapter(arrayAdapter);
         recommendListView.setAdapter(recommendListArrayAdapter);
-        friend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String friend_key = data.get(position);
-                Intent intent_chatlist = new Intent(ShowFriendActivity.this, ChatListActivity.class);
-                intent_chatlist.putExtra("chatfriend", friend_key);
-                intent_chatlist.putExtra("id", id_key);
-                startActivity(intent_chatlist);
-                finish();
+
+        invitefriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextTemplate params = TextTemplate.newBuilder(
+                        "친구와 함께 책을 읽고 퀴즈 폭탄을 던지세요!",
+                        LinkObject.newBuilder()
+                                .setWebUrl("https://skku.edu")
+                                .setMobileWebUrl("https://skku.edu")
+                                .build()
+                )
+                        .setButtonTitle("친구야 같이 하자!")
+                        .build();
+
+                KakaoLinkService.getInstance().sendDefault(ShowFriendActivity.this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+                    @Override
+                    public void onFailure(ErrorResult errorResult) {
+                        Logger.e(errorResult.toString());
+                    }
+
+                    @Override
+                    public void onSuccess(KakaoLinkResponse result) {
+                    }
+                });
             }
         });
+
+
+
+        callback = new ResponseCallback<KakaoLinkResponse>() {
+            @Override
+            public void onFailure(ErrorResult errorResult) {
+                Toast.makeText(getApplicationContext(), errorResult.getErrorMessage(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onSuccess(KakaoLinkResponse result) {
+                Toast.makeText(getApplicationContext(), "Successfully sent KakaoLink v2 message.", Toast.LENGTH_LONG).show();
+            }
+        };
+
         getFirebaseDatabase();
         getFirebaseDatabaseRecommendFriendList();
     }
+
+    private Map<String, String> getServerCallbackArgs() {
+        Map<String, String> callbackParameters = new HashMap<>();
+        return callbackParameters;
+    }
+
+    private ResponseCallback<KakaoLinkResponse> callback;
+    private Map<String, String> serverCallbackArgs = getServerCallbackArgs();
 
     public void getFirebaseDatabaseRecommendFriendList() {
         final ValueEventListener postListner = new ValueEventListener() {
@@ -141,7 +189,7 @@ public class ShowFriendActivity extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                 }
             };
-            mPostReference.child("user_list").child(id_key).child("friend").addValueEventListener(postListener);
+            mPostReference.addValueEventListener(postListener);
 
         } catch (java.lang.NullPointerException e) {
 

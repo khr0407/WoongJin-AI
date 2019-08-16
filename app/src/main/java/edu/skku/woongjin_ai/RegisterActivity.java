@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Spinner dayspinner;
     private Spinner genderspinner;
     EditText editTextID, editTextPW, editTextName, editTextNickname;
-    Button search_address, search_school, btn_register;
+    Button search_address, btn_register;
     Button check_id, check_nickname;
     ArrayList<String> yearList;ArrayAdapter<String> yearAdapter;
     ArrayList<String> monthList;ArrayAdapter<String> monthAdapter;
@@ -78,7 +79,16 @@ public class RegisterActivity extends AppCompatActivity {
         yearAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, yearList);
         yearspinner = (Spinner) findViewById(R.id.year);
         yearspinner.setAdapter(yearAdapter);
-        year = yearspinner.getSelectedItem().toString();
+        //year = yearspinner.getSelectedItem().toString();
+        yearspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                year = (String)yearAdapter.getItem(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         monthList = new ArrayList<>();
         monthList.add("1");monthList.add("2");monthList.add("3");monthList.add("4");monthList.add("5");
@@ -87,7 +97,15 @@ public class RegisterActivity extends AppCompatActivity {
         monthAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, monthList);
         monthspinner = (Spinner) findViewById(R.id.month);
         monthspinner.setAdapter(monthAdapter);
-        month = monthspinner.getSelectedItem().toString();
+        monthspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                month = (String)monthAdapter.getItem(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         dayList = new ArrayList<>();
         dayList.add("1");dayList.add("2");dayList.add("3");dayList.add("4");dayList.add("5");dayList.add("6");dayList.add("7");dayList.add("8");dayList.add("9");dayList.add("10");
@@ -96,7 +114,16 @@ public class RegisterActivity extends AppCompatActivity {
         dayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, dayList);
         dayspinner = (Spinner) findViewById(R.id.day);
         dayspinner.setAdapter(dayAdapter);
-        day = dayspinner.getSelectedItem().toString();
+        //day = dayspinner.getSelectedItem().toString();
+        dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                day = (String)dayAdapter.getItem(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         genderList = new ArrayList<>();
         genderList.add("남");
@@ -104,8 +131,16 @@ public class RegisterActivity extends AppCompatActivity {
         genderAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, genderList);
         genderspinner = (Spinner) findViewById(R.id.gender);
         genderspinner.setAdapter(genderAdapter);
-        gender = genderspinner.getSelectedItem().toString();
-
+        //gender = genderspinner.getSelectedItem().toString();
+        genderspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                gender = (String)genderAdapter.getItem(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         check_id.setOnClickListener(new View.OnClickListener() {
@@ -155,7 +190,13 @@ public class RegisterActivity extends AppCompatActivity {
                 address1 = et_address.getText().toString();
                 address2 = et_address_detail.getText().toString();
                 school = et_school_detail.getText().toString();
-                if ((use_id == 0 || use_nickname == 0) && use_searchaddress == 0) {
+                if ((id.length() == 0 || pw.length() == 0 || name.length() == 0 || nickname.length() == 0 || birth.length() == 0
+                        || gender.length() == 0 || address1.length() == 0 || address2.length() == 0 || school.length() == 0) &&
+                        (spaceCheck(id) == true || spaceCheck(pw) == true || spaceCheck(name) == true || spaceCheck(birth) == true
+                                || spaceCheck(gender) == true || spaceCheck(address1) == true || spaceCheck(address2) == true || spaceCheck(school) == true)) {
+                    Toast.makeText(RegisterActivity.this, "모든 칸을 채워주세요.", Toast.LENGTH_SHORT).show();
+                }
+                else if ((use_id == 0 || use_nickname == 0) && use_searchaddress == 0) {
                     Toast.makeText(RegisterActivity.this, "중복체크 및 주소검색을 먼저 해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else if (use_id == 0 || use_nickname == 0) {
@@ -163,14 +204,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else if (use_searchaddress == 0) {
                     Toast.makeText(RegisterActivity.this, "주소검색을 먼저 해주세요.", Toast.LENGTH_SHORT).show();
-                }
-                if (id.length() == 0 || pw.length() == 0 || name.length() == 0 || nickname.length() == 0 || birth.length() == 0
-                        || gender.length() == 0 || address1.length() == 0 || address2.length() == 0 || school.length() == 0) {
-                    Toast.makeText(RegisterActivity.this, "모든 칸을 채워주세요.", Toast.LENGTH_SHORT).show();
-                }
-                if (spaceCheck(id) == true || spaceCheck(pw) == true || spaceCheck(name) == true || spaceCheck(birth) == true
-                        || spaceCheck(gender) == true || spaceCheck(address1) == true || spaceCheck(address2) == true || spaceCheck(school) == true) {
-                    Toast.makeText(RegisterActivity.this, "공백으로만 구성된 칸은 존재할 수 없습니다.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     postFirebaseDatabaseUserInfo();

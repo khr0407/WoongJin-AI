@@ -40,7 +40,7 @@ import java.util.Map;
 
 
 public class LoginActivity extends AppCompatActivity {
-    SessionCallback callback;
+    private SessionCallback callback;
     EditText editTextID, editTextPW;
     String id, pw;
     Button buttonLogin, buttonRegister;
@@ -54,7 +54,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 
         callback = new SessionCallback();
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
@@ -141,6 +140,7 @@ public class LoginActivity extends AppCompatActivity {
     public boolean isLoggedIn() {
         return !Session.getCurrentSession().isClosed();
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) { //간편로그인시 호출
             return;
@@ -148,10 +148,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Session.getCurrentSession().removeCallback(callback);
+    }
+
     private class SessionCallback implements ISessionCallback {
         @Override
         public void onSessionOpened() {
-            UserManagement.requestMe(new MeResponseCallback() {
+            UserManagement.getInstance().requestMe(new MeResponseCallback() {
                 @Override
                 public void onFailure(ErrorResult errorResult) {
                     String message = "사용자 정보를 얻어오는 데 실패하였습니다 + " + errorResult;
@@ -206,6 +212,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "세션 연결 실패", Toast.LENGTH_SHORT).show();
         }
     }
+
     private ValueEventListener checkIDRegister = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {

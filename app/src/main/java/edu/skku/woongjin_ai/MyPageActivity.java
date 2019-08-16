@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -14,13 +15,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
-    Intent intent, intentAddFriend, intentMyQuiz, intentUserLetter;
-    String id, name = "", coin = "";
-    Button buttonFriendList, buttonMyQuiz, userLetterT;
+    Intent intent, intentAddFriend, intent_chatlist;
+    String id, nickname, coin;
+    Button buttonFriendList;
+    Button userLetter;
+    Button logout;
     TextView userIDT, userNameT, userCoinT;
 
     @Override
@@ -33,36 +38,16 @@ public class MyPageActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        buttonMyQuiz = (Button) findViewById(R.id.QList);
-        buttonFriendList = (Button) findViewById(R.id.friendList);
+        buttonFriendList = findViewById(R.id.friendList);
+        userLetter = findViewById(R.id.userLetter);
         userIDT = (TextView) findViewById(R.id.userID);
         userNameT = (TextView) findViewById(R.id.userName);
         userCoinT = (TextView) findViewById(R.id.userCoin);
-        userLetterT = (Button) findViewById(R.id.userLetter);
+        logout = (Button) findViewById(R.id.logout);
 
         userIDT.setText("ID: " + id);
 
         getFirebaseDatabaseUserInfo();
-
-        userLetterT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intentUserLetter = new Intent(MyPageActivity.this, ChatListActivity.class);
-                intentUserLetter.putExtra("id", id);
-                startActivity(intentUserLetter);
-                finish();
-            }
-        });
-
-        buttonMyQuiz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intentMyQuiz = new Intent(MyPageActivity.this, MyQuizActivity.class);
-                intentMyQuiz.putExtra("id", id);
-                startActivity(intentMyQuiz);
-                finish();
-            }
-        });
 
         buttonFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +55,29 @@ public class MyPageActivity extends AppCompatActivity {
                 intentAddFriend = new Intent(MyPageActivity.this, ShowFriendActivity.class);
                 intentAddFriend.putExtra("id", id);
                 startActivity(intentAddFriend);
-                finish();
+            }
+        });
+
+        userLetter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent_chatlist = new Intent(MyPageActivity.this, ChatListActivity.class);
+                intent_chatlist.putExtra("id", id);
+                startActivity(intent_chatlist);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                UserManagement.getInstance().requestLogout(new LogoutResponseCallback() { //카카오톡은 매번 로그아웃됨
+                    @Override
+                    public void onCompleteLogout() {
+                        Intent intent = new Intent(MyPageActivity.this, LoginActivity.class);
+                        ActivityCompat.finishAffinity(MyPageActivity.this);
+                        startActivity(intent);
+                    }
+                });
             }
         });
 
@@ -80,13 +87,24 @@ public class MyPageActivity extends AppCompatActivity {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list").getChildren()) {
                     String key = snapshot.getKey();
                     if(id.equals(key)) {
                         UserInfo get = snapshot.getValue(UserInfo.class);
-                        name = get.name;
+                        nickname = get.nickname;
                         coin = get.coin;
-                        userNameT.setText("이름: " + name);
+                        userNameT.setText("닉네임: " + nickname);
+                        userCoinT.setText("코인: " + coin);
+                        break;
+                    }
+                }
+                for (DataSnapshot snapshot : dataSnapshot.child("kakaouser_list").getChildren()){
+                    String key = snapshot.getKey();
+                    if(id.equals(key)){
+                        UserInfo get = snapshot.getValue(UserInfo.class);
+                        nickname = get.nickname;
+                        coin = get.coin;
+                        userNameT.setText("닉네임: " + nickname);
                         userCoinT.setText("코인: " + coin);
                         break;
                     }
