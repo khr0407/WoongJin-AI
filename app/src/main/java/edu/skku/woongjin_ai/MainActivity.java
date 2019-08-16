@@ -29,10 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
     public DatabaseReference mPostReference;
-
     ArrayList<String> scriptList;
     ArrayAdapter<String> scriptAdapter;
-
     Intent intent, intentType, intentMyPage;
     String id;
     String check = "";
