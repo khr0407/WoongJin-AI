@@ -18,9 +18,9 @@ import com.google.firebase.database.ValueEventListener;
 public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
-    Intent intent, intentAddFriend, intentMyQuiz;
+    Intent intent, intentAddFriend, intentMyQuiz, intentUserLetter;
     String id, name = "", coin = "";
-    Button buttonFriendList, buttonMyQuiz;
+    Button buttonFriendList, buttonMyQuiz, userLetterT;
     TextView userIDT, userNameT, userCoinT;
 
     @Override
@@ -38,10 +38,21 @@ public class MyPageActivity extends AppCompatActivity {
         userIDT = (TextView) findViewById(R.id.userID);
         userNameT = (TextView) findViewById(R.id.userName);
         userCoinT = (TextView) findViewById(R.id.userCoin);
+        userLetterT = (Button) findViewById(R.id.userLetter);
 
         userIDT.setText("ID: " + id);
 
         getFirebaseDatabaseUserInfo();
+
+        userLetterT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentUserLetter = new Intent(MyPageActivity.this, ChatListActivity.class);
+                intentUserLetter.putExtra("id", id);
+                startActivity(intentUserLetter);
+                finish();
+            }
+        });
 
         buttonMyQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
