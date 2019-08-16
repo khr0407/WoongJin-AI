@@ -84,47 +84,7 @@ public class MyPageActivity extends AppCompatActivity {
             }
         });
     }
-/*
-    private void getFirebaseDatabaseUserInfo() {
-        final ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Iterator<DataSnapshot> child = dataSnapshot.child("user_list").getChildren().iterator();
-                while (child.hasNext()) {
-                    String key = dataSnapshot.getKey();
-                    if(id.equals(key)) {
-                        UserInfo get = dataSnapshot.getValue(UserInfo.class);
 
-                        name = get.name;
-                        nickname = get.nickname;
-                        coin = get.coin;
-                        userName.setText("이름: " + userName);
-                        userNickname.setText("닉네임: " + nickname);
-                        userCoin.setText("코인: " + coin);
-                        break;
-                    }
-                }
-                Iterator<DataSnapshot> child1 = dataSnapshot.child("kakaouser_list").getChildren().iterator();
-                while (child.hasNext()) {
-                    String key = dataSnapshot.getKey();
-                    if(id.equals(key)) {
-                        UserInfo get = dataSnapshot.getValue(UserInfo.class);
-                        name = get.name;
-                        nickname = get.nickname;
-                        coin = get.coin;
-                        userName.setText("이름: " + userName);
-                        userNickname.setText("닉네임: " + nickname);
-                        userCoin.setText("코인: " + coin);
-                        break;
-                    }
-                }
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {            }
-        };
-    }
-    */
     private void getFirebaseDatabaseUserInfo() {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
@@ -136,7 +96,7 @@ public class MyPageActivity extends AppCompatActivity {
                         name = get.name;
                         nickname = get.nickname;
                         coin = get.coin;
-                        userName.setText("이름" + name);
+                        userName.setText("이름: " + name);
                         userNickname.setText("닉네임: " + nickname);
                         userCoin.setText("코인: " + coin);
                         break;
@@ -149,7 +109,7 @@ public class MyPageActivity extends AppCompatActivity {
                         name = get.name;
                         nickname = get.nickname;
                         coin = get.coin;
-                        userName.setText("이름" + name);
+                        userName.setText("이름: " + name);
                         userNickname.setText("닉네임: " + nickname);
                         userCoin.setText("코인: " + coin);
                         break;
