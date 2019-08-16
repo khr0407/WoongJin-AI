@@ -90,6 +90,27 @@
             android:layout_weight="1"
             android:text="친구 리스트"/>
 
+        <Button
+            android:id="@+id/imageupload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="프로필 사진 바꾸기"/>
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="로그아웃"/>
+
+
     </LinearLayout>
 
 </LinearLayout>
