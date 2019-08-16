@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">WoongJin-AI</string>
+    <string name="kakaolink_host">kakaolink</string>
+    <string name="kakao_app_key"> aca4eb8c5bbe9792e26ba072fdb1cb5d</string>
+    <string name="kakao_scheme"> kakaoaca4eb8c5bbe9792e26ba072fdb1cb5d</string>
+    <string name="hint_address">주소를 입력하세요.</string>
+    <string name="hint_address_detail">주소 나머지 부분을 입력 하세요.</string>
+    <string name="msg_search_address">주소 검색(다음)</string>
+    <string name="hint_school">학교주소를 검색하세요.</string>
+    <string name="hint_school_detail">학교 이름을 입력 하세요.</string>
 </resources>

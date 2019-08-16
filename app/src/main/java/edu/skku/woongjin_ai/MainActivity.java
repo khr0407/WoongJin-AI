@@ -30,11 +30,12 @@ public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
     public DatabaseReference mPostReference;
-    ArrayList<String> scriptList;
+    ArrayList<String> ScriptList;
     ArrayAdapter<String> adapter;
-    Intent intent, intentType;
+    Intent intent, intentType, intentMyPage;
     String id;
     String check = "";
+    Button buttonSelectType, buttonMyPage;
 
 
     @Override
@@ -43,7 +44,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mListView = (ListView) findViewById(R.id.listView);
-        Button buttonSelectType = (Button) findViewById(R.id.selectType);
+
+        buttonSelectType = (Button) findViewById(R.id.selectType);
+        buttonMyPage = (Button) findViewById(R.id.myPage);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
@@ -52,11 +55,21 @@ public class MainActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        scriptList = new ArrayList<String>();
+        ScriptList = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
         mListView.setAdapter(adapter);
 
         getFirebaseDatabaseScriptList();
+
+        buttonMyPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentMyPage = new Intent(MainActivity.this, MyPageActivity.class);
+                intentMyPage.putExtra("id", id);
+                startActivity(intentMyPage);
+                finish();
+            }
+        });
 
         buttonSelectType.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,7 +86,11 @@ public class MainActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
-                intentType.putExtra("scriptnm", scriptList.get(position));
+                String script_title = ScriptList.get(position);
+                Intent intent_readscript = new Intent(MainActivity.this, ReadScriptActivity.class);
+                intent_readscript.putExtra("scriptnm",script_title);
+                startActivity(intent_readscript);
+                intentType.putExtra("scriptnm", ScriptList.get(position));
                 check = intentType.getStringExtra("scriptnm");
             }
         });
@@ -84,13 +101,13 @@ public class MainActivity extends AppCompatActivity {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                scriptList.clear();
+                ScriptList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String key = snapshot.getKey();
-                    scriptList.add(key);
+                    ScriptList.add(key);
                 }
                 adapter.clear();
-                adapter.addAll(scriptList);
+                adapter.addAll(ScriptList);
                 adapter.notifyDataSetChanged();
             }
             @Override
