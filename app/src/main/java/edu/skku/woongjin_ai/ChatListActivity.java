@@ -52,7 +52,6 @@ public class ChatListActivity extends AppCompatActivity {
         search = findViewById(R.id.search);
         create = findViewById(R.id.create);
 
-
         data = new ArrayList<String>();
         mPostReference = FirebaseDatabase.getInstance().getReference().child("chatroom_list");
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
