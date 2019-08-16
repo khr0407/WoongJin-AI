@@ -3,10 +3,10 @@ package edu.skku.woongjin_ai;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserInfo { ;
+public class UserInfo {
     public String id;
-    public String pw;
     public String name;
+    public String pw;
     public String nickname;
     public String address;
     public String school;

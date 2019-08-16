@@ -51,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     DatabaseReference mPostReference;
     Intent intent;
+    int flag = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

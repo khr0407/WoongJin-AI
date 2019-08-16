@@ -27,6 +27,7 @@ public class ShowFriendActivity extends AppCompatActivity {
     ArrayAdapter<String> arrayAdapter;
     String id_key;
     Button invitefriend;
+    Intent intentAddFriend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +36,9 @@ public class ShowFriendActivity extends AppCompatActivity {
         invitefriend = (Button) findViewById(R.id.invitefriend);
         friend_list = findViewById(R.id.friend_list);
         recommendfriend_list = findViewById(R.id.recommendfriend_list);
+        friend_list = findViewById(R.id.friend_list);
+        Button buttonAddFriend = (Button) findViewById(R.id.invitefriend);
+
         data = new ArrayList<String>();
 
         final Intent intent = getIntent();
@@ -62,6 +66,20 @@ public class ShowFriendActivity extends AppCompatActivity {
             }
         });
         getFirebaseDatabase();
+        mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("friend");
+        arrayAdapter = new ArrayAdapter<String>(ShowFriendActivity.this, android.R.layout.simple_list_item_1);
+        friend_list.setAdapter(arrayAdapter);
+        getFirebaseDatabase();
+
+        buttonAddFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentAddFriend = new Intent(ShowFriendActivity.this, AddFriendActivity.class);
+                intentAddFriend.putExtra("id", id_key);
+                startActivity(intentAddFriend);
+                finish();
+            }
+        });
     }
 
     public void getFirebaseDatabase() {
