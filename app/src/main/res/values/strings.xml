@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WoongJin-AI</string>
+    <string name="kakao_app_key">aca4eb8c5bbe9792e26ba072fdb1cb5d</string>
 </resources>
