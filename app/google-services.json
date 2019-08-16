@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "155029413465-auje8ddnan1qjv67b8k0vh6d92eia9ri.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.skku.woongjin_ai",
+            "certificate_hash": "bfb238685c70e68f177336c90b53ec1d89aba428"
+          }
+        },
+        {
           "client_id": "155029413465-0nhatmbt4qp2lelb5irbnm8f6gk90j37.apps.googleusercontent.com",
           "client_type": 3
         }
