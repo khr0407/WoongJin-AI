@@ -28,8 +28,10 @@
         </activity>
         <activity android:name=".MainActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".KakaoRegisterActivity"/>
+        <activity android:name=".RegisterActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".KakaoRegisterActivity"
+            android:screenOrientation="landscape"/>
         <activity android:name=".SelectTypeActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".OXTypeActivity"
@@ -48,7 +50,9 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".RecommendFriendActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".WebViewActivity"></activity>
-        <activity android:name=".ReadScriptActivity"></activity>
+        <activity android:name=".WebViewActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ReadScriptActivity"
+            android:screenOrientation="landscape"/>
     </application>
 </manifest>
