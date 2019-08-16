@@ -36,9 +36,15 @@
             <TextView
                 android:id="@+id/textview_script"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:text="TextView"
                 android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/background"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
     </LinearLayout>
 
