@@ -43,5 +43,7 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".ChatListActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".ChatroomActivity"
+            android:screenOrientation="landscape"/>
     </application>
 </manifest>
