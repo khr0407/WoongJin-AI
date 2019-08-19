@@ -30,8 +30,8 @@ public class ChatroomActivity extends Activity {
 
         data = new ArrayList<String>();
         Intent intent = getIntent();
-        roomname = intent.getExtras().getString("RoomName");
-        txtText.setText(roomname);
+        //roomname = intent.getExtras().getString("RoomName");
+        //txtText.setText(roomname);
 
 
         //UI 객체생성
