@@ -5,13 +5,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.module.AppGlideModule;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,10 +16,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import org.w3c.dom.Text;
-
-import java.io.File;
 
 public class ReadScriptActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
@@ -72,9 +65,7 @@ public class ReadScriptActivity extends AppCompatActivity {
                         String script = snapshot.child("text").getValue().toString();
                         //받아온 텍스트
                         String[] array=script.split("###");
-
                         // 여기서 받아온 텍스트를 반으로 잘라요
-
                         textview_script_1.setText(array[0]);
                         textview_script_2.setText(array[1]);
                         break;

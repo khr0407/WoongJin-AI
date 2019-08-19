@@ -57,6 +57,13 @@
                 android:padding="15dp"
                 />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_weight="1"/>
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
