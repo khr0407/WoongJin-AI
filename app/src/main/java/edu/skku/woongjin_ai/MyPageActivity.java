@@ -15,16 +15,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-//import com.kakao.usermgmt.UserManagement;
-//import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
-    Intent intent, intentAddFriend, intentMyQuiz, intentUserLetter, intent_chatlist;
-    String id, nickname = "", coin = "";
-    Button buttonFriendList, buttonMyQuiz, userLetterT;
+    Intent intent, intentAddFriend, intent_chatlist;
+    String id, nickname, coin;
+    Button buttonFriendList;
     Button userLetter;
     Button logout;
     TextView userIDT, userNameT, userCoinT;
@@ -50,26 +49,6 @@ public class MyPageActivity extends AppCompatActivity {
 
         getFirebaseDatabaseUserInfo();
 
-        userLetterT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intentUserLetter = new Intent(MyPageActivity.this, ChatListActivity.class);
-                intentUserLetter.putExtra("id", id);
-                startActivity(intentUserLetter);
-                finish();
-            }
-        });
-
-        buttonMyQuiz.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intentMyQuiz = new Intent(MyPageActivity.this, MyQuizActivity.class);
-                intentMyQuiz.putExtra("id", id);
-                startActivity(intentMyQuiz);
-                finish();
-            }
-        });
-
         buttonFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,7 +67,7 @@ public class MyPageActivity extends AppCompatActivity {
             }
         });
 
-        /*logout.setOnClickListener(new View.OnClickListener() {
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
                 UserManagement.getInstance().requestLogout(new LogoutResponseCallback() { //카카오톡은 매번 로그아웃됨
@@ -100,7 +79,7 @@ public class MyPageActivity extends AppCompatActivity {
                     }
                 });
             }
-        });*/
+        });
 
     }
 
