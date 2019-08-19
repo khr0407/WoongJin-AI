@@ -19,7 +19,7 @@ public class ReadScriptActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     Intent intent;
     String title;
-    TextView textview_title, textview_script;
+    TextView textview_title, textview_script_1, textview_script_2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,8 @@ public class ReadScriptActivity extends AppCompatActivity {
 
         intent = getIntent();
         textview_title = (TextView)findViewById(R.id.textview_title);
-        textview_script = (TextView)findViewById(R.id.textview_script);
+        textview_script_1 = (TextView) findViewById(R.id.textview_script_1);
+        textview_script_2 = (TextView)findViewById(R.id.textview_script_2);
 
         title = intent.getStringExtra("scriptnm");
 
@@ -45,7 +46,13 @@ public class ReadScriptActivity extends AppCompatActivity {
                     String key = snapshot.getKey();
                     if(key.equals(title)) {
                         String script = snapshot.child("text").getValue().toString();
-                        textview_script.setText(script);
+                        //받아온 텍스트
+                        String[] array=script.split("###");
+
+                        // 여기서 받아온 텍스트를 반으로 잘라요
+
+                        textview_script_1.setText(array[0]);
+                        textview_script_2.setText(array[1]);
                         break;
                     }
                 }

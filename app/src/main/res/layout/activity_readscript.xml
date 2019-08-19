@@ -31,14 +31,31 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="12"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="2"
+            >
 
             <TextView
-                android:id="@+id/textview_script"
+                android:id="@+id/textview_script_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="TextView"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:background="@color/orange"
+                android:layout_weight="1"
+                android:padding="15dp"
+                />
+
+            <TextView
+                android:id="@+id/textview_script_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="TextView"
+                android:textSize="20dp"
+                android:background="@color/colorPrimary"
+                android:layout_weight="1"
+                android:padding="15dp"
+                />
         </LinearLayout>
     </LinearLayout>
 

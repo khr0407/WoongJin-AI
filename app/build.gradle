@@ -3,10 +3,10 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         release {
-            storeFile file('test.jks')
-            storePassword 'woongjin'
-            keyAlias = 'test'
-            keyPassword 'woongjin'
+            storeFile file('C:\\Users\\세영\\seng.jks')
+            storePassword '990624'
+            keyAlias = 'key'
+            keyPassword '990624'
         }
     }
     compileSdkVersion 28

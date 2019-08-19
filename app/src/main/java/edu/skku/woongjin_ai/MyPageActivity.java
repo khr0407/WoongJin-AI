@@ -43,7 +43,7 @@ public class MyPageActivity extends AppCompatActivity {
         userIDT = (TextView) findViewById(R.id.userID);
         userNameT = (TextView) findViewById(R.id.userName);
         userCoinT = (TextView) findViewById(R.id.userCoin);
-        logout = (Button) findViewById(R.id.logout);
+        logout = (Button) findViewById(R.id.logOut);
 
         userIDT.setText("ID: " + id);
 
