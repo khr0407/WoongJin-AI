@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('test.jks')
+            storePassword 'woongjin'
+            keyAlias = 'test'
+            keyPassword 'woongjin'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "edu.skku.woongjin_ai"
@@ -15,6 +23,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
