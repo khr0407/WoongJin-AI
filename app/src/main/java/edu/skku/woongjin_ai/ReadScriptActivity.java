@@ -9,6 +9,9 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.module.AppGlideModule;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,11 +27,11 @@ import java.io.File;
 public class ReadScriptActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     Intent intent;
-    String title;
+    String userID, title, backgroundID, script;
     TextView textview_title, textview_script;
     ImageView backgroundImage;
     FirebaseStorage storage;
-    private StorageReference storageReference;
+    private StorageReference storageReference, pathReference;
     private Uri filePath;
 
     @Override
@@ -37,35 +40,31 @@ public class ReadScriptActivity extends AppCompatActivity {
         setContentView(R.layout.activity_readscript);
 
         intent = getIntent();
-        textview_title = (TextView)findViewById(R.id.textview_title);
-        textview_script = (TextView)findViewById(R.id.textview_script);
+        userID= intent.getStringExtra("id");
+        title = intent.getStringExtra("scriptnm");
+        backgroundID = intent.getStringExtra("background");
+
+        textview_title = (TextView) findViewById(R.id.textview_title);
+        textview_script = (TextView) findViewById(R.id.textview_script);
         backgroundImage = (ImageView) findViewById(R.id.background);
 
-        title = intent.getStringExtra("scriptnm");
-
-        mPostReference = FirebaseDatabase.getInstance().getReference().child("script_list");
-
         textview_title.setText(title);
-        getFirebaseDatabase();
+
+        mPostReference = FirebaseDatabase.getInstance().getReference();
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-        StorageReference pathReference = storageReference.child("scripts_background/고양이.jpg");
+        pathReference = storageReference.child("scripts_background/" + backgroundID);
 
-        //TODO storage에서 지문 image 다운 및 background에 적용
+        Glide.with(this).load(pathReference).into(backgroundImage);
 
-
-
-    }
-
-    private void getFirebaseDatabase() {
-        final ValueEventListener postListener = new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("script_list").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
                     if(key.equals(title)) {
-                        String script = snapshot.child("text").getValue().toString();
+                        script = snapshot.child("text").getValue().toString();
                         textview_script.setText(script);
                         break;
                     }
@@ -73,7 +72,9 @@ public class ReadScriptActivity extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
-        };
-        mPostReference.addValueEventListener(postListener);
+        });
+
+
     }
+
 }
