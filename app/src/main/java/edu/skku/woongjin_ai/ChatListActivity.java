@@ -85,7 +85,6 @@ public class ChatListActivity extends AppCompatActivity {
             }
         });
         chatListView.setAdapter(arrayAdapter);
-        getFirebaseDatabase();
 
         chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -97,6 +96,8 @@ public class ChatListActivity extends AppCompatActivity {
                 startActivity(intent_Chatroom);
             }
         });
+        getFirebaseDatabase();
+
     }
 
     public void postFirebaseDatabase(boolean add) {

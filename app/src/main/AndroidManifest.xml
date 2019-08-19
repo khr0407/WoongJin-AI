@@ -44,6 +44,7 @@
         <activity android:name=".ChatListActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".ChatroomActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
     </application>
 </manifest>
