@@ -30,6 +30,20 @@
             android:layout_gravity="center"
             />
 
+        <TextView
+            android:id="@+id/bookname"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:background="@color/browser_actions_bg_grey"
+            android:gravity="center_vertical"
+            android:text="책제목" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_progress_level_grey" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -180,7 +194,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    android:text="정답 입력"
+                    android:text="선택지 및 정답 입력 (정답은 한번 더 클릭해 주세요)"
                     android:textColor="@color/white"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
@@ -256,7 +270,7 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="8dp"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="3. "
                                 android:textColor="@color/white"
@@ -264,7 +278,7 @@
 
                             <EditText
                                 android:id="@+id/ans3"
-                                android:layout_width="136dp"
+                                android:layout_width="120dp"
                                 android:layout_height="wrap_content"
                                 android:hint="3번을 입력하시오."
                                 android:textSize="10dp" />
