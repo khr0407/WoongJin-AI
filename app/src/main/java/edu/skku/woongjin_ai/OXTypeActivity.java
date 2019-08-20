@@ -87,11 +87,11 @@ public class OXTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(flagS1 == 0) {
                     star++;
-                    imageStar1.setImageResource(R.drawable.checked_circle_white);
+                    imageStar1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS1 = 1;
                 } else {
                     star--;
-                    imageStar1.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS1 = 0;
                 }
             }
@@ -102,11 +102,11 @@ public class OXTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(flagS2 == 0) {
                     star++;
-                    imageStar2.setImageResource(R.drawable.checked_circle_white);
+                    imageStar2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS2 = 1;
                 } else {
                     star--;
-                    imageStar2.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS2 = 0;
                 }
             }
@@ -117,11 +117,11 @@ public class OXTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(flagS3 == 0) {
                     star++;
-                    imageStar3.setImageResource(R.drawable.checked_circle_white);
+                    imageStar3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS3 = 1;
                 } else {
                     star--;
-                    imageStar3.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS3 = 0;
                 }
             }
@@ -132,11 +132,11 @@ public class OXTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(flagS4 == 0) {
                     star++;
-                    imageStar4.setImageResource(R.drawable.checked_circle_white);
+                    imageStar4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS4 = 1;
                 } else {
                     star--;
-                    imageStar4.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS4 = 0;
                 }
             }
@@ -147,11 +147,11 @@ public class OXTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(flagS5 == 0) {
                     star++;
-                    imageStar5.setImageResource(R.drawable.checked_circle_white);
+                    imageStar5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS5 = 1;
                 } else {
                     star--;
-                    imageStar5.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS5 = 0;
                 }
             }

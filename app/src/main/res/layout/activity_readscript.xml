@@ -41,7 +41,7 @@
                 android:layout_height="match_parent"
                 android:text="TextView"
                 android:textSize="20dp"
-                android:background="@color/orange"
+                android:background="@color/white"
                 android:layout_weight="1"
                 android:padding="15dp"
                 />
@@ -52,17 +52,11 @@
                 android:layout_height="match_parent"
                 android:text="TextView"
                 android:textSize="20dp"
-                android:background="@color/colorPrimary"
+                android:background="@color/white"
                 android:layout_weight="1"
                 android:padding="15dp"
                 />
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/background"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:layout_weight="1"/>
 
     </LinearLayout>
 

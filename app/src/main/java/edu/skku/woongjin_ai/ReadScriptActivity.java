@@ -1,31 +1,22 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 public class ReadScriptActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     Intent intent;
     TextView textview_title, textview_script_1, textview_script_2;
-    String userID, title, backgroundID, script;
-    ImageView backgroundImage;
-    FirebaseStorage storage;
-    private StorageReference storageReference, pathReference;
-    private Uri filePath;
+    String userID, title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,23 +29,13 @@ public class ReadScriptActivity extends AppCompatActivity {
         textview_script_2 = (TextView)findViewById(R.id.textview_script_2);
         userID= intent.getStringExtra("id");
         title = intent.getStringExtra("scriptnm");
-        backgroundID = intent.getStringExtra("background");
 
         textview_title = (TextView) findViewById(R.id.textview_title);
-        backgroundImage = (ImageView) findViewById(R.id.background);
-
         title = intent.getStringExtra("scriptnm");
 
         mPostReference = FirebaseDatabase.getInstance().getReference().child("script_list");
         textview_title.setText(title);
 
-        mPostReference = FirebaseDatabase.getInstance().getReference();
-
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
-        pathReference = storageReference.child("scripts_background/" + backgroundID);
-
-        Glide.with(this).load(pathReference).into(backgroundImage);
 
         FirebaseDatabase.getInstance().getReference().child("script_list").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
