@@ -79,7 +79,8 @@ public class ShowScriptFragment extends Fragment {
                     fragmentTransaction.remove(((OXTypeActivity)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
                 } else if(type.equals("choice")) {
-
+                    fragmentTransaction.remove(((ChoiceTypeActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
                 } else if(type.equals("shortword")) {
                     fragmentTransaction.remove(((ShortwordTypeActivity)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();

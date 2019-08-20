@@ -1,8 +1,11 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,29 +14,45 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChoiceTypeActivity extends AppCompatActivity {
+public class ChoiceTypeActivity extends AppCompatActivity
+        implements ShowScriptFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
     ImageView imageScript, imageCheck, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
     EditText editQuiz, editAns, editAns1, editAns2, editAns3, editAns4, editDesc;
     Intent intent, intentHome;
-    String id, scriptnm;
+    String id, scriptnm, backgroundID;
     String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "", desc = "";
     int star = 0;
     int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0;
+    ImageView backgroundImage;
+    FirebaseStorage storage;
+    private StorageReference storageReference, dataReference;
+    Fragment showScriptFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choicetype);
 
-        ImageView imageHome = (ImageView) findViewById(R.id.goHome);
+        intent = getIntent();
+        id = intent.getStringExtra("id");
+        scriptnm = intent.getStringExtra("scriptnm");
+        backgroundID = intent.getStringExtra("background");
+
+        showScriptFragment = new ShowScriptFragment();
+
+        ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageScript = (ImageView) findViewById(R.id.script);
         imageCheck = (ImageView) findViewById(R.id.check);
         imageStar1 = (ImageView) findViewById(R.id.star1);
@@ -48,17 +67,40 @@ public class ChoiceTypeActivity extends AppCompatActivity {
         editAns3 = (EditText) findViewById(R.id.ans3);
         editAns4 = (EditText) findViewById(R.id.ans4);
         //editDesc = (EditText) findViewById(R.id.desc);
-        TextView title = (TextView) findViewById(R.id.bookname);
-
-        intent = getIntent();
-        id = intent.getStringExtra("id");
-        scriptnm = intent.getStringExtra("scriptnm");
-
-        Log.d("hereeeeeeeeeeee", scriptnm);
+        TextView title = (TextView) findViewById(R.id.title);
+        backgroundImage = (ImageView) findViewById(R.id.background);
 
         title.setText("지문 제목: " + scriptnm);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getInstance().getReference();
+        dataReference = storageReference.child("/scripts_background/" + backgroundID);
+        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.with(ChoiceTypeActivity.this)
+                        .load(uri)
+                        .placeholder(R.drawable.bot)
+                        .error(R.drawable.btn_x)
+                        .into(backgroundImage);
+                backgroundImage.setAlpha(0.5f);
+            }
+        });
+
+        imageScript.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
+                Bundle bundle = new Bundle(2);
+                bundle.putString("scriptnm", scriptnm);
+                bundle.putString("type", "choice");
+                showScriptFragment.setArguments(bundle);
+                transaction.commit();
+            }
+        });
 
         imageCheck.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,5 +223,10 @@ public class ChoiceTypeActivity extends AppCompatActivity {
         editAns3.setText("");
         editAns4.setText("");
         editDesc.setText("");
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
