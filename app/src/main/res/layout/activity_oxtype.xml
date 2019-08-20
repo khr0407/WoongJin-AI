@@ -105,237 +105,255 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="2"></LinearLayout>
-            <LinearLayout
+
+            <FrameLayout
+                android:id="@+id/contentShowScriptOX"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="12"
-                android:background="@drawable/rounded_blue"
-                android:padding="30dp"
-                android:id="@+id/Quiz"
-                android:orientation="vertical"
-                android:weightSum="9"
-                >
+                android:layout_weight="19">
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:id="@+id/star"
-                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="난이도"
-                        android:textSize="25dp"
-                        android:fontFamily="@font/typo_sherlock_l"
-                        android:textColor="@color/white"
-                        android:layout_margin="5dp"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        />
-                    <ImageView
-                        android:id="@+id/star1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_icons_difficulty_star_empty"
-                        android:layout_gravity="center"
-                        android:layout_margin="3dp"
-                        />
+                    android:weightSum="19">
 
-                    <ImageView
-                        android:id="@+id/star2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_icons_difficulty_star_empty"
-                        android:layout_gravity="center"
-                        android:layout_margin="3dp"
-                        />
-
-                    <ImageView
-                        android:id="@+id/star3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_icons_difficulty_star_empty"
-                        android:layout_gravity="center"
-                        android:layout_margin="3dp"
-                        />
-
-                    <ImageView
-                        android:id="@+id/star4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_icons_difficulty_star_empty"
-                        android:layout_gravity="center"
-                        android:layout_margin="3dp"
-                        />
-
-                    <ImageView
-                        android:id="@+id/star5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_icons_difficulty_star_empty"
-                        android:layout_gravity="center"
-                        android:layout_margin="3dp"
-                        />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="4"
-                    android:weightSum="4"
-                    android:orientation="vertical"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:text="퀴즈 입력"
-                        android:textSize="25dp"
-                        android:gravity="center"
-                        android:fontFamily="@font/typo_sherlock_l"
-                        android:textColor="@color/white"
-                        android:layout_weight="1"
-                        />
-                    <EditText
-                        android:id="@+id/quiz"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/rounded_white"
-                        android:hint="클릭하여 퀴즈 입력하기"
-                        android:fontFamily="@font/typo_sherlock_l"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:textSize="20dp"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="4"
-                    android:weightSum="4"
-                    android:orientation="vertical"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:text="정답 입력"
-                        android:textColor="@color/white"
-                        android:textSize="25dp"
-                        android:fontFamily="@font/typo_sherlock_l"
-                        android:gravity="center"
-                        android:layout_weight="1"
-                        />
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:orientation="horizontal"
-                        android:weightSum="2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="12"
+                        android:background="@drawable/rounded_blue"
+                        android:padding="30dp"
+                        android:id="@+id/Quiz"
+                        android:orientation="vertical"
+                        android:weightSum="9"
                         >
-                        <ImageView
-                            android:id="@+id/o"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_icons_white_o"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:id="@+id/star"
                             android:layout_weight="1"
-                            android:scaleType="fitCenter"
-                            android:layout_gravity="center"
-                            />
+                            android:orientation="horizontal"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="난이도"
+                                android:textSize="25dp"
+                                android:fontFamily="@font/typo_sherlock_l"
+                                android:textColor="@color/white"
+                                android:layout_margin="5dp"
+                                android:gravity="center"
+                                android:layout_gravity="center"
+                                />
+                            <ImageView
+                                android:id="@+id/star1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_icons_difficulty_star_empty"
+                                android:layout_gravity="center"
+                                android:layout_margin="3dp"
+                                />
 
-                        <ImageView
-                            android:id="@+id/x"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_icons_white_x"
+                            <ImageView
+                                android:id="@+id/star2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_icons_difficulty_star_empty"
+                                android:layout_gravity="center"
+                                android:layout_margin="3dp"
+                                />
+
+                            <ImageView
+                                android:id="@+id/star3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_icons_difficulty_star_empty"
+                                android:layout_gravity="center"
+                                android:layout_margin="3dp"
+                                />
+
+                            <ImageView
+                                android:id="@+id/star4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_icons_difficulty_star_empty"
+                                android:layout_gravity="center"
+                                android:layout_margin="3dp"
+                                />
+
+                            <ImageView
+                                android:id="@+id/star5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_icons_difficulty_star_empty"
+                                android:layout_gravity="center"
+                                android:layout_margin="3dp"
+                                />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="4"
+                            android:weightSum="4"
+                            android:orientation="vertical"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:text="퀴즈 입력"
+                                android:textSize="25dp"
+                                android:gravity="center"
+                                android:fontFamily="@font/typo_sherlock_l"
+                                android:textColor="@color/white"
+                                android:layout_weight="1"
+                                />
+                            <EditText
+                                android:id="@+id/quiz"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="3"
+                                android:background="@drawable/rounded_white"
+                                android:hint="클릭하여 퀴즈 입력하기"
+                                android:fontFamily="@font/typo_sherlock_l"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textSize="20dp"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="4"
+                            android:weightSum="4"
+                            android:orientation="vertical"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:text="정답 입력"
+                                android:textColor="@color/white"
+                                android:textSize="25dp"
+                                android:fontFamily="@font/typo_sherlock_l"
+                                android:gravity="center"
+                                android:layout_weight="1"
+                                />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="3"
+                                android:orientation="horizontal"
+                                android:weightSum="2"
+                                >
+                                <ImageView
+                                    android:id="@+id/o"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_icons_white_o"
+                                    android:layout_weight="1"
+                                    android:scaleType="fitCenter"
+                                    android:layout_gravity="center"
+                                    />
+
+                                <ImageView
+                                    android:id="@+id/x"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/ic_icons_white_x"
+                                    android:layout_weight="1"
+                                    android:scaleType="fitCenter"
+                                    android:layout_gravity="center"
+                                    />
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"></LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="6"
+                        android:background="@drawable/rounded_white"
+                        android:padding="30dp"
+                        android:id="@+id/Solution"
+                        android:orientation="vertical"
+                        android:weightSum="5"
+                        >
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:scaleType="fitCenter"
+                            >
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="해설 입력"
+                                android:textSize="25dp"
+                                android:fontFamily="@font/typo_sherlock_l"
+                                android:textColor="@color/orange"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                />
+                        </LinearLayout>
+
+                        <ImageButton
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:background="#00ff0000"
+                            android:src="@drawable/ic_icons_text_hint_before"/>
+
+                        <ImageButton
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:background="#00ff0000"
+                            android:src="@drawable/ic_icons_video_hint_before" />
+
+                        <ImageButton
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:background="#00ff0000"
+                            android:src="@drawable/ic_icons_video_hint_before"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
                             android:layout_gravity="center"
-                            />
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:weightSum="2"
+                            >
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/script"
+                                android:src="@drawable/ic_icons_see_script"
+                                android:layout_weight="1"
+                                />
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/check"
+                                android:src="@drawable/ic_icons_quiz_complete"
+                                android:layout_weight="1"
+                                />
+                        </LinearLayout>
 
                     </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"></LinearLayout>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="6"
-                android:background="@drawable/rounded_white"
-                android:padding="30dp"
-                android:id="@+id/Solution"
-                android:orientation="vertical"
-                android:weightSum="5"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    >
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="해설 입력"
-                        android:textSize="25dp"
-                        android:fontFamily="@font/typo_sherlock_l"
-                        android:textColor="@color/orange"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        />
+
                 </LinearLayout>
 
-                <ImageButton
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="#00ff0000"
-                    android:src="@drawable/ic_icons_text_hint_before"/>
+            </FrameLayout>
 
-                <ImageButton
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="#00ff0000"
-                    android:src="@drawable/ic_icons_video_hint_before" />
-
-                <ImageButton
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="#00ff0000"
-                    android:src="@drawable/ic_icons_video_hint_before"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:weightSum="2"
-                    >
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/script"
-                        android:src="@drawable/ic_icons_see_script"
-                        android:layout_weight="1"
-                        />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/check"
-                        android:src="@drawable/ic_icons_quiz_complete"
-                        android:layout_weight="1"
-                        />
-                </LinearLayout>
-
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"

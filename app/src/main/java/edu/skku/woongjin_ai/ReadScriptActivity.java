@@ -44,8 +44,6 @@ public class ReadScriptActivity extends AppCompatActivity
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
     Fragment selectStudyTypeFragment;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,9 +101,6 @@ public class ReadScriptActivity extends AppCompatActivity
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
-
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.contentReadScript, selectStudyTypeFragment);

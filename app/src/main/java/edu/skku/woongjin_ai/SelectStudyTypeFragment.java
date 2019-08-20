@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,9 @@ public class SelectStudyTypeFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
+
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     private SelectStudyTypeFragment.OnFragmentInteractionListener mListener;
 
@@ -61,12 +65,15 @@ public class SelectStudyTypeFragment extends Fragment {
 //        String backgroundID = getArguments().getString("backgroundID");
 //        Intent intentReadScript = new Intent(context, SelectStudyTypeFragment.class);
 
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
         imageSpeak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mListener.onStudyTypeInfoSet("speak");
-                ((ReadScriptActivity)getActivity()).fragmentTransaction.remove(((ReadScriptActivity)getActivity()).selectStudyTypeFragment);
-                ((ReadScriptActivity)getActivity()).fragmentTransaction.commit();
+                fragmentTransaction.remove(((ReadScriptActivity)getActivity()).selectStudyTypeFragment);
+                fragmentTransaction.commit();
             }
         });
 
@@ -74,8 +81,8 @@ public class SelectStudyTypeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 mListener.onStudyTypeInfoSet("write");
-                ((ReadScriptActivity)getActivity()).fragmentTransaction.remove(((ReadScriptActivity)getActivity()).selectStudyTypeFragment);
-                ((ReadScriptActivity)getActivity()).fragmentTransaction.commit();
+                fragmentTransaction.remove(((ReadScriptActivity)getActivity()).selectStudyTypeFragment);
+                fragmentTransaction.commit();
             }
         });
 

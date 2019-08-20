@@ -5,6 +5,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +29,8 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.Map;
 
-public class OXTypeActivity extends AppCompatActivity {
+public class OXTypeActivity extends AppCompatActivity
+        implements ShowScriptFragment.OnFragmentInteractionListener {
 
     DatabaseReference mPostReference;
     ImageView imageO, imageX, imageScript, imageCheck, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
@@ -39,11 +43,19 @@ public class OXTypeActivity extends AppCompatActivity {
     ImageView backgroundImage;
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
+    Fragment showScriptFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oxtype);
+
+        intent = getIntent();
+        id = intent.getStringExtra("id");
+        scriptnm = intent.getStringExtra("scriptnm");
+        backgroundID = intent.getStringExtra("background");
+
+        showScriptFragment = new ShowScriptFragment();
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageO = (ImageView) findViewById(R.id.o);
@@ -59,11 +71,6 @@ public class OXTypeActivity extends AppCompatActivity {
         editDesc = (EditText) findViewById(R.id.desc);
         TextView title = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
-
-        intent = getIntent();
-        id = intent.getStringExtra("id");
-        scriptnm = intent.getStringExtra("scriptnm");
-        backgroundID = intent.getStringExtra("background");
 
         title.setText("지문 제목: " + scriptnm);
 
@@ -81,6 +88,18 @@ public class OXTypeActivity extends AppCompatActivity {
                         .error(R.drawable.btn_x)
                         .into(backgroundImage);
                 backgroundImage.setAlpha(0.5f);
+            }
+        });
+
+        imageScript.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("scriptnm", scriptnm);
+                showScriptFragment.setArguments(bundle);
+                transaction.commit();
             }
         });
 
@@ -233,5 +252,10 @@ public class OXTypeActivity extends AppCompatActivity {
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
         editDesc.setText("");
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
