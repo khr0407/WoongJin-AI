@@ -125,7 +125,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="12"
-                        android:background="@drawable/rounded_blue"
+                        android:background="@drawable/rounded_green"
                         android:padding="30dp"
                         android:id="@+id/Quiz"
                         android:orientation="vertical"
