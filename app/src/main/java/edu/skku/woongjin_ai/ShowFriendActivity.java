@@ -144,8 +144,8 @@ public class ShowFriendActivity extends Activity {
 
                 int cntAll = recommendList.size();
                 Random generator = new Random();
-                int[] randList = new int[10]; ////////////////////////////// 10
-                for(int i=0; i<5; i++) { ////////////////////////// 5
+                int[] randList = new int[10]; //TODO 10 나중에 수정??
+                for(int i=0; i<5; i++) { //TODO 5 나중에 수정??
                     randList[i] = generator.nextInt(cntAll);
                     for(int j=0; j<i; j++) {
                         if(randList[i] == randList[j]) {
@@ -167,7 +167,7 @@ public class ShowFriendActivity extends Activity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         };
-        mPostReference2.child("user_list").addValueEventListener(postListner);
+        mPostReference2.child("user_list").addValueEventListener(postListner); //TODO 카카오 유저 추가하기
     }
 
     public void getFirebaseDatabase() {

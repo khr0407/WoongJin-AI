@@ -54,8 +54,6 @@
         <activity android:name=".AddFriendActivity"/>
         <activity android:name=".ChatListActivity"
             android:screenOrientation="landscape"/>
-          <activity android:name=".RecommendFriendActivity"
-            android:screenOrientation="landscape"/>
         <activity android:name=".WebViewActivity"></activity>
         <activity android:name=".ReadScriptActivity"></activity>
         <activity android:name=".MyQuizActivity"

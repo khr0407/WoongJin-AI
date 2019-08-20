@@ -1,6 +1,5 @@
 package edu.skku.woongjin_ai;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -30,12 +29,13 @@ public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
     public DatabaseReference mPostReference;
-    ArrayList<String> scriptList;
+    ArrayList<String> scriptList, backgroundList;
+    ArrayAdapter<String> adapter;
+    Intent intent, intentType, intentMyPage, intentReadScript;
     ArrayAdapter<String> scriptAdapter;
-    Intent intent, intentType, intentMyPage;
     String id;
     String check = "";
-    Button buttonSelectType, buttonMyPage;
+    Button buttonSelectType, buttonMyPage, buttonReadScript;
 
 
     @Override
@@ -47,19 +47,36 @@ public class MainActivity extends AppCompatActivity {
 
         buttonSelectType = (Button) findViewById(R.id.selectType);
         buttonMyPage = (Button) findViewById(R.id.myPage);
+        buttonReadScript = (Button) findViewById(R.id.readScript);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
         intentType = new Intent(MainActivity.this, SelectTypeActivity.class);
         intentType.putExtra("id", id);
+        intentReadScript = new Intent(MainActivity.this, ReadScriptActivity.class);
+        intentReadScript.putExtra("id", id);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         scriptList = new ArrayList<String>();
         scriptAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
         mListView.setAdapter(scriptAdapter);
+        backgroundList = new ArrayList<String>();
+        adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
+        mListView.setAdapter(adapter);
 
         getFirebaseDatabaseScriptList();
+
+        buttonReadScript.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(check.length() == 0) {
+                    Toast.makeText(MainActivity.this, "Choose a script", Toast.LENGTH_SHORT).show();
+                } else {
+                    startActivity(intentReadScript);
+                }
+            }
+        });
 
         buttonMyPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,11 +104,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
                 intentType.putExtra("scriptnm", scriptList.get(position));
-                String script_title = scriptList.get(position);
-                Intent intent_readscript = new Intent(MainActivity.this, ReadScriptActivity.class);
-                intent_readscript.putExtra("scriptnm",script_title);
-                startActivity(intent_readscript);
-                intentType.putExtra("scriptnm", scriptList.get(position));
+                intentType.putExtra("background", backgroundList.get(position));
+                intentReadScript.putExtra("scriptnm", scriptList.get(position));
+                intentReadScript.putExtra("background", backgroundList.get(position));
                 check = intentType.getStringExtra("scriptnm");
             }
         });
@@ -101,14 +116,16 @@ public class MainActivity extends AppCompatActivity {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                scriptAdapter.clear();
+                scriptList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String key = snapshot.getKey();
+                    String background = snapshot.child("background").getValue().toString();
                     scriptList.add(key);
+                    backgroundList.add(background);
                 }
-                scriptAdapter.clear();
-                scriptAdapter.addAll(scriptList);
-                scriptAdapter.notifyDataSetChanged();
+                adapter.clear();
+                adapter.addAll(scriptList);
+                adapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
