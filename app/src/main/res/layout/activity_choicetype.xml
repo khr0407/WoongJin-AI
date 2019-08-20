@@ -37,7 +37,7 @@
             android:layout_margin="8dp"
             android:background="@color/browser_actions_bg_grey"
             android:gravity="center_vertical"
-            android:text="책제목" />
+            android:text="책제목책제목책제목" />
 
         <ImageView
             android:layout_width="wrap_content"
