@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,7 +85,15 @@ public class KakaoRegisterActivity extends AppCompatActivity {
         yearAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, yearList);
         yearspinner = (Spinner) findViewById(R.id.year);
         yearspinner.setAdapter(yearAdapter);
-        year = yearspinner.getSelectedItem().toString();
+        yearspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                year = (String)yearAdapter.getItem(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         monthList = new ArrayList<>();
         monthList.add("1");
@@ -102,7 +111,15 @@ public class KakaoRegisterActivity extends AppCompatActivity {
         monthAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, monthList);
         monthspinner = (Spinner) findViewById(R.id.month);
         monthspinner.setAdapter(monthAdapter);
-        month = monthspinner.getSelectedItem().toString();
+        monthspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                month = (String)monthAdapter.getItem(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         dayList = new ArrayList<>();
         dayList.add("1");
@@ -139,7 +156,15 @@ public class KakaoRegisterActivity extends AppCompatActivity {
         dayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, dayList);
         dayspinner = (Spinner) findViewById(R.id.day);
         dayspinner.setAdapter(dayAdapter);
-        day = dayspinner.getSelectedItem().toString();
+        dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                day = (String)dayAdapter.getItem(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         genderList = new ArrayList<>();
         genderList.add("남");
@@ -147,7 +172,15 @@ public class KakaoRegisterActivity extends AppCompatActivity {
         genderAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, genderList);
         genderspinner = (Spinner) findViewById(R.id.gender);
         genderspinner.setAdapter(genderAdapter);
-        gender = genderspinner.getSelectedItem().toString();
+        genderspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                gender = (String)genderAdapter.getItem(i);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -181,7 +214,13 @@ public class KakaoRegisterActivity extends AppCompatActivity {
                 address1 = et_address.getText().toString();
                 address2 = et_address_detail.getText().toString();
                 school = et_school_detail.getText().toString();
-                if (use_searchaddress == 0 && use_nickname == 0) {
+                if ((name.length() == 0 || nickname.length() == 0 || birth.length() == 0
+                        || gender.length() == 0 || address1.length() == 0 || address2.length() == 0 || school.length() == 0) &&
+                        (spaceCheck(name) == true || spaceCheck(birth) == true
+                                || spaceCheck(gender) == true || spaceCheck(address1) == true || spaceCheck(address2) == true || spaceCheck(school) == true)) {
+                    Toast.makeText(KakaoRegisterActivity.this, "모든 칸을 채워주세요.", Toast.LENGTH_SHORT).show();
+                }
+                else if (use_searchaddress == 0 && use_nickname == 0) {
                     Toast.makeText(KakaoRegisterActivity.this, "닉네임체크와 주소검색을 모두 먼저 해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else if (use_searchaddress == 0) {

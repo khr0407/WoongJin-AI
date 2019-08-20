@@ -10,6 +10,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/nextPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="다음페이지" />
+
         <LinearLayout
             android:id="@+id/LinearLayout"
             android:layout_width="match_parent"
@@ -39,6 +45,7 @@
                 android:layout_height="match_parent"
                 android:text="TextView"
                 android:textSize="20dp" />
+
         </LinearLayout>
     </LinearLayout>
 

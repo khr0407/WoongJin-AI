@@ -34,7 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Spinner dayspinner;
     private Spinner genderspinner;
     EditText editTextID, editTextPW, editTextName, editTextNickname;
-    Button search_address, search_school, btn_register;
+    Button search_address, btn_register;
     Button check_id, check_nickname;
     ArrayList<String> yearList;ArrayAdapter<String> yearAdapter;
     ArrayList<String> monthList;ArrayAdapter<String> monthAdapter;

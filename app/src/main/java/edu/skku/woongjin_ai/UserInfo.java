@@ -20,6 +20,7 @@ public class UserInfo {
 
     public UserInfo(String id, String pw, String name, String nickname, String address, String school, String gender, String birth, String coin) {
         this.id = id;
+        this.name = name;
         this.pw = pw;
         this.name = name;
         this.nickname = nickname;

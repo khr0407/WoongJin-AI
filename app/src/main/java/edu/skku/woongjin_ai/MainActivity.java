@@ -1,6 +1,4 @@
 package edu.skku.woongjin_ai;
-
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -25,7 +23,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
 public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
@@ -33,9 +30,11 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> ScriptList;
     ArrayAdapter<String> adapter;
     Intent intent, intentType, intentMyPage;
-    String id;
+    Intent intentnextPage;
+    String id, title;
     String check = "";
     Button buttonSelectType, buttonMyPage;
+    Button nextPage;
 
 
     @Override
@@ -50,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         intent = getIntent();
         id = intent.getStringExtra("id");
+        title = intent.getStringExtra("title");
+
         intentType = new Intent(MainActivity.this, SelectTypeActivity.class);
         intentType.putExtra("id", id);
 
@@ -67,6 +68,16 @@ public class MainActivity extends AppCompatActivity {
                 intentMyPage = new Intent(MainActivity.this, MyPageActivity.class);
                 intentMyPage.putExtra("id", id);
                 startActivity(intentMyPage);
+                finish();
+            }
+        });
+
+        nextPage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentnextPage = new Intent(MainActivity.this, WordListActivity.class);
+                intentnextPage.putExtra("title", title);
+                startActivity(intentnextPage);
                 finish();
             }
         });
