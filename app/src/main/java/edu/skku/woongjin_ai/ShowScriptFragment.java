@@ -28,7 +28,7 @@ public class ShowScriptFragment extends Fragment {
     private String mParam2;
 
     TextView textViewScript1, textViewScript2;
-    String title, script;
+    String title, script, type;
 
     private ShowScriptFragment.OnFragmentInteractionListener mListener;
 
@@ -61,6 +61,7 @@ public class ShowScriptFragment extends Fragment {
         final Context context = container.getContext();
 
         title = getArguments().getString("scriptnm");
+        type = getArguments().getString("type");
 
         TextView textViewTitle = (TextView) view.findViewById(R.id.title);
         textViewScript1 = (TextView) view.findViewById(R.id.script1);
@@ -74,8 +75,15 @@ public class ShowScriptFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.remove(((OXTypeActivity)getActivity()).showScriptFragment);
-                fragmentTransaction.commit();
+                if(type.equals("ox")) {
+                    fragmentTransaction.remove(((OXTypeActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                } else if(type.equals("choice")) {
+
+                } else if(type.equals("shortword")) {
+                    fragmentTransaction.remove(((ShortwordTypeActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
             }
         });
 

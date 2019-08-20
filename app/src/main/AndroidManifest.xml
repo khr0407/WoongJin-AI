@@ -42,11 +42,14 @@
         <activity android:name=".SelectTypeActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".OXTypeActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".ChoiceTypeActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".ShortwordTypeActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".TemplateActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".MyPageActivity"

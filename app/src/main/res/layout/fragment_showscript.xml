@@ -38,7 +38,7 @@
                 android:layout_gravity="center"
                 android:textSize="20dp"
                 android:textStyle="bold"
-                android:typeface="serif"
+                android:fontFamily="@font/gungseche"
                 android:layout_weight="8"/>
 
         </LinearLayout>
@@ -59,7 +59,7 @@
                 android:id="@+id/script1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:typeface="serif"
+                android:fontFamily="@font/gungseche"
                 android:layout_weight="3"
                 android:textSize="18dp"/>
 
@@ -72,7 +72,7 @@
                 android:id="@+id/script2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:typeface="serif"
+                android:fontFamily="@font/gungseche"
                 android:layout_weight="3"
                 android:textSize="18dp"/>
 

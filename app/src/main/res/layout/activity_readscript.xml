@@ -112,7 +112,7 @@
                     android:textAlignment="center"
                     android:textSize="30dp"
                     android:textColor="@color/black"
-                    android:typeface="serif"
+                    android:fontFamily="@font/gungseche"
                     android:textStyle="bold"
                     android:layout_margin="30dp"/>
 
@@ -132,7 +132,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textSize="20dp"
-                        android:typeface="serif"
+                        android:fontFamily="@font/gungseche"
                         android:textColor="@color/black"
                         android:layout_weight="4" />
 
@@ -146,7 +146,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textSize="20dp"
-                        android:typeface="serif"
+                        android:fontFamily="@font/gungseche"
                         android:textColor="@color/black"
                         android:layout_weight="4" />
 

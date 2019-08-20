@@ -96,8 +96,9 @@ public class OXTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
-                Bundle bundle = new Bundle(1);
+                Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", scriptnm);
+                bundle.putString("type", "ox");
                 showScriptFragment.setArguments(bundle);
                 transaction.commit();
             }
@@ -122,7 +123,6 @@ public class OXTypeActivity extends AppCompatActivity
                 intentHome = new Intent(OXTypeActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
-                finish();
             }
         });
 
