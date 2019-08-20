@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Choose a script", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(intentReadScript);
-                    finish();
                 }
             }
         });
@@ -83,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 intentMyPage = new Intent(MainActivity.this, MyPageActivity.class);
                 intentMyPage.putExtra("id", id);
                 startActivity(intentMyPage);
-                finish();
             }
         });
 
@@ -94,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Choose a script", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(intentType);
-                    finish();
                 }
             }
         });
