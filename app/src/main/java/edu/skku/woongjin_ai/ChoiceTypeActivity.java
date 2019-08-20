@@ -46,7 +46,7 @@ public class ChoiceTypeActivity extends AppCompatActivity {
         editAns2 = (EditText) findViewById(R.id.ans2);
         editAns3 = (EditText) findViewById(R.id.ans3);
         editAns4 = (EditText) findViewById(R.id.ans4);
-        editDesc = (EditText) findViewById(R.id.desc);
+        //editDesc = (EditText) findViewById(R.id.desc);
         TextView title = (TextView) findViewById(R.id.title);
 
         intent = getIntent();

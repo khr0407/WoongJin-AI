@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,11 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,10 +32,13 @@ public class OXTypeActivity extends AppCompatActivity {
     ImageView imageO, imageX, imageScript, imageCheck, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
     EditText editQuiz, editDesc;
     Intent intent, intentHome;
-    String id, scriptnm;
+    String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
     int star = 0;
     int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0;
+    ImageView backgroundImage;
+    FirebaseStorage storage;
+    private StorageReference storageReference, dataReference;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,16 +56,33 @@ public class OXTypeActivity extends AppCompatActivity {
         imageStar4 = (ImageView) findViewById(R.id.star4);
         imageStar5 = (ImageView) findViewById(R.id.star5);
         editQuiz = (EditText) findViewById(R.id.quiz);
-        editDesc = (EditText) findViewById(R.id.desc);
+        //editDesc = (EditText) findViewById(R.id.desc);
         TextView title = (TextView) findViewById(R.id.title);
+        backgroundImage = (ImageView) findViewById(R.id.background);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
+        backgroundID = intent.getStringExtra("background");
 
         title.setText("지문 제목: " + scriptnm);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getInstance().getReference();
+        dataReference = storageReference.child("/scripts_background/" + backgroundID);
+        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.with(OXTypeActivity.this)
+                        .load(uri)
+                        .placeholder(R.drawable.bot)
+                        .error(R.drawable.btn_x)
+                        .into(backgroundImage);
+                backgroundImage.setAlpha(0.5f);
+            }
+        });
 
         imageCheck.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,11 +112,11 @@ public class OXTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(flagS1 == 0) {
                     star++;
-                    imageStar1.setImageResource(R.drawable.checked_circle_white);
+                    imageStar1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS1 = 1;
                 } else {
                     star--;
-                    imageStar1.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS1 = 0;
                 }
             }
@@ -102,11 +127,11 @@ public class OXTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(flagS2 == 0) {
                     star++;
-                    imageStar2.setImageResource(R.drawable.checked_circle_white);
+                    imageStar2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS2 = 1;
                 } else {
                     star--;
-                    imageStar2.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS2 = 0;
                 }
             }
@@ -117,11 +142,11 @@ public class OXTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(flagS3 == 0) {
                     star++;
-                    imageStar3.setImageResource(R.drawable.checked_circle_white);
+                    imageStar3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS3 = 1;
                 } else {
                     star--;
-                    imageStar3.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS3 = 0;
                 }
             }
@@ -132,11 +157,11 @@ public class OXTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(flagS4 == 0) {
                     star++;
-                    imageStar4.setImageResource(R.drawable.checked_circle_white);
+                    imageStar4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS4 = 1;
                 } else {
                     star--;
-                    imageStar4.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS4 = 0;
                 }
             }
@@ -147,11 +172,11 @@ public class OXTypeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(flagS5 == 0) {
                     star++;
-                    imageStar5.setImageResource(R.drawable.checked_circle_white);
+                    imageStar5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS5 = 1;
                 } else {
                     star--;
-                    imageStar5.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS5 = 0;
                 }
             }

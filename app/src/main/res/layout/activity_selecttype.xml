@@ -63,6 +63,7 @@
                 android:layout_height="0dp"
                 android:background="@drawable/rounded"
                 android:layout_margin="100dp"
+                android:padding="30dp"
                 app:layout_constraintTop_toBottomOf="@id/linearLayout1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -71,31 +72,36 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="8dp"
                     android:orientation="vertical"
-                    android:weightSum="7"
-                    android:layout_margin="8dp">
+                    android:weightSum="7">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_margin="8dp"
                         android:layout_weight="2"
-                        android:weightSum="5"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:weightSum="5">
 
                         <ImageView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="1"
-                            android:src="@drawable/bot"/>
+                            android:src="@drawable/bot" />
 
-                        <ImageView
+                        <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="4"
                             android:layout_gravity="center"
-                            android:src="@drawable/ic_icons_speech_bubble3" />
+                            android:layout_weight="4"
+                            android:background="@drawable/ic_icons_speech_bubble3"
+                            android:fontFamily="@font/typo_sherlock_l"
+                            android:gravity="center"
+                            android:text="@string/select_quiz_type"
+                            android:textColor="@color/black"
+                            android:textSize="40dp" />
 
                     </LinearLayout>
 
@@ -103,8 +109,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_margin="8dp"
-                        android:orientation="horizontal"
                         android:layout_weight="4"
+                        android:orientation="horizontal"
                         android:weightSum="3">
 
                         <FrameLayout
@@ -112,48 +118,49 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_margin="8dp"
-                            android:background="@drawable/rounded_white"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:padding="20dp"
+                            android:background="@drawable/rounded_white">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="8dp"
-                                android:weightSum="3"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:weightSum="3">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"
-                                    android:orientation="horizontal"
                                     android:layout_weight="2"
+                                    android:orientation="horizontal"
                                     android:weightSum="2">
 
                                     <ImageView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:src="@drawable/ic_icons_blue_o"
-                                        android:layout_weight="1"/>
+                                        android:layout_weight="1"
+                                        android:src="@drawable/ic_icons_blue_o" />
 
                                     <ImageView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
-                                        android:src="@drawable/ic_icons_red_x"
-                                        android:layout_weight="1"/>
+                                        android:layout_weight="1"
+                                        android:src="@drawable/ic_icons_red_x" />
 
                                 </LinearLayout>
 
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"
-                                    android:text="OX퀴즈"
-                                    android:textSize="50dp"
-                                    android:fontFamily="@font/typo_sherlock_b"
-                                    android:layout_weight="1"
                                     android:layout_gravity="center"
-                                    android:gravity="center"/>
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/typo_sherlock_b"
+                                    android:gravity="center"
+                                    android:text="OX퀴즈"
+                                    android:textSize="50dp" />
 
                             </LinearLayout>
 
@@ -165,32 +172,33 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_margin="8dp"
-                            android:background="@drawable/rounded_white"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:padding="20dp"
+                            android:background="@drawable/rounded_white">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="8dp"
-                                android:weightSum="3"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:weightSum="3">
 
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"
-                                    android:layout_weight="2"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_icons_type_selector"/>
+                                    android:layout_weight="2"
+                                    android:src="@drawable/ic_icons_type_selector" />
 
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"
-                                    android:text="선택지퀴즈"
-                                    android:textSize="50dp"
+                                    android:layout_gravity="center"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/typo_sherlock_b"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"/>
+                                    android:gravity="center"
+                                    android:text="선택지퀴즈"
+                                    android:textSize="50dp" />
 
                             </LinearLayout>
 
@@ -201,32 +209,33 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_margin="8dp"
-                            android:background="@drawable/rounded_white"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:padding="20dp"
+                            android:background="@drawable/rounded_white">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:weightSum="3"
                                 android:layout_margin="8dp"
-                                android:orientation="vertical">
+                                android:orientation="vertical"
+                                android:weightSum="3">
 
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"
-                                    android:layout_weight="2"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_icons_type_short_answer"/>
+                                    android:layout_weight="2"
+                                    android:src="@drawable/ic_icons_type_short_answer" />
 
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"
-                                    android:text="단답형퀴즈"
-                                    android:textSize="50dp"
+                                    android:layout_gravity="center"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/typo_sherlock_b"
-                                    android:layout_gravity="center"
-                                    android:gravity="center"/>
+                                    android:gravity="center"
+                                    android:text="단답형퀴즈"
+                                    android:textSize="50dp" />
 
 
                             </LinearLayout>
@@ -240,14 +249,14 @@
                         android:id="@+id/template"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
-                        android:text="질문 예시 보기"
-                        android:textSize="20dp"
-                        android:fontFamily="@font/typo_sherlock_l"
-                        android:background="@drawable/rounded_white"
+                        android:layout_gravity="end"
                         android:layout_margin="8dp"
-                        android:padding="20dp"
                         android:layout_weight="1"
-                        android:layout_gravity="end"/>
+                        android:background="@drawable/rounded_white"
+                        android:fontFamily="@font/typo_sherlock_l"
+                        android:padding="20dp"
+                        android:text="질문 예시 보기"
+                        android:textSize="20dp" />
 
                 </LinearLayout>
 
