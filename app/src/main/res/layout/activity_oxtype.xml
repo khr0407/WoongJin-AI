@@ -48,6 +48,8 @@
                 android:textColor="@color/white"
                 android:id="@+id/title"
                 android:layout_weight="2"
+                android:fontFamily="@font/typo_sherlock_l"
+                android:textSize="20dp"
                 />
 
             <LinearLayout

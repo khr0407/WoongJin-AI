@@ -85,9 +85,8 @@ public class ChatListActivity extends AppCompatActivity {
             }
         });
         chatListView.setAdapter(arrayAdapter);
-        getFirebaseDatabase();
 
-        /*chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 name_key = chatListView.getItemAtPosition(position).toString();
@@ -96,7 +95,9 @@ public class ChatListActivity extends AppCompatActivity {
                 intent_Chatroom.putExtra("RoomName", name_key);
                 startActivity(intent_Chatroom);
             }
-        });*/
+        });
+        getFirebaseDatabase();
+
     }
 
     public void postFirebaseDatabase(boolean add) {

@@ -68,7 +68,7 @@ public class OXTypeActivity extends AppCompatActivity
         imageStar4 = (ImageView) findViewById(R.id.star4);
         imageStar5 = (ImageView) findViewById(R.id.star5);
         editQuiz = (EditText) findViewById(R.id.quiz);
-        editDesc = (EditText) findViewById(R.id.desc);
+        //editDesc = (EditText) findViewById(R.id.desc);
         TextView title = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,7 +33,7 @@ public class ChoiceTypeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choicetype);
 
-        ImageView imageHome = (ImageView) findViewById(R.id.home);
+        ImageView imageHome = (ImageView) findViewById(R.id.goHome);
         imageScript = (ImageView) findViewById(R.id.script);
         imageCheck = (ImageView) findViewById(R.id.check);
         imageStar1 = (ImageView) findViewById(R.id.star1);
@@ -46,12 +47,14 @@ public class ChoiceTypeActivity extends AppCompatActivity {
         editAns2 = (EditText) findViewById(R.id.ans2);
         editAns3 = (EditText) findViewById(R.id.ans3);
         editAns4 = (EditText) findViewById(R.id.ans4);
-        editDesc = (EditText) findViewById(R.id.desc);
-        TextView title = (TextView) findViewById(R.id.title);
+        //editDesc = (EditText) findViewById(R.id.desc);
+        TextView title = (TextView) findViewById(R.id.bookname);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
+
+        Log.d("hereeeeeeeeeeee", scriptnm);
 
         title.setText("지문 제목: " + scriptnm);
 

@@ -51,14 +51,20 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".MyPageActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".ChatListActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
         <activity android:name=".ShowFriendActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".AddFriendActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ChatListActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".WebViewActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".ReadScriptActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".MyQuizActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ChatroomActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
     </application>
 </manifest>

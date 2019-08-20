@@ -29,15 +29,83 @@
             android:layout_margin="5dp"
             android:layout_gravity="center"
             />
+
         <TextView
+            android:id="@+id/bookname"
+            android:layout_width="321dp"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:background="@color/browser_actions_bg_grey"
+            android:gravity="center_vertical"
+            android:text="책제목책제목책제목" />
+
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:textColor="@color/white"
+            android:src="@drawable/ic_icons_progress_level_grey" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_progress_dotted_grey" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_progress_level_grey" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_progress_dotted_grey" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_progress_level_grey" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_progress_dotted_grey" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_progress_level_grey" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_progress_dotted_grey" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_progress_level_grey" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_progress_dotted_grey" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_progress_level_grey" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_progress_dotted_grey" />
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:id="@+id/title"
-            />
+            android:layout_gravity="center"
+            android:src="@drawable/ic_icons_flag_hand" />
+
 
     </LinearLayout>
     <LinearLayout
@@ -45,7 +113,7 @@
         android:layout_height="0dp"
         android:id="@+id/Instruction"
         android:orientation="horizontal"
-        android:layout_weight="2"
+        android:layout_weight="1.5"
         android:weightSum="5"
         >
         <ImageView
@@ -74,14 +142,14 @@
         android:layout_height="0dp"
         android:id="@+id/MakeQuiz"
         android:orientation="horizontal"
-        android:layout_weight="5"
+        android:layout_weight="5.5"
         android:weightSum="3"
         >
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="2"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/filet_green"
             android:padding="10dp"
             android:layout_margin="10dp"
             android:id="@+id/Quiz"
@@ -172,7 +240,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="3"
-                    android:background="@color/white"
+                    android:background="@drawable/filet_white"
                     android:hint="클릭하여 퀴즈 입력하기"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -199,7 +267,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="3"
-                    android:background="@color/white"
+                    android:background="@drawable/filet_white"
                     android:hint="클릭하여 정답 입력하기"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -211,7 +279,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/white"
+            android:background="@drawable/filet_white"
             android:padding="10dp"
             android:layout_margin="10dp"
             android:id="@+id/Solution"
@@ -220,13 +288,14 @@
             >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 >
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="해설 입력"
+                    android:layout_height="wrap_content"
+                    android:text="힌트 입력"
+                    android:textSize="15dp"
                     android:textColor="@color/orange"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -235,20 +304,39 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="123dp"
                 android:layout_weight="3"
-                >
-                <EditText
-                    android:id="@+id/desc"
+                android:orientation="vertical"
+                android:weightSum="3">
+
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    android:background="@color/orange"
-                    android:hint="클릭하여 해설 입력하기"
-                    android:textSize="10dp"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    />
+                    android:src="@drawable/ic_icons_text_hint_before" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/ic_icons_video_hint_before" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="1dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:src="@drawable/ic_icons_no_hint_before" />
+
+
             </LinearLayout>
 
             <LinearLayout
