@@ -40,6 +40,7 @@ public class ChatListActivity extends AppCompatActivity {
     EditText name;
     TextView friend;
     Button search, create;
+    QuizBombDialog Bomb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,8 @@ public class ChatListActivity extends AppCompatActivity {
         data = new ArrayList<String>();
         mPostReference = FirebaseDatabase.getInstance().getReference().child("chatroom_list");
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+
+        Bomb=new QuizBombDialog(this);
 
         search.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view){
@@ -87,16 +90,17 @@ public class ChatListActivity extends AppCompatActivity {
         chatListView.setAdapter(arrayAdapter);
         getFirebaseDatabase();
 
-        /*chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                name_key = chatListView.getItemAtPosition(position).toString();
-                Intent intent_Chatroom = new Intent(ChatListActivity.this, ChatroomActivity.class);
-                intent_Chatroom.putExtra("ID", id_key);
-                intent_Chatroom.putExtra("RoomName", name_key);
-                startActivity(intent_Chatroom);
+//                name_key = chatListView.getItemAtPosition(position).toString();
+//                Intent intent_Chatroom = new Intent(ChatListActivity.this, ChatroomActivity.class);
+//                intent_Chatroom.putExtra("ID", id_key);
+//                intent_Chatroom.putExtra("RoomName", name_key);
+//                startActivity(intent_Chatroom);
+                Bomb.show();
             }
-        });*/
+        });
     }
 
     public void postFirebaseDatabase(boolean add) {
