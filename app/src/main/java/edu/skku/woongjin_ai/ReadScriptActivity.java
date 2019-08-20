@@ -40,7 +40,7 @@ public class ReadScriptActivity extends AppCompatActivity
     String userID, title, backgroundID, script, studyType = "";
     TextView textview_title, textview_script_1, textview_script_2;
     ImageView backgroundImage;
-    ImageButton goHome, tmpSave;
+    ImageButton goHome, tmpSave, goStudyWord;
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
     Fragment selectStudyTypeFragment;
@@ -65,6 +65,7 @@ public class ReadScriptActivity extends AppCompatActivity
         backgroundImage = (ImageView) findViewById(R.id.background);
         goHome = (ImageButton) findViewById(R.id.home);
         tmpSave = (ImageButton) findViewById(R.id.save);
+        goStudyWord = (ImageButton) findViewById(R.id.studyWord);
 
         textview_title.setText(title);
 
@@ -128,6 +129,14 @@ public class ReadScriptActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 //TODO 임시저장 기능
+            }
+        });
+
+        goStudyWord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO 이미지 바꾸기
+                //TODO 단어 공부하기 intent
             }
         });
     }
