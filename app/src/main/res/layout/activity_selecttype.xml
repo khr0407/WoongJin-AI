@@ -99,8 +99,8 @@
                             android:background="@drawable/ic_icons_speech_bubble3"
                             android:fontFamily="@font/typo_sherlock_l"
                             android:gravity="center"
-                            android:text="@strings/select_quiz_type"
-                            android:textColor="@color"
+                            android:text="@string/select_quiz_type"
+                            android:textColor="@color/black"
                             android:textSize="40dp" />
 
                     </LinearLayout>
