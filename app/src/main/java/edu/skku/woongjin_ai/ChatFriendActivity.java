@@ -47,8 +47,7 @@ public class ChatFriendActivity extends Activity {
     EditText roomname;
 
     Intent intent;
-    int check_choose, check_recommend;
-
+    int check_choose, check_recommend, flag;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +55,7 @@ public class ChatFriendActivity extends Activity {
 
         check_choose = 0;
         check_recommend = 0;
+        flag = 0;
 
         invitefriend = (Button) findViewById(R.id.invitefriend);
         addfriend = (Button)findViewById(R.id.addfriend);
@@ -138,13 +138,18 @@ public class ChatFriendActivity extends Activity {
                                     //Log.d("_mynickname", mynickname);
                                     Log.d("_user1", user1);
                                     Log.d("_user2", user2);
-                                    if ((user1.equals(mynickname) && user2.equals(friend_nickname)) || (user2.equals(mynickname) && user1.equals(friend_nickname))) {
+                                    if (roomname.getText().toString().length() > 0 && ((user1.equals(mynickname) && user2.equals(friend_nickname)) || (user2.equals(mynickname) && user1.equals(friend_nickname)))) { //있으면
                                         Toast.makeText(getApplicationContext(), "이미 " + friend_nickname + " 와 게임에 참여중입니다.\n 진행중인 request를 먼저 완료해주세요", Toast.LENGTH_SHORT).show();
-                                        break;
+                                        flag = 1;
                                     }
                                 }
-                                postListDatabase(true);
-                                Toast.makeText(getApplicationContext(), friend_nickname + "와의 게임방이 생성되었습니다.", Toast.LENGTH_SHORT).show();
+                                if (roomname.getText().toString().length() > 0 && flag == 0) { //채팅방이 처음 만들어질 경우
+                                    postListDatabase(true);
+                                    roomname.setText("");
+                                    Toast.makeText(getApplicationContext(), friend_nickname + "와의 게임방이 생성되었습니다.", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                                flag = 0;
                             }
                             @Override
                             public void onCancelled(DatabaseError databaseError) { }
@@ -283,7 +288,6 @@ public class ChatFriendActivity extends Activity {
         }
         childUpdates.put(mynickname + "-" + friend_nickname + ":" + roomname.getText().toString(), postValues);
         cPostReference.updateChildren(childUpdates);
-        roomname.setText("");
     }
 
     public void getFirebaseDatabase() {
