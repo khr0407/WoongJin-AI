@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OXTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener {
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener {
 
     DatabaseReference mPostReference;
     ImageView imageO, imageX, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
@@ -105,6 +105,7 @@ public class OXTypeActivity extends AppCompatActivity
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+                //TODO 뒤로가기 눌렀을 때 checkButton 비활성화 + flagD 0으로 만들기
             }
         });
 
