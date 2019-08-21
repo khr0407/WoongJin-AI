@@ -26,10 +26,9 @@ import static com.kakao.usermgmt.StringSet.nickname;
 public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
-    Intent intent, intentAddFriend, intent_chatlist;
+    Intent intent, intentAddFriend, intent_chatlist, intent_LikeList, intent_QList;
     String id, nickname, name, coin;
-    Button buttonFriendList;
-    Button userLetter;
+    Button btnFriendList, btnuserLetter, btnLikeList, btnQList;
     Button logout;
     TextView userNickname, userName, userCoin;
 
@@ -43,8 +42,11 @@ public class MyPageActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        buttonFriendList = findViewById(R.id.friendList);
-        userLetter = findViewById(R.id.userLetter);
+        btnFriendList = (Button)findViewById(R.id.friendList);
+        btnuserLetter = (Button) findViewById(R.id.userLetter);
+        btnLikeList = (Button) findViewById(R.id.LikeList);
+        btnQList = (Button) findViewById(R.id.QList);
+        btnLikeList = (Button) findViewById(R.id.LikeList);
         userNickname = (TextView) findViewById(R.id.userNickname);
         userName = (TextView) findViewById(R.id.userName);
         userCoin = (TextView) findViewById(R.id.userCoin);
@@ -52,7 +54,7 @@ public class MyPageActivity extends AppCompatActivity {
 
         getFirebaseDatabaseUserInfo();
 
-        buttonFriendList.setOnClickListener(new View.OnClickListener() {
+        btnFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intentAddFriend = new Intent(MyPageActivity.this, ShowFriendActivity.class);
@@ -61,7 +63,8 @@ public class MyPageActivity extends AppCompatActivity {
             }
         });
 
-        userLetter.setOnClickListener(new View.OnClickListener() {
+
+        btnuserLetter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent_chatlist = new Intent(MyPageActivity.this, ChatListActivity.class);
@@ -70,27 +73,14 @@ public class MyPageActivity extends AppCompatActivity {
             }
         });
 
-        userLetter.setOnClickListener(new View.OnClickListener() {
+        btnQList.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                intent_chatlist = new Intent(MyPageActivity.this, ChatListActivity.class);
-                intent_chatlist.putExtra("id", id);
-                startActivity(intent_chatlist);
+            public void onClick(View view) {
+                intent_LikeList = new Intent(MyPageActivity.this, MyQuizActivity.class);
+                intent_LikeList.putExtra("id",id);
+                startActivity(intent_LikeList);
             }
-        });
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                UserManagement.getInstance().requestLogout(new LogoutResponseCallback() { //카카오톡은 매번 로그아웃됨
-                    @Override
-                    public void onCompleteLogout() {
-                        Intent intent = new Intent(MyPageActivity.this, LoginActivity.class);
-                        ActivityCompat.finishAffinity(MyPageActivity.this);
-                        startActivity(intent);
-                    }
-                });
-            }
         });
 
         logout.setOnClickListener(new View.OnClickListener() {

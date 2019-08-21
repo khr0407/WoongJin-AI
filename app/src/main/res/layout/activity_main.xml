@@ -22,6 +22,13 @@
         android:layout_weight="1" />
 
     <Button
+        android:id="@+id/readScript"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="공부하기"/>
+
+    <Button
         android:id="@+id/selectType"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,11 +41,5 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:text="마이페이지"/>
-
-    <Button
-        android:id="@+id/nextPage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="다음페이지" />
 
 </LinearLayout>
