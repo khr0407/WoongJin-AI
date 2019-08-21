@@ -132,10 +132,10 @@ public class ChoiceTypeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
+                transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", scriptnm);
-                bundle.putString("type", "ox");
+                bundle.putString("type", "choice");
                 showScriptFragment.setArguments(bundle);
                 //transaction.addToBackStack(null);
                 transaction.commit();
@@ -260,10 +260,15 @@ public class ChoiceTypeActivity extends AppCompatActivity
         editAns1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagA1 == 0) {
+                if(flagA1 == 0 ) {
+                    if(flagA2==0 && flagA3==0 && flagA4==0 ){
                     editAns1.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                     flagA1 = 1;
                     ans = editAns1.getText().toString();
+                    }
+                    else{
+                        Toast.makeText(ChoiceTypeActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     editAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA1 = 0;
@@ -275,10 +280,14 @@ public class ChoiceTypeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(flagA2 == 0) {
+                    if( flagA1==0 && flagA3==0 && flagA4==0){
                     editAns2.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                     flagA2 = 1;
                     ans = editAns2.getText().toString();
-
+                    }
+                    else{
+                        Toast.makeText(ChoiceTypeActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     editAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA2 = 0;
@@ -289,10 +298,15 @@ public class ChoiceTypeActivity extends AppCompatActivity
         editAns3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagA3 == 0) {
-                    editAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
-                    flagA3 = 1;
-                    ans = editAns3.getText().toString();
+                if(flagA3 == 0 ) {
+                    if(flagA2==0 && flagA4==0 && flagA1==0){
+                        editAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                        flagA3 = 1;
+                        ans = editAns3.getText().toString();
+                    }
+                    else{
+                        Toast.makeText(ChoiceTypeActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     editAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA3 = 0;
@@ -303,10 +317,15 @@ public class ChoiceTypeActivity extends AppCompatActivity
         editAns4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagA4 == 0) {
+                if(flagA4 == 0 ) {
+                    if(flagA2==0 && flagA3==0 && flagA1==0){
                     editAns4.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                     flagA4 = 1;
                     ans = editAns4.getText().toString();
+                    }
+                    else{
+                        Toast.makeText(ChoiceTypeActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     editAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA4 = 0;
