@@ -35,7 +35,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "", desc = "";
     int star = 0;
-    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0, flagB=0;
+    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0, flagB=0, flagNoHint=0;
     int flagA1 =0, flagA2=0, flagA3=0,flagA4 =0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
@@ -131,6 +131,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
                 noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
                 flagD = 1;
+                flagNoHint=1;
                 desc = "null";
                 //TODO 힌트 없음도 fragment 만들어?
             }
@@ -175,13 +176,18 @@ public class ChoiceTypeActivity extends AppCompatActivity
                     quiz = editQuiz.getText().toString();
 
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
-                    desc = hintWritingFragment1.editTextHint.getText().toString();
+
+                    if(flagNoHint==0)
+                        desc = hintWritingFragment1.editTextHint.getText().toString();
+                    else
+                        desc="힌트가 없습니다!";
 
                     if(quiz.length() == 0 || ans.length() == 0 || ans1.length() == 0 || ans2.length() == 0 || ans3.length() == 0 || ans4.length() == 0 || desc.length() == 0 || star < 1) {
                         Toast.makeText(ChoiceTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                     } else {
                         postFirebaseDatabaseQuizChoice();
-                        hintWritingFragment1.editTextHint.setText("");
+                        if(flagNoHint==0)
+                            hintWritingFragment1.editTextHint.setText("");
                     }
                 }
 
