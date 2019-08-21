@@ -10,10 +10,11 @@
         android:weightSum="3"
         android:orientation="vertical">
 
-        <ImageView
+        <ImageButton
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:background="#00ff0000"
             android:src="@drawable/ic_icons_text_hint_after"/>
 
         <EditText

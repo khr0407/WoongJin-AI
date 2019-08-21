@@ -40,7 +40,7 @@ public class OXTypeActivity extends AppCompatActivity
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
     int star = 0;
-    int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0;
+    int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
@@ -100,6 +100,7 @@ public class OXTypeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                flagD = 1;
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
                 transaction.addToBackStack(null);
@@ -117,7 +118,10 @@ public class OXTypeActivity extends AppCompatActivity
         noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
+                flagD = 1;
+                //TODO 힌트 없음도 fragment 만들어?
             }
         });
 
@@ -138,15 +142,20 @@ public class OXTypeActivity extends AppCompatActivity
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                quiz = editQuiz.getText().toString();
-
-                HintWritingFragment hintWritingFragment2 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
-                desc = hintWritingFragment2.editTextHint.getText().toString();
-
-                if(quiz.length() == 0 || desc.length() == 0 || star < 1 || (flagAO == 0 && flagAX == 0)) {
-                    Toast.makeText(OXTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
+                if(flagD == 0) {
+                    Toast.makeText(OXTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
                 } else {
-                    postFirebaseDatabaseQuizOX();
+                    quiz = editQuiz.getText().toString();
+
+                    HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
+                    desc = hintWritingFragment1.editTextHint.getText().toString();
+
+                    if(quiz.length() == 0 || desc.length() == 0 || star < 1 || (flagAO == 0 && flagAX == 0)) {
+                        Toast.makeText(OXTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
+                    } else {
+                        postFirebaseDatabaseQuizOX();
+                        hintWritingFragment1.editTextHint.setText("");
+                    }
                 }
             }
         });
@@ -285,7 +294,6 @@ public class OXTypeActivity extends AppCompatActivity
         childUpdates.put("/quiz_list/" + scriptnm + "/type1/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
-        editDesc.setText("");
     }
 
     @Override
