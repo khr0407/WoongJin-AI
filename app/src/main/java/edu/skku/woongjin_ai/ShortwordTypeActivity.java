@@ -36,7 +36,6 @@ public class ShortwordTypeActivity extends AppCompatActivity
     String quiz = "", ans = "", desc = "";
     int star = 0;
     int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0;
-    int flagHint = 0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
@@ -97,7 +96,6 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
                 flagD = 1;
-                flagHint =1;
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
                 transaction.addToBackStack(null);
@@ -108,7 +106,6 @@ public class ShortwordTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flagHint=1;
 
             }
         });
@@ -119,7 +116,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
                 noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
                 flagD = 1;
-                desc = "no hint";
+                desc = "null";
             }
         });
 
@@ -251,15 +248,6 @@ public class ShortwordTypeActivity extends AppCompatActivity
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
         QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(star), desc, "0");
-        /*
-        if(flagHint==1){
-         post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(star), desc, "0");
-        }
-        else{
-            desc ="no hint";
-            post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(star),desc, "0");
-        }*/
-
         postValues = post.toMap();
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
