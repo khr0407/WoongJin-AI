@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ShortwordTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener{
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
     ImageView imageScript, imageCheck, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
@@ -35,9 +36,10 @@ public class ShortwordTypeActivity extends AppCompatActivity
     int star = 0;
     int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0;
     ImageView backgroundImage;
+    ImageButton hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
-    Fragment showScriptFragment;
+    Fragment showScriptFragment, hintWritingFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
         backgroundID = intent.getStringExtra("background");
 
         showScriptFragment = new ShowScriptFragment();
+        hintWritingFragment = new HintWritingFragment();
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageScript = (ImageView) findViewById(R.id.script);
@@ -64,6 +67,9 @@ public class ShortwordTypeActivity extends AppCompatActivity
         //editDesc = (EditText) findViewById(R.id.desc);
         TextView title = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
+        hintWritingButton = (ImageButton) findViewById(R.id.hintWriting);
+        hintVideoButton = (ImageButton) findViewById(R.id.hintVideo);
+        noHintButton = (ImageButton) findViewById(R.id.noHint);
 
         title.setText("지문 제목: " + scriptnm);
 
@@ -81,6 +87,30 @@ public class ShortwordTypeActivity extends AppCompatActivity
                         .error(R.drawable.btn_x)
                         .into(backgroundImage);
                 backgroundImage.setAlpha(0.5f);
+            }
+        });
+
+        hintWritingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentSelectHint, hintWritingFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        hintVideoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        noHintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

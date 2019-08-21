@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,10 +31,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OXTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener {
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener {
 
     DatabaseReference mPostReference;
-    ImageView imageO, imageX, imageScript, imageCheck, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
+    ImageView imageO, imageX, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
     EditText editQuiz, editDesc;
     Intent intent, intentHome;
     String id, scriptnm, backgroundID;
@@ -41,9 +42,10 @@ public class OXTypeActivity extends AppCompatActivity
     int star = 0;
     int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0;
     ImageView backgroundImage;
+    ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
-    Fragment showScriptFragment;
+    Fragment showScriptFragment, hintWritingFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,21 +58,24 @@ public class OXTypeActivity extends AppCompatActivity
         backgroundID = intent.getStringExtra("background");
 
         showScriptFragment = new ShowScriptFragment();
+        hintWritingFragment = new HintWritingFragment();
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageO = (ImageView) findViewById(R.id.o);
         imageX = (ImageView) findViewById(R.id.x);
-        imageScript = (ImageView) findViewById(R.id.script);
-        imageCheck = (ImageView) findViewById(R.id.check);
         imageStar1 = (ImageView) findViewById(R.id.star1);
         imageStar2 = (ImageView) findViewById(R.id.star2);
         imageStar3 = (ImageView) findViewById(R.id.star3);
         imageStar4 = (ImageView) findViewById(R.id.star4);
         imageStar5 = (ImageView) findViewById(R.id.star5);
         editQuiz = (EditText) findViewById(R.id.quiz);
-        //editDesc = (EditText) findViewById(R.id.desc);
         TextView title = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
+        checkButton = (ImageButton) findViewById(R.id.check);
+        scriptButton = (ImageButton) findViewById(R.id.script);
+        hintWritingButton = (ImageButton) findViewById(R.id.hintWriting);
+        hintVideoButton = (ImageButton) findViewById(R.id.hintVideo);
+        noHintButton = (ImageButton) findViewById(R.id.noHint);
 
         title.setText("지문 제목: " + scriptnm);
 
@@ -91,7 +96,32 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
-        imageScript.setOnClickListener(new View.OnClickListener() {
+        hintWritingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentSelectHint, hintWritingFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        hintVideoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        noHintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -100,15 +130,19 @@ public class OXTypeActivity extends AppCompatActivity
                 bundle.putString("scriptnm", scriptnm);
                 bundle.putString("type", "ox");
                 showScriptFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
 
-        imageCheck.setOnClickListener(new View.OnClickListener() {
+        checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 quiz = editQuiz.getText().toString();
-                desc = editDesc.getText().toString();
+
+                HintWritingFragment hintWritingFragment2 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
+                desc = hintWritingFragment2.editTextHint.getText().toString();
+
                 if(quiz.length() == 0 || desc.length() == 0 || star < 1 || (flagAO == 0 && flagAX == 0)) {
                     Toast.makeText(OXTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                 } else {
