@@ -273,6 +273,7 @@
                                             android:padding="5dp"
                                             android:background="@drawable/ic_icons_selector_standard"
                                             android:gravity="center"
+                                            android:fontFamily="@font/typo_sherlock_l"
                                             android:hint="1번을 입력하시오."
                                             android:textSize="10dp" />
                                     </LinearLayout>
@@ -288,6 +289,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:padding="5dp"
+                                            android:fontFamily="@font/typo_sherlock_l"
                                             android:hint="2번을 입력하시오."
                                             android:textSize="10dp"
                                             android:gravity="center"
@@ -313,6 +315,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:padding="5dp"
+                                            android:fontFamily="@font/typo_sherlock_l"
                                             android:hint="3번을 입력하시오."
                                             android:textSize="10dp"
                                             android:gravity="center"
@@ -331,6 +334,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:padding="5dp"
+                                            android:fontFamily="@font/typo_sherlock_l"
                                             android:hint="4번을 입력하시오."
                                             android:textSize="10dp"
                                             android:gravity="center"
@@ -423,17 +427,20 @@
                             android:weightSum="2"
                             >
                             <ImageButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
                                 android:id="@+id/script"
+                                android:background="#00ff0000"
                                 android:src="@drawable/ic_icons_see_script"
                                 android:layout_weight="1"
                                 />
                             <ImageButton
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
                                 android:id="@+id/check"
-                                android:src="@drawable/ic_icons_quiz_complete"
+                                android:background="#00ff0000"
+
+                                android:src="@drawable/ic_icons_quiz_complete_inactivate"
                                 android:layout_weight="1"
                                 />
                         </LinearLayout>

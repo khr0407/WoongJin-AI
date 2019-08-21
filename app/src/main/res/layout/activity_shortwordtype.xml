@@ -349,6 +349,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/script"
                                 android:src="@drawable/ic_icons_see_script"
+                                android:background="#00ff0000"
                                 android:layout_weight="1"
                                 />
                             <ImageButton
@@ -356,6 +357,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/check"
                                 android:src="@drawable/ic_icons_quiz_complete_inactivate"
+                                android:background="#00ff0000"
                                 android:layout_weight="1"
                                 />
                         </LinearLayout>

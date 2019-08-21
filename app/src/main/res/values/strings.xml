@@ -12,4 +12,5 @@
     <string name="ox_quiz">선택한 OX 퀴즈에 맞춰서 퀴즈를 내보자\n친구들에게 힌트를 영상으로 찍어 줄 수 있어!</string>
     <string name="choice_quiz">선택한 선택지 퀴즈에 맞춰서 퀴즈를 내보자\n친구들에게 힌트를 영상으로 찍어 줄 수 있어!</string>
     <string name="shortword_quiz">선택한 단답형 퀴즈에 맞춰서 퀴즈를 내보자\n친구들에게 힌트를 영상으로 찍어 줄 수 있어!</string>
+    <string name="video_hint">다른 친구들에게 불쾌감을\n줄 수 있는 영상은\n이용에 제한을 받을 수 있습니다.</string>
 </resources>
