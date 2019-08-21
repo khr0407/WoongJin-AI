@@ -20,19 +20,25 @@ public class ChatroomActivity extends Activity {
     ArrayList<String> data;
     String roomname;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //타이틀바 없애기
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_chatroom);
 
         data = new ArrayList<String>();
-        intent = getIntent();
+        Intent intent = getIntent();
+        //roomname = intent.getExtras().getString("RoomName");
+        //txtText.setText(roomname);
 
-        roomname=intent.getStringExtra("room_name");
 
+        //UI 객체생성
+        //txtText = (TextView)findViewById(R.id.txtText);
 
+        //데이터 가져오기
+        //Intent intent = getIntent();
     }
 
     //확인 버튼 클릭
@@ -55,9 +61,9 @@ public class ChatroomActivity extends Activity {
         return true;
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        //안드로이드 백버튼 막기
-//        return;
-//    }
+    @Override
+    public void onBackPressed() {
+        //안드로이드 백버튼 막기
+        return;
+    }
 }

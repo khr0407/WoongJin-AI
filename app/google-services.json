@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "155029413465-n7rht6u8vesh6hvr3qr4jpm1h8rr1onu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.skku.woongjin_ai",
+            "certificate_hash": "d03b58b75a79407c98ff321e25e6b20a8ba34442"
+          }
+        },
+        {
+          "client_id": "155029413465-spmo37ab9gfhfd7uke7pmgu3kti7j6ar.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.skku.woongjin_ai",
+            "certificate_hash": "8c7cc01e962c7a3a29bbce89cc1acf0171d0c4b7"
+          }
+        },
+        {
           "client_id": "155029413465-ilk391ovkl0qf3ff33nbbhrulbr4kpeg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
