@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,25 +28,32 @@ import com.kakao.util.helper.log.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
 public class ShowFriendActivity extends Activity {
-    private DatabaseReference mPostReference, mPostReference2;;
+    private DatabaseReference mPostReference, mPostReference2;
     ListView friend_list, recommendfriend_list;
     ArrayList<String> data, recommendListArrayList;
     ArrayAdapter<String> arrayAdapter, recommendListArrayAdapter;
     ArrayList<UserInfo> recommendList;
     UserInfo me;
-    String id_key, newfriend_nickname, newfriend_name;
+
+    String id_key, friend_nickname;
+    String newfriend_nickname, newfriend_name;
     Button invitefriend, addfriend;
-    int check;
+
+    Intent intent;
+    int check_choose, check_recommend;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showfriend);
 
-        check = 0;
+        check_choose = 0;
+        check_recommend = 0;
 
         invitefriend = (Button) findViewById(R.id.invitefriend);
         addfriend = (Button)findViewById(R.id.addfriend);
@@ -59,15 +67,8 @@ public class ShowFriendActivity extends Activity {
         recommendList = new ArrayList<UserInfo>();
         recommendList.clear();
 
-        final Intent intent = getIntent();
+        intent = getIntent();
         id_key = intent.getStringExtra("id");
-
-        if (onlyNumCheck(id_key) == true) {
-            mPostReference = FirebaseDatabase.getInstance().getReference().child("kakaouser_list").child(id_key).child("friend");
-        }
-        else if (onlyNumCheck(id_key) == false) {
-            mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("friend");
-        }
 
         mPostReference2 = FirebaseDatabase.getInstance().getReference();
         arrayAdapter = new ArrayAdapter<String>(ShowFriendActivity.this, android.R.layout.simple_list_item_1);
@@ -75,6 +76,13 @@ public class ShowFriendActivity extends Activity {
 
         friend_list.setAdapter(arrayAdapter);
         recommendfriend_list.setAdapter(recommendListArrayAdapter);
+
+        if (onlyNumCheck(id_key) == true) {
+            mPostReference = FirebaseDatabase.getInstance().getReference().child("kakaouser_list").child(id_key).child("friend");
+        }
+        else if (onlyNumCheck(id_key) == false) {
+            mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("friend");
+        }
 
         invitefriend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,13 +96,11 @@ public class ShowFriendActivity extends Activity {
                 )
                         .setButtonTitle("친구야 같이 하자!")
                         .build();
-
                 KakaoLinkService.getInstance().sendDefault(ShowFriendActivity.this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
                     @Override
                     public void onFailure(ErrorResult errorResult) {
                         Logger.e(errorResult.toString());
                     }
-
                     @Override
                     public void onSuccess(KakaoLinkResponse result) {
                     }
@@ -102,17 +108,13 @@ public class ShowFriendActivity extends Activity {
             }
         });
 
-        /*friend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        friend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String chatfriend = friend_list.getItemAtPosition(position).toString();
-                Intent intent_chatlist = new Intent(ShowFriendActivity.this, ChatListActivity.class);
-                intent_chatlist = new Intent(ShowFriendActivity.this, ChatListActivity.class);
-                intent_chatlist.putExtra("chatfriend",chatfriend);
-                startActivity(intent_chatlist);
-                finish();
+                friend_nickname = friend_list.getItemAtPosition(position).toString();
+                check_choose = 1;
             }
-        });*/
+        });
 
         recommendfriend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -120,18 +122,20 @@ public class ShowFriendActivity extends Activity {
                 String temp = recommendListArrayList.get(position).split("\\]")[0];
                 newfriend_nickname = temp.split("\\[")[0];
                 newfriend_name = temp.split("\\[")[1];
-                check = 1;
+                check_recommend = 1;
             }
         });
 
         addfriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(check == 0) {
+                if (check_recommend == 0) {
                     Toast.makeText(ShowFriendActivity.this, "추가할 친구를 선택하세요.", Toast.LENGTH_SHORT).show();
                 }
-                else if (check == 1) {
+                else if (check_recommend == 1) {
                     postFirebaseDatabase(true);
+                    Toast.makeText(ShowFriendActivity.this, newfriend_nickname + "이 친구리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                    check_recommend = 0;
                 }
             }
         });
@@ -147,7 +151,6 @@ public class ShowFriendActivity extends Activity {
                 Toast.makeText(getApplicationContext(), "Successfully sent KakaoLink v2 message.", Toast.LENGTH_LONG).show();
             }
         };
-
         getFirebaseDatabase();
         getFirebaseDatabaseRecommendFriendList();
     }
@@ -187,7 +190,6 @@ public class ShowFriendActivity extends Activity {
                         }
                     }
                 }
-
                 int cntAll = recommendList.size();
                 Random generator = new Random();
                 int[] randList = new int[10]; //TODO 10 나중에 수정??
@@ -200,7 +202,6 @@ public class ShowFriendActivity extends Activity {
                         }
                     }
                 }
-
                 for(int i = 0; i < 5; i++) {
                     UserInfo finalRecommend = recommendList.get(randList[i]);
                     String post = finalRecommend.nickname + "[" + finalRecommend.name + "]"+ "\n" + finalRecommend.birth + "\n" + finalRecommend.school;
