@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
@@ -22,60 +21,13 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/newlinear1">
-
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:ems="10"
-            android:text=" You want to chat with "
-            android:textSize="7pt"/>
-
-        <TextView
-            android:id="@+id/friend"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="" />
-
-        <Button
-            android:id="@+id/search"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="SEARCH" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/newlinear1"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <EditText
-            android:id="@+id/roomname"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:ems="10"
-            android:hint="Type New Chat Name"
-            android:inputType="textPersonName" />
+        app:layout_constraintBottom_toBottomOf="parent" >
 
         <Button
             android:id="@+id/create"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="CREATE" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/popuptest"
-            />
+            android:text="채팅방 만들기" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

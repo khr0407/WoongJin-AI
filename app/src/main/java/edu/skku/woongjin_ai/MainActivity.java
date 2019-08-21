@@ -1,5 +1,6 @@
 package edu.skku.woongjin_ai;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     ListView mListView;
@@ -112,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getFirebaseDatabaseScriptList(){
+
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

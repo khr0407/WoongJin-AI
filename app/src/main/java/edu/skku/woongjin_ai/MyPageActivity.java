@@ -50,7 +50,7 @@ public class MyPageActivity extends AppCompatActivity {
         userNickname = (TextView) findViewById(R.id.userNickname);
         userName = (TextView) findViewById(R.id.userName);
         userCoin = (TextView) findViewById(R.id.userCoin);
-        logout = (Button) findViewById(R.id.logOut);
+        logout = (Button) findViewById(R.id.logout);
 
         getFirebaseDatabaseUserInfo();
 
