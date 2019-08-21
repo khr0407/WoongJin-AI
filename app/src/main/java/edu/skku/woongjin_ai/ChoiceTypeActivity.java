@@ -135,7 +135,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", scriptnm);
-                bundle.putString("type", "ox");
+                bundle.putString("type", "choice");
                 showScriptFragment.setArguments(bundle);
                 //transaction.addToBackStack(null);
                 transaction.commit();
