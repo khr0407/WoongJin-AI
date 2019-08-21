@@ -42,18 +42,23 @@
         <activity android:name=".SelectTypeActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".OXTypeActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".ChoiceTypeActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".ShortwordTypeActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".TemplateActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".MyPageActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".ChatListActivity"
-            android:screenOrientation="landscape"/>
         <activity android:name=".ShowFriendActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".AddFriendActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ChatListActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".WebViewActivity"
             android:screenOrientation="landscape"/>
@@ -61,5 +66,10 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".ReadScriptActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".MyQuizActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ChatroomActivity"
+            android:screenOrientation="landscape"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
     </application>
 </manifest>

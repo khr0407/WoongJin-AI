@@ -8,4 +8,8 @@
     <string name="msg_search_address">주소 검색(다음)</string>
     <string name="hint_school">학교주소를 검색하세요.</string>
     <string name="hint_school_detail">학교 이름을 입력 하세요.</string>
+    <string name="select_quiz_type">이제 다른 친구들에게 퀴즈를 한 번 내볼까?\n퀴즈를 내고 이 달의 출제왕이 되어보자!</string>
+    <string name="ox_quiz">선택한 OX 퀴즈에 맞춰서 퀴즈를 내보자\n친구들에게 힌트를 영상으로 찍어 줄 수 있어!</string>
+    <string name="choice_quiz">선택한 선택지 퀴즈에 맞춰서 퀴즈를 내보자\n친구들에게 힌트를 영상으로 찍어 줄 수 있어!</string>
+    <string name="shortword_quiz">선택한 단답형 퀴즈에 맞춰서 퀴즈를 내보자\n친구들에게 힌트를 영상으로 찍어 줄 수 있어!</string>
 </resources>

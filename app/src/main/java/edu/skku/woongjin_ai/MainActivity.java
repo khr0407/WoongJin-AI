@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> scriptList, backgroundList;
     ArrayAdapter<String> adapter;
     Intent intent, intentType, intentMyPage, intentReadScript;
+    ArrayAdapter<String> scriptAdapter;
     String id;
     String check = "";
     Button buttonSelectType, buttonMyPage, buttonReadScript;
@@ -57,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         scriptList = new ArrayList<String>();
+        scriptAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
+        mListView.setAdapter(scriptAdapter);
         backgroundList = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
         mListView.setAdapter(adapter);
@@ -80,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 intentMyPage = new Intent(MainActivity.this, MyPageActivity.class);
                 intentMyPage.putExtra("id", id);
                 startActivity(intentMyPage);
+                finish();
             }
         });
 
@@ -90,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Choose a script", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(intentType);
+                    finish();
                 }
             }
         });
