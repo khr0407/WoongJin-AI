@@ -22,58 +22,6 @@
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="ID"
-                android:textAlignment="center"
-                android:textSize="19dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/editTextID"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Type your id"
-                android:inputType="text"
-                android:text="" />
-            <Button
-                android:id="@+id/check_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="CHECK ID" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:text="PW"
-                android:textAlignment="center"
-                android:textSize="19dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/editTextPW"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Type your password"
-                android:inputType="textPassword"
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
                 android:text="이름"
                 android:textAlignment="center"
                 android:textSize="19dp"
@@ -107,9 +55,10 @@
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Type your name"
+                android:hint="Type your nickname"
                 android:inputType="text"
                 android:text="" />
+
             <Button
                 android:id="@+id/check_nickname"
                 android:layout_width="wrap_content"
@@ -233,7 +182,6 @@
                 android:text="Register"
                 app:layout_constraintLeft_toRightOf="@+id/search_address" />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -252,14 +200,7 @@
                     android:inputType="text"
                     android:minLines="2" />
             </android.support.design.widget.TextInputLayout>
-
-
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"/>
 
     </LinearLayout>
 

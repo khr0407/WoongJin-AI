@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -16,7 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
-public class ScriptActivity extends AppCompatActivity {
+public class ShowFriendActivity extends AppCompatActivity {
     private DatabaseReference mPostReference;
     ListView friend_list;
     ArrayList<String> data;
@@ -26,7 +28,7 @@ public class ScriptActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_script);
+        setContentView(R.layout.activity_showfriend);
 
 
         friend_list = findViewById(R.id.friend_list);
@@ -37,8 +39,18 @@ public class ScriptActivity extends AppCompatActivity {
         id_key = intent.getStringExtra("id");
 
         mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("friend");
-        arrayAdapter = new ArrayAdapter<String>(ScriptActivity.this, android.R.layout.simple_list_item_1);
+        arrayAdapter = new ArrayAdapter<String>(ShowFriendActivity.this, android.R.layout.simple_list_item_1);
         friend_list.setAdapter(arrayAdapter);
+        friend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String friend_key = data.get(position);
+                Intent intent_chatlist = new Intent(ShowFriendActivity.this, ChatListActivity.class);
+                intent_chatlist.putExtra("chatfriend", friend_key);
+                intent_chatlist.putExtra("id", id_key);
+                startActivity(intent_chatlist);
+                finish();
+            }
+        });
         getFirebaseDatabase();
     }
 

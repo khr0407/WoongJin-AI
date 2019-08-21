@@ -99,20 +99,19 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="프로필 사진 고르기" />
+            android:text="프로필 사진 바꾸기"/>
 
         <Button
-            android:id="@+id/imagechoose"
+            android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="업로드"/>
+            android:text="로그아웃"/>
 
 
     </LinearLayout>
 
 </LinearLayout>
-

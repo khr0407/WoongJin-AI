@@ -1,13 +1,16 @@
 package edu.skku.woongjin_ai;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -27,6 +30,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -36,15 +41,15 @@ public class MyPageActivity extends AppCompatActivity {
 
     private StorageReference mStorageRef;
     private Button btchoose;
-    private Button btupload;
     private ImageView ivPreview;
-
     private Uri filePath;
 
     public DatabaseReference mPostReference;
-    Intent intent, intentAddFriend;
+    Intent intent, intentAddFriend, intent_chatlist;
     String id, name = "", coin = "";
     Button buttonFriendList;
+    Button userLetter;
+    Button logout;
     TextView userIDT, userNameT, userCoinT;
 
 
@@ -53,10 +58,9 @@ public class MyPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
 
-
-        btchoose = (Button) findViewById(R.id.imagechoose);
-        btupload = (Button) findViewById(R.id.imageupload);
+        btchoose = (Button) findViewById(R.id.imageupload);
         ivPreview = (ImageView) findViewById(R.id.imageView2);
+        logout = (Button)findViewById(R.id.logout);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
@@ -65,6 +69,7 @@ public class MyPageActivity extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         buttonFriendList = findViewById(R.id.friendList);
+        userLetter = findViewById(R.id.userLetter);
         userIDT = (TextView) findViewById(R.id.userID);
         userNameT = (TextView) findViewById(R.id.userName);
         userCoinT = (TextView) findViewById(R.id.userCoin);
@@ -76,18 +81,38 @@ public class MyPageActivity extends AppCompatActivity {
         buttonFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentAddFriend = new Intent(MyPageActivity.this, ScriptActivity.class);
+                intentAddFriend = new Intent(MyPageActivity.this, ShowFriendActivity.class);
                 intentAddFriend.putExtra("id", id);
                 startActivity(intentAddFriend);
-                finish();
             }
         });
 
-        //버튼 클릭 이벤트
+        userLetter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent_chatlist = new Intent(MyPageActivity.this, ChatListActivity.class);
+                intent_chatlist.putExtra("id", id);
+                startActivity(intent_chatlist);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserManagement.requestLogout(new LogoutResponseCallback() {
+                    @Override
+                    public void onCompleteLogout() {
+                        Intent intent = new Intent(MyPageActivity.this, LoginActivity.class);
+                        ActivityCompat.finishAffinity(MyPageActivity.this);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
+
         btchoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //이미지를 선택
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -95,26 +120,15 @@ public class MyPageActivity extends AppCompatActivity {
             }
         });
 
-        btupload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //업로드
-                uploadFile();
-            }
-        });
-
     }
 
-    //결과 처리
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        //request코드가 0이고 OK를 선택했고 data에 뭔가가 들어 있다면
         if(requestCode == 0 && resultCode == RESULT_OK){
             filePath = data.getData();
             Log.d("MyActivity", "uri:" + String.valueOf(filePath));
             try {
-                //Uri 파일을 Bitmap으로 만들어서 ImageView에 집어 넣는다.
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 ivPreview.setImageBitmap(bitmap);
             } catch (IOException e) {
@@ -123,35 +137,26 @@ public class MyPageActivity extends AppCompatActivity {
         }
     }
 
-    //upload the file
     private void uploadFile() {
-        //업로드할 파일이 있으면 수행
         if (filePath != null) {
-            //업로드 진행 Dialog 보이기
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("업로드중...");
             progressDialog.show();
 
-            //storage
             FirebaseStorage storage = FirebaseStorage.getInstance();
 
-            //Unique한 파일명을 만들자.
             SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMHH_mmss");
             Date now = new Date();
             String filename = formatter.format(now) + ".png";
-            //storage 주소와 폴더 파일명을 지정해 준다.
             StorageReference storageRef = storage.getReferenceFromUrl("gs://yourStorage.appspot.com").child("images/" + filename);
-            //올라가거라...
             storageRef.putFile(filePath)
-                    //성공시
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
+                            progressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    //실패시
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
@@ -159,13 +164,11 @@ public class MyPageActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "업로드 실패!", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    //진행중
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            @SuppressWarnings("VisibleForTests") //이걸 넣어 줘야 아랫줄에 에러가 사라진다. 넌 누구냐?
+                            @SuppressWarnings("VisibleForTests")
                                     double progress = (100 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
-                            //dialog에 진행률을 퍼센트로 출력해 준다
                             progressDialog.setMessage("Uploaded " + ((int) progress) + "% ...");
                         }
                     });
@@ -178,7 +181,7 @@ public class MyPageActivity extends AppCompatActivity {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list").getChildren()) {
                     String key = snapshot.getKey();
                     if(id.equals(key)) {
                         UserInfo get = snapshot.getValue(UserInfo.class);
@@ -189,6 +192,7 @@ public class MyPageActivity extends AppCompatActivity {
                         break;
                     }
                 }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
