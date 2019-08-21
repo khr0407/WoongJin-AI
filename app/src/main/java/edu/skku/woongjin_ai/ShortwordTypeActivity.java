@@ -116,6 +116,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
                 noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
                 flagD = 1;
+                desc = "null";
             }
         });
 
