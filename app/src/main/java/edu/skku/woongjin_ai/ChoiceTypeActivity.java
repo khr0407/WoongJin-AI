@@ -35,6 +35,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
     String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "", desc = "";
     int star = 0;
     int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0;
+    int flagA1 =0, flagA2=0, flagA3=0,flagA4 =0;
     ImageView backgroundImage;
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
@@ -201,6 +202,54 @@ public class ChoiceTypeActivity extends AppCompatActivity
                     star--;
                     imageStar5.setImageResource(R.drawable.unchecked_circle_white);
                     flagS5 = 0;
+                }
+            }
+        });
+        editAns1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(flagA1 == 0) {
+                    editAns1.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                    flagA1 = 1;
+                } else {
+                    editAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    flagA1 = 0;
+                }
+            }
+        });
+        editAns2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(flagA2 == 0) {
+                    editAns2.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                    flagA2 = 1;
+                } else {
+                    editAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    flagA2 = 0;
+                }
+            }
+        });
+        editAns3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(flagA3 == 0) {
+                    editAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                    flagA3 = 1;
+                } else {
+                    editAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    flagA3 = 0;
+                }
+            }
+        });
+        editAns4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(flagA4 == 0) {
+                    editAns4.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                    flagA4 = 1;
+                } else {
+                    editAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    flagA4 = 0;
                 }
             }
         });
