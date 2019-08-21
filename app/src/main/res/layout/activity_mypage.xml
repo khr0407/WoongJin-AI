@@ -20,7 +20,7 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/userID"
+            android:id="@+id/userName"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -28,7 +28,7 @@
             android:textSize="20dp" />
 
         <TextView
-            android:id="@+id/userName"
+            android:id="@+id/userNickname"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
@@ -114,3 +114,4 @@
     </LinearLayout>
 
 </LinearLayout>
+

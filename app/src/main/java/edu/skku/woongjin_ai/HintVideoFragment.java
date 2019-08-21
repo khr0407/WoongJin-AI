@@ -9,10 +9,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.TextView;
 
-public class HintWritingFragment extends Fragment {
+public class HintVideoFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -20,17 +18,14 @@ public class HintWritingFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private HintWritingFragment.OnFragmentInteractionListener mListener;
+    private HintVideoFragment.OnFragmentInteractionListener mListener;
 
-    EditText editTextHint;
-    String desc = "";
-
-    public HintWritingFragment() {
+    public HintVideoFragment() {
 
     }
 
-    public static HintWritingFragment newInstance(String param1, String param2) {
-        HintWritingFragment fragment = new HintWritingFragment();
+    public static HintVideoFragment newInstance(String param1, String param2) {
+        HintVideoFragment fragment = new HintVideoFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -50,25 +45,19 @@ public class HintWritingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_hintwriting, container, false);
+        final View view = inflater.inflate(R.layout.fragment_hintvideo, container, false);
         final Context context = container.getContext();
 
-        editTextHint = (EditText) view.findViewById(R.id.hint);
+
 
         return view;
-    }
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof HintWritingFragment.OnFragmentInteractionListener) {
-            mListener = (HintWritingFragment.OnFragmentInteractionListener) context;
+        if (context instanceof HintVideoFragment.OnFragmentInteractionListener) {
+            mListener = (HintVideoFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

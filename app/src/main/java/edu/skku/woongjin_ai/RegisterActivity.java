@@ -51,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     DatabaseReference mPostReference;
     Intent intent;
+    int flag = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +80,6 @@ public class RegisterActivity extends AppCompatActivity {
         yearAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, yearList);
         yearspinner = (Spinner) findViewById(R.id.year);
         yearspinner.setAdapter(yearAdapter);
-        //year = yearspinner.getSelectedItem().toString();
         yearspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -114,7 +114,6 @@ public class RegisterActivity extends AppCompatActivity {
         dayAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, dayList);
         dayspinner = (Spinner) findViewById(R.id.day);
         dayspinner.setAdapter(dayAdapter);
-        //day = dayspinner.getSelectedItem().toString();
         dayspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -124,14 +123,12 @@ public class RegisterActivity extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
         genderList = new ArrayList<>();
         genderList.add("남");
         genderList.add("여");
         genderAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, genderList);
         genderspinner = (Spinner) findViewById(R.id.gender);
         genderspinner.setAdapter(genderAdapter);
-        //gender = genderspinner.getSelectedItem().toString();
         genderspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -190,13 +187,7 @@ public class RegisterActivity extends AppCompatActivity {
                 address1 = et_address.getText().toString();
                 address2 = et_address_detail.getText().toString();
                 school = et_school_detail.getText().toString();
-                if ((id.length() == 0 || pw.length() == 0 || name.length() == 0 || nickname.length() == 0 || birth.length() == 0
-                        || gender.length() == 0 || address1.length() == 0 || address2.length() == 0 || school.length() == 0) &&
-                        (spaceCheck(id) == true || spaceCheck(pw) == true || spaceCheck(name) == true || spaceCheck(birth) == true
-                                || spaceCheck(gender) == true || spaceCheck(address1) == true || spaceCheck(address2) == true || spaceCheck(school) == true)) {
-                    Toast.makeText(RegisterActivity.this, "모든 칸을 채워주세요.", Toast.LENGTH_SHORT).show();
-                }
-                else if ((use_id == 0 || use_nickname == 0) && use_searchaddress == 0) {
+                if ((use_id == 0 || use_nickname == 0) && use_searchaddress == 0) {
                     Toast.makeText(RegisterActivity.this, "중복체크 및 주소검색을 먼저 해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else if (use_id == 0 || use_nickname == 0) {
@@ -204,6 +195,14 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 else if (use_searchaddress == 0) {
                     Toast.makeText(RegisterActivity.this, "주소검색을 먼저 해주세요.", Toast.LENGTH_SHORT).show();
+                }
+                if (id.length() == 0 || pw.length() == 0 || name.length() == 0 || nickname.length() == 0 || birth.length() == 0
+                        || gender.length() == 0 || address1.length() == 0 || address2.length() == 0 || school.length() == 0) {
+                    Toast.makeText(RegisterActivity.this, "모든 칸을 채워주세요.", Toast.LENGTH_SHORT).show();
+                }
+                if (spaceCheck(id) == true || spaceCheck(pw) == true || spaceCheck(name) == true || spaceCheck(birth) == true
+                        || spaceCheck(gender) == true || spaceCheck(address1) == true || spaceCheck(address2) == true || spaceCheck(school) == true) {
+                    Toast.makeText(RegisterActivity.this, "공백으로만 구성된 칸은 존재할 수 없습니다.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     postFirebaseDatabaseUserInfo();

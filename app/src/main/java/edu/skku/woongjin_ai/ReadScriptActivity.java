@@ -27,7 +27,7 @@ import com.squareup.picasso.Picasso;
 public class ReadScriptActivity extends AppCompatActivity
         implements SelectStudyTypeFragment.OnFragmentInteractionListener {
     public DatabaseReference mPostReference;
-    Intent intent, intentHome;
+    Intent intent, intentHome, intentStudyWord;
     String userID, title, backgroundID, script, studyType = "";
     TextView textview_title, textview_script_1, textview_script_2;
     ImageView backgroundImage;
@@ -119,13 +119,16 @@ public class ReadScriptActivity extends AppCompatActivity
         });
 
         goStudyWord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO 이미지 바꾸기
-                //TODO 단어 공부하기 intent
-            }
-        });
-    }
+        @Override
+        public void onClick(View v) {
+            intentStudyWord = new Intent(ReadScriptActivity.this, WordListActivity.class);
+            intentStudyWord.putExtra("scriptnm",title);
+            intentStudyWord.putExtra("id", userID);
+            intentStudyWord.putExtra("background", backgroundID);
+            startActivity(intentStudyWord);
+        }
+    });
+}
 
     public void onStudyTypeInfoSet(String type) {
         studyType = type;
