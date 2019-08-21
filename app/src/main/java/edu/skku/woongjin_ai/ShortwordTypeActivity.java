@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ShortwordTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener{
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
     ImageView imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
@@ -35,12 +35,12 @@ public class ShortwordTypeActivity extends AppCompatActivity
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
     int star = 0;
-    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0;
+    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0, flagB=0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
-    Fragment showScriptFragment, hintWritingFragment;
+    Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
 
         showScriptFragment = new ShowScriptFragment();
         hintWritingFragment = new HintWritingFragment();
+        hintVideoFragment = new HintVideoFragment();
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageStar1 = (ImageView) findViewById(R.id.star1);
@@ -106,7 +107,13 @@ public class ShortwordTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                scriptButton.setImageResource(R.drawable.ic_icons_go_back);
+                flagB = 1;
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentSelectHint, hintVideoFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                //TODO 뒤로가기 눌렀을 때 checkButton 비활성화 + flagD 0으로 만들기
             }
         });
 
@@ -123,14 +130,22 @@ public class ShortwordTypeActivity extends AppCompatActivity
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptShortword, showScriptFragment);
-                Bundle bundle = new Bundle(2);
-                bundle.putString("scriptnm", scriptnm);
-                bundle.putString("type", "shortword");
-                showScriptFragment.setArguments(bundle);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                if(flagB == 1) {
+                    scriptButton.setImageResource(R.drawable.ic_icons_see_script);
+                    flagB = 0;
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.remove(hintVideoFragment);
+                    transaction.commit();
+                } else {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.contentShowScriptShortword, showScriptFragment);
+                    Bundle bundle = new Bundle(2);
+                    bundle.putString("scriptnm", scriptnm);
+                    bundle.putString("type", "shortword");
+                    showScriptFragment.setArguments(bundle);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
             }
         });
 
