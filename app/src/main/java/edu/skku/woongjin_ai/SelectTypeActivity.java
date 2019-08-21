@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -39,12 +40,15 @@ public class SelectTypeActivity extends AppCompatActivity {
         frameChoice = (FrameLayout) findViewById(R.id.quiz_choice);
         frameShortword = (FrameLayout) findViewById(R.id.quiz_shortword);
         Button showTemplate = (Button) findViewById(R.id.template);
+        TextView textViewTitle = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+
+        textViewTitle.setText("지문 제목: " + scriptnm);
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getInstance().getReference();
