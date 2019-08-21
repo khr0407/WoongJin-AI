@@ -27,16 +27,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     ListView mListView;
     public DatabaseReference mPostReference;
-    ArrayList<String> ScriptList;
+    ArrayList<String> scriptList, backgroundList;
     ArrayAdapter<String> adapter;
-    Intent intent, intentType, intentMyPage;
+    Intent intent, intentType, intentMyPage, intentReadScript;
     String id;
     String check = "";
-    Button buttonSelectType, buttonMyPage;
-
+    Button buttonSelectType, buttonMyPage, buttonReadScript;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +45,34 @@ public class MainActivity extends AppCompatActivity {
 
         buttonSelectType = (Button) findViewById(R.id.selectType);
         buttonMyPage = (Button) findViewById(R.id.myPage);
+        buttonReadScript = (Button) findViewById(R.id.readScript);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
         intentType = new Intent(MainActivity.this, SelectTypeActivity.class);
         intentType.putExtra("id", id);
+        intentReadScript = new Intent(MainActivity.this, ReadScriptActivity.class);
+        intentReadScript.putExtra("id", id);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        ScriptList = new ArrayList<String>();
+        scriptList = new ArrayList<String>();
+        backgroundList = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1);
         mListView.setAdapter(adapter);
 
         getFirebaseDatabaseScriptList();
+
+        buttonReadScript.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(check.length() == 0) {
+                    Toast.makeText(MainActivity.this, "Choose a script", Toast.LENGTH_SHORT).show();
+                } else {
+                    startActivity(intentReadScript);
+                }
+            }
+        });
 
         buttonMyPage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 intentMyPage = new Intent(MainActivity.this, MyPageActivity.class);
                 intentMyPage.putExtra("id", id);
                 startActivity(intentMyPage);
-                finish();
             }
         });
 
@@ -78,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Choose a script", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(intentType);
-                    finish();
                 }
             }
         });
@@ -86,28 +97,28 @@ public class MainActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
-                String script_title = ScriptList.get(position);
-                Intent intent_readscript = new Intent(MainActivity.this, ReadScriptActivity.class);
-                intent_readscript.putExtra("scriptnm",script_title);
-                startActivity(intent_readscript);
-                intentType.putExtra("scriptnm", ScriptList.get(position));
+                intentType.putExtra("scriptnm", scriptList.get(position));
+                intentType.putExtra("background", backgroundList.get(position));
+                intentReadScript.putExtra("scriptnm", scriptList.get(position));
+                intentReadScript.putExtra("background", backgroundList.get(position));
                 check = intentType.getStringExtra("scriptnm");
             }
         });
     }
 
     private void getFirebaseDatabaseScriptList(){
-
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ScriptList.clear();
+                scriptList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String key = snapshot.getKey();
-                    ScriptList.add(key);
+                    String background = snapshot.child("background").getValue().toString();
+                    scriptList.add(key);
+                    backgroundList.add(background);
                 }
                 adapter.clear();
-                adapter.addAll(ScriptList);
+                adapter.addAll(scriptList);
                 adapter.notifyDataSetChanged();
             }
             @Override

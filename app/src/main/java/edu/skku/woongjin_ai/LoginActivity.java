@@ -2,6 +2,7 @@ package edu.skku.woongjin_ai;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethod;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -50,6 +53,10 @@ public class LoginActivity extends AppCompatActivity {
     String savedKakao;
     Intent intent_kakaoregister;
 
+    CheckBox checkbox;
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +70,10 @@ public class LoginActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
         intent_kakaoregister = new Intent(LoginActivity.this, KakaoRegisterActivity.class);
+
+        checkbox = (CheckBox) findViewById(R.id.checkBox);
+        setting = getSharedPreferences("setting", 0);
+        editor = setting.edit();
 
         if (!isLoggedIn()) //카카오톡 로그인이 되어있지 않을 경우
             Session.getCurrentSession().addCallback(callback);
@@ -133,6 +144,28 @@ public class LoginActivity extends AppCompatActivity {
                         public void onCancelled(@NonNull DatabaseError databaseError) {         }
                     };
                     mPostReference.child("user_list").addValueEventListener(postListener);
+                }
+            }
+        });
+
+        if (setting.getBoolean("Auto login is enabled", false)) {
+            editTextID.setText(setting.getString("ID", ""));
+            editTextPW.setText(setting.getString("PW", ""));
+            checkbox.setChecked(true);
+        }
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    String ID = editTextID.getText().toString();
+                    String PW = editTextPW.getText().toString();
+                    editor.putString("ID", ID);
+                    editor.putString("PW", PW);
+                    editor.putBoolean("Auto login is enabled", true);
+                    editor.commit();
+                } else {
+                    editor.clear();
+                    editor.commit();
                 }
             }
         });

@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".GlobalApplication"
@@ -53,9 +56,13 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".ShowFriendActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".ChatFriendActivity"
+            android:screenOrientation="landscape"/>
         <activity android:name=".RecommendFriendActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".WebViewActivity"></activity>
-        <activity android:name=".ReadScriptActivity"></activity>
+        <activity android:name=".WebViewActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ReadScriptActivity"
+            android:screenOrientation="landscape"/>
     </application>
 </manifest>

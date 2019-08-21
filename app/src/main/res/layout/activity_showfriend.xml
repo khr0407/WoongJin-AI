@@ -8,27 +8,32 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/invitefriend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="친구 초대" />
+
+        <Button
+            android:id="@+id/addfriend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="친구 추가" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginLeft="50dp"
         android:orientation="vertical">
-
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
             android:text="친구 목록"
+            android:textAlignment="center"
             android:textSize="20sp" />
 
 
@@ -45,11 +50,10 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
             android:text="친구 추천"
+            android:textAlignment="center"
             android:textSize="20sp" />
 
         <ListView
