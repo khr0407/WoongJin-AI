@@ -35,7 +35,7 @@ public class OXTypeActivity extends AppCompatActivity
 
     DatabaseReference mPostReference;
     ImageView imageO, imageX, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
-    EditText editQuiz, editDesc;
+    EditText editQuiz;
     Intent intent, intentHome;
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
