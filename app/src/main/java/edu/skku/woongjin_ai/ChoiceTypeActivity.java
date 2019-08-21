@@ -29,7 +29,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         implements ShowScriptFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
-    ImageView imageScript, imageCheck, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
+    ImageView scriptButton, checkButton, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
     EditText editQuiz, editAns, editAns1, editAns2, editAns3, editAns4, editDesc;
     Intent intent, intentHome;
     String id, scriptnm, backgroundID;
@@ -58,8 +58,8 @@ public class ChoiceTypeActivity extends AppCompatActivity
         hintVideoFragment = new HintVideoFragment();
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
-        imageScript = (ImageView) findViewById(R.id.script);
-        imageCheck = (ImageView) findViewById(R.id.check);
+        scriptButton = (ImageView) findViewById(R.id.script);
+        checkButton = (ImageView) findViewById(R.id.check);
         imageStar1 = (ImageView) findViewById(R.id.star1);
         imageStar2 = (ImageView) findViewById(R.id.star2);
         imageStar3 = (ImageView) findViewById(R.id.star3);
@@ -124,7 +124,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
             }
         });
 
-        imageScript.setOnClickListener(new View.OnClickListener() {
+        scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -137,7 +137,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
             }
         });
 
-        imageCheck.setOnClickListener(new View.OnClickListener() {
+        checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 quiz = editQuiz.getText().toString();
@@ -305,7 +305,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         editAns2.setText("");
         editAns3.setText("");
         editAns4.setText("");
-        editDesc.setText("");
+        //editDesc.setText("");
     }
 
     @Override
