@@ -131,6 +131,7 @@ public class OXTypeActivity extends AppCompatActivity
                 checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
                 noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
                 flagD = 1;
+                desc = "null";
                 //TODO 힌트 없음도 fragment 만들어?
                 //TODO 뒤로가기 눌렀을 때 checkButton 비활성화 + flagD 0으로 만들기
             }
