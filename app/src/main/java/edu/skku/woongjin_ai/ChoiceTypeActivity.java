@@ -74,6 +74,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         TextView title = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
         checkButton = (ImageButton) findViewById(R.id.check);
+        scriptButton = (ImageButton) findViewById(R.id.script);
         backgroundImage = (ImageView) findViewById(R.id.background);
         hintWritingButton = (ImageButton) findViewById(R.id.hintWriting);
         hintVideoButton = (ImageButton) findViewById(R.id.hintVideo);
@@ -131,11 +132,12 @@ public class ChoiceTypeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
+                transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", scriptnm);
-                bundle.putString("type", "choice");
+                bundle.putString("type", "ox");
                 showScriptFragment.setArguments(bundle);
+                //transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
@@ -144,12 +146,12 @@ public class ChoiceTypeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 quiz = editQuiz.getText().toString();
-                ans = editAns.getText().toString();
+                //ans = editAns.getText().toString();//문제코드
                 ans1 = editAns1.getText().toString();
                 ans2 = editAns2.getText().toString();
                 ans3 = editAns3.getText().toString();
                 ans4 = editAns4.getText().toString();
-                desc = editDesc.getText().toString();
+                //desc = editDesc.getText().toString();
 
                 if(flagD == 0) {
                     Toast.makeText(ChoiceTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
@@ -261,9 +263,11 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 if(flagA1 == 0) {
                     editAns1.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                     flagA1 = 1;
+                    ans = editAns1.getText().toString();
                 } else {
                     editAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA1 = 0;
+                    ans="";
                 }
             }
         });
@@ -273,9 +277,12 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 if(flagA2 == 0) {
                     editAns2.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                     flagA2 = 1;
+                    ans = editAns2.getText().toString();
+
                 } else {
                     editAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA2 = 0;
+                    ans="";
                 }
             }
         });
@@ -285,9 +292,11 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 if(flagA3 == 0) {
                     editAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                     flagA3 = 1;
+                    ans = editAns3.getText().toString();
                 } else {
                     editAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA3 = 0;
+                    ans = "";
                 }
             }
         });
@@ -297,9 +306,11 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 if(flagA4 == 0) {
                     editAns4.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                     flagA4 = 1;
+                    ans = editAns4.getText().toString();
                 } else {
                     editAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA4 = 0;
+                    ans = "";
                 }
             }
         });
@@ -316,12 +327,12 @@ public class ChoiceTypeActivity extends AppCompatActivity
         childUpdates.put("/quiz_list/" + scriptnm + "/type2/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
-        editAns.setText("");
+        //editAns.setText("");
         editAns1.setText("");
         editAns2.setText("");
         editAns3.setText("");
         editAns4.setText("");
-        editDesc.setText("");
+        //editDesc.setText("");
     }
 
     @Override

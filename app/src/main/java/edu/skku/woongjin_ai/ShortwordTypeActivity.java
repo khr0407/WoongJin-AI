@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -139,12 +140,16 @@ public class ShortwordTypeActivity extends AppCompatActivity
                     Toast.makeText(ShortwordTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
                 } else {
                     quiz = editQuiz.getText().toString();
-
+                    ans=editAns.getText().toString();
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
                     desc = hintWritingFragment1.editTextHint.getText().toString();
 
-                    if(quiz.length() == 0 ||ans.length() == 0 || desc.length() == 0 || star < 1 ) {
+                    if(quiz.length() == 0 || ans.length() == 0 || desc.length() == 0 || star < 1 ) {
                         Toast.makeText(ShortwordTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
+//                        Log.d("quiz_length", quiz );
+//                        Log.d("ans_length", ans);
+//                        Log.d("desc_length", desc);
+
                     } else {
                         postFirebaseDatabaseQuizShortword();
                         hintWritingFragment1.editTextHint.setText("");
@@ -250,7 +255,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
         editAns.setText("");
-        editDesc.setText("");
+        //editDesc.setText("");
     }
 
     @Override
