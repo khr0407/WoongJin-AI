@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,15 +19,18 @@ import com.google.firebase.database.ValueEventListener;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
+import java.util.Iterator;
+
+import static com.kakao.usermgmt.StringSet.nickname;
+
 public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
-    Intent intent, intentAddFriend, intent_chatlist;
-    String id, nickname, coin;
-    Button buttonFriendList;
-    Button userLetter;
+    Intent intent, intentAddFriend, intent_chatlist, intent_LikeList, intent_QList;
+    String id, nickname, name, coin;
+    Button btnFriendList, btnuserLetter, btnLikeList, btnQList;
     Button logout;
-    TextView userIDT, userNameT, userCoinT;
+    TextView userNickname, userName, userCoin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,18 +42,19 @@ public class MyPageActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        buttonFriendList = findViewById(R.id.friendList);
-        userLetter = findViewById(R.id.userLetter);
-        userIDT = (TextView) findViewById(R.id.userID);
-        userNameT = (TextView) findViewById(R.id.userName);
-        userCoinT = (TextView) findViewById(R.id.userCoin);
+        btnFriendList = (Button)findViewById(R.id.friendList);
+        btnuserLetter = (Button) findViewById(R.id.userLetter);
+        btnLikeList = (Button) findViewById(R.id.LikeList);
+        btnQList = (Button) findViewById(R.id.QList);
+        btnLikeList = (Button) findViewById(R.id.LikeList);
+        userNickname = (TextView) findViewById(R.id.userNickname);
+        userName = (TextView) findViewById(R.id.userName);
+        userCoin = (TextView) findViewById(R.id.userCoin);
         logout = (Button) findViewById(R.id.logOut);
-
-        userIDT.setText("ID: " + id);
 
         getFirebaseDatabaseUserInfo();
 
-        buttonFriendList.setOnClickListener(new View.OnClickListener() {
+        btnFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intentAddFriend = new Intent(MyPageActivity.this, ShowFriendActivity.class);
@@ -58,13 +63,24 @@ public class MyPageActivity extends AppCompatActivity {
             }
         });
 
-        userLetter.setOnClickListener(new View.OnClickListener() {
+
+        btnuserLetter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent_chatlist = new Intent(MyPageActivity.this, ChatListActivity.class);
                 intent_chatlist.putExtra("id", id);
                 startActivity(intent_chatlist);
             }
+        });
+
+        btnQList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent_LikeList = new Intent(MyPageActivity.this, MyQuizActivity.class);
+                intent_LikeList.putExtra("id",id);
+                startActivity(intent_LikeList);
+            }
+
         });
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -80,39 +96,44 @@ public class MyPageActivity extends AppCompatActivity {
                 });
             }
         });
-
     }
 
     private void getFirebaseDatabaseUserInfo() {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.child("user_list").getChildren()) {
+                for (DataSnapshot snapshot : dataSnapshot.child("user_list").getChildren()) {
                     String key = snapshot.getKey();
-                    if(id.equals(key)) {
+                    if (id.equals(key)) {
                         UserInfo get = snapshot.getValue(UserInfo.class);
+                        name = get.name;
                         nickname = get.nickname;
                         coin = get.coin;
-                        userNameT.setText("닉네임: " + nickname);
-                        userCoinT.setText("코인: " + coin);
+                        userName.setText("이름: " + name);
+                        userNickname.setText("닉네임: " + nickname);
+                        userCoin.setText("코인: " + coin);
                         break;
                     }
                 }
-                for (DataSnapshot snapshot : dataSnapshot.child("kakaouser_list").getChildren()){
+                for (DataSnapshot snapshot : dataSnapshot.child("kakaouser_list").getChildren()) {
                     String key = snapshot.getKey();
-                    if(id.equals(key)){
+                    if (id.equals(key)) {
                         UserInfo get = snapshot.getValue(UserInfo.class);
+                        name = get.name;
                         nickname = get.nickname;
                         coin = get.coin;
-                        userNameT.setText("닉네임: " + nickname);
-                        userCoinT.setText("코인: " + coin);
+                        userName.setText("이름: " + name);
+                        userNickname.setText("닉네임: " + nickname);
+                        userCoin.setText("코인: " + coin);
                         break;
                     }
                 }
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
         };
-        mPostReference.child("user_list").addValueEventListener(postListener);
+        mPostReference.addValueEventListener(postListener);
     }
 }
