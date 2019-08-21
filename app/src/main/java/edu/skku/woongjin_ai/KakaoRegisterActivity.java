@@ -229,6 +229,14 @@ public class KakaoRegisterActivity extends AppCompatActivity {
                 else if (use_nickname == 0) {
                     Toast.makeText(KakaoRegisterActivity.this, "닉네임 체크를 먼저 해주세요.", Toast.LENGTH_SHORT).show();
                 }
+                else if (name.length() == 0 || nickname.length() == 0 || birth.length() == 0
+                        || gender.length() == 0 || address1.length() == 0 || address2.length() == 0 || school.length() == 0) {
+                    Toast.makeText(KakaoRegisterActivity.this, "모든 칸을 채워주세요.", Toast.LENGTH_SHORT).show();
+                }
+                else if (spaceCheck(name) == true || spaceCheck(birth) == true
+                        || spaceCheck(gender) == true || spaceCheck(address1) == true || spaceCheck(address2) == true || spaceCheck(school) == true) {
+                    Toast.makeText(KakaoRegisterActivity.this, "공백으로만 구성된 칸은 존재할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                }
                 else {
                     postFirebaseDatabaseUserInfo();
                     Intent intent_main = new Intent(KakaoRegisterActivity.this, MainActivity.class);

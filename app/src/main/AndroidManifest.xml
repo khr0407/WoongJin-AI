@@ -62,6 +62,8 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".WebViewActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".WordListActivity"
+            android:screenOrientation="landscape"/>
         <activity android:name=".ReadScriptActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".MyQuizActivity"
