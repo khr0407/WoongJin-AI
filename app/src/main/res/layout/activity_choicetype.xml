@@ -57,10 +57,12 @@
                 android:layout_gravity="center"
                 android:src="@drawable/ic_icons_step4"/>
 
-            <LinearLayout
+            <ImageView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="6"></LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_icons_step4"/>
 
         </LinearLayout>
         <LinearLayout
@@ -411,7 +413,7 @@
                                     android:layout_height="0dp"
                                     android:layout_weight="1"
                                     android:background="#00ff0000"
-                                    android:src="@drawable/ic_icons_video_hint_before"/>
+                                    android:src="@drawable/ic_icons_no_hint_before"/>
 
                             </LinearLayout>
 

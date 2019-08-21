@@ -26,22 +26,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChoiceTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener{
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
-    ImageView scriptButton, checkButton, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
+    ImageView imageScript, imageCheck, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
     EditText editQuiz, editAns, editAns1, editAns2, editAns3, editAns4, editDesc;
     Intent intent, intentHome;
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "", desc = "";
     int star = 0;
-    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0;
+    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0;
     int flagA1 =0, flagA2=0, flagA3=0,flagA4 =0;
     ImageView backgroundImage;
-    ImageButton hintWritingButton, hintVideoButton, noHintButton;
+    ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
-    Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
+    Fragment showScriptFragment, hintWritingFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,11 +55,10 @@ public class ChoiceTypeActivity extends AppCompatActivity
 
         showScriptFragment = new ShowScriptFragment();
         hintWritingFragment = new HintWritingFragment();
-        hintVideoFragment = new HintVideoFragment();
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
-        scriptButton = (ImageView) findViewById(R.id.script);
-        checkButton = (ImageView) findViewById(R.id.check);
+        imageScript = (ImageView) findViewById(R.id.script);
+        imageCheck = (ImageView) findViewById(R.id.check);
         imageStar1 = (ImageView) findViewById(R.id.star1);
         imageStar2 = (ImageView) findViewById(R.id.star2);
         imageStar3 = (ImageView) findViewById(R.id.star3);
@@ -73,6 +72,9 @@ public class ChoiceTypeActivity extends AppCompatActivity
         editAns4 = (EditText) findViewById(R.id.ans4);
         //editDesc = (EditText) findViewById(R.id.desc);
         TextView title = (TextView) findViewById(R.id.title);
+        backgroundImage = (ImageView) findViewById(R.id.background);
+        checkButton = (ImageButton) findViewById(R.id.check);
+        scriptButton = (ImageButton) findViewById(R.id.script);
         backgroundImage = (ImageView) findViewById(R.id.background);
         hintWritingButton = (ImageButton) findViewById(R.id.hintWriting);
         hintVideoButton = (ImageButton) findViewById(R.id.hintVideo);
@@ -100,6 +102,8 @@ public class ChoiceTypeActivity extends AppCompatActivity
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                flagD = 1;
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
                 transaction.addToBackStack(null);
@@ -110,17 +114,17 @@ public class ChoiceTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentSelectHint, hintVideoFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+
             }
         });
 
         noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
+                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
+                flagD = 1;
+                //TODO 힌트 없음도 fragment 만들어?
             }
         });
 
@@ -128,11 +132,12 @@ public class ChoiceTypeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
+                transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", scriptnm);
-                bundle.putString("type", "choice");
+                bundle.putString("type", "ox");
                 showScriptFragment.setArguments(bundle);
+                //transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
@@ -141,17 +146,30 @@ public class ChoiceTypeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 quiz = editQuiz.getText().toString();
-                ans = editAns.getText().toString();
+                //ans = editAns.getText().toString();//문제코드
                 ans1 = editAns1.getText().toString();
                 ans2 = editAns2.getText().toString();
                 ans3 = editAns3.getText().toString();
                 ans4 = editAns4.getText().toString();
-                desc = editDesc.getText().toString();
-                if(quiz.length() == 0 || ans.length() == 0 || ans1.length() == 0 || ans2.length() == 0 || ans3.length() == 0 || ans4.length() == 0 || desc.length() == 0 || star < 1) {
-                    Toast.makeText(ChoiceTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
+                //desc = editDesc.getText().toString();
+
+                if(flagD == 0) {
+                    Toast.makeText(ChoiceTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
                 } else {
-                    postFirebaseDatabaseQuizChoice();
+                    quiz = editQuiz.getText().toString();
+
+                    HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
+                    desc = hintWritingFragment1.editTextHint.getText().toString();
+
+                    if(quiz.length() == 0 || ans.length() == 0 || ans1.length() == 0 || ans2.length() == 0 || ans3.length() == 0 || ans4.length() == 0 || desc.length() == 0 || star < 1) {
+                        Toast.makeText(ChoiceTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
+                    } else {
+                        postFirebaseDatabaseQuizChoice();
+                        hintWritingFragment1.editTextHint.setText("");
+                    }
                 }
+
+
             }
         });
 
@@ -161,7 +179,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 intentHome = new Intent(ChoiceTypeActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
-                finish();
+                //finish();
             }
         });
 
@@ -245,9 +263,11 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 if(flagA1 == 0) {
                     editAns1.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                     flagA1 = 1;
+                    ans = editAns1.getText().toString();
                 } else {
                     editAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA1 = 0;
+                    ans="";
                 }
             }
         });
@@ -257,9 +277,12 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 if(flagA2 == 0) {
                     editAns2.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                     flagA2 = 1;
+                    ans = editAns2.getText().toString();
+
                 } else {
                     editAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA2 = 0;
+                    ans="";
                 }
             }
         });
@@ -269,9 +292,11 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 if(flagA3 == 0) {
                     editAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                     flagA3 = 1;
+                    ans = editAns3.getText().toString();
                 } else {
                     editAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA3 = 0;
+                    ans = "";
                 }
             }
         });
@@ -281,9 +306,11 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 if(flagA4 == 0) {
                     editAns4.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                     flagA4 = 1;
+                    ans = editAns4.getText().toString();
                 } else {
                     editAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA4 = 0;
+                    ans = "";
                 }
             }
         });
@@ -300,7 +327,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         childUpdates.put("/quiz_list/" + scriptnm + "/type2/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
-        editAns.setText("");
+        //editAns.setText("");
         editAns1.setText("");
         editAns2.setText("");
         editAns3.setText("");

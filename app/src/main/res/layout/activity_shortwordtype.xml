@@ -57,10 +57,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/ic_icons_step4"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="6"></LinearLayout>
+
 
         </LinearLayout>
 
@@ -190,6 +187,7 @@
                                 android:layout_gravity="center"
                                 android:layout_margin="3dp"
                                 />
+
 
                             <ImageView
                                 android:id="@+id/star5"
@@ -357,7 +355,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/check"
-                                android:src="@drawable/ic_icons_quiz_complete"
+                                android:src="@drawable/ic_icons_quiz_complete_inactivate"
                                 android:layout_weight="1"
                                 />
                         </LinearLayout>
