@@ -41,7 +41,7 @@ public class OXTypeActivity extends AppCompatActivity
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
     int star = 0;
-    int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0, flagB = 0;
+    int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0, flagNoHint = 0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
@@ -107,55 +107,52 @@ public class OXTypeActivity extends AppCompatActivity
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                //TODO 뒤로가기 눌렀을 때 checkButton 비활성화 + flagD 0으로 만들기
-                //TODO 돌아가기 버튼 넣어?
+                //TODO 뒤로가기 버튼 추가 + flagD 0으로 만들기
             }
         });
 
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scriptButton.setImageResource(R.drawable.ic_icons_go_back);
-                flagB = 1;
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentSelectHint, hintVideoFragment);
+                transaction.replace(R.id.contentShowScriptOX, hintVideoFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("type", "ox");
+                hintVideoFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                //TODO 뒤로가기 눌렀을 때 checkButton 비활성화 + flagD 0으로 만들기
             }
         });
 
         noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
-                flagD = 1;
-                desc = "null";
+                if(flagNoHint == 0) {
+                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
+                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                    flagD = 2;
+                    flagNoHint = 1;
+                } else {
+                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
+                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+                    flagD = 0;
+                    flagNoHint = 0;
+                }
                 //TODO 힌트 없음도 fragment 만들어?
-                //TODO 뒤로가기 눌렀을 때 checkButton 비활성화 + flagD 0으로 만들기
             }
         });
 
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagB == 1) {
-                    scriptButton.setImageResource(R.drawable.ic_icons_see_script);
-                    flagB = 0;
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.remove(hintVideoFragment);
-                    transaction.commit();
-                } else {
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
-                    Bundle bundle = new Bundle(2);
-                    bundle.putString("scriptnm", scriptnm);
-                    bundle.putString("type", "ox");
-                    showScriptFragment.setArguments(bundle);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                }
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
+                Bundle bundle = new Bundle(2);
+                bundle.putString("scriptnm", scriptnm);
+                bundle.putString("type", "ox");
+                showScriptFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -165,16 +162,19 @@ public class OXTypeActivity extends AppCompatActivity
                 if(flagD == 0) {
                     Toast.makeText(OXTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
                 } else {
-                    quiz = editQuiz.getText().toString();
-
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
-                    desc = hintWritingFragment1.editTextHint.getText().toString();
+                    if(flagD == 2) {
+                        desc = "없음";
+                    } else {
+                        desc = hintWritingFragment1.editTextHint.getText().toString();
+                    }
+                    quiz = editQuiz.getText().toString();
 
                     if(quiz.length() == 0 || desc.length() == 0 || star < 1 || (flagAO == 0 && flagAX == 0)) {
                         Toast.makeText(OXTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                     } else {
                         postFirebaseDatabaseQuizOX();
-                        hintWritingFragment1.editTextHint.setText("");
+                        if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
                     }
                 }
             }

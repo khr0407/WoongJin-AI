@@ -21,12 +21,19 @@
             android:id="@+id/hint"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
+            android:layout_weight="1.5"
             android:hint="클릭하여 힌트 입력하기"
             android:fontFamily="@font/typo_sherlock_l"
             android:textSize="20dp"
             android:gravity="center"
             android:background="@drawable/rounded_white"/>
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:background="#00ff0000"
+            android:src="@drawable/ic_icons_go_back"/>
 
     </LinearLayout>
 
