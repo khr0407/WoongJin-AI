@@ -51,10 +51,12 @@
                 android:textSize="20dp"
                 />
 
-            <LinearLayout
+            <ImageView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="6"></LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_icons_step4"/>
 
         </LinearLayout>
         <LinearLayout
@@ -250,6 +252,7 @@
                                 android:layout_weight="3"
                                 android:orientation="horizontal"
                                 android:weightSum="2"
+                                android:background="@drawable/rounded_white"
                                 >
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -263,20 +266,15 @@
                                         android:gravity="center"
                                         android:orientation="horizontal">
 
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="1. "
-                                            android:textColor="@color/white"
-                                            android:textSize="17dp" />
-
                                         <EditText
                                             android:id="@+id/ans1"
-                                            android:layout_width="120dp"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:padding="5dp"
+                                            android:background="@drawable/ic_icons_selector_standard"
+                                            android:gravity="center"
                                             android:hint="1번을 입력하시오."
                                             android:textSize="10dp" />
-
                                     </LinearLayout>
                                     <LinearLayout
                                         android:layout_width="match_parent"
@@ -285,19 +283,15 @@
                                         android:gravity="center"
                                         android:orientation="horizontal">
 
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="2. "
-                                            android:textColor="@color/white"
-                                            android:textSize="17dp" />
-
                                         <EditText
                                             android:id="@+id/ans2"
-                                            android:layout_width="120dp"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:padding="5dp"
                                             android:hint="2번을 입력하시오."
-                                            android:textSize="10dp" />
+                                            android:textSize="10dp"
+                                            android:gravity="center"
+                                            android:background="@drawable/ic_icons_selector_standard"/>
 
                                     </LinearLayout>
                                 </LinearLayout>
@@ -314,19 +308,15 @@
                                         android:gravity="center"
                                         android:orientation="horizontal">
 
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="3. "
-                                            android:textColor="@color/white"
-                                            android:textSize="17dp" />
-
                                         <EditText
                                             android:id="@+id/ans3"
-                                            android:layout_width="120dp"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:padding="5dp"
                                             android:hint="3번을 입력하시오."
-                                            android:textSize="10dp" />
+                                            android:textSize="10dp"
+                                            android:gravity="center"
+                                            android:background="@drawable/ic_icons_selector_standard"/>
 
                                     </LinearLayout>
                                     <LinearLayout
@@ -336,19 +326,15 @@
                                         android:gravity="center"
                                         android:orientation="horizontal">
 
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="4."
-                                            android:textColor="@color/white"
-                                            android:textSize="17dp" />
-
                                         <EditText
                                             android:id="@+id/ans4"
-                                            android:layout_width="120dp"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:padding="5dp"
                                             android:hint="4번을 입력하시오."
-                                            android:textSize="10dp" />
+                                            android:textSize="10dp"
+                                            android:gravity="center"
+                                            android:background="@drawable/ic_icons_selector_standard"/>
 
                                     </LinearLayout>
                                 </LinearLayout>
