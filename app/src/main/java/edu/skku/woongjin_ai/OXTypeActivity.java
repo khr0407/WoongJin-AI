@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,17 +36,17 @@ public class OXTypeActivity extends AppCompatActivity
 
     DatabaseReference mPostReference;
     ImageView imageO, imageX, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
-    EditText editQuiz, editDesc;
+    EditText editQuiz;
     Intent intent, intentHome;
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
     int star = 0;
-    int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
+    int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0, flagB = 0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
-    Fragment showScriptFragment, hintWritingFragment;
+    Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class OXTypeActivity extends AppCompatActivity
 
         showScriptFragment = new ShowScriptFragment();
         hintWritingFragment = new HintWritingFragment();
+        hintVideoFragment = new HintVideoFragment();
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageO = (ImageView) findViewById(R.id.o);
@@ -106,13 +108,20 @@ public class OXTypeActivity extends AppCompatActivity
                 transaction.addToBackStack(null);
                 transaction.commit();
                 //TODO 뒤로가기 눌렀을 때 checkButton 비활성화 + flagD 0으로 만들기
+                //TODO 돌아가기 버튼 넣어?
             }
         });
 
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                scriptButton.setImageResource(R.drawable.ic_icons_go_back);
+                flagB = 1;
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentSelectHint, hintVideoFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                //TODO 뒤로가기 눌렀을 때 checkButton 비활성화 + flagD 0으로 만들기
             }
         });
 
@@ -123,20 +132,29 @@ public class OXTypeActivity extends AppCompatActivity
                 noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
                 flagD = 1;
                 //TODO 힌트 없음도 fragment 만들어?
+                //TODO 뒤로가기 눌렀을 때 checkButton 비활성화 + flagD 0으로 만들기
             }
         });
 
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
-                Bundle bundle = new Bundle(2);
-                bundle.putString("scriptnm", scriptnm);
-                bundle.putString("type", "ox");
-                showScriptFragment.setArguments(bundle);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                if(flagB == 1) {
+                    scriptButton.setImageResource(R.drawable.ic_icons_see_script);
+                    flagB = 0;
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.remove(hintVideoFragment);
+                    transaction.commit();
+                } else {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
+                    Bundle bundle = new Bundle(2);
+                    bundle.putString("scriptnm", scriptnm);
+                    bundle.putString("type", "ox");
+                    showScriptFragment.setArguments(bundle);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
             }
         });
 
