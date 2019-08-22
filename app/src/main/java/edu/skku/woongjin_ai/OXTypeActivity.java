@@ -101,13 +101,15 @@ public class OXTypeActivity extends AppCompatActivity
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                flagD = 1;
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("type", "ox");
+                hintWritingFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                //TODO 뒤로가기 버튼 추가 + flagD 0으로 만들기
+                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                flagD = 1;
             }
         });
 
