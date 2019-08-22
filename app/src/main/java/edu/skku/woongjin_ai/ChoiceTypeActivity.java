@@ -125,7 +125,6 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
                 flagD = 1;
                 desc = "null";
-                //TODO 힌트 없음도 fragment 만들어?
             }
         });
 

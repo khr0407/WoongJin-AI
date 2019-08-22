@@ -35,7 +35,7 @@ import java.util.Random;
 public class ShowFriendActivity extends Activity {
     private DatabaseReference mPostReference, mPostReference2;
     ListView friend_list, recommendfriend_list;
-    ArrayList<String> data, recommendListArrayList;
+    ArrayList<String> data, recommendListArrayList, myFriendList;
     ArrayAdapter<String> arrayAdapter, recommendListArrayAdapter;
     ArrayList<UserInfo> recommendList;
     UserInfo me;
@@ -62,6 +62,7 @@ public class ShowFriendActivity extends Activity {
         data = new ArrayList<String>();
 
         recommendListArrayList = new ArrayList<String>();
+        myFriendList = new ArrayList<String>();
         recommendfriend_list = findViewById(R.id.recommendfriend_list);
         me = new UserInfo();
         recommendList = new ArrayList<UserInfo>();
@@ -167,33 +168,60 @@ public class ShowFriendActivity extends Activity {
         final ValueEventListener postListner = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot0 : dataSnapshot.getChildren()) {
-                    String key = snapshot0.getKey();
-                    if(key.equals(id_key)) {
-                        me = snapshot0.getValue(UserInfo.class);
-                        break;
-                    }
-                }
-                String myBirthYear = me.birth;
-                myBirthYear = myBirthYear.substring(0, 4);
-                String mySchool = me.school;
-
+                myFriendList.clear();
+                recommendList.clear();
+                recommendListArrayList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
-                    if(!key.equals(id_key)) {
-                        UserInfo friend = snapshot.getValue(UserInfo.class);
-                        String birthYear = friend.birth;
-                        birthYear = birthYear.substring(0, 4);
-                        String school = friend.school;
-                        if (birthYear.equals(myBirthYear) || school.equals(mySchool)) {
-                            recommendList.add(friend);
+                    if(key.equals("user_list") || key.equals("kakaouser_list")) {
+                        for(DataSnapshot snapshot0 : snapshot.getChildren()) {
+                            String key1 = snapshot0.getKey();
+                            if(key1.equals(id_key)) {
+                                me = snapshot0.getValue(UserInfo.class);
+                                for(DataSnapshot snapshot1 : snapshot0.child("friend").getChildren()) {
+                                    String key2 = snapshot1.getKey();
+                                    myFriendList.add(key2);
+                                }
+                                break;
+                            }
                         }
                     }
                 }
+                String myGrade = me.grade;
+                String mySchool = me.school;
+
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String key0 = snapshot.getKey();
+                    if(key0.equals("user_list") || key0.equals("kakaouser_list")) {
+                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            String key = snapshot1.getKey();
+                            if(!key.equals(id_key)) {
+                                int flag = 0;
+                                String nickname = snapshot1.child("nickname").getValue().toString();
+                                for(String friendNickname : myFriendList) {
+                                    if(nickname.equals(friendNickname)) {
+                                        flag = 1;
+                                        break;
+                                    }
+                                }
+                                if(flag == 0) {
+                                    UserInfo friend = snapshot1.getValue(UserInfo.class);
+                                    String grade = friend.grade;
+                                    String school = friend.school;
+                                    String uid = friend.id;
+                                    if (grade.equals(myGrade) || school.equals(mySchool)) {
+                                        recommendList.add(friend);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
                 int cntAll = recommendList.size();
                 Random generator = new Random();
-                int[] randList = new int[10]; //TODO 10 나중에 수정??
-                for(int i = 0; i < 5; i++) { //TODO 5 나중에 수정??
+                int[] randList = new int[cntAll];
+                for(int i = 0; i < cntAll; i++) {
                     randList[i] = generator.nextInt(cntAll);
                     for(int j = 0; j < i; j++) {
                         if(randList[i] == randList[j]) {
@@ -202,9 +230,9 @@ public class ShowFriendActivity extends Activity {
                         }
                     }
                 }
-                for(int i = 0; i < 5; i++) {
+                for(int i = 0; i < cntAll; i++) {
                     UserInfo finalRecommend = recommendList.get(randList[i]);
-                    String post = finalRecommend.nickname + "[" + finalRecommend.name + "]"+ "\n" + finalRecommend.birth + "\n" + finalRecommend.school;
+                    String post = finalRecommend.nickname + "[" + finalRecommend.name + "]"+ "\n" + finalRecommend.grade + "\n" + finalRecommend.school;
                     recommendListArrayList.add(post);
                 }
                 recommendListArrayAdapter.clear();
@@ -214,7 +242,7 @@ public class ShowFriendActivity extends Activity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         };
-        mPostReference2.child("user_list").addValueEventListener(postListner); //TODO 카카오 유저 추가하기
+        mPostReference2.addValueEventListener(postListner);
     }
 
     public void postFirebaseDatabase(boolean add) {

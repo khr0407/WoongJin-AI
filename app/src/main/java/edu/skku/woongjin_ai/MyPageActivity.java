@@ -47,10 +47,10 @@ public class MyPageActivity extends AppCompatActivity {
         btnLikeList = (Button) findViewById(R.id.LikeList);
         btnQList = (Button) findViewById(R.id.QList);
         btnLikeList = (Button) findViewById(R.id.LikeList);
-//        userNickname = (TextView) findViewById(R.id.userNickname);
+        userNickname = (TextView) findViewById(R.id.userID);
         userName = (TextView) findViewById(R.id.userName);
         userCoin = (TextView) findViewById(R.id.userCoin);
-//        logout = (Button) findViewById(R.id.logOut);
+        logout = (Button) findViewById(R.id.logout);
 
         getFirebaseDatabaseUserInfo();
 

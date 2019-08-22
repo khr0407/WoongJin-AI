@@ -225,18 +225,18 @@ public class ChatFriendActivity extends Activity {
                         break;
                     }
                 }
-                String myBirthYear = me.birth;
-                myBirthYear = myBirthYear.substring(0, 4);
+                String myGrade = me.grade;
+                myGrade = myGrade.substring(0, 4);
                 String mySchool = me.school;
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
                     if(!key.equals(id_key)) {
                         UserInfo friend = snapshot.getValue(UserInfo.class);
-                        String birthYear = friend.birth;
-                        birthYear = birthYear.substring(0, 4);
+                        String grade = friend.grade;
+                        grade = grade.substring(0, 4);
                         String school = friend.school;
-                        if (birthYear.equals(myBirthYear) || school.equals(mySchool)) {
+                        if (grade.equals(grade) || school.equals(mySchool)) {
                             recommendList.add(friend);
                         }
                     }
@@ -255,7 +255,7 @@ public class ChatFriendActivity extends Activity {
                 }
                 for(int i = 0; i < 5; i++) {
                     UserInfo finalRecommend = recommendList.get(randList[i]);
-                    String post = finalRecommend.nickname + "[" + finalRecommend.name + "]"+ "\n" + finalRecommend.birth + "\n" + finalRecommend.school;
+                    String post = finalRecommend.nickname + "[" + finalRecommend.name + "]"+ "\n" + finalRecommend.grade + "\n" + finalRecommend.school;
                     recommendListArrayList.add(post);
                 }
                 recommendListArrayAdapter.clear();
