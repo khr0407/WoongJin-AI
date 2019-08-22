@@ -8,26 +8,24 @@ public class UserInfo {
     public String name;
     public String pw;
     public String nickname;
-    public String address;
     public String school;
     public String gender;
-    public String birth;
+    public String grade;
     public String coin;
 
-    public UserInfo() {
+    public UserInfo(){
 
     }
 
-    public UserInfo(String id, String pw, String name, String nickname, String address, String school, String gender, String birth, String coin) {
+    public UserInfo(String id, String pw, String name, String nickname, String school, String gender, String grade, String coin) {
         this.id = id;
         this.name = name;
         this.pw = pw;
         this.name = name;
         this.nickname = nickname;
-        this.address = address;
         this.school = school;
         this.gender = gender;
-        this.birth = birth;
+        this.grade = grade;
         this.coin = coin;
     }
 
@@ -37,10 +35,10 @@ public class UserInfo {
         result.put("pw", pw);
         result.put("name",name);
         result.put("nickname", nickname);
-        result.put("address", address);
+        //result.put("address", address);
         result.put("school", school);
         result.put("gender", gender);
-        result.put("birth", birth);
+        result.put("grade", grade);
         result.put("coin", coin);
         return result;
     }
