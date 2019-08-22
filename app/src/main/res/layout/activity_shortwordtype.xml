@@ -50,11 +50,14 @@
                 android:fontFamily="@font/typo_sherlock_l"
                 android:textSize="20dp"
                 />
-
-            <LinearLayout
+            <ImageView
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="6"></LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_icons_step4"/>
+
+
 
         </LinearLayout>
 
@@ -291,26 +294,45 @@
                                 />
                         </LinearLayout>
 
-                        <ImageButton
+                        <FrameLayout
+                            android:id="@+id/contentSelectHint"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:background="#00ff0000"
-                            android:src="@drawable/ic_icons_text_hint_before"/>
+                            android:layout_weight="3">
 
-                        <ImageButton
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:background="#00ff0000"
-                            android:src="@drawable/ic_icons_video_hint_before" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:weightSum="3"
+                                android:orientation="vertical">
 
-                        <ImageButton
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:background="#00ff0000"
-                            android:src="@drawable/ic_icons_video_hint_before"/>
+                                <ImageButton
+                                    android:id="@+id/hintWriting"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:background="#00ff0000"
+                                    android:src="@drawable/ic_icons_text_hint_before"/>
+
+                                <ImageButton
+                                    android:id="@+id/hintVideo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:background="#00ff0000"
+                                    android:src="@drawable/ic_icons_video_hint_before" />
+
+                                <ImageButton
+                                    android:id="@+id/noHint"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:background="#00ff0000"
+                                    android:src="@drawable/ic_icons_no_hint_before"/>
+
+                            </LinearLayout>
+
+                        </FrameLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -321,18 +343,18 @@
                             android:orientation="horizontal"
                             android:weightSum="2"
                             >
-                            <ImageView
+                            <ImageButton
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/script"
                                 android:src="@drawable/ic_icons_see_script"
                                 android:layout_weight="1"
                                 />
-                            <ImageView
+                            <ImageButton
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:id="@+id/check"
-                                android:src="@drawable/ic_icons_quiz_complete"
+                                android:src="@drawable/ic_icons_quiz_complete_inactivate"
                                 android:layout_weight="1"
                                 />
                         </LinearLayout>

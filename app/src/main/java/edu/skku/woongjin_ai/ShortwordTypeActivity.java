@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,20 +25,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ShortwordTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener{
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
-    ImageView imageScript, imageCheck, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
+    ImageView imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
     EditText editQuiz, editAns, editDesc;
     Intent intent, intentHome;
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
     int star = 0;
-    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0;
+    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0;
     ImageView backgroundImage;
+    ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
-    Fragment showScriptFragment;
+    Fragment showScriptFragment, hintWritingFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,10 +52,9 @@ public class ShortwordTypeActivity extends AppCompatActivity
         backgroundID = intent.getStringExtra("background");
 
         showScriptFragment = new ShowScriptFragment();
+        hintWritingFragment = new HintWritingFragment();
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
-        imageScript = (ImageView) findViewById(R.id.script);
-        imageCheck = (ImageView) findViewById(R.id.check);
         imageStar1 = (ImageView) findViewById(R.id.star1);
         imageStar2 = (ImageView) findViewById(R.id.star2);
         imageStar3 = (ImageView) findViewById(R.id.star3);
@@ -64,6 +65,11 @@ public class ShortwordTypeActivity extends AppCompatActivity
         //editDesc = (EditText) findViewById(R.id.desc);
         TextView title = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
+        checkButton = (ImageButton) findViewById(R.id.check);
+        scriptButton = (ImageButton) findViewById(R.id.script);
+        hintWritingButton = (ImageButton) findViewById(R.id.hintWriting);
+        hintVideoButton = (ImageButton) findViewById(R.id.hintVideo);
+        noHintButton = (ImageButton) findViewById(R.id.noHint);
 
         title.setText("지문 제목: " + scriptnm);
 
@@ -84,7 +90,35 @@ public class ShortwordTypeActivity extends AppCompatActivity
             }
         });
 
-        imageScript.setOnClickListener(new View.OnClickListener() {
+        hintWritingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                flagD = 1;
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentSelectHint, hintWritingFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        hintVideoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        noHintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
+                flagD = 1;
+            }
+        });
+
+        scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -93,20 +127,28 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 bundle.putString("scriptnm", scriptnm);
                 bundle.putString("type", "shortword");
                 showScriptFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
 
-        imageCheck.setOnClickListener(new View.OnClickListener() {
+        checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                quiz = editQuiz.getText().toString();
-                ans = editAns.getText().toString();
-                desc = editDesc.getText().toString();
-                if(quiz.length() == 0 || ans.length() == 0 || desc.length() == 0 || star < 1) {
-                    Toast.makeText(ShortwordTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
+                if(flagD == 0) {
+                    Toast.makeText(ShortwordTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
                 } else {
-                    postFirebaseDatabaseQuizShortword();
+                    quiz = editQuiz.getText().toString();
+
+                    HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
+                    desc = hintWritingFragment1.editTextHint.getText().toString();
+
+                    if(quiz.length() == 0 ||ans.length() == 0 || desc.length() == 0 || star < 1 ) {
+                        Toast.makeText(ShortwordTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
+                    } else {
+                        postFirebaseDatabaseQuizShortword();
+                        hintWritingFragment1.editTextHint.setText("");
+                    }
                 }
             }
         });
@@ -125,11 +167,11 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS1 == 0) {
                     star++;
-                    imageStar1.setImageResource(R.drawable.checked_circle_white);
+                    imageStar1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS1 = 1;
                 } else {
                     star--;
-                    imageStar1.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS1 = 0;
                 }
             }
@@ -140,11 +182,11 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS2 == 0) {
                     star++;
-                    imageStar2.setImageResource(R.drawable.checked_circle_white);
+                    imageStar2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS2 = 1;
                 } else {
                     star--;
-                    imageStar2.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS2 = 0;
                 }
             }
@@ -155,11 +197,11 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS3 == 0) {
                     star++;
-                    imageStar3.setImageResource(R.drawable.checked_circle_white);
+                    imageStar3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS3 = 1;
                 } else {
                     star--;
-                    imageStar3.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS3 = 0;
                 }
             }
@@ -170,11 +212,11 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS4 == 0) {
                     star++;
-                    imageStar4.setImageResource(R.drawable.checked_circle_white);
+                    imageStar4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS4 = 1;
                 } else {
                     star--;
-                    imageStar4.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS4 = 0;
                 }
             }
@@ -185,11 +227,11 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS5 == 0) {
                     star++;
-                    imageStar5.setImageResource(R.drawable.checked_circle_white);
+                    imageStar5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS5 = 1;
                 } else {
                     star--;
-                    imageStar5.setImageResource(R.drawable.unchecked_circle_white);
+                    imageStar5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS5 = 0;
                 }
             }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="3"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#00ff0000"
+            android:src="@drawable/ic_icons_text_hint_after"/>
+
+        <EditText
+            android:id="@+id/hint"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:hint="클릭하여 힌트 입력하기"
+            android:fontFamily="@font/typo_sherlock_l"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:background="@drawable/rounded_white"/>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
