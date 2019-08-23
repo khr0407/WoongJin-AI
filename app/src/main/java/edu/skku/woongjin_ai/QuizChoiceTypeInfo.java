@@ -5,7 +5,9 @@ import java.util.Map;
 
 public class QuizChoiceTypeInfo {
     public String uid;
-    public String question;
+    public String
+
+            question;
     public String answer;
     public String answer1;
     public String answer2;
