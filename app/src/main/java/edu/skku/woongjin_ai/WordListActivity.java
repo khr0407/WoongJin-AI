@@ -69,7 +69,6 @@ public class WordListActivity extends AppCompatActivity{
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
         getFirebaseDatabaseWordList();
-        Log.d("요기요3",  id);
         //dataSetting();
 
 
@@ -125,13 +124,9 @@ public class WordListActivity extends AppCompatActivity{
                             if (scriptnm.equals(scriptkey)) {
                                 for(DataSnapshot snapshot2 : snapshot1.child("word_list").getChildren()) {
                                     WordListAdapter wAdapter = new WordListAdapter();
-
                                     String wordlistkey = snapshot2.getKey();
                                     wordArraylist.add(wordlistkey);
-                                    Log.d("요기요6", wordArraylist.get(0));
-                                    Log.d("요기요4", Integer.toString(wordArraylist.size()));
                                     for(int i = 0 ; i < wordArraylist.size(); i++) {
-                                        Log.d("요기요8", wordArraylist.get(0));
                                         wAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_pen_hand), wordArraylist.get(i), ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_learn), ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_script));
                                     }
                                     mListView.setAdapter(wAdapter);
@@ -144,13 +139,18 @@ public class WordListActivity extends AppCompatActivity{
                     String key = snapshot.getKey();
                     if(id.equals(key))
                     {
+
                         for(DataSnapshot snapshot1 : snapshot.child("scripts").getChildren()) {
                             String scriptkey = snapshot1.getKey();
                             if (scriptnm.equals(scriptkey)) {
                                 for(DataSnapshot snapshot2 : snapshot1.child("word_list").getChildren()) {
+                                    WordListAdapter wAdapter = new WordListAdapter();
                                     String wordlistkey = snapshot2.getKey();
                                     wordArraylist.add(wordlistkey);
-
+                                    for(int i = 0 ; i < wordArraylist.size(); i++) {
+                                        wAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_pen_hand), wordArraylist.get(i), ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_learn), ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_script));
+                                    }
+                                    mListView.setAdapter(wAdapter);
                                 }
                             }
                         }
