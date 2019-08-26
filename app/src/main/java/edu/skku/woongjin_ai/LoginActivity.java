@@ -125,6 +125,11 @@ public class LoginActivity extends AppCompatActivity {
                                     String password = get.pw;
                                     if(pw.equals(password)) {
                                         flag = 1;
+                                        if(checkbox.isChecked()) {
+                                            editor.putString("ID", id);
+                                            editor.putString("PW", pw);
+                                            editor.commit();
+                                        }
                                         intent = new Intent(LoginActivity.this, MainActivity.class);
                                         intent.putExtra("id", id);
                                         startActivity(intent);
@@ -155,10 +160,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    String ID = editTextID.getText().toString();
-                    String PW = editTextPW.getText().toString();
-                    editor.putString("ID", ID);
-                    editor.putString("PW", PW);
                     editor.putBoolean("Auto login is enabled", true);
                     editor.commit();
                 } else {
