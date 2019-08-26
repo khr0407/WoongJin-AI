@@ -13,4 +13,6 @@
     <string name="choice_quiz">선택한 선택지 퀴즈에 맞춰서 퀴즈를 내보자\n친구들에게 힌트를 영상으로 찍어 줄 수 있어!</string>
     <string name="shortword_quiz">선택한 단답형 퀴즈에 맞춰서 퀴즈를 내보자\n친구들에게 힌트를 영상으로 찍어 줄 수 있어!</string>
     <string name="video_hint">다른 친구들에게 불쾌감을\n줄 수 있는 영상은\n이용에 제한을 받을 수 있습니다.</string>
+    <string name="friend_list">친구 추천 목록에서 친구를 선택한 후, 밑의 친구 추가 버튼을 누르면 친구가 될 수 있어!\n카카오톡 친구도 초대해서 함께 즐겨봐~</string>
+    <string name="main">안녕~오늘도 열공!\n여행하고 싶은 나라를 골라봐!</string>
 </resources>

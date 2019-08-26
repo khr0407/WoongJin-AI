@@ -2,6 +2,7 @@ package edu.skku.woongjin_ai;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -47,6 +50,10 @@ public class LoginActivity extends AppCompatActivity {
     String savedKakao;
     Intent intent_kakaoregister;
 
+    CheckBox checkbox;
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +67,10 @@ public class LoginActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
         intent_kakaoregister = new Intent(LoginActivity.this, KakaoRegisterActivity.class);
+
+        checkbox = (CheckBox) findViewById(R.id.checkBox);
+        setting = getSharedPreferences("setting", 0);
+        editor = setting.edit();
 
         if (!isLoggedIn()) //카카오톡 로그인이 되어있지 않을 경우
             Session.getCurrentSession().addCallback(callback);
@@ -114,6 +125,11 @@ public class LoginActivity extends AppCompatActivity {
                                     String password = get.pw;
                                     if(pw.equals(password)) {
                                         flag = 1;
+                                        if(checkbox.isChecked()) {
+                                            editor.putString("ID", id);
+                                            editor.putString("PW", pw);
+                                            editor.commit();
+                                        }
                                         intent = new Intent(LoginActivity.this, MainActivity.class);
                                         intent.putExtra("id", id);
                                         startActivity(intent);
@@ -131,6 +147,24 @@ public class LoginActivity extends AppCompatActivity {
                         public void onCancelled(@NonNull DatabaseError databaseError) {         }
                     };
                     mPostReference.child("user_list").addValueEventListener(postListener);
+                }
+            }
+        });
+
+        if (setting.getBoolean("Auto login is enabled", false)) {
+            editTextID.setText(setting.getString("ID", ""));
+            editTextPW.setText(setting.getString("PW", ""));
+            checkbox.setChecked(true);
+        }
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    editor.putBoolean("Auto login is enabled", true);
+                    editor.commit();
+                } else {
+                    editor.clear();
+                    editor.commit();
                 }
             }
         });

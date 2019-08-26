@@ -133,7 +133,6 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 flagD = 1;
                 flagNoHint=1;
                 desc = "null";
-                //TODO 힌트 없음도 fragment 만들어?
             }
         });
 

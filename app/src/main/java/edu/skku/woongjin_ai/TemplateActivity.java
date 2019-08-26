@@ -139,7 +139,6 @@ public class TemplateActivity extends AppCompatActivity {
                                             int findMin = Integer.parseInt(findMinLike.like);
                                             int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz).like);
                                             if(findMin < minLike) minLikeQuiz = quizListShortword.indexOf(findMinLike);
-                                            Log.d("cnt<", findMin + " " + minLike + " " + minLikeQuiz);
                                         }
                                         cnt++;
                                     } else {
@@ -152,7 +151,6 @@ public class TemplateActivity extends AppCompatActivity {
                                                 int findMin = Integer.parseInt(findMinLike.like);
                                                 int minLikeNew = Integer.parseInt(quizListShortword.get(minLikeQuiz).like);
                                                 if(findMin < minLikeNew) minLikeQuiz = quizListShortword.indexOf(findMinLike);
-                                                Log.d("cnt>", findMin + " " + minLikeNew + " " + minLikeQuiz);
                                             }
                                         }
                                     }
@@ -163,16 +161,6 @@ public class TemplateActivity extends AppCompatActivity {
                         }
                         break;
                     }
-                }
-
-                for(QuizOXShortwordTypeInfo test : quizListOX) {
-                    Log.d("oxxxxxxxxxxxxx", test.like);
-                }
-                for(QuizChoiceTypeInfo test : quizListChoice) {
-                    Log.d("choiceeeeeeeee", test.like);
-                }
-                for(QuizOXShortwordTypeInfo test : quizListShortword) {
-                    Log.d("shortwordddddddddd", test.like);
                 }
 
                 int rand = generator.nextInt(3);
