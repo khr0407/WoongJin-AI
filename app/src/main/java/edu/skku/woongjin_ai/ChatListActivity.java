@@ -9,9 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,8 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ChatListActivity extends AppCompatActivity {
     private DatabaseReference PostReference, mPostReference;
@@ -93,7 +89,7 @@ public class ChatListActivity extends AppCompatActivity {
 
         create.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent_chatfriend = new Intent(ChatListActivity.this, ChatFriendActivity.class);
+                Intent intent_chatfriend = new Intent(ChatListActivity.this, NationGameActivity.class);
                 intent_chatfriend.putExtra("id", id_key);
                 intent_chatfriend.putExtra("nickname", mynickname);
                 startActivity(intent_chatfriend);
