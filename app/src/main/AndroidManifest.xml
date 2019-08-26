@@ -48,7 +48,11 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".RecommendFriendActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".WebViewActivity"></activity>
-        <activity android:name=".ReadScriptActivity"></activity>
+        <activity android:name=".WebViewActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ReadScriptActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ShowQuestionActivity"
+            android:screenOrientation="landscape"/>
     </application>
 </manifest>

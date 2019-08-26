@@ -35,4 +35,12 @@
         android:layout_margin="8dp"
         android:text="마이페이지"/>
 
+    <Button
+        android:id="@+id/friendsq"
+        android:onClick="friendsQ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="친구의 질문 보기"/>
+
 </LinearLayout>

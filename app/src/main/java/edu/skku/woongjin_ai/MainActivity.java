@@ -32,10 +32,10 @@ public class MainActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     ArrayList<String> ScriptList;
     ArrayAdapter<String> adapter;
-    Intent intent, intentType, intentMyPage;
+    Intent intent, intentType, intentType2, intentMyPage;
     String id;
     String check = "";
-    Button buttonSelectType, buttonMyPage;
+    Button buttonSelectType, buttonMyPage, buttonfriendsq;
 
 
     @Override
@@ -47,11 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
         buttonSelectType = (Button) findViewById(R.id.selectType);
         buttonMyPage = (Button) findViewById(R.id.myPage);
+        buttonfriendsq = (Button)findViewById(R.id.friendsq);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
         intentType = new Intent(MainActivity.this, SelectTypeActivity.class);
         intentType.putExtra("id", id);
+        intentType2 = new Intent (MainActivity.this, ShowQuestionActivity.class);
+        intentType2.putExtra("id", id);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -67,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 intentMyPage = new Intent(MainActivity.this, MyPageActivity.class);
                 intentMyPage.putExtra("id", id);
                 startActivity(intentMyPage);
-                finish();
             }
         });
 
@@ -78,7 +80,17 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Choose a script", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(intentType);
-                    finish();
+                }
+            }
+        });
+
+        buttonfriendsq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(check.length() == 0) {
+                    Toast.makeText(MainActivity.this, "Choose a script", Toast.LENGTH_SHORT).show();
+                } else {
+                    startActivity(intentType2);
                 }
             }
         });
@@ -87,13 +99,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
                 String script_title = ScriptList.get(position);
-                Intent intent_readscript = new Intent(MainActivity.this, ReadScriptActivity.class);
-                intent_readscript.putExtra("scriptnm",script_title);
-                startActivity(intent_readscript);
+                //Intent intent_readscript = new Intent(MainActivity.this, ReadScriptActivity.class);
+                //intent_readscript.putExtra("scriptnm",script_title);
+                //startActivity(intent_readscript);
                 intentType.putExtra("scriptnm", ScriptList.get(position));
+                intentType2.putExtra("scriptnm", ScriptList.get(position));
                 check = intentType.getStringExtra("scriptnm");
             }
         });
+
     }
 
     private void getFirebaseDatabaseScriptList(){
@@ -115,4 +129,5 @@ public class MainActivity extends AppCompatActivity {
         };
         mPostReference.child("script_list").addValueEventListener(postListener);
     }
+
 }
