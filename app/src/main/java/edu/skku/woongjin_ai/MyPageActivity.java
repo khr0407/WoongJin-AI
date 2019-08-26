@@ -42,7 +42,7 @@ public class MyPageActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        btnFriendList = (Button)findViewById(R.id.friendsList);
+//        btnFriendList = (Button)findViewById(R.id.friendsList);
 //        btnuserLetter = (Button) findViewById(R.id.userLetter);
         btnLikeList = (Button) findViewById(R.id.LikeList);
         btnQList = (Button) findViewById(R.id.QList);

@@ -1,40 +1,15 @@
 package edu.skku.woongjin_ai;
 
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
-    ListView mListView;
-    public DatabaseReference mPostReference;
-    ArrayList<String> scriptList, backgroundList;
-    ArrayAdapter<String> adapter;
     Intent intent, intentBook, intentQuiz, intentGame, intentMyPage;
-    ArrayAdapter<String> scriptAdapter;
     String id;
-    String check = "";
     ImageButton bookButton, quizButton, gameButton, myPageButton;
 
 
@@ -87,16 +62,5 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
-//                intentType.putExtra("scriptnm", scriptList.get(position));
-//                intentType.putExtra("background", backgroundList.get(position));
-//                intentReadScript.putExtra("scriptnm", scriptList.get(position));
-//                intentReadScript.putExtra("background", backgroundList.get(position));
-//                check = intentType.getStringExtra("scriptnm");
-//            }
-//        });
     }
 }

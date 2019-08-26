@@ -41,6 +41,62 @@ public class NationBookActivity extends AppCompatActivity {
             }
         });
 
+        historyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentSelectBook.putExtra("bookType", "history");
+                startActivity(intentSelectBook);
+            }
+        });
+
+        newsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentSelectBook.putExtra("bookType", "news");
+                startActivity(intentSelectBook);
+            }
+        });
+
+        moralityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentSelectBook.putExtra("bookType", "morality");
+                startActivity(intentSelectBook);
+            }
+        });
+
+        misteryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentSelectBook.putExtra("bookType", "mistery");
+                startActivity(intentSelectBook);
+            }
+        });
+
+        comicsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentSelectBook.putExtra("bookType", "comics");
+                startActivity(intentSelectBook);
+            }
+        });
+
+        oldstoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentSelectBook.putExtra("bookType", "oldstory");
+                startActivity(intentSelectBook);
+            }
+        });
+
+        greatmanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentSelectBook.putExtra("bookType", "greatman");
+                startActivity(intentSelectBook);
+            }
+        });
+
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

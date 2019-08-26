@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -37,6 +38,8 @@ public class SelectBookActivity extends AppCompatActivity {
         id = intent.getStringExtra("id");
         bookType = intent.getStringExtra("bookType");
         intentReadScript = new Intent(SelectBookActivity.this, ReadScriptActivity.class);
+        intentReadScript.putExtra("id", id);
+        intentReadScript.putExtra("bookType", bookType);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -47,10 +50,12 @@ public class SelectBookActivity extends AppCompatActivity {
         bookArrayAdapter = new ArrayAdapter<String>(SelectBookActivity.this, android.R.layout.simple_list_item_1);
         bookListView.setAdapter(bookArrayAdapter);
 
-        bookListView.setOnClickListener(new View.OnClickListener() {
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                intentReadScript.putExtra("scriptnm", bookArrayList.get(position));
+                intentReadScript.putExtra("background", backgroundArrayList.get(position));
+                startActivity(intentReadScript);
             }
         });
 

@@ -83,5 +83,11 @@
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
         <activity android:name=".NationGameActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".NationBookActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".NationQuizActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SelectBookActivity"
+            android:screenOrientation="landscape"/>
     </application>
 </manifest>
