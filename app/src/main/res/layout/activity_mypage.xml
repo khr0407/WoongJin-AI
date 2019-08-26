@@ -5,37 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
-    tools:context="com.js.firebasestorage.MainActivity">
 
     <LinearLayout
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <button
-            android:id="@+id/bt1"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="50dp"
-            android:text="홈으로" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="100dp"
             tools:srcCompat="@tools:sample/avatars" />
-
-        <Button
-            android:id="@+id/imageupload"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:text="프로필 사진 바꾸기"/>
 
         <TextView
             android:id="@+id/userID"
@@ -61,16 +43,6 @@
             android:layout_marginTop="10dp"
             android:textSize="20dp" />
 
-        <button
-            android:id="@+id/logout"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="200dp"
-            android:layout_marginRight="10dp"
-            android:text="로그아웃" />
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -78,84 +50,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
-        <button
-            android:id="@+id/recordRoom"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:text="기록실" />
-
-        <TextView
-            android:id="@+id/Myhunjang"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="100dp"
-            android:textSize="16dp"
-            android:text="내가 받은 훈장"/>
-
-        <TextView
-            android:id="@+id/chulsuk"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="300dp"
-            android:textSize="16dp"
-            android:text="출석체크"/>
-
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <button
-            android:id="@+id/friendsList"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:text="친구 목록"/>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
         <Button
-            android:id="@+id/LikeList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="100dp"
-            android:layout_marginRight="10dp"
-            android:text="내가 좋아요한 질문" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/userName2"
+            android:id="@+id/userLetter"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="20dp"
-            android:textSize="20dp" />
+            android:layout_marginLeft="100dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="쪽지함" />
 
         <Button
             android:id="@+id/QList"
@@ -164,48 +67,48 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="50dp"
             android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:text="내가 만든 질문함" />
 
-        <ImageView
-            android:id="@+id/chart"
+        <Button
+            android:id="@+id/LikeList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="300dp"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <Button
-            android:id="@+id/bt999"
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
-            android:text="물음표" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="250dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/userCoin2"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="10dp"
-            android:textSize="20dp" />
-
-        <Button
-            android:id="@+id/moneygaunri"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="150dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
-            android:text="웅머니 관리" />
+            android:layout_weight="1"
+            android:text="내가 좋아요한 질문" />
+
+        <Button
+            android:id="@+id/friendList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="친구 리스트"/>
+
+        <Button
+            android:id="@+id/imageupload"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="프로필 사진 바꾸기"/>
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="로그아웃"/>
 
 
     </LinearLayout>

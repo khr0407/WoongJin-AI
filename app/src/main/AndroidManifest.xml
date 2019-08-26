@@ -81,7 +81,7 @@
         <activity android:name=".ChatroomActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
-        <activity android:name=".ChatFriendActivity"
+        <activity android:name=".NationGameActivity"
             android:screenOrientation="landscape"/>
     </application>
 </manifest>

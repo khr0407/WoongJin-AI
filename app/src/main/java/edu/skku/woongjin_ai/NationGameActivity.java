@@ -28,11 +28,10 @@ import com.kakao.util.helper.log.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
-public class ChatFriendActivity extends Activity {
+public class NationGameActivity extends Activity {
     private DatabaseReference mPostReference, cPostReference, mPostReference2;
     ListView friend_list, recommendfriend_list;
     ArrayList<String> data, recommendListArrayList;
@@ -78,8 +77,8 @@ public class ChatFriendActivity extends Activity {
         cPostReference = FirebaseDatabase.getInstance().getReference().child("chatroom_list");
 
         mPostReference2 = FirebaseDatabase.getInstance().getReference();
-        arrayAdapter = new ArrayAdapter<String>(ChatFriendActivity.this, android.R.layout.simple_list_item_1);
-        recommendListArrayAdapter = new ArrayAdapter<String>(ChatFriendActivity.this, android.R.layout.simple_list_item_1);
+        arrayAdapter = new ArrayAdapter<String>(NationGameActivity.this, android.R.layout.simple_list_item_1);
+        recommendListArrayAdapter = new ArrayAdapter<String>(NationGameActivity.this, android.R.layout.simple_list_item_1);
 
         friend_list.setAdapter(arrayAdapter);
         recommendfriend_list.setAdapter(recommendListArrayAdapter);
@@ -103,7 +102,7 @@ public class ChatFriendActivity extends Activity {
                 )
                         .setButtonTitle("친구야 같이 하자!")
                         .build();
-                KakaoLinkService.getInstance().sendDefault(ChatFriendActivity.this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+                KakaoLinkService.getInstance().sendDefault(NationGameActivity.this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
                     @Override
                     public void onFailure(ErrorResult errorResult) {
                         Logger.e(errorResult.toString());
@@ -158,11 +157,11 @@ public class ChatFriendActivity extends Activity {
                     }
                     else if (friend_nickname.length() == 0 || spaceCheck(newroomname) == true || newroomname.length() == 0) {
                         roomname.setText("");
-                        Toast.makeText(ChatFriendActivity.this, "채팅방 이름을 바르게 입력해주세요", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(NationGameActivity.this, "채팅방 이름을 바르게 입력해주세요", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else if (check_choose == 0){
-                    Toast.makeText(ChatFriendActivity.this, "채팅할 친구를 골라주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NationGameActivity.this, "채팅할 친구를 골라주세요", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -181,11 +180,11 @@ public class ChatFriendActivity extends Activity {
             @Override
             public void onClick(View view) {
                 if (check_recommend == 0) {
-                    Toast.makeText(ChatFriendActivity.this, "추가할 친구를 선택하세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NationGameActivity.this, "추가할 친구를 선택하세요.", Toast.LENGTH_SHORT).show();
                 }
                 else if (check_recommend == 1) {
                     postFirebaseDatabase(true);
-                    Toast.makeText(ChatFriendActivity.this, newfriend_nickname + "이 친구리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NationGameActivity.this, newfriend_nickname + "이 친구리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                     check_recommend = 0;
                 }
             }
