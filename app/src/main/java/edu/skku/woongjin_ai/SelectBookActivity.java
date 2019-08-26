@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +25,7 @@ public class SelectBookActivity extends AppCompatActivity {
     Intent intent, intentHome, intentReadScript;
     String id, bookType;
     ImageButton homeButton;
+    TextView textView;
     public DatabaseReference mPostReference;
     ListView bookListView;
     ArrayList<String> bookArrayList, backgroundArrayList;
@@ -45,10 +47,15 @@ public class SelectBookActivity extends AppCompatActivity {
 
         homeButton = (ImageButton) findViewById(R.id.home);
         bookListView = (ListView) findViewById(R.id.bookList);
+        textView = (TextView) findViewById(R.id.selectBook);
 
         bookArrayList = new ArrayList<String>();
         bookArrayAdapter = new ArrayAdapter<String>(SelectBookActivity.this, android.R.layout.simple_list_item_1);
         bookListView.setAdapter(bookArrayAdapter);
+
+        if(bookType.equals("science")) {
+            textView.setText("과학을 선택했구블발바ㅡ라ㅡㅏㄹ");
+        } else if()
 
         bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

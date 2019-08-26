@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChoiceTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener{
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
     ImageView imageScript, imageCheck, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
@@ -35,13 +35,13 @@ public class ChoiceTypeActivity extends AppCompatActivity
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "", desc = "";
     int star = 0;
-    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0;
+    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0, flagB=0;
     int flagA1 =0, flagA2=0, flagA3=0,flagA4 =0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
-    Fragment showScriptFragment, hintWritingFragment;
+    Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
 
         showScriptFragment = new ShowScriptFragment();
         hintWritingFragment = new HintWritingFragment();
+        hintVideoFragment = new HintVideoFragment();
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageScript = (ImageView) findViewById(R.id.script);
@@ -102,19 +103,28 @@ public class ChoiceTypeActivity extends AppCompatActivity
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                flagD = 1;
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("type", "choice");
+                hintWritingFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
+                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                flagD = 1;
             }
         });
 
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentShowScriptChoice, hintVideoFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("type", "choice");
+                hintVideoFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -131,14 +141,22 @@ public class ChoiceTypeActivity extends AppCompatActivity
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
-                Bundle bundle = new Bundle(2);
-                bundle.putString("scriptnm", scriptnm);
-                bundle.putString("type", "choice");
-                showScriptFragment.setArguments(bundle);
-                //transaction.addToBackStack(null);
-                transaction.commit();
+                if(flagB == 1) {
+                    scriptButton.setImageResource(R.drawable.ic_icons_see_script);
+                    flagB = 0;
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.remove(hintVideoFragment);
+                    transaction.commit();
+                } else {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
+                    Bundle bundle = new Bundle(2);
+                    bundle.putString("scriptnm", scriptnm);
+                    bundle.putString("type", "choice");
+                    showScriptFragment.setArguments(bundle);
+                    //transaction.addToBackStack(null);
+                    transaction.commit();
+                }
             }
         });
 
