@@ -72,11 +72,11 @@ public class HintWritingFragment extends Fragment {
                     fragmentTransaction.remove(((OXTypeActivity)getActivity()).hintWritingFragment);
                     fragmentTransaction.commit();
                 } else if(type.equals("choice")) {
-//                    fragmentTransaction.remove(((ChoiceTypeActivity)getActivity()).hintVideoFragment);
-//                    fragmentTransaction.commit();
+                    fragmentTransaction.remove(((ChoiceTypeActivity)getActivity()).hintVideoFragment);
+                    fragmentTransaction.commit();
                 } else if(type.equals("shortword")) {
-//                    fragmentTransaction.remove(((ShortwordTypeActivity)getActivity()).hintVideoFragment);
-//                    fragmentTransaction.commit();
+                    fragmentTransaction.remove(((ShortwordTypeActivity)getActivity()).hintVideoFragment);
+                    fragmentTransaction.commit();
                 }
             }
         });

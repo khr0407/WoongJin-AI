@@ -35,7 +35,7 @@
                 ></Button>
 
             <Button
-                android:id="@+id/FriendList"
+                android:id="@+id/friendsList"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
@@ -54,6 +54,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/userCoin"
+                    android:layout_gravity="center"
+                    ></TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/userID"
                     android:layout_gravity="center"
                     ></TextView>
 
