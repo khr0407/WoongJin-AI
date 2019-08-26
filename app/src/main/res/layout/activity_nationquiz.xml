@@ -101,7 +101,7 @@
                 android:background="@drawable/rounded_white">
 
                 <ListView
-                    android:id="@+id/bookList"
+                    android:id="@+id/studiedBookList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="30dp"/>
