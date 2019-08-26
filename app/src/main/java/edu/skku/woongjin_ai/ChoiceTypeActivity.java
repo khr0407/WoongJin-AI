@@ -115,46 +115,44 @@ public class ChoiceTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scriptButton.setImageResource(R.drawable.ic_icons_go_back);
-                flagB = 1;
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentSelectHint, hintVideoFragment);
+                transaction.replace(R.id.contentShowScriptChoice, hintVideoFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("type", "choice");
+                hintVideoFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                //TODO 뒤로가기 눌렀을 때 checkButton 비활성화 + flagD 0으로 만들기
             }
         });
 
         noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
-                flagD = 1;
-                flagNoHint=1;
-                desc = "null";
+                if (flagNoHint == 0) {
+                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
+                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                    flagD = 2;
+                    flagNoHint = 1;
+                } else {
+                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
+                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+                    flagD = 0;
+                    flagNoHint = 0;
+                }
             }
         });
 
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagB == 1) {
-                    scriptButton.setImageResource(R.drawable.ic_icons_see_script);
-                    flagB = 0;
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.remove(hintVideoFragment);
-                    transaction.commit();
-                } else {
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
-                    Bundle bundle = new Bundle(2);
-                    bundle.putString("scriptnm", scriptnm);
-                    bundle.putString("type", "choice");
-                    showScriptFragment.setArguments(bundle);
-                    //transaction.addToBackStack(null);
-                    transaction.commit();
-                }
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
+                Bundle bundle = new Bundle(2);
+                bundle.putString("scriptnm", scriptnm);
+                bundle.putString("type", "choice");
+                showScriptFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
