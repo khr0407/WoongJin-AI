@@ -73,7 +73,9 @@ public class HintWritingFragment extends Fragment {
                     fragmentTransaction.commit();
 
                 } else if(type.equals("choice")) {
-                    fragmentTransaction.remove(((ChoiceTypeActivity)getActivity()).hintVideoFragment);
+                    ((ChoiceTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+                    ((ChoiceTypeActivity)getActivity()).flagD = 0;
+                    fragmentTransaction.remove(((ChoiceTypeActivity)getActivity()).hintWritingFragment);
                     fragmentTransaction.commit();
 
                 } else if(type.equals("shortword")) {
