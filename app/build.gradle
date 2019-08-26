@@ -8,10 +8,10 @@ List<String> dirs = [
 android {
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\user\\AndroidStudioProjects\\key\\woongjin.jks')
-            storePassword 'woongjin'
-            keyAlias = 'woongjin'
-            keyPassword 'woongjin'
+            storeFile file('C:\\Users\\hmybj\\Desktop\\19-Summer\\웅진_산학협력\\woongjin_key.jks')
+            storePassword '950406'
+            keyAlias = 'key0406'
+            keyPassword '950406'
         }
     }
     compileSdkVersion 28
@@ -59,11 +59,15 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
     implementation 'com.android.support:design:28.0.0'
-    implementation group: 'com.kakao.sdk', name: 'usermgmt', version: project.KAKAO_SDK_VERSION
-    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
+
+    api group: 'com.kakao.sdk', name: 'usermgmt', version: project.KAKAO_SDK_VERSION
     api group: 'com.kakao.sdk', name: 'kakaotalk', version: project.KAKAO_SDK_VERSION
-    implementation 'com.kakao.sdk:newtone:6.0.1'
+    api group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
+    implementation group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+    implementation 'com.android.support:design:28.0.0'
+    implementation group: 'com.kakao.sdk', name: 'kakaolink', version: project.KAKAO_SDK_VERSION
     implementation 'com.squareup.picasso:picasso:2.3.3'
 }
 apply plugin: 'com.google.gms.google-services'

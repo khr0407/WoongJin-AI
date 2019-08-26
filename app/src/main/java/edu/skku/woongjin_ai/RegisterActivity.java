@@ -133,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
         gradeList =new ArrayList<>();
         gradeList.add("1"); gradeList.add("2");  gradeList.add("3");  gradeList.add("4");  gradeList.add("5"); gradeList.add("6");
         gradeAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, gradeList);
-        gradespinner = (Spinner) findViewById(R.id.grade);
+        //gradespinner = (Spinner) findViewById(R.id.grade);
         gradespinner.setAdapter(gradeAdapter);
         gradespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
