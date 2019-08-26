@@ -59,10 +59,10 @@
                 android:layout_weight="5"/>
 
             <TextView
+                android:id="@+id/nationQuiz"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_icons_speech_bubble2"
-                android:text="@string/quiz_nation"
                 android:textSize="30dp"
                 android:fontFamily="@font/typo_sherlock_b"
                 android:layout_gravity="center"

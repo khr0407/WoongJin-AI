@@ -1,18 +1,22 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainQuizTypeFragment.OnFragmentInteractionListener{
 
-    Intent intent, intentBook, intentQuiz, intentGame, intentMyPage;
+    Intent intent, intentBook, intentGame, intentMyPage;
     String id;
     ImageButton bookButton, quizButton, gameButton, myPageButton;
     TextView textView;
+    MainQuizTypeFragment mainQuizTypeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         gameButton = (ImageButton) findViewById(R.id.GameActivity);
         myPageButton = (ImageButton) findViewById(R.id.myPage);
         textView = (TextView) findViewById(R.id.main);
+        mainQuizTypeFragment = new MainQuizTypeFragment();
 
         intent = getIntent();
         id = intent.getStringExtra("id");
@@ -36,14 +41,19 @@ public class MainActivity extends AppCompatActivity {
                 intentBook = new Intent(MainActivity.this, NationBookActivity.class);
                 intentBook.putExtra("id", id);
                 startActivity(intentBook);
-                finish();
             }
         });
 
         quizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.mainQuizSelect, mainQuizTypeFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("id", id);
+                mainQuizTypeFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -53,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
                 intentGame = new Intent(MainActivity.this, NationGameActivity.class);
                 intentGame.putExtra("id", id);
                 startActivity(intentGame);
-                finish();
             }
         });
 
@@ -63,8 +72,12 @@ public class MainActivity extends AppCompatActivity {
                 intentMyPage = new Intent(MainActivity.this, MyPageActivity.class);
                 intentMyPage.putExtra("id", id);
                 startActivity(intentMyPage);
-                finish();
             }
         });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

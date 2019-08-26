@@ -50,6 +50,7 @@ public class SelectBookActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.selectBook);
 
         bookArrayList = new ArrayList<String>();
+        backgroundArrayList = new ArrayList<String>();
         bookArrayAdapter = new ArrayAdapter<String>(SelectBookActivity.this, android.R.layout.simple_list_item_1);
         bookListView.setAdapter(bookArrayAdapter);
 
@@ -97,6 +98,7 @@ public class SelectBookActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 bookArrayList.clear();
+                backgroundArrayList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String type = snapshot.child("type").getValue().toString();
                     if(type.equals(bookType)) {
