@@ -5,13 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     Intent intent, intentBook, intentQuiz, intentGame, intentMyPage;
     String id;
     ImageButton bookButton, quizButton, gameButton, myPageButton;
-
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,9 +23,12 @@ public class MainActivity extends AppCompatActivity {
         quizButton = (ImageButton) findViewById(R.id.QuizActivity);
         gameButton = (ImageButton) findViewById(R.id.GameActivity);
         myPageButton = (ImageButton) findViewById(R.id.myPage);
+        textView = (TextView) findViewById(R.id.main);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
+
+        textView.setText("안녕 " + id + "!\n여행하고 싶은 나라를 골라보자!");
 
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override

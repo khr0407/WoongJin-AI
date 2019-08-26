@@ -42,10 +42,10 @@
                 android:layout_weight="3"
                 />
             <TextView
+                android:id="@+id/main"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_icons_speech_bubble2"
-                android:text="안녕! 여행하고 싶은 나라를 골라보자!"
                 android:textSize="30dp"
                 android:fontFamily="@font/typo_sherlock_b"
                 android:layout_gravity="center"

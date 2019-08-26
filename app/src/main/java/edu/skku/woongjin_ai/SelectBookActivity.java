@@ -53,9 +53,25 @@ public class SelectBookActivity extends AppCompatActivity {
         bookArrayAdapter = new ArrayAdapter<String>(SelectBookActivity.this, android.R.layout.simple_list_item_1);
         bookListView.setAdapter(bookArrayAdapter);
 
+        getFirebaseDatabaseBookList();
+
         if(bookType.equals("science")) {
-            textView.setText("과학을 선택했구블발바ㅡ라ㅡㅏㄹ");
-        } else if()
+            textView.setText("과학을 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        } else if(bookType.equals("history")){
+            textView.setText("역사를 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }else if(bookType.equals("news")){
+            textView.setText("어린이 시사를 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }else if(bookType.equals("morality")){
+            textView.setText("도덕을 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }else if(bookType.equals("mistery")){
+            textView.setText("미스터리 소설을 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }else if(bookType.equals("comics")){
+            textView.setText("웃긴 이야기를 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }else if(bookType.equals("oldstory")){
+            textView.setText("전래동화를 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }else if(bookType.equals("greatman")){
+            textView.setText("위인전을 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }
 
         bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
