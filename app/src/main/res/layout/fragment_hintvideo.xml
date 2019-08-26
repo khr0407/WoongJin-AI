@@ -16,6 +16,11 @@
             android:background="@drawable/rounded_orange"
             android:padding="30dp">
 
+            <SurfaceView
+                android:id="@+id/sv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -104,6 +109,7 @@
                             android:src="@drawable/ic_icons_take_video"/>
 
                         <ImageButton
+                            android:id="@+id/watchVideo"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
