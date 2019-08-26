@@ -95,28 +95,31 @@ public class ShortwordTypeActivity extends AppCompatActivity
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                flagD = 1;
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("type", "shortword");
+                hintWritingFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
+                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                flagD = 1;
             }
         });
 
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scriptButton.setImageResource(R.drawable.ic_icons_go_back);
-                flagB = 1;
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentSelectHint, hintVideoFragment);
+                transaction.replace(R.id.contentShowScriptShortword, hintVideoFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("type", "shortword");
+                hintVideoFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                //TODO 뒤로가기 눌렀을 때 checkButton 비활성화 + flagD 0으로 만들기
             }
         });
-
+/*
         noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,6 +128,23 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 flagD = 1;
                 flagNoHint=1;
                 desc = "NoHint";
+            }
+        });*/
+        noHintButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(flagNoHint == 0) {
+                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
+                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                    flagD = 2;
+                    flagNoHint = 1;
+                } else {
+                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
+                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+                    flagD = 0;
+                    flagNoHint = 0;
+                }
+                //TODO 힌트 없음도 fragment 만들어?
             }
         });
 
@@ -279,7 +299,6 @@ public class ShortwordTypeActivity extends AppCompatActivity
         editAns.setText("");
         //editDesc.setText("");
     }
-
     @Override
     public void onFragmentInteraction(Uri uri) {
 
