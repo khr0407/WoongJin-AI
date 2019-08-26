@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="3"
+        android:weightSum="4"
         android:orientation="vertical">
 
         <ImageButton
@@ -27,6 +27,13 @@
             android:textSize="20dp"
             android:gravity="center"
             android:background="@drawable/rounded_white"/>
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#00ff0000"
+            android:src="@drawable/ic_icons_go_back"/>
 
     </LinearLayout>
 

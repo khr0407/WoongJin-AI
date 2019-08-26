@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.graphics.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -49,6 +50,7 @@ public class HintVideoFragment extends Fragment {
         final Context context = container.getContext();
 
 
+        Camera camera = new Camera();
 
         return view;
     }
