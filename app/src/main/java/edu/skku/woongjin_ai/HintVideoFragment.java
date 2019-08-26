@@ -1,7 +1,10 @@
 package edu.skku.woongjin_ai;
 
+import android.Manifest;
 import android.content.Context;
 import android.graphics.Camera;
+import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraDevice;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.net.Uri;
@@ -12,16 +15,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-
 import java.io.IOException;
 
-public class HintVideoFragment extends Fragment implements SurfaceHolder.Callback {
+public class HintVideoFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -29,14 +31,9 @@ public class HintVideoFragment extends Fragment implements SurfaceHolder.Callbac
     private String mParam1;
     private String mParam2;
 
-    String type, path;
+    String type;
+    ImageButton recordButton, watchButton;
     Camera camera;
-    boolean isRecording = false, isPlaying = false, hasVideo = false;
-    MediaRecorder mediaRecorder = null;
-    MediaPlayer mediaPlayer = null;
-    SurfaceView surfaceView;
-    SurfaceHolder surfaceHolder = null;
-    ImageButton recordButton, recordAgainButton;
 
     private HintVideoFragment.OnFragmentInteractionListener mListener;
 
@@ -71,65 +68,21 @@ public class HintVideoFragment extends Fragment implements SurfaceHolder.Callbac
         type = getArguments().getString("type");
 
         recordButton = (ImageButton) view.findViewById(R.id.record);
-        recordAgainButton = (ImageButton) view.findViewById(R.id.watchVideo);
+        watchButton = (ImageButton) view.findViewById(R.id.watchVideo);
         ImageButton goBackButton = (ImageButton) view.findViewById(R.id.goBack);
-        mediaRecorder = new MediaRecorder();
-        mediaPlayer = new MediaPlayer();
-        surfaceView = (SurfaceView) view.findViewById(R.id.sv);
         camera = new Camera();
 
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hasVideo = false;
-                if(isRecording == false) {
-                    initAudioRecorder();
-                    mediaRecorder.start();
-                    isRecording = true;
-                    recordButton.setImageResource(R.drawable.ic_icons_recording_video);
-                    Log.d("hereeeeeeeeee", "stop recording");
-                } else {
-                    mediaRecorder.stop();
-                    isRecording = false;
-                    recordButton.setImageResource(R.drawable.ic_icons_take_video);
-                    Log.d("hereeeeeeeeee", "stop recording");
-                }
-                hasVideo = true;
-                initVideoRecorder();
-                startVideoRecorder();
+
             }
         });
 
-        recordAgainButton.setOnClickListener(new View.OnClickListener() {
+        watchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(isPlaying == false) {
-                    try {
-                        mediaPlayer.setDataSource(path);
-                        if(hasVideo == true) {
-                            mediaPlayer.setDisplay(surfaceHolder);
-                            mediaPlayer.setOnCompletionListener(myListener);
-                        }
-                        mediaPlayer.prepare();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    mediaPlayer.start();
-                    isPlaying = true;
-                    Log.d("hereeeeeeeeee", "stop playing");
-                } else {
-                    mediaPlayer.stop();
-                    isPlaying = false;
-                    Log.d("hereeeeeeeeee", "start playing1");
-                }
-            }
-        });
 
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                isPlaying = false;
-                Log.d("hereeeeeeeeee", "start playing2");
             }
         });
 
@@ -154,26 +107,6 @@ public class HintVideoFragment extends Fragment implements SurfaceHolder.Callbac
         return view;
     }
 
-    MediaPlayer.OnCompletionListener myListener = new MediaPlayer.OnCompletionListener() {
-        @Override
-        public void onCompletion(MediaPlayer mp) {
-            Log.d("hereeeeeeeee", "start playing3");
-        }
-    };
-
-    void initVideoRecorder() {
-//        camera = Camera.open();
-
-    }
-
-    void initAudioRecorder() {
-
-    }
-
-    void startVideoRecorder() {
-
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -189,21 +122,6 @@ public class HintVideoFragment extends Fragment implements SurfaceHolder.Callbac
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void surfaceCreated(SurfaceHolder holder) {
-
-    }
-
-    @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
-    }
-
-    @Override
-    public void surfaceDestroyed(SurfaceHolder holder) {
-
     }
 
     public interface OnFragmentInteractionListener {
