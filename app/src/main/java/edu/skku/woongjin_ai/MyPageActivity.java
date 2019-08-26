@@ -42,19 +42,18 @@ public class MyPageActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        //btnFriendList = (Button)findViewById(R.id.friendList);
+        btnFriendList = (Button)findViewById(R.id.FriendList);
         //btnuserLetter = (Button) findViewById(R.id.userLetter);
-        //btnLikeList = (Button) findViewById(R.id.LikeList);
-        //btnQList = (Button) findViewById(R.id.QList);
-        //btnLikeList = (Button) findViewById(R.id.LikeList);
+        btnQList = (Button) findViewById(R.id.QList);
+        btnLikeList = (Button) findViewById(R.id.LikeList);
         userName = (TextView) findViewById(R.id.userName);
         userSchool = (TextView) findViewById(R.id.userSchool);
         userGrade = (TextView) findViewById(R.id.userGrade);
-        //userCoin = (TextView) findViewById(R.id.userCoin);
+        userCoin = (TextView) findViewById(R.id.userCoin);
         logout = (Button) findViewById(R.id.logout);
 
         getFirebaseDatabaseUserInfo();
-/*
+
         btnFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,7 +62,6 @@ public class MyPageActivity extends AppCompatActivity {
                 startActivity(intentAddFriend);
             }
         });
-*/
 /*
         btnuserLetter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,16 +72,24 @@ public class MyPageActivity extends AppCompatActivity {
             }
         });
         */
-/*
 
         btnQList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 intent_LikeList = new Intent(MyPageActivity.this, MyQuizActivity.class);
-                intent_LikeList.putExtra("id",id);
+                intent_LikeList.putExtra("id", id);
                 startActivity(intent_LikeList);
             }
-            */
+        });
+        btnLikeList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent_LikeList = new Intent(MyPageActivity.this, MyQuizActivity.class);
+                intent_LikeList.putExtra("id", id);
+                startActivity(intent_LikeList);
+            }
+        });
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
@@ -112,7 +118,7 @@ public class MyPageActivity extends AppCompatActivity {
                         coin = get.coin;
                         userName.setText(name);
                         userSchool.setText(school);
-                        userCoin.setText("코인: " + coin);
+                        userCoin.setText(coin + "코인");
                         break;
                     }
                 }
@@ -125,7 +131,7 @@ public class MyPageActivity extends AppCompatActivity {
                         coin = get.coin;
                         userName.setText(name);
                         userSchool.setText(school);
-                        userCoin.setText("코인: " + coin);
+                        userCoin.setText(coin + "코인");
                         break;
                     }
                 }
