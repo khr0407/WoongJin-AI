@@ -8,7 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,7 +27,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
 
     //TODO UI 백그라운드 이미지로 바꿀까?? 지문 제목 추가??
 
-    Intent intent;
+    Intent intent, intentHome;
     String id, scriptnm, background;
     public DatabaseReference mPostReference;
     ListView myFriendQuizListView, likeQuizListView;
@@ -49,6 +51,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
         myFriendQuizListView = (ListView) findViewById(R.id.myFriendQuizList);
         likeQuizListView = (ListView) findViewById(R.id.likeQuizList);
         TextView textView = (TextView) findViewById(R.id.textShowFriendQuiz);
+        ImageButton homeButton = (ImageButton) findViewById(R.id.home);
 
         likeQuizList = new ArrayList<String>();
         myFriendList = new ArrayList<String>();
@@ -61,6 +64,15 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
         getFirebaseDatabaseLikeQuiz();
 
         textView.setText(id + " 친구가 낸 문제야!");
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentHome = new Intent(ShowFriendQuizActivity.this, MainActivity.class);
+                intentHome.putExtra("id", id);
+                startActivity(intentHome);
+            }
+        });
     }
 
     private void getFirebaseDatabaseMyFriendQuiz() {
@@ -125,6 +137,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
                     }
                 }
 
+                //TODO 랜덤으로 ?개 뽑아서 리스트뷰에
 //                Random generator = new Random();
 
                 for(QuizOXShortwordTypeInfo quiz : myFriendOXQuiz) {
