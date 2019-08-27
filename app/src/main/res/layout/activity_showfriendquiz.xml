@@ -29,8 +29,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#00ff0000"
-                android:src=""/>
+                android:background="#00ff0000"/>
 
             <TextView
                 android:layout_width="0dp"
