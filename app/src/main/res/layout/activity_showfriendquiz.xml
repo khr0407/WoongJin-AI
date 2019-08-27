@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="#00ff0000"
-                android:src=""/>
+                android:src="@drawable/ic_icons_go_to_home"/>
 
             <TextView
                 android:layout_width="0dp"
