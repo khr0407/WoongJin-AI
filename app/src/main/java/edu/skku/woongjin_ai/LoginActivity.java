@@ -9,9 +9,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethod;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -37,16 +37,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class LoginActivity extends AppCompatActivity {
-    boolean saveLoginData;
-    SessionCallback callback;
+    private SessionCallback callback;
     EditText editTextID, editTextPW;
     String id, pw;
-    CheckBox checkBox;
     Button buttonLogin, buttonRegister;
     DatabaseReference mPostReference;
     Intent intent;
@@ -54,48 +50,27 @@ public class LoginActivity extends AppCompatActivity {
     String savedKakao;
     Intent intent_kakaoregister;
 
-    SharedPreferences appData;
-
-
-    private void save() {
-        SharedPreferences.Editor editor = appData.edit();
-        editor.putBoolean("SAVE_LOGIN_DATA", checkBox.isChecked());
-        editor.putString("ID", editTextID.getText().toString().trim());
-        editor.putString("PWD", editTextPW.getText().toString().trim());
-
-        editor.apply();
-    }
-
-    private void load () {
-        saveLoginData = appData.getBoolean("SAVE_LOGIN_DATA", false);
-        id = appData.getString("ID", "");
-        pw = appData.getString("PWD", "");
-    }
+    CheckBox checkbox;
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        appData = getSharedPreferences("appData", MODE_PRIVATE);
-        load();
 
         callback = new SessionCallback();
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
-        checkBox = (CheckBox) findViewById(R.id.checkBox);
         editTextID = (EditText) findViewById(R.id.editTextID);
         editTextPW = (EditText) findViewById(R.id.editTextPW);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
         intent_kakaoregister = new Intent(LoginActivity.this, KakaoRegisterActivity.class);
 
-        if (saveLoginData) {
-            editTextID.setText(id);
-            editTextPW.setText(pw);
-            checkBox.setChecked(saveLoginData);
-        }
+        checkbox = (CheckBox) findViewById(R.id.checkBox);
+        setting = getSharedPreferences("setting", 0);
+        editor = setting.edit();
 
         if (!isLoggedIn()) //카카오톡 로그인이 되어있지 않을 경우
             Session.getCurrentSession().addCallback(callback);
@@ -137,38 +112,59 @@ public class LoginActivity extends AppCompatActivity {
                 id = editTextID.getText().toString();
                 pw = editTextPW.getText().toString();
 
-                if (id.length() == 0 || pw.length() == 0) {
+                if(id.length() == 0 || pw.length() == 0) {
                     Toast.makeText(LoginActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                 } else {
-                    save();
                     final ValueEventListener postListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 String key = snapshot.getKey();
-                                if (id.equals(key)) {
+                                if(id.equals(key)) {
                                     UserInfo get = snapshot.getValue(UserInfo.class);
                                     String password = get.pw;
-                                    if (pw.equals(password)) {
+                                    if(pw.equals(password)) {
                                         flag = 1;
+                                        if(checkbox.isChecked()) {
+                                            editor.putString("ID", id);
+                                            editor.putString("PW", pw);
+                                            editor.commit();
+                                        }
                                         intent = new Intent(LoginActivity.this, MainActivity.class);
                                         intent.putExtra("id", id);
                                         startActivity(intent);
+                                        finish();
                                     }
                                 }
                             }
-                            if (flag == 0) {
+                            if(flag == 0) {
                                 Toast.makeText(LoginActivity.this, "Wrong login", Toast.LENGTH_SHORT).show();
                                 editTextID.setText("");
                                 editTextPW.setText("");
                             }
                         }
-
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                        }
+                        public void onCancelled(@NonNull DatabaseError databaseError) {         }
                     };
                     mPostReference.child("user_list").addValueEventListener(postListener);
+                }
+            }
+        });
+
+        if (setting.getBoolean("Auto login is enabled", false)) {
+            editTextID.setText(setting.getString("ID", ""));
+            editTextPW.setText(setting.getString("PW", ""));
+            checkbox.setChecked(true);
+        }
+        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    editor.putBoolean("Auto login is enabled", true);
+                    editor.commit();
+                } else {
+                    editor.clear();
+                    editor.commit();
                 }
             }
         });
@@ -176,6 +172,7 @@ public class LoginActivity extends AppCompatActivity {
     public boolean isLoggedIn() {
         return !Session.getCurrentSession().isClosed();
     }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) { //간편로그인시 호출
             return;
@@ -183,10 +180,16 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Session.getCurrentSession().removeCallback(callback);
+    }
+
     private class SessionCallback implements ISessionCallback {
         @Override
         public void onSessionOpened() {
-            UserManagement.requestMe(new MeResponseCallback() {
+            UserManagement.getInstance().requestMe(new MeResponseCallback() {
                 @Override
                 public void onFailure(ErrorResult errorResult) {
                     String message = "사용자 정보를 얻어오는 데 실패하였습니다 + " + errorResult;
@@ -241,6 +244,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "세션 연결 실패", Toast.LENGTH_SHORT).show();
         }
     }
+
     private ValueEventListener checkIDRegister = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -261,3 +265,4 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 }
+

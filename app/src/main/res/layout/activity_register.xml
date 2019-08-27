@@ -146,39 +146,18 @@
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:text="생년월일"
-                android:textAlignment="center"
-                android:textSize="19dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
+                android:text="학년"
                 android:textAlignment="center"
                 android:textSize="19dp"
                 android:textStyle="bold" />
 
             <Spinner
-                android:id="@+id/year"
+                android:id="@+id/userGrade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></Spinner>
 
-            <Spinner
-                android:id="@+id/month"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </Spinner>
-
-            <Spinner
-                android:id="@+id/day"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </Spinner>
-
         </LinearLayout>
-
+<!-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -212,28 +191,13 @@
                     android:minLines="2" />
             </android.support.design.widget.TextInputLayout>
 
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
             <Button
                 android:id="@+id/search_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SEARCH" />
-
-            <Button
-                android:id="@+id/btn_register"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="Register"
-                app:layout_constraintLeft_toRightOf="@+id/search_address" />
         </LinearLayout>
-
+<!-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -254,6 +218,19 @@
             </android.support.design.widget.TextInputLayout>
 
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/btn_register"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Register"
+                app:layout_constraintLeft_toRightOf="@+id/search_address" />
         </LinearLayout>
 
         <LinearLayout

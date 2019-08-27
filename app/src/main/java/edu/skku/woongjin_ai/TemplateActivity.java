@@ -139,7 +139,6 @@ public class TemplateActivity extends AppCompatActivity {
                                             int findMin = Integer.parseInt(findMinLike.like);
                                             int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz).like);
                                             if(findMin < minLike) minLikeQuiz = quizListShortword.indexOf(findMinLike);
-                                            Log.d("cnt<", findMin + " " + minLike + " " + minLikeQuiz);
                                         }
                                         cnt++;
                                     } else {
@@ -152,7 +151,6 @@ public class TemplateActivity extends AppCompatActivity {
                                                 int findMin = Integer.parseInt(findMinLike.like);
                                                 int minLikeNew = Integer.parseInt(quizListShortword.get(minLikeQuiz).like);
                                                 if(findMin < minLikeNew) minLikeQuiz = quizListShortword.indexOf(findMinLike);
-                                                Log.d("cnt>", findMin + " " + minLikeNew + " " + minLikeQuiz);
                                             }
                                         }
                                     }
@@ -165,16 +163,6 @@ public class TemplateActivity extends AppCompatActivity {
                     }
                 }
 
-                for(QuizOXShortwordTypeInfo test : quizListOX) {
-                    Log.d("oxxxxxxxxxxxxx", test.like);
-                }
-                for(QuizChoiceTypeInfo test : quizListChoice) {
-                    Log.d("choiceeeeeeeee", test.like);
-                }
-                for(QuizOXShortwordTypeInfo test : quizListShortword) {
-                    Log.d("shortwordddddddddd", test.like);
-                }
-
                 int rand = generator.nextInt(3);
                 QuizOXShortwordTypeInfo post1 = quizListOX.get(rand);
                 String postS1 = "OX 퀴즈 예시\nQ. " + post1.question + "\nA. " + post1.answer + "\nLike: " + post1.like + "\n";
@@ -182,7 +170,7 @@ public class TemplateActivity extends AppCompatActivity {
 
                 rand = generator.nextInt(3);
                 QuizChoiceTypeInfo post2 = quizListChoice.get(rand);
-                String postS2 = "객관식 퀴즈 예시\nQ. " + post2.question + "\nA. " + post2.answer + "\nA1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\nLike: " + post2.like + "\n";
+                String postS2 = "객관식 퀴즈 예시\nQ. " + post2.question + "\nA1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\nA. " + post2.answer + "\nLike: " + post2.like + "\n";
                 choiceT.setText(postS2);
 
                 rand = generator.nextInt(3);
