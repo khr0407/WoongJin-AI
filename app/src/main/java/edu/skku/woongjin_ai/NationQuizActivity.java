@@ -70,7 +70,11 @@ public class NationQuizActivity extends AppCompatActivity {
                     intentMakeQuiz.putExtra("background", backgroundArrayList.get(position));
                     startActivity(intentMakeQuiz);
                 } else if(quizType.equals("friend")) {
-                    //TODO 친구의 질문보기 activity로 넘어가기
+                    intentFriendQuiz = new Intent(NationQuizActivity.this, ShowFriendQuizActivity.class);
+                    intentFriendQuiz.putExtra("id", id);
+                    intentFriendQuiz.putExtra("scriptnm", studiedBookArrayList.get(position));
+                    intentFriendQuiz.putExtra("background", backgroundArrayList.get(position));
+                    startActivity(intentFriendQuiz);
                 }
             }
         });
