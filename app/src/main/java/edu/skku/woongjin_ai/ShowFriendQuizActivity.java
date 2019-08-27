@@ -101,7 +101,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
 
                 for(DataSnapshot snapshot : dataSnapshot.child("quiz_list/" + scriptnm).getChildren()) {
                     String key = snapshot.getKey();
-                    if(key.equals("type1") || key.equals("type3")) {
+                    if(key.equals("type1")) {
                         for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                             String uid = snapshot1.child("uid").getValue().toString();
                             for(String friend : myFriendList) {
