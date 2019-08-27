@@ -89,5 +89,7 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".SelectBookActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".ShowFriendQuizActivity"
+            android:screenOrientation="landscape"/>
     </application>
 </manifest>
