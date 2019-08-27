@@ -29,7 +29,7 @@ public class NationQuizActivity extends AppCompatActivity {
     ImageButton homeButton;
     public DatabaseReference mPostReference;
     ListView studiedBookListView;
-    ArrayList<String> studiedBookArrayList;
+    ArrayList<String> studiedBookArrayList, backgroundArrayList;
     ArrayAdapter<String> studiedBookArrayAdapter;
 
     @Override
@@ -48,6 +48,7 @@ public class NationQuizActivity extends AppCompatActivity {
         studiedBookListView = (ListView) findViewById(R.id.studiedBookList);
 
         studiedBookArrayList = new ArrayList<String>();
+        backgroundArrayList = new ArrayList<String>();
         studiedBookArrayAdapter = new ArrayAdapter<String>(NationQuizActivity.this, android.R.layout.simple_list_item_1);
         studiedBookListView.setAdapter(studiedBookArrayAdapter);
 
@@ -61,17 +62,15 @@ public class NationQuizActivity extends AppCompatActivity {
 
         studiedBookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
                 if(quizType.equals("me")) {
                     intentMakeQuiz = new Intent(NationQuizActivity.this, SelectTypeActivity.class);
                     intentMakeQuiz.putExtra("id", id);
                     intentMakeQuiz.putExtra("scriptnm", studiedBookArrayList.get(position));
-
-                    //TODO background 찾기? 아님 scripts에 같이 넣어놔?
-
+                    intentMakeQuiz.putExtra("background", backgroundArrayList.get(position));
                     startActivity(intentMakeQuiz);
                 } else if(quizType.equals("friend")) {
-
+                    //TODO 친구의 질문보기 activity로 넘어가기
                 }
             }
         });
@@ -87,10 +86,11 @@ public class NationQuizActivity extends AppCompatActivity {
     }
 
     private void getFirebaseDatabaseStudiedBookList() {
-        final ValueEventListener postListener = new ValueEventListener() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 studiedBookArrayList.clear();
+                backgroundArrayList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
                     if(key.equals("kakaouser_list") || key.equals("user_list")) {
@@ -109,10 +109,19 @@ public class NationQuizActivity extends AppCompatActivity {
                 studiedBookArrayAdapter.clear();
                 studiedBookArrayAdapter.addAll(studiedBookArrayList);
                 studiedBookArrayAdapter.notifyDataSetChanged();
+                for(DataSnapshot snapshot : dataSnapshot.child("script_list").getChildren()) {
+                    String key = snapshot.getKey();
+                    for(String script : studiedBookArrayList) {
+                        if(key.equals(script)) {
+                            String background = snapshot.child("background").getValue().toString();
+                            backgroundArrayList.add(background);
+                            break;
+                        }
+                    }
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
-        };
-        mPostReference.addValueEventListener(postListener);
+        });
     }
 }

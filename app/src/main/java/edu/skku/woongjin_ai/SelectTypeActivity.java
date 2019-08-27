@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -74,7 +75,6 @@ public class SelectTypeActivity extends AppCompatActivity {
                 intentTemplate.putExtra("scriptnm", scriptnm);
                 intentTemplate.putExtra("background", backgroundID);
                 startActivity(intentTemplate);
-                finish();
             }
         });
 
@@ -84,7 +84,6 @@ public class SelectTypeActivity extends AppCompatActivity {
                 intentHome = new Intent(SelectTypeActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
-                finish();
             }
         });
 
@@ -103,7 +102,6 @@ public class SelectTypeActivity extends AppCompatActivity {
                 intentOX.putExtra("scriptnm", scriptnm);
                 intentOX.putExtra("background", backgroundID);
                 startActivity(intentOX);
-                finish();
             }
         });
 
@@ -115,7 +113,6 @@ public class SelectTypeActivity extends AppCompatActivity {
                 intentChoice.putExtra("scriptnm", scriptnm);
                 intentChoice.putExtra("background", backgroundID);
                 startActivity(intentChoice);
-                finish();
             }
         });
 
@@ -127,7 +124,6 @@ public class SelectTypeActivity extends AppCompatActivity {
                 intentShortword.putExtra("scriptnm", scriptnm);
                 intentShortword.putExtra("background", backgroundID);
                 startActivity(intentShortword);
-                finish();
             }
         });
     }
