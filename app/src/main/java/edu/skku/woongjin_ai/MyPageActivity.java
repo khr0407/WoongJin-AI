@@ -27,10 +27,10 @@ public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
     Intent intent, intentAddFriend, intent_chatlist, intent_LikeList, intent_QList;
-    String id, nickname, name, coin;
+    String grade ,school, name, coin,id;
     Button btnFriendList, btnuserLetter, btnLikeList, btnQList;
     Button logout;
-    TextView userNickname, userName, userCoin;
+    TextView userGrade, userSchool, userName, userCoin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,13 +42,13 @@ public class MyPageActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-//        btnFriendList = (Button)findViewById(R.id.friendsList);
-//        btnuserLetter = (Button) findViewById(R.id.userLetter);
-        btnLikeList = (Button) findViewById(R.id.LikeList);
+        btnFriendList = (Button)findViewById(R.id.FriendList);
+        //btnuserLetter = (Button) findViewById(R.id.userLetter);
         btnQList = (Button) findViewById(R.id.QList);
         btnLikeList = (Button) findViewById(R.id.LikeList);
-        //userNickname = (TextView) findViewById(R.id.userID);
         userName = (TextView) findViewById(R.id.userName);
+        userSchool = (TextView) findViewById(R.id.userSchool);
+        userGrade = (TextView) findViewById(R.id.userGrade);
         userCoin = (TextView) findViewById(R.id.userCoin);
         logout = (Button) findViewById(R.id.logout);
 
@@ -62,8 +62,7 @@ public class MyPageActivity extends AppCompatActivity {
                 startActivity(intentAddFriend);
             }
         });
-
-
+/*
         btnuserLetter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,15 +71,23 @@ public class MyPageActivity extends AppCompatActivity {
                 startActivity(intent_chatlist);
             }
         });
+        */
 
         btnQList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 intent_LikeList = new Intent(MyPageActivity.this, MyQuizActivity.class);
-                intent_LikeList.putExtra("id",id);
+                intent_LikeList.putExtra("id", id);
                 startActivity(intent_LikeList);
             }
-
+        });
+        btnLikeList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent_LikeList = new Intent(MyPageActivity.this, MyQuizActivity.class);
+                intent_LikeList.putExtra("id", id);
+                startActivity(intent_LikeList);
+            }
         });
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -107,11 +114,11 @@ public class MyPageActivity extends AppCompatActivity {
                     if (id.equals(key)) {
                         UserInfo get = snapshot.getValue(UserInfo.class);
                         name = get.name;
-                        nickname = get.nickname;
+                        school = get.school;
                         coin = get.coin;
-                        userName.setText("이름: " + name);
-                        userNickname.setText("닉네임: " + nickname);
-                        userCoin.setText("코인: " + coin);
+                        userName.setText(name);
+                        userSchool.setText(school);
+                        userCoin.setText(coin + "코인");
                         break;
                     }
                 }
@@ -120,11 +127,11 @@ public class MyPageActivity extends AppCompatActivity {
                     if (id.equals(key)) {
                         UserInfo get = snapshot.getValue(UserInfo.class);
                         name = get.name;
-                        nickname = get.nickname;
+                        school = get.school;
                         coin = get.coin;
-                        userName.setText("이름: " + name);
-                        userNickname.setText("닉네임: " + nickname);
-                        userCoin.setText("코인: " + coin);
+                        userName.setText(name);
+                        userSchool.setText(school);
+                        userCoin.setText(coin + "코인");
                         break;
                     }
                 }

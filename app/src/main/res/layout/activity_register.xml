@@ -152,7 +152,7 @@
                 android:textStyle="bold" />
 
             <Spinner
-                android:id="@+id/grade"
+                android:id="@+id/userGrade"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></Spinner>
 

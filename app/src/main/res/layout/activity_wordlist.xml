@@ -131,9 +131,11 @@
                                 android:layout_weight="0.5"></LinearLayout>
 
                             <ListView
+                                android:id="@+id/wordlist"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:layout_weight="7.5">
+                                android:layout_weight="7.5"
+                                android:padding="20dp">
                             </ListView>
 
                         </LinearLayout>
@@ -143,14 +145,20 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"></LinearLayout>
 
-                        <LinearLayout
+                        <FrameLayout
+                            android:id="@+id/wordlistFragment"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:layout_weight="3">
+                            android:layout_weight="3"
+                            android:orientation="vertical">
 
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:text="우리 함께 \n 읽어 볼까?"
+                                android:background="@drawable/ic_icons_speech_bubble1"/>
 
-                        </LinearLayout>
+                        </FrameLayout>
 
                     </LinearLayout>
 
