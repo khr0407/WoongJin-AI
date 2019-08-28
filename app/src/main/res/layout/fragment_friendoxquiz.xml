@@ -110,6 +110,7 @@
                 android:background="@drawable/filet_white"
                 android:fontFamily="@font/typo_sherlock_l"
                 android:gravity="center_vertical"
+                android:padding="15dp"
                 android:textSize="25dp"/>
 
             <TextView
