@@ -36,6 +36,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity implements FriendO
     ArrayList<QuizChoiceTypeInfo> myFriendChoiceQuizList;
     MyFriendQuizListAdapter myFriendQuizListAdapter;
     FriendOXQuizFragment friendOXQuizFragment;
+    FragmentTransaction transaction;
     int cntOX, cntChoice, cntShort;
 
     @Override
@@ -51,6 +52,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity implements FriendO
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         friendOXQuizFragment = new FriendOXQuizFragment();
+        transaction = getSupportFragmentManager().beginTransaction();
 
         myFriendQuizListView = (ListView) findViewById(R.id.myFriendQuizList);
         likeQuizListView = (ListView) findViewById(R.id.likeQuizList);
@@ -81,7 +83,6 @@ public class ShowFriendQuizActivity extends AppCompatActivity implements FriendO
         myFriendQuizListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 if(position < cntOX) { // OX
                     QuizOXShortwordTypeInfo quiz = myFriendOXQuizList.get(position);
 

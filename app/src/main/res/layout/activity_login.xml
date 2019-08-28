@@ -72,13 +72,6 @@
             android:layout_height="wrap_content"
             android:text="Register"/>
 
-        <CheckBox
-            android:text="로그인 정보 기억하기"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/checkBox"
-            />
-
         <LinearLayout
             android:id="@+id/linearLayout6"
             android:layout_width="300dp"
@@ -104,8 +97,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-                />
-
         </LinearLayout>
 
         <LinearLayout

@@ -44,11 +44,10 @@
                 android:layout_weight="10"/>
 
             <ImageView
-                android:id="@+id/star1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/ic_icons_difficulty_star_empty"/>
+                android:src="@drawable/ic_icons_difficulty_star_full"/>
 
             <ImageView
                 android:id="@+id/star2"
@@ -108,10 +107,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="3"
-                android:background="@drawable/rounded_white"
+                android:background="@drawable/filet_white"
                 android:fontFamily="@font/typo_sherlock_l"
                 android:gravity="center_vertical"
-                android:textSize="30dp"/>
+                android:textSize="25dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -156,6 +155,7 @@
             android:orientation="horizontal">
 
             <ImageButton
+                android:id="@+id/scriptFriendOX"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -163,6 +163,7 @@
                 android:src="@drawable/ic_icons_see_script"/>
 
             <ImageButton
+                android:id="@+id/hintFriendOX"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -170,14 +171,15 @@
                 android:src="@drawable/ic_icons_see_hint"/>
 
             <Button
+                android:id="@+id/checkFriendOX"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="채점하기"
-                android:textColor="@color/white"
+                android:textColor="@color/orange"
                 android:fontFamily="@font/typo_sherlock_b"
                 android:textSize="30dp"
-                android:background="#00ff0000"/>
+                android:background="@drawable/filet_white"/>
 
         </LinearLayout>
 
