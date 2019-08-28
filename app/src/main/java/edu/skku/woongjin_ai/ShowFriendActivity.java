@@ -203,9 +203,9 @@ public class ShowFriendActivity extends Activity {
                             String key = snapshot1.getKey();
                             if(!key.equals(id_key)) {
                                 int flag = 0;
-                                String nickname = snapshot1.child("nickname").getValue().toString();
-                                for(String friendNickname : myFriendList) {
-                                    if(nickname.equals(friendNickname)) {
+                                String uid = snapshot1.getKey();
+                                for(String friendID : myFriendList) {
+                                    if(uid.equals(friendID)) {
                                         flag = 1;
                                         break;
                                     }
@@ -214,7 +214,6 @@ public class ShowFriendActivity extends Activity {
                                     UserInfo friend = snapshot1.getValue(UserInfo.class);
                                     String grade = friend.grade;
                                     String school = friend.school;
-                                    String uid = friend.id;
                                     if (grade.equals(myGrade) || school.equals(mySchool)) {
                                         recommendList.add(friend);
                                     }

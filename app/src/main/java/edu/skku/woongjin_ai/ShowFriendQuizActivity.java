@@ -1,15 +1,15 @@
 package edu.skku.woongjin_ai;
 
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ShowFriendQuizActivity extends AppCompatActivity {
+public class ShowFriendQuizActivity extends AppCompatActivity implements FriendOXQuizFragment.OnFragmentInteractionListener {
 
     //TODO UI 백그라운드 이미지로 바꿀까?? 지문 제목 추가??
 
@@ -32,9 +32,11 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     ListView myFriendQuizListView, likeQuizListView;
     ArrayList<String> likeQuizList, myFriendList;
-    ArrayList<QuizOXShortwordTypeInfo> myFriendOXQuiz, myFriendShortQuizList;
+    ArrayList<QuizOXShortwordTypeInfo> myFriendOXQuizList, myFriendShortQuizList;
     ArrayList<QuizChoiceTypeInfo> myFriendChoiceQuizList;
     MyFriendQuizListAdapter myFriendQuizListAdapter;
+    FriendOXQuizFragment friendOXQuizFragment;
+    int cntOX, cntChoice, cntShort;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
+        friendOXQuizFragment = new FriendOXQuizFragment();
+
         myFriendQuizListView = (ListView) findViewById(R.id.myFriendQuizList);
         likeQuizListView = (ListView) findViewById(R.id.likeQuizList);
         TextView textView = (TextView) findViewById(R.id.textShowFriendQuiz);
@@ -55,7 +59,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
 
         likeQuizList = new ArrayList<String>();
         myFriendList = new ArrayList<String>();
-        myFriendOXQuiz = new ArrayList<QuizOXShortwordTypeInfo>();
+        myFriendOXQuizList = new ArrayList<QuizOXShortwordTypeInfo>();
         myFriendShortQuizList = new ArrayList<QuizOXShortwordTypeInfo>();
         myFriendChoiceQuizList = new ArrayList<QuizChoiceTypeInfo>();
         myFriendQuizListAdapter = new MyFriendQuizListAdapter();
@@ -73,6 +77,39 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
                 startActivity(intentHome);
             }
         });
+
+        myFriendQuizListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                if(position < cntOX) { // OX
+                    QuizOXShortwordTypeInfo quiz = myFriendOXQuizList.get(position);
+
+                    transaction.replace(R.id.contentShowFriendQuiz, friendOXQuizFragment);
+                    Bundle bundle = new Bundle(6);
+                    bundle.putString("id", id);
+                    bundle.putString("scriptnm", scriptnm);
+                    bundle.putString("question", quiz.question);
+                    bundle.putString("answer", quiz.answer);
+                    bundle.putString("uid", quiz.uid);
+                    bundle.putString("star", quiz.star);
+                    friendOXQuizFragment.setArguments(bundle);
+                    transaction.commit();
+                } else {
+                    position -= cntOX;
+                    if(position < cntChoice) {
+                        QuizChoiceTypeInfo quiz = myFriendChoiceQuizList.get(position);
+
+
+                    } else {
+                        position -= cntChoice;
+                        QuizOXShortwordTypeInfo quiz = myFriendShortQuizList.get(position);
+
+
+                    }
+                }
+            }
+        });
     }
 
     private void getFirebaseDatabaseMyFriendQuiz() {
@@ -80,7 +117,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 myFriendList.clear();
-                myFriendOXQuiz.clear();
+                myFriendOXQuizList.clear();
                 myFriendShortQuizList.clear();
                 myFriendChoiceQuizList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -107,7 +144,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
                             for(String friend : myFriendList) {
                                 if(uid.equals(friend)) {
                                     QuizOXShortwordTypeInfo quiz = snapshot1.getValue(QuizOXShortwordTypeInfo.class);
-                                    myFriendOXQuiz.add(quiz);
+                                    myFriendOXQuizList.add(quiz);
                                     break;
                                 }
                             }
@@ -137,18 +174,57 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
                     }
                 }
 
-                //TODO 랜덤으로 ?개 뽑아서 리스트뷰에
-//                Random generator = new Random();
+                Random generator = new Random();
+                cntOX = myFriendOXQuizList.size();
+                cntChoice = myFriendChoiceQuizList.size();
+                cntShort = myFriendShortQuizList.size();
+                int[] randList = new int[5];
 
-                for(QuizOXShortwordTypeInfo quiz : myFriendOXQuiz) {
-                    myFriendQuizListAdapter.addItem(quiz.question, quiz.uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), quiz.like);
+                int cnt = 5;
+                if(cnt > cntOX) cnt = cntOX;
+                for(int i=0; i<cnt; i++) {
+                    randList[i] = generator.nextInt(cntOX);
+                    for(int j = 0; j < i; j++) {
+                        if(randList[i] == randList[j]) {
+                            i--;
+                            break;
+                        }
+                    }
                 }
-                for(QuizChoiceTypeInfo quiz : myFriendChoiceQuizList) {
-                    myFriendQuizListAdapter.addItem(quiz.question, quiz.uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), quiz.like);
+                for(int i=0; i<cnt; i++) {
+                    myFriendQuizListAdapter.addItem(myFriendOXQuizList.get(randList[i]).question, myFriendOXQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), myFriendOXQuizList.get(randList[i]).like);
                 }
-                for(QuizOXShortwordTypeInfo quiz : myFriendShortQuizList) {
-                    myFriendQuizListAdapter.addItem(quiz.question, quiz.uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), quiz.like);
+
+                cnt = 5;
+                if(cnt > cntChoice) cnt = cntChoice;
+                for(int i=0; i<cnt; i++) {
+                    randList[i] = generator.nextInt(cntChoice);
+                    for(int j = 0; j < i; j++) {
+                        if(randList[i] == randList[j]) {
+                            i--;
+                            break;
+                        }
+                    }
                 }
+                for(int i=0; i<cnt; i++) {
+                    myFriendQuizListAdapter.addItem(myFriendChoiceQuizList.get(randList[i]).question, myFriendChoiceQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), myFriendChoiceQuizList.get(randList[i]).like);
+                }
+
+                cnt = 5;
+                if(cnt > cntShort) cnt = cntShort;
+                for(int i=0; i<cnt; i++) {
+                    randList[i] = generator.nextInt(cntShort);
+                    for(int j = 0; j < i; j++) {
+                        if(randList[i] == randList[j]) {
+                            i--;
+                            break;
+                        }
+                    }
+                }
+                for(int i=0; i<cnt; i++) {
+                    myFriendQuizListAdapter.addItem(myFriendShortQuizList.get(randList[i]).question, myFriendShortQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), myFriendShortQuizList.get(randList[i]).like);
+                }
+
                 myFriendQuizListView.setAdapter(myFriendQuizListAdapter);
 
             }
@@ -175,5 +251,10 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

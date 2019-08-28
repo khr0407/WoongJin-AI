@@ -35,7 +35,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "", desc = "";
     int star = 0;
-    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0, flagB=0;
+    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0, flagB=0, flagNoHint=0;
     int flagA1 =0, flagA2=0, flagA3=0,flagA4 =0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
@@ -131,10 +131,17 @@ public class ChoiceTypeActivity extends AppCompatActivity
         noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
-                flagD = 1;
-                desc = "null";
+                if(flagNoHint == 0) {
+                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
+                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                    flagD = 2;
+                    flagNoHint = 1;
+                } else {
+                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
+                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+                    flagD = 0;
+                    flagNoHint = 0;
+                }
             }
         });
 

@@ -2,6 +2,7 @@ package edu.skku.woongjin_ai;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MyFriendQuizListAdapter extends BaseAdapter {
+public class MyFriendQuizListAdapter extends BaseAdapter implements FriendOXQuizFragment.OnFragmentInteractionListener{
 
     private ArrayList<MyFriendQuizListItem> myFriendQuizListItems = new ArrayList<MyFriendQuizListItem>();
 
@@ -61,5 +62,10 @@ public class MyFriendQuizListAdapter extends BaseAdapter {
         myFriendQuizListItem.setIconLikr(iconLike);
         myFriendQuizListItem.setLike(like);
         myFriendQuizListItems.add(myFriendQuizListItem);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
