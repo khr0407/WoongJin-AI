@@ -41,8 +41,9 @@ public class ShowFriendActivity extends Activity {
     ArrayList<UserInfo> recommendList, recommendFinalList;
     UserInfo me;
 
-    String id_key, friend_nickname;
-    String newfriend_id, newfriend_nickname, newfriend_name;
+    String id_key, name_key, nickname_key;
+    String friend_nickname;
+    String newfriend_nickname, newfriend_name, newfriend_id;
     ImageButton invitefriend, addfriend;
 
     Intent intent;
@@ -71,9 +72,11 @@ public class ShowFriendActivity extends Activity {
 
         intent = getIntent();
         id_key = intent.getStringExtra("id");
+        name_key = intent.getStringExtra("name");
+        nickname_key = intent.getStringExtra("nickname");
 
         mPostReference2 = FirebaseDatabase.getInstance().getReference();
-        mPostReference3 = FirebaseDatabase.getInstance().getReference();
+        //mPostReference3 = FirebaseDatabase.getInstance().getReference();
         arrayAdapter = new ArrayAdapter<String>(ShowFriendActivity.this, android.R.layout.simple_list_item_1);
         recommendListArrayAdapter = new ArrayAdapter<String>(ShowFriendActivity.this, android.R.layout.simple_list_item_1);
 
@@ -137,8 +140,19 @@ public class ShowFriendActivity extends Activity {
                     Toast.makeText(ShowFriendActivity.this, "추가할 친구를 선택하세요.", Toast.LENGTH_SHORT).show();
                 }
                 else if (check_recommend == 1) {
-                    mPostReference3.child("user_list/" + id_key + "/friend/" + newfriend_id + "/name").setValue(newfriend_name);
-                    mPostReference3.child("user_list/" + id_key + "/friend/" + newfriend_id + "/nickname").setValue(newfriend_nickname);
+                    mPostReference.child(newfriend_id + "/name").setValue(newfriend_name);
+                    mPostReference.child(newfriend_id + "/nickname").setValue(newfriend_nickname);
+
+                    if (onlyNumCheck(newfriend_id) == true) {
+                        mPostReference3 = FirebaseDatabase.getInstance().getReference().child("kakaouser_list").child(newfriend_id).child("friend");
+                        mPostReference3.child(id_key + "/name").setValue(name_key);
+                        mPostReference3.child(id_key + "/nickname").setValue(nickname_key);
+                    }
+                    else if (onlyNumCheck(newfriend_id) == false) {
+                        mPostReference3 = FirebaseDatabase.getInstance().getReference().child("user_list").child(newfriend_id).child("friend");
+                        mPostReference3.child(id_key + "/name").setValue(name_key);
+                        mPostReference3.child(id_key + "/nickname").setValue(nickname_key);
+                    }
                     Toast.makeText(ShowFriendActivity.this, newfriend_nickname + "이 친구리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                     check_recommend = 0;
                 }
@@ -202,9 +216,9 @@ public class ShowFriendActivity extends Activity {
                             String key = snapshot1.getKey();
                             if(!key.equals(id_key)) {
                                 int flag = 0;
-                                String nickname = snapshot1.child("nickname").getValue().toString();
-                                for(String friendNickname : myFriendList) {
-                                    if(nickname.equals(friendNickname)) {
+                                String uid = snapshot1.getKey();
+                                for(String friendID : myFriendList) {
+                                    if(uid.equals(friendID)) {
                                         flag = 1;
                                         break;
                                     }
@@ -213,7 +227,6 @@ public class ShowFriendActivity extends Activity {
                                     UserInfo friend = snapshot1.getValue(UserInfo.class);
                                     String grade = friend.grade;
                                     String school = friend.school;
-                                    String uid = friend.id;
                                     if (grade.equals(myGrade) || school.equals(mySchool)) {
                                         recommendList.add(friend);
                                     }

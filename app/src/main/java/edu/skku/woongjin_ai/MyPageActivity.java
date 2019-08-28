@@ -22,7 +22,7 @@ public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
     Intent intent, intentAddFriend, intent_chatlist, intent_LikeList, intent_QList;
-    String grade ,school, name, coin,id;
+    String grade ,school, name, coin, id, nickname;
     Button btnFriendList, btnuserLetter, btnLikeList, btnQList;
     Button logout;
     TextView userGrade, userSchool, userName, userCoin;
@@ -54,6 +54,8 @@ public class MyPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intentAddFriend = new Intent(MyPageActivity.this, ShowFriendActivity.class);
                 intentAddFriend.putExtra("id", id);
+                intentAddFriend.putExtra("name", name);
+                intentAddFriend.putExtra("nickname", nickname);
                 startActivity(intentAddFriend);
             }
         });
@@ -76,6 +78,7 @@ public class MyPageActivity extends AppCompatActivity {
                 startActivity(intent_LikeList);
             }
         });
+
         btnLikeList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,6 +112,7 @@ public class MyPageActivity extends AppCompatActivity {
                     if (id.equals(key)) {
                         UserInfo get = snapshot.getValue(UserInfo.class);
                         name = get.name;
+                        nickname = get.nickname;
                         school = get.school;
                         coin = get.coin;
                         userName.setText(name);
@@ -122,6 +126,7 @@ public class MyPageActivity extends AppCompatActivity {
                     if (id.equals(key)) {
                         UserInfo get = snapshot.getValue(UserInfo.class);
                         name = get.name;
+                        nickname = get.nickname;
                         school = get.school;
                         coin = get.coin;
                         userName.setText(name);
