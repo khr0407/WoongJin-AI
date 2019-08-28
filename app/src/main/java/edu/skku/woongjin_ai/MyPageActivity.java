@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +27,7 @@ import static com.kakao.usermgmt.StringSet.nickname;
 public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
-    Intent intent, intentAddFriend, intent_chatlist, intent_LikeList, intent_QList;
+    Intent intent, intentAddFriend, intent_chatlist, intent_LikeList, intent_QList, intentHome;
     String grade ,school, name, coin,id;
     Button btnFriendList, btnLikeList, btnQList;
     Button logout;
@@ -42,6 +43,7 @@ public class MyPageActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
+        ImageButton homeButton = (ImageButton) findViewById(R.id.home);
         btnFriendList = (Button)findViewById(R.id.FriendList);
         btnQList = (Button) findViewById(R.id.QList);
         btnLikeList = (Button) findViewById(R.id.LikeList);
@@ -91,6 +93,15 @@ public class MyPageActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+            }
+        });
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentHome = new Intent(MyPageActivity.this, MainActivity.class);
+                intentHome.putExtra("id", id);
+                startActivity(intentHome);
             }
         });
     }

@@ -40,7 +40,7 @@ import java.io.InputStreamReader;
 
 
 public class LoginActivity extends AppCompatActivity {
-   // private SessionCallback callback;
+    private SessionCallback callback;
     EditText editTextID, editTextPW;
     String id, pw;
     Button buttonLogin, buttonRegister;
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-//        callback = new SessionCallback();
+        callback = new SessionCallback();
         buttonLogin = (Button) findViewById(R.id.buttonLogin);
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
         editTextID = (EditText) findViewById(R.id.editTextID);
@@ -72,9 +72,9 @@ public class LoginActivity extends AppCompatActivity {
         setting = getSharedPreferences("setting", 0);
         editor = setting.edit();
 
-  /*      if (!isLoggedIn()) //카카오톡 로그인이 되어있지 않을 경우
+        if (!isLoggedIn()) //카카오톡 로그인이 되어있지 않을 경우
             Session.getCurrentSession().addCallback(callback);
-        else */ { //카카오톡 로그인이 되어있을 경우
+        else { //카카오톡 로그인이 되어있을 경우
             File file = getBaseContext().getFileStreamPath("memos.txt");
             String data = null;
             if (file.exists()) {
@@ -180,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    /*@Override
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         Session.getCurrentSession().removeCallback(callback);
@@ -244,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "세션 연결 실패", Toast.LENGTH_SHORT).show();
         }
     }
- */
+
     private ValueEventListener checkIDRegister = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -265,3 +265,4 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 }
+
