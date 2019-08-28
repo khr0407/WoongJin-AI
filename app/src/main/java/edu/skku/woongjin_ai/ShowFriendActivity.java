@@ -42,7 +42,7 @@ public class ShowFriendActivity extends Activity {
     UserInfo me;
 
     String id_key, friend_nickname;
-    String newfriend_nickname, newfriend_name, newfriend_id;
+    String newfriend_id, newfriend_nickname, newfriend_name;
     ImageButton invitefriend, addfriend;
 
     Intent intent;
@@ -139,7 +139,6 @@ public class ShowFriendActivity extends Activity {
                 else if (check_recommend == 1) {
                     mPostReference3.child("user_list/" + id_key + "/friend/" + newfriend_id + "/name").setValue(newfriend_name);
                     mPostReference3.child("user_list/" + id_key + "/friend/" + newfriend_id + "/nickname").setValue(newfriend_nickname);
-
                     Toast.makeText(ShowFriendActivity.this, newfriend_nickname + "이 친구리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                     check_recommend = 0;
                 }

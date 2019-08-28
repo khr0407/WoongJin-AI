@@ -119,7 +119,7 @@
                         android:fontFamily="@font/typo_sherlock_b"
                         ></TextView>
                     <TextView
-                        android:id="@+id/userGrade"
+                        android:id="@+id/grade"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"

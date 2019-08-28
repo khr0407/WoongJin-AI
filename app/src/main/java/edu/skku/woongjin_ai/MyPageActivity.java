@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -18,10 +17,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
-
-import java.util.Iterator;
-
-import static com.kakao.usermgmt.StringSet.nickname;
 
 public class MyPageActivity extends AppCompatActivity {
 
@@ -48,7 +43,7 @@ public class MyPageActivity extends AppCompatActivity {
         btnLikeList = (Button) findViewById(R.id.LikeList);
         userName = (TextView) findViewById(R.id.userName);
         userSchool = (TextView) findViewById(R.id.userSchool);
-        userGrade = (TextView) findViewById(R.id.userGrade);
+        userGrade = (TextView) findViewById(R.id.grade);
         userCoin = (TextView) findViewById(R.id.userCoin);
         logout = (Button) findViewById(R.id.logout);
 
