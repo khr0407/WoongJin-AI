@@ -8,10 +8,10 @@ List<String> dirs = [
 android {
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\hmybj\\Desktop\\19-Summer\\웅진_산학협력\\woongjin_key.jks')
-            storePassword '950406'
-            keyAlias = 'key0406'
-            keyPassword '950406'
+            storeFile file('C:\\Users\\user\\AndroidStudioProjects\\key\\woongjin.jks')
+            storePassword 'woongjin'
+            keyAlias = 'woongjin'
+            keyPassword 'woongjin'
         }
     }
     compileSdkVersion 28

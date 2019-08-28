@@ -23,7 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ShowFriendQuizActivity extends AppCompatActivity implements FriendOXQuizFragment.OnFragmentInteractionListener {
+public class ShowFriendQuizActivity extends AppCompatActivity
+        implements FriendOXQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener, ShowHintFragment.OnFragmentInteractionListener, CorrectFriendQuizFragment.OnFragmentInteractionListener, WrongFriendQuizFragment.OnFragmentInteractionListener {
 
     //TODO UI 백그라운드 이미지로 바꿀까?? 지문 제목 추가??
 
@@ -36,8 +37,11 @@ public class ShowFriendQuizActivity extends AppCompatActivity implements FriendO
     ArrayList<QuizChoiceTypeInfo> myFriendChoiceQuizList;
     MyFriendQuizListAdapter myFriendQuizListAdapter;
     FriendOXQuizFragment friendOXQuizFragment;
-    FragmentTransaction transaction;
-    int cntOX, cntChoice, cntShort;
+    ShowScriptFragment showScriptFragment;
+    ShowHintFragment showHintFragment;
+    CorrectFriendQuizFragment correctFriendQuizFragment;
+    WrongFriendQuizFragment wrongFriendQuizFragment;
+    int cntOX, cntChoice, cntShort, flag = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +56,10 @@ public class ShowFriendQuizActivity extends AppCompatActivity implements FriendO
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         friendOXQuizFragment = new FriendOXQuizFragment();
-        transaction = getSupportFragmentManager().beginTransaction();
+        showScriptFragment = new ShowScriptFragment();
+        showHintFragment = new ShowHintFragment();
+        correctFriendQuizFragment = new CorrectFriendQuizFragment();
+        wrongFriendQuizFragment = new WrongFriendQuizFragment();
 
         myFriendQuizListView = (ListView) findViewById(R.id.myFriendQuizList);
         likeQuizListView = (ListView) findViewById(R.id.likeQuizList);
@@ -83,27 +90,46 @@ public class ShowFriendQuizActivity extends AppCompatActivity implements FriendO
         myFriendQuizListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
-                if(position < cntOX) { // OX
+                if(flag == 1) {
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.remove(friendOXQuizFragment);
+                    fragmentTransaction.commit();
+                } else if(flag == 2) {
+//                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction.remove(friendChoiceQuizFragment);
+//                    fragmentTransaction.commit();
+                } else if(flag == 3) {
+//                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                    fragmentTransaction.remove(friendShortwordQuizFragment);
+//                    fragmentTransaction.commit();
+                }
+
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                if(position < cntOX) {
+                    flag = 1;
                     QuizOXShortwordTypeInfo quiz = myFriendOXQuizList.get(position);
 
                     transaction.replace(R.id.contentShowFriendQuiz, friendOXQuizFragment);
-                    Bundle bundle = new Bundle(6);
+                    Bundle bundle = new Bundle(7);
                     bundle.putString("id", id);
                     bundle.putString("scriptnm", scriptnm);
                     bundle.putString("question", quiz.question);
                     bundle.putString("answer", quiz.answer);
                     bundle.putString("uid", quiz.uid);
                     bundle.putString("star", quiz.star);
+                    bundle.putString("desc", quiz.desc);
                     friendOXQuizFragment.setArguments(bundle);
                     transaction.commit();
                 } else {
                     position -= cntOX;
                     if(position < cntChoice) {
+                        flag = 2;
                         QuizChoiceTypeInfo quiz = myFriendChoiceQuizList.get(position);
 
 
                     } else {
                         position -= cntChoice;
+                        flag = 3;
                         QuizOXShortwordTypeInfo quiz = myFriendShortQuizList.get(position);
 
 
