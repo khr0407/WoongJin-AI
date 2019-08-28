@@ -7,15 +7,16 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="7">
+        android:layout_margin="10dp"
+        android:weightSum="7.6">
 
         <LinearLayout
             android:id="@+id/LinearLayout1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="8dp"
             android:layout_weight="1"
             android:orientation="horizontal"
+            android:padding="10dp"
             android:weightSum="10">
 
             <ImageButton
@@ -23,42 +24,66 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:src="@drawable/home"></ImageButton>
+                android:background="#00ff0000"
+                android:src="@drawable/ic_icons_go_to_home"/>
 
             <Button
                 android:id="@+id/record"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                android:background="#00ff0000"
                 android:text="기록실"
-                android:fontFamily="@font/typo_sherlock_b"
-                ></Button>
+                android:fontFamily="@font/typo_sherlock_b"/>
 
             <Button
                 android:id="@+id/FriendList"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
+                android:background="#00ff0000"
                 android:text="친구목록"
-                android:fontFamily="@font/typo_sherlock_b"
-                ></Button>
+                android:fontFamily="@font/typo_sherlock_b"/>
 
-            <FrameLayout
-                android:id="@+id/info"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
-                android:layout_marginRight="50dp"
-                android:background="@drawable/rounded">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/userCoin"
-                    android:layout_gravity="center"
-                    ></TextView>
+                android:orientation="horizontal"
+                android:background="@drawable/rounded"
+                android:padding="20dp"
+                android:weightSum="5">
 
-            </FrameLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/ic_icons_clock"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/userCoin"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    android:textSize="30dp"
+                    android:layout_weight="1.5"
+                    android:gravity="center"
+                    android:hint="2000 웅머니"/>
+
+            </LinearLayout>
+
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"/>
 
         <LinearLayout
             android:id="@+id/LinearLayout2"
@@ -67,9 +92,7 @@
             android:layout_weight="6"
             android:orientation="horizontal"
             android:background="@drawable/rounded"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginBottom="30dp"
+            android:padding="20dp"
             android:weightSum="9">
 
             <LinearLayout
@@ -78,21 +101,16 @@
                 android:layout_weight="3"
                 android:orientation="vertical"
                 android:weightSum="2">
-                <LinearLayout
+
+
+                <ImageView
+                    android:id="@+id/myFace"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:gravity="center">
+                    android:padding="40dp"
+                    android:src="@drawable/kakao_default_profile_image"/>
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="10dp"
-                        android:src="@drawable/kakao_default_profile_image">
-
-                    </ImageView>
-                </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -106,80 +124,90 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:layout_gravity="center"
+                        android:textSize="30dp"
                         android:hint="조혜원"
-                        android:fontFamily="@font/typo_sherlock_b"
-                        ></TextView>
+                        android:fontFamily="@font/typo_sherlock_b"/>
+
                     <TextView
                         android:id="@+id/userSchool"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:layout_gravity="center"
+                        android:textSize="30dp"
                         android:hint="성균관초등학교"
-                        android:fontFamily="@font/typo_sherlock_b"
-                        ></TextView>
+                        android:fontFamily="@font/typo_sherlock_b"/>
+
                     <TextView
                         android:id="@+id/userGrade"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:layout_gravity="center"
+                        android:textSize="30dp"
                         android:hint="1학년"
-                        android:fontFamily="@font/typo_sherlock_b"
-                        ></TextView>
+                        android:fontFamily="@font/typo_sherlock_b"/>
+
                     <Button
                         android:id="@+id/logout"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:layout_gravity="center"
+                        android:background="#00ff0000"
                         android:text="로그아웃"
-                        android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/typo_sherlock_b"
-                        ></Button>
+                        android:fontFamily="@font/typo_sherlock_b"/>
+
                 </LinearLayout>
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="298dp"
+                android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:orientation="vertical"
+                android:padding="20dp"
                 android:weightSum="2">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/rounded_white_transparent">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="내가 받은 훈장"
-                        android:layout_gravity="center_horizontal"
-                        android:fontFamily="@font/typo_sherlock_b"
-                        ></TextView>
-
-                </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_white"
+                    android:orientation="vertical"
+                    android:weightSum="4">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="내가 받은 훈장"
+                        android:gravity="center"
+                        android:textSize="30dp"
+                        android:fontFamily="@font/typo_sherlock_b"/>
 
                 </LinearLayout>
-            </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+
+
+                </LinearLayout>
+
+            </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
-                android:weightSum="2"
+                android:padding="20dp"
+                android:weightSum="3"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -194,39 +222,40 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
                         android:layout_gravity="center"
+                        android:background="#00ff0000"
                         android:fontFamily="@font/typo_sherlock_b"
-                        android:text="내가 만든 \n 질문보기"
-                        ></Button>
+                        android:text="내가 만든 \n 질문보기"/>
+
                     <Button
                         android:id="@+id/LikeList"
                         android:layout_width="0dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_gravity="center"
+                        android:background="#00ff0000"
                         android:fontFamily="@font/typo_sherlock_b"
-                        android:text="내가 \n 좋아하는 \n 질문보기"
-                        ></Button>
+                        android:text="내가 \n 좋아하는 \n 질문보기"/>
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1">
+                    android:layout_weight="2">
 
                 </LinearLayout>
 
             </LinearLayout>
+
+
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"/>
+
     </LinearLayout>
 
 </RelativeLayout>

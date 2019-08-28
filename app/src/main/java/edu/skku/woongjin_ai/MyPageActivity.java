@@ -28,7 +28,7 @@ public class MyPageActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     Intent intent, intentAddFriend, intent_chatlist, intent_LikeList, intent_QList;
     String grade ,school, name, coin,id;
-    Button btnFriendList, btnuserLetter, btnLikeList, btnQList;
+    Button btnFriendList, btnLikeList, btnQList;
     Button logout;
     TextView userGrade, userSchool, userName, userCoin;
 
@@ -43,7 +43,6 @@ public class MyPageActivity extends AppCompatActivity {
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         btnFriendList = (Button)findViewById(R.id.FriendList);
-        //btnuserLetter = (Button) findViewById(R.id.userLetter);
         btnQList = (Button) findViewById(R.id.QList);
         btnLikeList = (Button) findViewById(R.id.LikeList);
         userName = (TextView) findViewById(R.id.userName);
@@ -62,16 +61,6 @@ public class MyPageActivity extends AppCompatActivity {
                 startActivity(intentAddFriend);
             }
         });
-/*
-        btnuserLetter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intent_chatlist = new Intent(MyPageActivity.this, ChatListActivity.class);
-                intent_chatlist.putExtra("id", id);
-                startActivity(intent_chatlist);
-            }
-        });
-        */
 
         btnQList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +70,7 @@ public class MyPageActivity extends AppCompatActivity {
                 startActivity(intent_LikeList);
             }
         });
+
         btnLikeList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
