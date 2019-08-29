@@ -185,7 +185,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
                     else
                         desc="힌트가 없습니다!";
 
-                    if(quiz.length() == 0 || ans.length() == 0 || desc.length() == 0 || star < 1 ) {
+                    if(quiz.length() == 0 || ans.length() == 0 || desc.length() == 0 || starInt < 1 ) {
                         Toast.makeText(ShortwordTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
 //                        Log.d("quiz_length", quiz );
 //                        Log.d("ans_length", ans);

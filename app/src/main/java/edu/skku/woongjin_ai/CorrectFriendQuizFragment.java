@@ -144,6 +144,8 @@ public class CorrectFriendQuizFragment extends Fragment {
                     mPostReference.child("quiz_list/" + scriptnm + "/type1/" + key + "/star").setValue(Float.toString(newLevel));
                     mPostReference.child("quiz_list/" + scriptnm + "/type1/" + key + "/cnt").setValue(cnt+1);
 
+                    Toast.makeText(context, "제출이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.remove(((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);

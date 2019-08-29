@@ -173,11 +173,12 @@ public class OXTypeActivity extends AppCompatActivity
                     }
                     quiz = editQuiz.getText().toString();
 
-                    if(quiz.length() == 0 || desc.length() == 0 || star < 1 || (flagAO == 0 && flagAX == 0)) {
-                        Toast.makeText(OXTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
+                    if(quiz.length() == 0 || desc.length() == 0 || starInt < 1 || (flagAO == 0 && flagAX == 0)) {
+                        Toast.makeText(OXTypeActivity.this, "빈 칸을 채워주세요", Toast.LENGTH_SHORT).show();
                     } else {
                         postFirebaseDatabaseQuizOX();
                         if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
+                        Toast.makeText(OXTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

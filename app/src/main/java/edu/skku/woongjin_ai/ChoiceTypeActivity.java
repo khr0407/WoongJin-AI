@@ -186,7 +186,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
                     desc = hintWritingFragment1.editTextHint.getText().toString();
 
-                    if(quiz.length() == 0 || ans.length() == 0 || ans1.length() == 0 || ans2.length() == 0 || ans3.length() == 0 || ans4.length() == 0 || desc.length() == 0 || star < 1) {
+                    if(quiz.length() == 0 || ans.length() == 0 || ans1.length() == 0 || ans2.length() == 0 || ans3.length() == 0 || ans4.length() == 0 || desc.length() == 0 || starInt < 1) {
                         Toast.makeText(ChoiceTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                     } else {
                         postFirebaseDatabaseQuizChoice();
