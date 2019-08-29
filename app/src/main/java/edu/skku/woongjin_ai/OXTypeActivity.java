@@ -35,12 +35,13 @@ public class OXTypeActivity extends AppCompatActivity
         implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener {
 
     DatabaseReference mPostReference;
-    ImageView imageO, imageX, imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
+    ImageView imageO, imageX;
     EditText editQuiz;
     Intent intent, intentHome;
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
-    int star = 0;
+    int star = 0 , starInt = 0;
+    ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0, flagNoHint = 0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
@@ -65,11 +66,11 @@ public class OXTypeActivity extends AppCompatActivity
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageO = (ImageView) findViewById(R.id.o);
         imageX = (ImageView) findViewById(R.id.x);
-        imageStar1 = (ImageView) findViewById(R.id.star1);
-        imageStar2 = (ImageView) findViewById(R.id.star2);
-        imageStar3 = (ImageView) findViewById(R.id.star3);
-        imageStar4 = (ImageView) findViewById(R.id.star4);
-        imageStar5 = (ImageView) findViewById(R.id.star5);
+        imageViewS1 = (ImageView) findViewById(R.id.star1);
+        imageViewS2 = (ImageView) findViewById(R.id.star2);
+        imageViewS3 = (ImageView) findViewById(R.id.star3);
+        imageViewS4 = (ImageView) findViewById(R.id.star4);
+        imageViewS5 = (ImageView) findViewById(R.id.star5);
         editQuiz = (EditText) findViewById(R.id.quiz);
         TextView title = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
@@ -191,76 +192,136 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
-        imageStar1.setOnClickListener(new View.OnClickListener() {
+        imageViewS1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagS1 == 0) {
-                    star++;
-                    imageStar1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    starInt = 1;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS1 = 1;
                 } else {
-                    star--;
-                    imageStar1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    starInt = 0;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS1 = 0;
+                    flagS2 = 0;
+                    flagS3 = 0;
+                    flagS4 = 0;
+                    flagS5 = 0;
                 }
             }
         });
 
-        imageStar2.setOnClickListener(new View.OnClickListener() {
+        imageViewS2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagS2 == 0) {
-                    star++;
-                    imageStar2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    starInt = 2;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    flagS1 = 1;
                     flagS2 = 1;
                 } else {
-                    star--;
-                    imageStar2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    starInt = 0;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    flagS1 = 0;
                     flagS2 = 0;
+                    flagS3 = 0;
+                    flagS4 = 0;
+                    flagS5 = 0;
                 }
             }
         });
 
-        imageStar3.setOnClickListener(new View.OnClickListener() {
+        imageViewS3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagS3 == 0) {
-                    star++;
-                    imageStar3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    starInt = 3;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    flagS1 = 1;
+                    flagS2 = 1;
                     flagS3 = 1;
                 } else {
-                    star--;
-                    imageStar3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    starInt = 0;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    flagS1 = 0;
+                    flagS2 = 0;
                     flagS3 = 0;
+                    flagS4 = 0;
+                    flagS5 = 0;
                 }
             }
         });
 
-        imageStar4.setOnClickListener(new View.OnClickListener() {
+        imageViewS4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagS4 == 0) {
-                    star++;
-                    imageStar4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    starInt = 4;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    flagS1 = 1;
+                    flagS2 = 1;
+                    flagS3 = 1;
                     flagS4 = 1;
                 } else {
-                    star--;
-                    imageStar4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    starInt = 0;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    flagS1 = 0;
+                    flagS2 = 0;
+                    flagS3 = 0;
                     flagS4 = 0;
+                    flagS5 = 0;
                 }
             }
         });
 
-        imageStar5.setOnClickListener(new View.OnClickListener() {
+        imageViewS5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagS5 == 0) {
-                    star++;
-                    imageStar5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    starInt = 5;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    flagS1 = 1;
+                    flagS2 = 1;
+                    flagS3 = 1;
+                    flagS4 = 1;
                     flagS5 = 1;
                 } else {
-                    star--;
-                    imageStar5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    starInt = 0;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    flagS1 = 0;
+                    flagS2 = 0;
+                    flagS3 = 0;
+                    flagS4 = 0;
                     flagS5 = 0;
                 }
             }
