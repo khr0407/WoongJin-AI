@@ -24,7 +24,8 @@ public class ChatListActivity extends AppCompatActivity {
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
 
-    String id_key, name_key, mynickname;
+    String id_key, name_key, nickname_key;
+    String roomname;
 
     ListView chatListView;
     Button create;
@@ -54,10 +55,12 @@ public class ChatListActivity extends AppCompatActivity {
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                         String key = postSnapshot.getKey();
                         if (key.equals(id_key)) {
-                            mynickname = postSnapshot.child("nickname").getValue().toString();
+                            name_key = postSnapshot.child("name").getValue().toString();
+                            nickname_key = postSnapshot.child("nickname").getValue().toString();
                         }
                         Log.d("_id_key", id_key);
-                        Log.d("_mynickname", mynickname);
+                        Log.d("_name_key", name_key);
+                        Log.d("_mynickname_key", nickname_key);
                     }
                 }
                 @Override
@@ -74,10 +77,12 @@ public class ChatListActivity extends AppCompatActivity {
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                         String key = postSnapshot.getKey();
                         if (key.equals(id_key)) {
-                            mynickname = postSnapshot.child("nickname").getValue().toString();
+                            name_key = postSnapshot.child("name").getValue().toString();
+                            nickname_key = postSnapshot.child("nickname").getValue().toString();
                         }
                         Log.d("_id_key", id_key);
-                        Log.d("_mynickname", mynickname);
+                        Log.d("_name_key", name_key);
+                        Log.d("_mynickname_key", nickname_key);
                     }
                 }
                 @Override
@@ -89,10 +94,11 @@ public class ChatListActivity extends AppCompatActivity {
 
         create.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                Intent intent_chatfriend = new Intent(ChatListActivity.this, NationGameActivity.class);
-                intent_chatfriend.putExtra("id", id_key);
-                intent_chatfriend.putExtra("nickname", mynickname);
-                startActivity(intent_chatfriend);
+                Intent intent_nationgame = new Intent(ChatListActivity.this, NationGameActivity.class);
+                intent_nationgame.putExtra("id", id_key);
+                intent_nationgame.putExtra("name", name_key);
+                intent_nationgame.putExtra("nickname", nickname_key);
+                startActivity(intent_nationgame);
             }
         });
         chatListView.setAdapter(arrayAdapter);
@@ -101,10 +107,10 @@ public class ChatListActivity extends AppCompatActivity {
         chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                name_key = chatListView.getItemAtPosition(position).toString();
+                roomname = chatListView.getItemAtPosition(position).toString();
                 //Intent intent_Chatroom = new Intent(ChatListActivity.this, ChatroomActivity.class);
                 //intent_Chatroom.putExtra("ID", id_key);
-                //intent_Chatroom.putExtra("RoomName", name_key);
+                //intent_Chatroom.putExtra("RoomName", roomname);
                 //startActivity(intent_Chatroom);
             }
         });
@@ -123,11 +129,11 @@ public class ChatListActivity extends AppCompatActivity {
                         Log.d("_id_key", id_key);
                         Log.d("_user1", user1);
                         Log.d("_user2", user2);
-                        if (user1.equals(mynickname)) {
+                        if (user1.equals(nickname_key)) {
                             FirebasePost_list get = postSnapshot.getValue(FirebasePost_list.class);
                             data.add(get.roomname + " with " + get.user2);
                         }
-                        else if (user2.equals(mynickname)) {
+                        else if (user2.equals(nickname_key)) {
                             FirebasePost_list get = postSnapshot.getValue(FirebasePost_list.class);
                             data.add(get.roomname + " with " + get.user1);
                         }

@@ -133,7 +133,7 @@ public class FriendOXQuizFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.contentFriendOXQuiz, ((ShowFriendQuizActivity)getActivity()).showHintFragment);
+                fragmentTransaction.replace(R.id.contentShowFriendQuiz, ((ShowFriendQuizActivity)getActivity()).showHintFragment);
                 Bundle bundle = new Bundle(1);
                 bundle.putString("hint", hint);
                 ((ShowFriendQuizActivity)getActivity()).showHintFragment.setArguments(bundle);

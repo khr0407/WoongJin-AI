@@ -47,7 +47,8 @@ public class LoginActivity extends AppCompatActivity {
     DatabaseReference mPostReference;
     Intent intent;
     int flag = 0;
-    String savedKakao;
+    int kakaoflag = 0, overlapflag = 0;
+    String savedKakao, data;
     Intent intent_kakaoregister;
 
     CheckBox checkbox;
@@ -76,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
             Session.getCurrentSession().addCallback(callback);
         else { //카카오톡 로그인이 되어있을 경우
             File file = getBaseContext().getFileStreamPath("memos.txt");
-            String data = null;
+            data = null;
             if (file.exists()) {
                 FileInputStream fis = null;
                 StringBuffer buffer = new StringBuffer();
@@ -91,10 +92,33 @@ public class LoginActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-            Intent intent_main = new Intent(LoginActivity.this, MainActivity.class);
-            intent_main.putExtra("id", data);
-            startActivity(intent_main);
-            finish();
+            final ValueEventListener overlapCheck = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot ds : dataSnapshot.child("kakaouser_list").getChildren()) {
+                        String key = ds.getKey();
+                        if (data.equals(key)) {
+                            //Toast.makeText(getApplicationContext(), "카카오 계정으로 가입되어 있는 ID입니다.", Toast.LENGTH_SHORT).show();
+                            overlapflag = 1;
+                            Intent intent_main = new Intent(LoginActivity.this, MainActivity.class);
+                            intent_main.putExtra("id", data);
+                            startActivity(intent_main);
+                            finish();
+                            return;
+                        }
+                    }
+                    if (overlapflag == 0) {
+                        intent_kakaoregister.putExtra("id", data);
+                        Toast.makeText(getApplicationContext(), "회원가입을 완료해주세요", Toast.LENGTH_SHORT).show();
+                        startActivity(intent_kakaoregister);
+                        finish();
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            };
+            mPostReference.addListenerForSingleValueEvent(overlapCheck);
         }
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +126,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -133,6 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                                         intent = new Intent(LoginActivity.this, MainActivity.class);
                                         intent.putExtra("id", id);
                                         startActivity(intent);
+                                        finish();
                                     }
                                 }
                             }
@@ -229,10 +253,12 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("myLog", "userProfile" + userProfile.getNickname());
                     Log.d("myLog", "userProfile" + userProfile.getThumbnailImagePath());
                     //postFirebaseDatabase(true);
-
-                    intent_kakaoregister.putExtra("id", savedKakao);
-                    Toast.makeText(getApplicationContext(), "카카오톡 계정으로 로그인 되었습니다", Toast.LENGTH_SHORT).show();
-                    startActivity(intent_kakaoregister);
+                    if (kakaoflag == 0) {
+                        intent_kakaoregister.putExtra("id", savedKakao);
+                        Toast.makeText(getApplicationContext(), "카카오 계정으로 로그인 되었습니다", Toast.LENGTH_SHORT).show();
+                        startActivity(intent_kakaoregister);
+                        finish();
+                    }
                 }
             });
         }
@@ -249,9 +275,11 @@ public class LoginActivity extends AppCompatActivity {
                 String key = ds.getKey();
                 if (savedKakao.equals(key)) {
                     //Toast.makeText(getApplicationContext(), "카카오 계정으로 가입되어 있는 ID입니다.", Toast.LENGTH_SHORT).show();
+                    kakaoflag = 1;
                     Intent intent_main = new Intent(LoginActivity.this, MainActivity.class);
                     intent_main.putExtra("id", savedKakao);
                     startActivity(intent_main);
+                    finish();
                     return;
                 }
             }
