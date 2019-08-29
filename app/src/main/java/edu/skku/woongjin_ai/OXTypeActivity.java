@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,12 +41,12 @@ public class OXTypeActivity extends AppCompatActivity
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
     int star = 0;
-    int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
+    int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0, flagNoHint = 0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
-    Fragment showScriptFragment, hintWritingFragment;
+    Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class OXTypeActivity extends AppCompatActivity
 
         showScriptFragment = new ShowScriptFragment();
         hintWritingFragment = new HintWritingFragment();
+        hintVideoFragment = new HintVideoFragment();
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageO = (ImageView) findViewById(R.id.o);
@@ -99,29 +101,45 @@ public class OXTypeActivity extends AppCompatActivity
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                flagD = 1;
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("type", "ox");
+                hintWritingFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                //TODO 뒤로가기 눌렀을 때 checkButton 비활성화 + flagD 0으로 만들기
+                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                flagD = 1;
             }
         });
 
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentShowScriptOX, hintVideoFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("type", "ox");
+                hintVideoFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
         noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
-                flagD = 1;
+                if(flagNoHint == 0) {
+                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
+                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                    flagD = 2;
+                    flagNoHint = 1;
+                } else {
+                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
+                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+                    flagD = 0;
+                    flagNoHint = 0;
+                }
                 //TODO 힌트 없음도 fragment 만들어?
             }
         });
@@ -146,16 +164,19 @@ public class OXTypeActivity extends AppCompatActivity
                 if(flagD == 0) {
                     Toast.makeText(OXTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
                 } else {
-                    quiz = editQuiz.getText().toString();
-
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
-                    desc = hintWritingFragment1.editTextHint.getText().toString();
+                    if(flagD == 2) {
+                        desc = "없음";
+                    } else {
+                        desc = hintWritingFragment1.editTextHint.getText().toString();
+                    }
+                    quiz = editQuiz.getText().toString();
 
                     if(quiz.length() == 0 || desc.length() == 0 || star < 1 || (flagAO == 0 && flagAX == 0)) {
                         Toast.makeText(OXTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                     } else {
                         postFirebaseDatabaseQuizOX();
-                        hintWritingFragment1.editTextHint.setText("");
+                        if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
                     }
                 }
             }
@@ -287,11 +308,11 @@ public class OXTypeActivity extends AppCompatActivity
     private void postFirebaseDatabaseQuizOX() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(star), desc, "0");
-        postValues = post.toMap();
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(star), desc, "0", ts, 1);
+        postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/type1/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");

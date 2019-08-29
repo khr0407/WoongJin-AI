@@ -188,6 +188,7 @@
                                 android:layout_margin="3dp"
                                 />
 
+
                             <ImageView
                                 android:id="@+id/star5"
                                 android:layout_width="wrap_content"
@@ -271,7 +272,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="6"
-                        android:background="@drawable/rounded_white"
+                        android:background="@drawable/shadow_white"
                         android:padding="30dp"
                         android:id="@+id/Solution"
                         android:orientation="vertical"
@@ -348,6 +349,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/script"
                                 android:src="@drawable/ic_icons_see_script"
+                                android:background="#00ff0000"
                                 android:layout_weight="1"
                                 />
                             <ImageButton
@@ -355,6 +357,7 @@
                                 android:layout_height="wrap_content"
                                 android:id="@+id/check"
                                 android:src="@drawable/ic_icons_quiz_complete_inactivate"
+                                android:background="#00ff0000"
                                 android:layout_weight="1"
                                 />
                         </LinearLayout>

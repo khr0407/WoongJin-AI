@@ -12,4 +12,8 @@
     <string name="ox_quiz">선택한 OX 퀴즈에 맞춰서 퀴즈를 내보자\n친구들에게 힌트를 영상으로 찍어 줄 수 있어!</string>
     <string name="choice_quiz">선택한 선택지 퀴즈에 맞춰서 퀴즈를 내보자\n친구들에게 힌트를 영상으로 찍어 줄 수 있어!</string>
     <string name="shortword_quiz">선택한 단답형 퀴즈에 맞춰서 퀴즈를 내보자\n친구들에게 힌트를 영상으로 찍어 줄 수 있어!</string>
+    <string name="video_hint">다른 친구들에게 불쾌감을\n줄 수 있는 영상은\n이용에 제한을 받을 수 있습니다.</string>
+    <string name="friend_list">친구 추천 목록에서 친구를 선택한 후, 밑의 친구 추가 버튼을 누르면 친구가 될 수 있어!\n카카오톡 친구도 초대해서 함께 즐겨봐~</string>
+    <string name="quiz_nation">네가 읽은 책 목록이야~\n추가로 문제를 내고 싶은 책을 클릭하면 문제를 만들 수 있어!\n연필 아이콘 개수는 헤라가 낸 문제 개수와 같아</string>
+    <string name="select_book">"위인전"을 선택했네!\n어떤 책을 읽어볼까? 읽고 싶은 책을 클릭해줘!</string>
 </resources>

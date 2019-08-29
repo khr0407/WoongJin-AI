@@ -65,7 +65,7 @@ public class TemplateActivity extends AppCompatActivity {
             }
         });
 
-        final ValueEventListener postListner = new ValueEventListener() {
+        mPostReference.child("quiz_list/").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -139,7 +139,6 @@ public class TemplateActivity extends AppCompatActivity {
                                             int findMin = Integer.parseInt(findMinLike.like);
                                             int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz).like);
                                             if(findMin < minLike) minLikeQuiz = quizListShortword.indexOf(findMinLike);
-                                            Log.d("cnt<", findMin + " " + minLike + " " + minLikeQuiz);
                                         }
                                         cnt++;
                                     } else {
@@ -152,7 +151,6 @@ public class TemplateActivity extends AppCompatActivity {
                                                 int findMin = Integer.parseInt(findMinLike.like);
                                                 int minLikeNew = Integer.parseInt(quizListShortword.get(minLikeQuiz).like);
                                                 if(findMin < minLikeNew) minLikeQuiz = quizListShortword.indexOf(findMinLike);
-                                                Log.d("cnt>", findMin + " " + minLikeNew + " " + minLikeQuiz);
                                             }
                                         }
                                     }
@@ -163,16 +161,6 @@ public class TemplateActivity extends AppCompatActivity {
                         }
                         break;
                     }
-                }
-
-                for(QuizOXShortwordTypeInfo test : quizListOX) {
-                    Log.d("oxxxxxxxxxxxxx", test.like);
-                }
-                for(QuizChoiceTypeInfo test : quizListChoice) {
-                    Log.d("choiceeeeeeeee", test.like);
-                }
-                for(QuizOXShortwordTypeInfo test : quizListShortword) {
-                    Log.d("shortwordddddddddd", test.like);
                 }
 
                 int rand = generator.nextInt(3);
@@ -190,9 +178,9 @@ public class TemplateActivity extends AppCompatActivity {
                 String postS3 = "단답형 퀴즈 예시\nQ. " + post3.question + "\nA. " + post3.answer + "\nLike: " + post3.like;
                 shortwordT.setText(postS3);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
-        };
-        mPostReference.child("quiz_list/").addValueEventListener(postListner);
+        });
     }
 }

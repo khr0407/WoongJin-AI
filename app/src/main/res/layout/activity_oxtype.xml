@@ -274,15 +274,17 @@
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_weight="1"></LinearLayout>
+
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="6"
-                        android:background="@drawable/rounded_white"
+                        android:background="@drawable/shadow_white"
                         android:padding="30dp"
                         android:id="@+id/Solution"
                         android:orientation="vertical"
