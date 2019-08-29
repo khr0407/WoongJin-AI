@@ -2,188 +2,197 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rounded_yellow">
+    android:background="@drawable/rounded_yellow"
+    android:clickable="true">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/contentFriendOXQuiz"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="30dp"
-        android:weightSum="15">
-
-        <TextView
-            android:id="@+id/uidFriendOX"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30dp"
-            android:fontFamily="@font/typo_sherlock_l"/>
-
-        <TextView
-            android:id="@+id/nameFriendOX"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:textSize="60dp"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:fontFamily="@font/typo_sherlock_b"/>
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:weightSum="25"
-            android:orientation="horizontal"
-            >
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="10"/>
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_icons_difficulty_star_full"/>
-
-            <ImageView
-                android:id="@+id/star2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_icons_difficulty_star_empty"/>
-
-            <ImageView
-                android:id="@+id/star3"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_icons_difficulty_star_empty"/>
-
-            <ImageView
-                android:id="@+id/star4"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_icons_difficulty_star_empty"/>
-
-            <ImageView
-                android:id="@+id/star5"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_icons_difficulty_star_empty"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="10"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="9"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:weightSum="8">
+            android:padding="30dp"
+            android:weightSum="15">
 
             <TextView
+                android:id="@+id/uidFriendOX"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="문제"
-                android:textColor="@color/black"
-                android:fontFamily="@font/typo_sherlock_b"
-                android:gravity="center_vertical"
-                android:textSize="30dp"/>
+                android:gravity="center"
+                android:textSize="20dp"
+                android:fontFamily="@font/typo_sherlock_l"/>
 
             <TextView
-                android:id="@+id/questionFriendOX"
+                android:id="@+id/nameFriendOX"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="3"
-                android:background="@drawable/filet_white"
-                android:fontFamily="@font/typo_sherlock_l"
-                android:gravity="center_vertical"
-                android:padding="15dp"
-                android:textSize="25dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="정답"
+                android:layout_weight="2"
+                android:textSize="50dp"
                 android:textColor="@color/black"
-                android:fontFamily="@font/typo_sherlock_b"
-                android:gravity="center_vertical"
-                android:textSize="30dp"/>
+                android:gravity="center"
+                android:fontFamily="@font/typo_sherlock_b"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="3"
-                android:weightSum="2"
+                android:layout_weight="1"
+                android:weightSum="25"
+                android:orientation="horizontal"
+                >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_icons_difficulty_star_full"/>
+
+                <ImageView
+                    android:id="@+id/star2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_icons_difficulty_star_empty"/>
+
+                <ImageView
+                    android:id="@+id/star3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_icons_difficulty_star_empty"/>
+
+                <ImageView
+                    android:id="@+id/star4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_icons_difficulty_star_empty"/>
+
+                <ImageView
+                    android:id="@+id/star5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_icons_difficulty_star_empty"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="9"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:weightSum="8">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="문제"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    android:gravity="center_vertical"
+                    android:textSize="25dp"/>
+
+                <TextView
+                    android:id="@+id/questionFriendOX"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:background="@drawable/filet_white"
+                    android:fontFamily="@font/typo_sherlock_l"
+                    android:gravity="center_vertical"
+                    android:padding="20dp"
+                    android:textSize="25dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="정답"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    android:gravity="center_vertical"
+                    android:textSize="25dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="3"
+                    android:weightSum="2"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/oFriendOX"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/o_white"/>
+
+                    <ImageView
+                        android:id="@+id/xFriendOX"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:src="@drawable/x_white"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:weightSum="3"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/oFriendOX"
+                <ImageButton
+                    android:id="@+id/scriptFriendOX"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/o_white"/>
+                    android:background="#00ff0000"
+                    android:src="@drawable/ic_icons_see_script"/>
 
-                <ImageView
-                    android:id="@+id/xFriendOX"
+                <ImageButton
+                    android:id="@+id/hintFriendOX"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/x_white"/>
+                    android:background="#00ff0000"
+                    android:src="@drawable/ic_icons_see_hint"/>
+
+                <Button
+                    android:id="@+id/checkFriendOX"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="채점하기"
+                    android:textColor="@color/orange"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    android:textSize="30dp"
+                    android:background="@drawable/filet_white"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:weightSum="3"
-            android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/scriptFriendOX"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:src="@drawable/ic_icons_see_script"/>
-
-            <ImageButton
-                android:id="@+id/hintFriendOX"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#00ff0000"
-                android:src="@drawable/ic_icons_see_hint"/>
-
-            <Button
-                android:id="@+id/checkFriendOX"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="채점하기"
-                android:textColor="@color/orange"
-                android:fontFamily="@font/typo_sherlock_b"
-                android:textSize="30dp"
-                android:background="@drawable/filet_white"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FriendOXQuizFragment extends Fragment {
 
@@ -26,12 +28,12 @@ public class FriendOXQuizFragment extends Fragment {
 
     private FriendOXQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, question, answer, uid, ans;
-    int star, flagAO = 0, flagAX = 0;
+    String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "";
+    int cnt, flagAO = 0, flagAX = 0;
+    float starFloat;
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     ImageButton imageButtonScript, imageButtonHint;
     Button imageButtonCheck;
-    Fragment showScriptFragment;
 
     public FriendOXQuizFragment() {
 
@@ -66,49 +68,102 @@ public class FriendOXQuizFragment extends Fragment {
         question = getArguments().getString("question");
         answer = getArguments().getString("answer");
         uid = getArguments().getString("uid");
-        star = Integer.parseInt(getArguments().getString("star"));
-
-        showScriptFragment = new ShowScriptFragment();
+        star = getArguments().getString("star");
+        like = getArguments().getString("like");
+        hint = getArguments().getString("desc");
+        key = getArguments().getString("key");
+        cnt = getArguments().getInt("cnt");
 
         TextView textViewUid = view.findViewById(R.id.uidFriendOX);
         TextView textViewName = view.findViewById(R.id.nameFriendOX);
         TextView textViewQuestion = view.findViewById(R.id.questionFriendOX);
-        imageO = view.findViewById(R.id.oFriendOX);
-        imageX = view.findViewById(R.id.xFriendOX);
-        imageViewS2 = view.findViewById(R.id.star2);
-        imageViewS3 = view.findViewById(R.id.star3);
-        imageViewS4 = view.findViewById(R.id.star4);
-        imageViewS5 = view.findViewById(R.id.star5);
-        imageButtonScript = view.findViewById(R.id.scriptFriendOX);
-        imageButtonHint = view.findViewById(R.id.hintFriendOX);
-        imageButtonCheck = view.findViewById(R.id.checkFriendOX);
+        imageO = (ImageView) view.findViewById(R.id.oFriendOX);
+        imageX = (ImageView) view.findViewById(R.id.xFriendOX);
+        imageViewS2 = (ImageView) view.findViewById(R.id.star2);
+        imageViewS3 = (ImageView) view.findViewById(R.id.star3);
+        imageViewS4 = (ImageView) view.findViewById(R.id.star4);
+        imageViewS5 = (ImageView) view.findViewById(R.id.star5);
+        imageButtonScript = (ImageButton) view.findViewById(R.id.scriptFriendOX);
+        imageButtonHint = (ImageButton) view.findViewById(R.id.hintFriendOX);
+        imageButtonCheck = (Button) view.findViewById(R.id.checkFriendOX);
+
+        starFloat = Float.parseFloat(star);
 
         textViewUid.setText(uid + " 친구가 낸 질문");
         textViewName.setText(scriptnm);
         textViewQuestion.setText(question);
+
+        imageButtonCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ans.equals("")) {
+                    Toast.makeText(context, "정답을 입력하세요.", Toast.LENGTH_SHORT).show();
+                } else {
+                    if(ans.equals(answer)) {
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.contentShowScriptOX, ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
+                        Bundle bundle = new Bundle(7);
+                        bundle.putString("id", id);
+                        bundle.putString("scriptnm", scriptnm);
+                        bundle.putString("uid", uid);
+                        bundle.putString("star", star);
+                        bundle.putString("like", like);
+                        bundle.putString("key", key);
+                        bundle.putInt("cnt", cnt);
+                        ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment.setArguments(bundle);
+//                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    } else {
+                        FragmentManager fragmentManager = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.contentShowScriptOX, ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment);
+                        Bundle bundle = new Bundle(1);
+                        bundle.putString("id", id);
+                        ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment.setArguments(bundle);
+//                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                }
+            }
+        });
+
+        imageButtonHint.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.contentFriendOXQuiz, ((ShowFriendQuizActivity)getActivity()).showHintFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("hint", hint);
+                ((ShowFriendQuizActivity)getActivity()).showHintFragment.setArguments(bundle);
+//                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
         imageButtonScript.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.contentShowScriptOX, showScriptFragment);
+                fragmentTransaction.replace(R.id.contentShowScriptOX, ((ShowFriendQuizActivity)getActivity()).showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", scriptnm);
-                bundle.putString("type", "ox");
-                showScriptFragment.setArguments(bundle);
-                fragmentTransaction.addToBackStack(null);
+                bundle.putString("type", "friend");
+                ((ShowFriendQuizActivity)getActivity()).showScriptFragment.setArguments(bundle);
+//                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
 
-        if(star > 1) {
+        if(starFloat >= 1.5) {
             imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-            if(star > 2) {
+            if(starFloat >= 2.5) {
                 imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                if(star > 3) {
+                if(starFloat >= 3.5) {
                     imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    if(star > 4) {
+                    if(starFloat >= 4.5) {
                         imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     }
                 }

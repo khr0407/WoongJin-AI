@@ -29,7 +29,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="#00ff0000"/>
+                android:background="#00ff0000"
+                android:src="@drawable/ic_mypage"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -61,67 +62,83 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
 
-            <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4.5"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_white"
-            android:weightSum="6">
-
-            <TextView
-                android:id="@+id/textShowFriendQuiz"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/typo_sherlock_l"
-                android:textSize="30dp"
-                android:gravity="center"/>
-
-            <ListView
-                android:id="@+id/myFriendQuizList"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"
-                android:clickable="true"
-                android:focusable="true"
-                android:padding="20dp"/>
-
-        </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-
             <FrameLayout
-                android:id="@+id/contentShowFriendQuiz"
+                android:id="@+id/contentShowScriptOX"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="4.5">
+                android:layout_weight="10">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:background="@drawable/rounded_white"
-                    android:weightSum="6">
+                    android:weightSum="10"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:text="추천수가 많은 질문도 풀어보자"
-                        android:fontFamily="@font/typo_sherlock_l"
-                        android:textSize="30dp"
-                        android:gravity="center"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4.5"
+                        android:orientation="vertical"
+                        android:background="@drawable/rounded_white"
+                        android:weightSum="6">
 
-                    <ListView
-                        android:id="@+id/likeQuizList"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="5"
-                        android:padding="20dp"/>
+                        <TextView
+                            android:id="@+id/textShowFriendQuiz"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/typo_sherlock_l"
+                            android:textSize="30dp"
+                            android:gravity="center"/>
+
+                        <ListView
+                            android:id="@+id/myFriendQuizList"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="5"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="20dp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <FrameLayout
+                        android:id="@+id/contentShowFriendQuiz"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4.5">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:background="@drawable/rounded_white"
+                            android:weightSum="6">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:text="추천수가 많은 질문도 풀어보자"
+                                android:fontFamily="@font/typo_sherlock_l"
+                                android:textSize="30dp"
+                                android:gravity="center"/>
+
+                            <ListView
+                                android:id="@+id/likeQuizList"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="5"
+                                android:padding="20dp"/>
+
+                        </LinearLayout>
+
+                    </FrameLayout>
 
                 </LinearLayout>
 

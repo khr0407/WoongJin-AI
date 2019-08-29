@@ -65,7 +65,7 @@ public class TemplateActivity extends AppCompatActivity {
             }
         });
 
-        final ValueEventListener postListner = new ValueEventListener() {
+        mPostReference.child("quiz_list/").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -178,9 +178,9 @@ public class TemplateActivity extends AppCompatActivity {
                 String postS3 = "단답형 퀴즈 예시\nQ. " + post3.question + "\nA. " + post3.answer + "\nLike: " + post3.like;
                 shortwordT.setText(postS3);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
-        };
-        mPostReference.child("quiz_list/").addValueEventListener(postListner);
+        });
     }
 }

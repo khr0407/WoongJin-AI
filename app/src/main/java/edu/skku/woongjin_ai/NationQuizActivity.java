@@ -69,12 +69,14 @@ public class NationQuizActivity extends AppCompatActivity {
                     intentMakeQuiz.putExtra("scriptnm", studiedBookArrayList.get(position));
                     intentMakeQuiz.putExtra("background", backgroundArrayList.get(position));
                     startActivity(intentMakeQuiz);
+                    finish();
                 } else if(quizType.equals("friend")) {
                     intentFriendQuiz = new Intent(NationQuizActivity.this, ShowFriendQuizActivity.class);
                     intentFriendQuiz.putExtra("id", id);
                     intentFriendQuiz.putExtra("scriptnm", studiedBookArrayList.get(position));
                     intentFriendQuiz.putExtra("background", backgroundArrayList.get(position));
                     startActivity(intentFriendQuiz);
+                    finish();
                 }
             }
         });
@@ -85,6 +87,7 @@ public class NationQuizActivity extends AppCompatActivity {
                 intentHome = new Intent(NationQuizActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
+                finish();
             }
         });
     }
