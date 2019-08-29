@@ -57,23 +57,38 @@
             android:orientation="horizontal">
 
             <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_white"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/quiz_ox_template"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:fontFamily="@font/typo_sherlock_b">
-            </TextView>
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_white"
+                android:orientation="vertical"
+                android:weightSum="5">
+
+                <TextView
+                    android:text="OX 퀴즈 예시"
+                    android:gravity="center"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    android:textSize="20sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+                </TextView>
+
+                <TextView
+                    android:id="@+id/quiz_ox_template"
+                    android:layout_width="match_parent"
+                    android:layout_weight="4"
+                    android:layout_height="0dp"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp">
+                </TextView>
+
             </LinearLayout>
 
             <LinearLayout
@@ -85,12 +100,26 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="5">
+                <TextView
+                    android:text="객관식 퀴즈 예시"
+                    android:gravity="center"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    android:textSize="20sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+                </TextView>
+
                 <TextView
                     android:id="@+id/quiz_choice_template"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
                     android:fontFamily="@font/typo_sherlock_b">
                 </TextView>
 
@@ -101,17 +130,31 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="5dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/rounded_white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="5">
+
+                <TextView
+                    android:text="단답형 퀴즈 예시"
+                    android:gravity="center"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    android:textSize="20sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+                </TextView>
 
                 <TextView
                     android:id="@+id/quiz_shortword_template"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginLeft="20dp"
                     android:fontFamily="@font/typo_sherlock_b">
                 </TextView>
 
