@@ -29,7 +29,7 @@ public class SelectBookActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     ListView bookListView;
     ArrayList<String> bookArrayList, backgroundArrayList;
-    ArrayAdapter<String> bookArrayAdapter;
+    SelectBookListAdapter selectBookListAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,8 +51,7 @@ public class SelectBookActivity extends AppCompatActivity {
 
         bookArrayList = new ArrayList<String>();
         backgroundArrayList = new ArrayList<String>();
-        bookArrayAdapter = new ArrayAdapter<String>(SelectBookActivity.this, android.R.layout.simple_list_item_1);
-        bookListView.setAdapter(bookArrayAdapter);
+        selectBookListAdapter = new SelectBookListAdapter();
 
         getFirebaseDatabaseBookList();
 
@@ -106,11 +105,10 @@ public class SelectBookActivity extends AppCompatActivity {
                         String background = snapshot.child("background").getValue().toString();
                         bookArrayList.add(key);
                         backgroundArrayList.add(background);
+                        selectBookListAdapter.addItem(key);
                     }
                 }
-                bookArrayAdapter.clear();
-                bookArrayAdapter.addAll(bookArrayList);
-                bookArrayAdapter.notifyDataSetChanged();
+                bookListView.setAdapter(selectBookListAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }

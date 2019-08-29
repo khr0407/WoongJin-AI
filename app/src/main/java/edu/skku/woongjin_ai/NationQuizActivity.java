@@ -29,8 +29,8 @@ public class NationQuizActivity extends AppCompatActivity {
     ImageButton homeButton;
     public DatabaseReference mPostReference;
     ListView studiedBookListView;
+    SelectBookListAdapter selectBookListAdapter;
     ArrayList<String> studiedBookArrayList, backgroundArrayList;
-    ArrayAdapter<String> studiedBookArrayAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,8 +49,7 @@ public class NationQuizActivity extends AppCompatActivity {
 
         studiedBookArrayList = new ArrayList<String>();
         backgroundArrayList = new ArrayList<String>();
-        studiedBookArrayAdapter = new ArrayAdapter<String>(NationQuizActivity.this, android.R.layout.simple_list_item_1);
-        studiedBookListView.setAdapter(studiedBookArrayAdapter);
+        selectBookListAdapter = new SelectBookListAdapter();
 
         getFirebaseDatabaseStudiedBookList();
 
@@ -107,15 +106,14 @@ public class NationQuizActivity extends AppCompatActivity {
                                 for(DataSnapshot snapshot2 : snapshot1.child("scripts").getChildren()) {
                                     String scriptnm = snapshot2.getKey();
                                     studiedBookArrayList.add(scriptnm);
+                                    selectBookListAdapter.addItem(scriptnm);
                                 }
                                 break;
                             }
                         }
                     }
                 }
-                studiedBookArrayAdapter.clear();
-                studiedBookArrayAdapter.addAll(studiedBookArrayList);
-                studiedBookArrayAdapter.notifyDataSetChanged();
+                studiedBookListView.setAdapter(selectBookListAdapter);
                 for(DataSnapshot snapshot : dataSnapshot.child("script_list").getChildren()) {
                     String key = snapshot.getKey();
                     for(String script : studiedBookArrayList) {

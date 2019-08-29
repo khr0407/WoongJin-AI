@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MyFriendQuizListAdapter extends BaseAdapter implements FriendOXQuizFragment.OnFragmentInteractionListener{
+public class MyFriendQuizListAdapter extends BaseAdapter {
 
     private ArrayList<MyFriendQuizListItem> myFriendQuizListItems = new ArrayList<MyFriendQuizListItem>();
 
@@ -62,10 +62,5 @@ public class MyFriendQuizListAdapter extends BaseAdapter implements FriendOXQuiz
         myFriendQuizListItem.setIconLikr(iconLike);
         myFriendQuizListItem.setLike(like);
         myFriendQuizListItems.add(myFriendQuizListItem);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 }
