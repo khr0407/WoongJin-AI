@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                             overlapflag = 1;
                             Intent intent_main = new Intent(LoginActivity.this, MainActivity.class);
                             intent_main.putExtra("id", data);
+                            Toast.makeText(getApplicationContext(), "카카오 계정으로 로그인 되었습니다", Toast.LENGTH_SHORT).show();
                             startActivity(intent_main);
                             finish();
                             return;
@@ -169,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {         }
                     };
-                    mPostReference.child("user_list").addValueEventListener(postListener);
+                    mPostReference.child("user_list").addListenerForSingleValueEvent(postListener);
                 }
             }
         });

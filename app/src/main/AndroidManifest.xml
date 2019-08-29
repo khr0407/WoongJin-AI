@@ -78,10 +78,9 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".MyQuizActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".ChatroomActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
         <activity android:name=".NationGameActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".ChatFriendActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".NationBookActivity"
             android:screenOrientation="landscape"/>
@@ -90,6 +89,16 @@
         <activity android:name=".SelectBookActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".ShowFriendQuizActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Temp_OXTypeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Temp_ShortwordTypeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Temp_ChoiceTypeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Temp_TemplateActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Temp_GobombActivity"
             android:screenOrientation="landscape"/>
     </application>
 </manifest>

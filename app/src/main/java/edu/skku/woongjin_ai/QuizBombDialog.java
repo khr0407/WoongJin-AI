@@ -40,7 +40,7 @@ public class QuizBombDialog extends Dialog {
     TextView sender, receiver, answer, quizContent, bombCount;
     Context mContext;
 
-    public QuizBombDialog(Context context, String room_name, String my_name ,String chat_with){
+    public QuizBombDialog(Context context, String room_name, String my_name ,String chat_with) {
         super(context);
         this.mContext=context;
 

@@ -20,15 +20,18 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class ChatListActivity extends AppCompatActivity {
-    private DatabaseReference PostReference, mPostReference;
+    private DatabaseReference PostReference, mPostReference, sPostReference;
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
 
-    String id_key, name_key, nickname_key;
-    String roomname;
+    ArrayList<String> scriptdata;
+    ArrayAdapter<String> scriptAdapter;
 
-    ListView chatListView;
-    Button create;
+    String id_key, name_key, nickname_key;
+    String roomname, partner;
+
+    ListView chatlist, scriptlist;
+    Button create, goquiz, readagain, gobomb;
 
     Intent intent;
 
@@ -37,12 +40,20 @@ public class ChatListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatlist);
 
-        chatListView = findViewById(R.id.listView);
+        chatlist = findViewById(R.id.chatlist);
+        scriptlist = findViewById(R.id.scriptlist);
         create = findViewById(R.id.create);
+        goquiz = findViewById(R.id.goquiz);
+        readagain = findViewById(R.id.readagain);
+        gobomb = findViewById(R.id.gobomb);
 
         data = new ArrayList<String>();
-        mPostReference = FirebaseDatabase.getInstance().getReference().child("chatroom_list");
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        mPostReference = FirebaseDatabase.getInstance().getReference().child("chatroom_list");
+
+        scriptdata = new ArrayList<String>();
+        scriptAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        sPostReference = FirebaseDatabase.getInstance().getReference();
 
         intent = getIntent();
         id_key = intent.getExtras().getString("id");
@@ -67,7 +78,7 @@ public class ChatListActivity extends AppCompatActivity {
                 public void onCancelled(DatabaseError databaseError) {
                 }
             };
-            PostReference.addValueEventListener(findNickname);
+            PostReference.addListenerForSingleValueEvent(findNickname);
         }
         else {
             PostReference = FirebaseDatabase.getInstance().getReference().child("user_list");
@@ -89,32 +100,92 @@ public class ChatListActivity extends AppCompatActivity {
                 public void onCancelled(DatabaseError databaseError) {
                 }
             };
-            PostReference.addValueEventListener(findNickname);
+            PostReference.addListenerForSingleValueEvent(findNickname);
         }
 
         create.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                Intent intent_chatfriend = new Intent(ChatListActivity.this, ChatFriendActivity.class);
+                intent_chatfriend.putExtra("id", id_key);
+                intent_chatfriend.putExtra("name", name_key);
+                intent_chatfriend.putExtra("nickname", nickname_key);
+                startActivity(intent_chatfriend);
+            }
+        });
+
+        goquiz.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
                 Intent intent_nationgame = new Intent(ChatListActivity.this, NationGameActivity.class);
                 intent_nationgame.putExtra("id", id_key);
-                intent_nationgame.putExtra("name", name_key);
-                intent_nationgame.putExtra("nickname", nickname_key);
+                //intent_nationgame.putExtra("name", name_key);
+                //intent_nationgame.putExtra("nickname", nickname_key);
                 startActivity(intent_nationgame);
             }
         });
-        chatListView.setAdapter(arrayAdapter);
+
+        /*readagain.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent_tempreadagain = new Intent(ChatListActivity.this, Temp_readagainActivity.class);
+                intent_tempreadagain.putExtra("id", id_key);
+                //intent_nationgame.putExtra("name", name_key);
+                //intent_nationgame.putExtra("nickname", nickname_key);
+                startActivity(intent_tempreadagain);
+            }
+        });*/
+
+        gobomb.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent_tempgobomb = new Intent(ChatListActivity.this, Temp_GobombActivity.class);
+                //intent_tempgoquiz.putExtra("id", id_key);
+                //intent_nationgame.putExtra("name", name_key);
+                //intent_nationgame.putExtra("nickname", nickname_key);
+                startActivity(intent_tempgobomb);
+            }
+        });
+
+
+        chatlist.setAdapter(arrayAdapter);
         getFirebaseDatabase();
 
-        chatListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        chatlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                roomname = chatListView.getItemAtPosition(position).toString();
-                //Intent intent_Chatroom = new Intent(ChatListActivity.this, ChatroomActivity.class);
-                //intent_Chatroom.putExtra("ID", id_key);
-                //intent_Chatroom.putExtra("RoomName", roomname);
-                //startActivity(intent_Chatroom);
+                roomname = chatlist.getItemAtPosition(position).toString().split("\\[")[0];
+                String temp = chatlist.getItemAtPosition(position).toString().split("\\[")[1];
+                partner = temp.split("\\]")[0];
+                /*Intent intent_nationgame = new Intent(ChatListActivity.this, NationGameActivity.class);
+                intent_nationgame.putExtra("id", id_key);
+                intent_nationgame.putExtra("roomname", roomname);
+                startActivityForResult(intent_nationgame, 1);*/
             }
         });
     }
+
+    /*public void getFriendScriptList() {
+        try {
+            ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    scriptdata.clear();
+                    for (DataSnapshot postSnapshot : dataSnapshot.child("user_list").getChildren()) {
+                        String key = postSnapshot.child("nickname").getValue().toString();
+                        if (key.equals(partner)) {
+
+                        }
+                    }
+                    for (DataSnapshot postSnapshot : dataSnapshot.child("kakaouser_list").getChildren()) {
+                        String key = postSnapshot.child("nickname").getValue().toString();
+
+                    }
+                }
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                }
+            };
+            sPostReference.addValueEventListener(postListener);
+        } catch(java.lang.NullPointerException e){
+        }
+    }*/
 
     public void getFirebaseDatabase() {
         try {
@@ -131,11 +202,11 @@ public class ChatListActivity extends AppCompatActivity {
                         Log.d("_user2", user2);
                         if (user1.equals(nickname_key)) {
                             FirebasePost_list get = postSnapshot.getValue(FirebasePost_list.class);
-                            data.add(get.roomname + " with " + get.user2);
+                            data.add(get.roomname + "[" + get.user2 + "]");
                         }
                         else if (user2.equals(nickname_key)) {
                             FirebasePost_list get = postSnapshot.getValue(FirebasePost_list.class);
-                            data.add(get.roomname + " with " + get.user1);
+                            data.add(get.roomname + "[" + get.user1 + "]");
                         }
                     }
                     arrayAdapter.clear();
@@ -147,7 +218,7 @@ public class ChatListActivity extends AppCompatActivity {
                 public void onCancelled(DatabaseError databaseError) {
                 }
             };
-            mPostReference.addValueEventListener(postListener);
+            mPostReference.addListenerForSingleValueEvent(postListener);
         }catch(java.lang.NullPointerException e){
         }
     }
