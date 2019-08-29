@@ -34,8 +34,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class WordListActivity extends AppCompatActivity{
-        //implements ShowScriptFragment.OnFragmentInteractionListener
+public class WordListActivity extends AppCompatActivity
+        implements ShowScriptFragment.OnFragmentInteractionListener {
 
     DatabaseReference mPostReference;
     Intent intent, intentHome;
@@ -45,7 +45,7 @@ public class WordListActivity extends AppCompatActivity{
     FirebaseStorage storage;
     ListView mListView;
     ArrayList<String> wordArraylist = new ArrayList();
-    //Fragment showScriptFragment;
+    Fragment showScriptFragment;
 
     private StorageReference storageReference, dataReference;
     @Override
@@ -65,7 +65,7 @@ public class WordListActivity extends AppCompatActivity{
 
 
         title.setText("지문 제목: " + scriptnm);
-        //showScriptFragment = new ShowScriptFragment();
+        showScriptFragment = new ShowScriptFragment();
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
         getFirebaseDatabaseWordList();
@@ -86,7 +86,7 @@ public class WordListActivity extends AppCompatActivity{
                 backgroundImage.setAlpha(0.5f);
             }
         });
-/*
+
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +99,7 @@ public class WordListActivity extends AppCompatActivity{
                 transaction.commit();
             }
         });
-*/
+
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,9 +175,8 @@ public class WordListActivity extends AppCompatActivity{
         mListView.setAdapter(wAdapter);
     }
     */
-/*
+
     public void onFragmentInteraction(Uri uri) {
 
     }
-*/
 }

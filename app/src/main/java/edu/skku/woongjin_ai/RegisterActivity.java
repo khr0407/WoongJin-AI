@@ -2,7 +2,6 @@ package edu.skku.woongjin_ai;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -12,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -133,7 +131,7 @@ public class RegisterActivity extends AppCompatActivity {
         gradeList =new ArrayList<>();
         gradeList.add("1"); gradeList.add("2");  gradeList.add("3");  gradeList.add("4");  gradeList.add("5"); gradeList.add("6");
         gradeAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, gradeList);
-        gradespinner = (Spinner) findViewById(R.id.grade);
+        gradespinner = (Spinner) findViewById(R.id.userGrade);
         gradespinner.setAdapter(gradeAdapter);
         gradespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
