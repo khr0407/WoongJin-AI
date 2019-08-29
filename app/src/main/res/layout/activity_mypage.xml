@@ -14,6 +14,7 @@
             android:id="@+id/LinearLayout1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_margin="8dp"
             android:layout_weight="1"
             android:orientation="horizontal"
             android:padding="10dp"
@@ -43,7 +44,8 @@
                 android:layout_weight="2"
                 android:background="#00ff0000"
                 android:text="친구목록"
-                android:fontFamily="@font/typo_sherlock_b"/>
+                android:fontFamily="@font/typo_sherlock_b"
+                ></Button>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -159,13 +161,14 @@
 
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="3"
                 android:orientation="vertical"
                 android:padding="10dp"
-                android:weightSum="2.1">
+                android:weightSum="2">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -188,11 +191,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.1"/>
-
-                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="0.2"
@@ -208,6 +206,7 @@
                     android:src="@drawable/calender"/>
 
             </LinearLayout>
+
 
 
             <LinearLayout
@@ -472,7 +471,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.3"/>
+            android:layout_weight="3"/>
 
     </LinearLayout>
 

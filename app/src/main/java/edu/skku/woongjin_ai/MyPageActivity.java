@@ -30,9 +30,10 @@ public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
     Intent intent, intentAddFriend, intent_chatlist, intent_LikeList, intent_QList, intentHome;
-    String id;
-    Button btnFriendList, btnLikeList, btnQList;
+    String grade ,school, name, coin, id, nickname;
+    Button btnFriendList, btnuserLetter, btnLikeList, btnQList;
     Button logout;
+    ImageButton homeButton;
     TextView userGrade, userSchool, userName, userCoin;
     TextView textViewCorrectL, textViewCorrectT, textViewLikeL, textViewLikeT, textViewLevelL, textViewLevelT;
     UserInfo me;
@@ -48,7 +49,7 @@ public class MyPageActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        ImageButton homeButton = (ImageButton) findViewById(R.id.home);
+        homeButton = (ImageButton) findViewById(R.id.home);
         btnFriendList = (Button)findViewById(R.id.FriendList);
         btnQList = (Button) findViewById(R.id.QList);
         btnLikeList = (Button) findViewById(R.id.LikeList);
@@ -73,9 +74,21 @@ public class MyPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intentAddFriend = new Intent(MyPageActivity.this, ShowFriendActivity.class);
                 intentAddFriend.putExtra("id", id);
+                intentAddFriend.putExtra("name", name);
+                intentAddFriend.putExtra("nickname", nickname);
                 startActivity(intentAddFriend);
             }
         });
+/*
+        btnuserLetter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent_chatlist = new Intent(MyPageActivity.this, ChatListActivity.class);
+                intent_chatlist.putExtra("id", id);
+                startActivity(intent_chatlist);
+            }
+        });
+        */
 
         btnQList.setOnClickListener(new View.OnClickListener() {
             @Override

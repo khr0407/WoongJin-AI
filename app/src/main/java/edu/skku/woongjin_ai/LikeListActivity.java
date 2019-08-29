@@ -2,6 +2,7 @@ package edu.skku.woongjin_ai;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -25,8 +26,8 @@ public class LikeListActivity extends AppCompatActivity {
     Intent intent, intentHome;
     String id;
     ListView mListView;
-    ArrayList<String> myQuizList;
-    ArrayAdapter<String> myQuizadapter;
+    ArrayList<String> LikeQuizList;
+    ArrayAdapter<String> LikeQuizadapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,9 +42,9 @@ public class LikeListActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        myQuizList = new ArrayList<String>();
-        myQuizadapter = new ArrayAdapter<String>(LikeListActivity.this, android.R.layout.simple_list_item_1);
-        mListView.setAdapter(myQuizadapter);
+        LikeQuizList = new ArrayList<String>();
+        LikeQuizadapter = new ArrayAdapter<String>(LikeListActivity.this, android.R.layout.simple_list_item_1);
+        mListView.setAdapter(LikeQuizadapter);
 
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,36 +56,43 @@ public class LikeListActivity extends AppCompatActivity {
             }
         });
 
-        getFirebaseDatabaseMyQuizList();
+        //getFirebaseDatabaseMyQuizList();
     }
+    /*
     private void getFirebaseDatabaseMyQuizList() {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                myQuizadapter.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String scriptTitle = snapshot.getKey();
-                    for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        String type = snapshot1.getKey();
-                        if(type.equals("type2")) {
-                            for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
-                                QuizChoiceTypeInfo get = snapshot2.getValue(QuizChoiceTypeInfo.class);
-                                if(id.equals(get.uid)) {
-                                    String myQuiz = "지문 제목: " + scriptTitle + "\nQ. "+ get.question
-                                            + "\nA1. " + get.answer1 + " A2. " + get.answer2 + " A3. " + get.answer3 +
-                                            " A4. " + get.answer4 + "\nA. " + get.answer + "\n해설: " + get.desc +
-                                            "\n난이도: " + get.star + "\n좋아요: " + get.like;
-                                    myQuizList.add(myQuiz);
+                LikeQuizadapter.clear();
+                for (DataSnapshot snapshot : dataSnapshot.child("user_list").getChildren()) {
+                    String key = snapshot.getKey();
+                    if (id.equals(key)) {
+                        for (DataSnapshot snapshot1 : snapshot.child("likeQuiz").getChildren()) {
+                            String scriptkey = snapshot1.getkey();
+                            if (scriptnm.equals(scriptkey)){
+
+                        for (DataSnapshot snapshot2 : snapshot.getChildren()) {
+                            String type = snapshot2.getKey();
+                            if (type.equals("type2")) {
+                                for (DataSnapshot snapshot3 : snapshot1.getChildren()) {
+                                    QuizChoiceTypeInfo get = snapshot2.getValue(QuizChoiceTypeInfo.class);
+                                    if (id.equals(get.uid)) {
+                                        String myQuiz = "지문 제목: " + scriptTitle + "\nQ. " + get.question
+                                                + "\nA1. " + get.answer1 + " A2. " + get.answer2 + " A3. " + get.answer3 +
+                                                " A4. " + get.answer4 + "\nA. " + get.answer + "\n해설: " + get.desc +
+                                                "\n난이도: " + get.star + "\n좋아요: " + get.like;
+                                        LikeQuizList.add(myQuiz);
+                                    }
                                 }
-                            }
-                        } else {
-                            for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
-                                QuizOXShortwordTypeInfo get = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
-                                if(id.equals(get.uid)) {
-                                    String myQuiz = "지문 제목: " + scriptTitle + "\nQ. "+ get.question
-                                            + "\nA. " + get.answer + "\n해설: " + get.desc +
-                                            "\n난이도: " + get.star + "\n좋아요: " + get.like;
-                                    myQuizList.add(myQuiz);
+                            } else {
+                                for (DataSnapshot snapshot2 : snapshot1.getChildren()) {
+                                    QuizOXShortwordTypeInfo get = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
+                                    if (id.equals(get.uid)) {
+                                        String myQuiz = "지문 제목: " + scriptTitle + "\nQ. " + get.question
+                                                + "\nA. " + get.answer + "\n해설: " + get.desc +
+                                                "\n난이도: " + get.star + "\n좋아요: " + get.like;
+                                        myQuizList.add(myQuiz);
+                                    }
                                 }
                             }
                         }
@@ -94,9 +102,13 @@ public class LikeListActivity extends AppCompatActivity {
                 myQuizadapter.addAll(myQuizList);
                 myQuizadapter.notifyDataSetChanged();
             }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {            }
-        };
+
+                @Override
+                public void onCancelled (@NonNull DatabaseError databaseError){
+                }
+            }
         mPostReference.addValueEventListener(postListener);
+        };
     }
+    */
 }

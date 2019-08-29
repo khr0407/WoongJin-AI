@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +24,8 @@ public class TemplateActivity extends AppCompatActivity {
 
     Intent intent, intentHome;
     String id, scriptnm;
-    TextView oxT, choiceT, shortwordT;
+    TextView oxT, choiceT, shortwordT, scriptnmT;
+    ImageView imageHome;
     public DatabaseReference mPostReference;
     ArrayList<QuizOXShortwordTypeInfo> quizListOX, quizListShortword;
     ArrayList<QuizChoiceTypeInfo> quizListChoice;
@@ -34,10 +36,11 @@ public class TemplateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_template);
 
-        ImageView imageHome = (ImageView) findViewById(R.id.home);
+        imageHome = (ImageView) findViewById(R.id.home);
         oxT = (TextView) findViewById(R.id.quiz_ox_template);
         choiceT = (TextView) findViewById(R.id.quiz_choice_template);
         shortwordT = (TextView) findViewById(R.id.quiz_shortword_template);
+        scriptnmT = (TextView) findViewById(R.id.scriptnm);
 
         quizListOX = new ArrayList<QuizOXShortwordTypeInfo>();
         quizListChoice = new ArrayList<QuizChoiceTypeInfo>();
@@ -50,6 +53,7 @@ public class TemplateActivity extends AppCompatActivity {
         intent = getIntent();
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
+        scriptnmT.setText("제목:  " + scriptnm);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
