@@ -140,6 +140,7 @@ public class CorrectFriendQuizFragment extends Fragment {
                         mPostReference.child("kakaouser_list/" + uid + "/ho_list/ho" + hoNum + "/cnt").setValue(oldCnt + 1);
                     }
 
+                    oldLevel = Integer.parseInt(star);
                     newLevel = (oldLevel*cnt + starInt) / (cnt + 1);
                     mPostReference.child("quiz_list/" + scriptnm + "/type1/" + key + "/star").setValue(Float.toString(newLevel));
                     mPostReference.child("quiz_list/" + scriptnm + "/type1/" + key + "/cnt").setValue(cnt+1);

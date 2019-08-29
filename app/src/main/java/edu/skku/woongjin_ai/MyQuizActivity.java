@@ -26,7 +26,7 @@ public class MyQuizActivity extends AppCompatActivity {
     String id;
     ListView mListView;
     ArrayList<String> myQuizList;
-    ArrayAdapter<String> myQuizadapter;
+    MyQuizListAdapter myQuizListAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,8 +42,7 @@ public class MyQuizActivity extends AppCompatActivity {
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         myQuizList = new ArrayList<String>();
-        myQuizadapter = new ArrayAdapter<String>(MyQuizActivity.this, android.R.layout.simple_list_item_1);
-        mListView.setAdapter(myQuizadapter);
+        myQuizListAdapter = new MyQuizListAdapter();
 
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +61,7 @@ public class MyQuizActivity extends AppCompatActivity {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                myQuizadapter.clear();
+                myQuizList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String scriptTitle = snapshot.getKey();
                     for(DataSnapshot snapshot1 : snapshot.getChildren()) {
@@ -76,6 +75,7 @@ public class MyQuizActivity extends AppCompatActivity {
                                             " A4. " + get.answer4 + "\nA. " + get.answer + "\n해설: " + get.desc +
                                             "\n난이도: " + get.star + "\n좋아요: " + get.like;
                                     myQuizList.add(myQuiz);
+                                    myQuizListAdapter.addItem(myQuiz);
                                 }
                             }
                         } else {
@@ -86,14 +86,13 @@ public class MyQuizActivity extends AppCompatActivity {
                                             + "\nA. " + get.answer + "\n해설: " + get.desc +
                                             "\n난이도: " + get.star + "\n좋아요: " + get.like;
                                     myQuizList.add(myQuiz);
+                                    myQuizListAdapter.addItem(myQuiz);
                                 }
                             }
                         }
                     }
                 }
-                myQuizadapter.clear();
-                myQuizadapter.addAll(myQuizList);
-                myQuizadapter.notifyDataSetChanged();
+                mListView.setAdapter(myQuizListAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }

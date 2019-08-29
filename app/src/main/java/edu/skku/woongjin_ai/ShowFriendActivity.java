@@ -163,7 +163,7 @@ public class ShowFriendActivity extends Activity {
                         mPostReference3.child(id_key + "/name").setValue(name_key);
                         mPostReference3.child(id_key + "/nickname").setValue(nickname_key);
                     }
-                    Toast.makeText(ShowFriendActivity.this, newfriend_nickname + "이 친구리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShowFriendActivity.this, newfriend_nickname + "(이)가 친구리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                     check_recommend = 0;
                 }
             }
