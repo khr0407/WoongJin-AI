@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(id.length() == 0 || pw.length() == 0) {
                     Toast.makeText(LoginActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                 } else {
-                    final ValueEventListener postListener = new ValueEventListener() {
+                    mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -133,7 +133,6 @@ public class LoginActivity extends AppCompatActivity {
                                         intent = new Intent(LoginActivity.this, MainActivity.class);
                                         intent.putExtra("id", id);
                                         startActivity(intent);
-                                        finish();
                                     }
                                 }
                             }
@@ -144,9 +143,8 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {         }
-                    };
-                    mPostReference.child("user_list").addValueEventListener(postListener);
+                        public void onCancelled(@NonNull DatabaseError databaseError) {                        }
+                    });
                 }
             }
         });
@@ -235,7 +233,6 @@ public class LoginActivity extends AppCompatActivity {
                     intent_kakaoregister.putExtra("id", savedKakao);
                     Toast.makeText(getApplicationContext(), "카카오톡 계정으로 로그인 되었습니다", Toast.LENGTH_SHORT).show();
                     startActivity(intent_kakaoregister);
-                    finish();
                 }
             });
         }
@@ -255,7 +252,6 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent_main = new Intent(LoginActivity.this, MainActivity.class);
                     intent_main.putExtra("id", savedKakao);
                     startActivity(intent_main);
-                    finish();
                     return;
                 }
             }

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -33,8 +34,8 @@ public class ShowFriendQuizActivity extends AppCompatActivity
     public DatabaseReference mPostReference;
     ListView myFriendQuizListView, likeQuizListView;
     ArrayList<String> likeQuizList, myFriendList;
-    ArrayList<QuizOXShortwordTypeInfo> myFriendOXQuizList, myFriendShortQuizList;
-    ArrayList<QuizChoiceTypeInfo> myFriendChoiceQuizList;
+    ArrayList<QuizOXShortwordTypeInfo> myFriendOXQuizList, myFriendShortQuizList, myFriendOXQuizListR, myFriendShortQuizListR;
+    ArrayList<QuizChoiceTypeInfo> myFriendChoiceQuizList, myFriendChoiceQuizListR;
     MyFriendQuizListAdapter myFriendQuizListAdapter;
     FriendOXQuizFragment friendOXQuizFragment;
     ShowScriptFragment showScriptFragment;
@@ -69,8 +70,11 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         likeQuizList = new ArrayList<String>();
         myFriendList = new ArrayList<String>();
         myFriendOXQuizList = new ArrayList<QuizOXShortwordTypeInfo>();
+        myFriendOXQuizListR = new ArrayList<QuizOXShortwordTypeInfo>();
         myFriendShortQuizList = new ArrayList<QuizOXShortwordTypeInfo>();
+        myFriendShortQuizListR = new ArrayList<QuizOXShortwordTypeInfo>();
         myFriendChoiceQuizList = new ArrayList<QuizChoiceTypeInfo>();
+        myFriendChoiceQuizListR = new ArrayList<QuizChoiceTypeInfo>();
         myFriendQuizListAdapter = new MyFriendQuizListAdapter();
 
         getFirebaseDatabaseMyFriendQuiz();
@@ -94,6 +98,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.remove(friendOXQuizFragment);
                     fragmentTransaction.commit();
+                    friendOXQuizFragment = new FriendOXQuizFragment();
                 } else if(flag == 2) {
 //                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //                    fragmentTransaction.remove(friendChoiceQuizFragment);
@@ -107,29 +112,32 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 if(position < cntOX) {
                     flag = 1;
-                    QuizOXShortwordTypeInfo quiz = myFriendOXQuizList.get(position);
+                    QuizOXShortwordTypeInfo quiz = myFriendOXQuizListR.get(position);
 
                     transaction.replace(R.id.contentShowFriendQuiz, friendOXQuizFragment);
-                    Bundle bundle = new Bundle(7);
+                    Bundle bundle = new Bundle(10);
                     bundle.putString("id", id);
                     bundle.putString("scriptnm", scriptnm);
                     bundle.putString("question", quiz.question);
                     bundle.putString("answer", quiz.answer);
                     bundle.putString("uid", quiz.uid);
                     bundle.putString("star", quiz.star);
+                    bundle.putString("like", quiz.like);
                     bundle.putString("desc", quiz.desc);
+                    bundle.putString("key", quiz.key);
+                    bundle.putInt("cnt", quiz.cnt);
                     friendOXQuizFragment.setArguments(bundle);
                     transaction.commit();
                 } else {
                     position -= cntOX;
                     if(position < cntChoice) {
-                        flag = 2;
+//                        flag = 2;
                         QuizChoiceTypeInfo quiz = myFriendChoiceQuizList.get(position);
 
 
                     } else {
                         position -= cntChoice;
-                        flag = 3;
+//                        flag = 3;
                         QuizOXShortwordTypeInfo quiz = myFriendShortQuizList.get(position);
 
 
@@ -145,8 +153,11 @@ public class ShowFriendQuizActivity extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 myFriendList.clear();
                 myFriendOXQuizList.clear();
-                myFriendShortQuizList.clear();
                 myFriendChoiceQuizList.clear();
+                myFriendShortQuizList.clear();
+                myFriendOXQuizListR.clear();
+                myFriendChoiceQuizListR.clear();
+                myFriendShortQuizListR.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
                     if(key.equals("kakaouser_list") || key.equals("user_list")) {
@@ -220,6 +231,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 }
                 for(int i=0; i<cnt; i++) {
                     myFriendQuizListAdapter.addItem(myFriendOXQuizList.get(randList[i]).question, myFriendOXQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), myFriendOXQuizList.get(randList[i]).like);
+                    myFriendOXQuizListR.add(myFriendOXQuizList.get(randList[i]));
                 }
 
                 cnt = 5;
@@ -235,6 +247,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 }
                 for(int i=0; i<cnt; i++) {
                     myFriendQuizListAdapter.addItem(myFriendChoiceQuizList.get(randList[i]).question, myFriendChoiceQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), myFriendChoiceQuizList.get(randList[i]).like);
+                    myFriendChoiceQuizListR.add(myFriendChoiceQuizList.get(randList[i]));
                 }
 
                 cnt = 5;
@@ -250,6 +263,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 }
                 for(int i=0; i<cnt; i++) {
                     myFriendQuizListAdapter.addItem(myFriendShortQuizList.get(randList[i]).question, myFriendShortQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), myFriendShortQuizList.get(randList[i]).like);
+                    myFriendShortQuizListR.add(myFriendShortQuizList.get(randList[i]));
                 }
 
                 myFriendQuizListView.setAdapter(myFriendQuizListAdapter);

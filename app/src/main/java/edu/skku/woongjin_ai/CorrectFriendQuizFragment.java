@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class CorrectFriendQuizFragment extends Fragment {
 
@@ -26,10 +35,14 @@ public class CorrectFriendQuizFragment extends Fragment {
 
     private CorrectFriendQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id;
+    String id, scriptnm, uid, star, like, key;
     Button buttonSubmit;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5, imageViewThumb;
-    int star = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagT = 0;
+    int cnt, starInt = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagT = 0;
+    float oldLevel;
+    public DatabaseReference mPostReference;
+    ArrayList<HoInfo> hoInfos;
+    int hoNum = 0, flagK = 0;
 
     public CorrectFriendQuizFragment() {
 
@@ -60,6 +73,14 @@ public class CorrectFriendQuizFragment extends Fragment {
         final Context context = container.getContext();
 
         id = getArguments().getString("id");
+        scriptnm = getArguments().getString("scriptnm");
+        uid = getArguments().getString("uid");
+        star = getArguments().getString("star");
+        like = getArguments().getString("like");
+        key = getArguments().getString("key");
+        cnt = getArguments().getInt("cnt");
+
+        mPostReference = FirebaseDatabase.getInstance().getReference();
 
         TextView textViewID = (TextView) view.findViewById(R.id.textCheckCorrect);
         buttonSubmit = (Button) view.findViewById(R.id.submitCheckCorrect);
@@ -70,19 +91,63 @@ public class CorrectFriendQuizFragment extends Fragment {
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
         imageViewThumb = (ImageView) view.findViewById(R.id.thumbCheckCorrect);
 
+        hoInfos = new ArrayList<HoInfo>();
+
+        oldLevel = Float.parseFloat(star);
+
         textViewID.setText("정답이야 " + id + "! 수고했어^^");
+
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String key = snapshot.getKey();
+                    if(key.equals("kakaouser_list") || key.equals("user_list")) {
+                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            String key1 = snapshot1.getKey();
+                            if(key1.equals(uid)) {
+                                if(key.equals("kakaouser_list")) flagK = 1;
+                                for(DataSnapshot snapshot2 : snapshot1.child("ho_list").getChildren()) {
+                                    HoInfo hoInfo = snapshot2.getValue(HoInfo.class);
+                                    hoInfos.add(hoInfo);
+                                }
+                                hoNum = hoInfos.size();
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {                        }
+        });
+
 
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(star == 0) {
+                if(starInt == 0) {
                     Toast.makeText(context, "난이도를 선택해주세요", Toast.LENGTH_SHORT).show();
                 } else {
-                    //TODO 난이도 계산
+                    float oldLevel = hoInfos.get(hoNum-1).level;
+                    int oldCnt = hoInfos.get(hoNum-1).cnt;
+                    float newLevel = (oldLevel*oldCnt + starInt) / (oldCnt + 1);
+                    if(flagK == 0) {
+                        mPostReference.child("user_list/" + uid + "/ho_list/ho" + hoNum + "/level").setValue(newLevel);
+                        mPostReference.child("user_list/" + uid + "/ho_list/ho" + hoNum + "/cnt").setValue(oldCnt + 1);
+                    } else {
+                        mPostReference.child("kakaouser_list/" + uid + "/ho_list/ho" + hoNum + "/level").setValue(newLevel);
+                        mPostReference.child("kakaouser_list/" + uid + "/ho_list/ho" + hoNum + "/cnt").setValue(oldCnt + 1);
+                    }
+
+                    newLevel = (oldLevel*cnt + starInt) / (cnt + 1);
+                    mPostReference.child("quiz_list/" + scriptnm + "/type1/" + key + "/star").setValue(Float.toString(newLevel));
+                    mPostReference.child("quiz_list/" + scriptnm + "/type1/" + key + "/cnt").setValue(cnt+1);
 
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.remove(((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
+                    fragmentTransaction.remove(((ShowFriendQuizActivity)getActivity()).friendOXQuizFragment);
                     fragmentTransaction.commit();
                 }
             }
@@ -93,8 +158,15 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagT == 0) {
                     Toast.makeText(context, "좋아요를 눌렀습니다", Toast.LENGTH_SHORT).show();
-                    //TODO 좋아요 계산
 
+                    int oldLike = hoInfos.get(hoNum-1).like;
+                    if(flagK == 0) mPostReference.child("user_list/" + uid + "/ho_list/ho" + hoNum + "/like").setValue(oldLike+1);
+                    else mPostReference.child("kakaouser_list/" + uid + "/ho_list/ho" + hoNum + "/like").setValue(oldLike+1);
+
+                    int newLike = Integer.parseInt(like);
+                    newLike++;
+                    like = Integer.toString(newLike);
+                    mPostReference.child("quiz_list/" + scriptnm + "/type1/" + key + "/like/").setValue(like);
 
                     flagT = 1;
                 } else {
@@ -107,11 +179,11 @@ public class CorrectFriendQuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(flagS1 == 0) {
-                    star = 1;
+                    starInt = 1;
                     imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS1 = 1;
                 } else {
-                    star = 0;
+                    starInt = 0;
                     imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
@@ -130,13 +202,13 @@ public class CorrectFriendQuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(flagS2 == 0) {
-                    star = 2;
+                    starInt = 2;
                     imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                 } else {
-                    star = 0;
+                    starInt = 0;
                     imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
@@ -155,7 +227,7 @@ public class CorrectFriendQuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(flagS3 == 0) {
-                    star = 3;
+                    starInt = 3;
                     imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
@@ -163,7 +235,7 @@ public class CorrectFriendQuizFragment extends Fragment {
                     flagS2 = 1;
                     flagS3 = 1;
                 } else {
-                    star = 0;
+                    starInt = 0;
                     imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
@@ -182,7 +254,7 @@ public class CorrectFriendQuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(flagS4 == 0) {
-                    star = 4;
+                    starInt = 4;
                     imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
@@ -192,7 +264,7 @@ public class CorrectFriendQuizFragment extends Fragment {
                     flagS3 = 1;
                     flagS4 = 1;
                 } else {
-                    star = 0;
+                    starInt = 0;
                     imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
@@ -211,7 +283,7 @@ public class CorrectFriendQuizFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(flagS5 == 0) {
-                    star = 5;
+                    starInt = 5;
                     imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
@@ -223,7 +295,7 @@ public class CorrectFriendQuizFragment extends Fragment {
                     flagS4 = 1;
                     flagS5 = 1;
                 } else {
-                    star = 0;
+                    starInt = 0;
                     imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);

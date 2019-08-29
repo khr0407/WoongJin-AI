@@ -363,11 +363,11 @@ public class ChoiceTypeActivity extends AppCompatActivity
     private void postFirebaseDatabaseQuizChoice() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        QuizChoiceTypeInfo post = new QuizChoiceTypeInfo(id, quiz, ans, ans1, ans2, ans3, ans4, Integer.toString(star), desc, "0");
-        postValues = post.toMap();
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
+        QuizChoiceTypeInfo post = new QuizChoiceTypeInfo(id, quiz, ans, ans1, ans2, ans3, ans4, Integer.toString(star), desc, "0", ts, 1);
+        postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/type2/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,9 @@ public class FriendOXQuizFragment extends Fragment {
 
     private FriendOXQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, question, answer, uid, hint, ans = "";
-    int star, flagAO = 0, flagAX = 0;
+    String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "";
+    int cnt, flagAO = 0, flagAX = 0;
+    float starFloat;
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     ImageButton imageButtonScript, imageButtonHint;
     Button imageButtonCheck;
@@ -66,8 +68,11 @@ public class FriendOXQuizFragment extends Fragment {
         question = getArguments().getString("question");
         answer = getArguments().getString("answer");
         uid = getArguments().getString("uid");
-        star = Integer.parseInt(getArguments().getString("star"));
+        star = getArguments().getString("star");
+        like = getArguments().getString("like");
         hint = getArguments().getString("desc");
+        key = getArguments().getString("key");
+        cnt = getArguments().getInt("cnt");
 
         TextView textViewUid = view.findViewById(R.id.uidFriendOX);
         TextView textViewName = view.findViewById(R.id.nameFriendOX);
@@ -81,6 +86,8 @@ public class FriendOXQuizFragment extends Fragment {
         imageButtonScript = (ImageButton) view.findViewById(R.id.scriptFriendOX);
         imageButtonHint = (ImageButton) view.findViewById(R.id.hintFriendOX);
         imageButtonCheck = (Button) view.findViewById(R.id.checkFriendOX);
+
+        starFloat = Float.parseFloat(star);
 
         textViewUid.setText(uid + " 친구가 낸 질문");
         textViewName.setText(scriptnm);
@@ -96,8 +103,14 @@ public class FriendOXQuizFragment extends Fragment {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.contentShowScriptOX, ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
-                        Bundle bundle = new Bundle(1);
+                        Bundle bundle = new Bundle(7);
                         bundle.putString("id", id);
+                        bundle.putString("scriptnm", scriptnm);
+                        bundle.putString("uid", uid);
+                        bundle.putString("star", star);
+                        bundle.putString("like", like);
+                        bundle.putString("key", key);
+                        bundle.putInt("cnt", cnt);
                         ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment.setArguments(bundle);
 //                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
@@ -144,13 +157,13 @@ public class FriendOXQuizFragment extends Fragment {
             }
         });
 
-        if(star > 1) {
+        if(starFloat >= 1.5) {
             imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-            if(star > 2) {
+            if(starFloat >= 2.5) {
                 imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                if(star > 3) {
+                if(starFloat >= 3.5) {
                     imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    if(star > 4) {
+                    if(starFloat >= 4.5) {
                         imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     }
                 }

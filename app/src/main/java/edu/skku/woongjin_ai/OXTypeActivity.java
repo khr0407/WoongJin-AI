@@ -308,11 +308,11 @@ public class OXTypeActivity extends AppCompatActivity
     private void postFirebaseDatabaseQuizOX() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(star), desc, "0");
-        postValues = post.toMap();
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(star), desc, "0", ts, 1);
+        postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/type1/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
