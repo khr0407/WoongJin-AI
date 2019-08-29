@@ -169,17 +169,17 @@ public class TemplateActivity extends AppCompatActivity {
 
                 int rand = generator.nextInt(3);
                 QuizOXShortwordTypeInfo post1 = quizListOX.get(rand);
-                String postS1 = " Q. " + post1.question + "\n A. " + post1.answer + "\n Like: " + post1.like + "\n";
+                String postS1 = " Q. " + post1.question + "\n A. " + post1.answer + "\n Desc: " + post1.desc + "\n Star: " + post1.star;
                 oxT.setText(postS1);
 
                 rand = generator.nextInt(3);
                 QuizChoiceTypeInfo post2 = quizListChoice.get(rand);
-                String postS2 = " Q. " + post2.question + "\n A1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\n A. " + post2.answer + "\n Like: " + post2.like + "\n";
+                String postS2 = " Q. " + post2.question + "\n A1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\n A. " + post2.answer + "\n Desc: " + post2.desc + "\n Star: " + post2.star;
                 choiceT.setText(postS2);
 
                 rand = generator.nextInt(3);
                 QuizOXShortwordTypeInfo post3 = quizListShortword.get(rand);
-                String postS3 = " Q. " + post3.question + "\n A. " + post3.answer + "\n Like: " + post3.like;
+                String postS3 = " Q. " + post3.question + "\n A. " + post3.answer + "\n Desc: " + post3.desc + "\n Star: " + post3.star;
                 shortwordT.setText(postS3);
             }
 

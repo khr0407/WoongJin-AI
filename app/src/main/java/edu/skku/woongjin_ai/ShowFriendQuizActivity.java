@@ -232,7 +232,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     }
                 }
                 for(int i=0; i<cnt; i++) {
-                    myFriendQuizListAdapter.addItem(myFriendOXQuizList.get(randList[i]).question, myFriendOXQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), myFriendOXQuizList.get(randList[i]).like);
+                    myFriendQuizListAdapter.addItem(myFriendOXQuizList.get(randList[i]).question, myFriendOXQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myFriendOXQuizList.get(randList[i]).like);
                     myFriendOXQuizListR.add(myFriendOXQuizList.get(randList[i]));
                 }
 
@@ -248,7 +248,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     }
                 }
                 for(int i=0; i<cnt; i++) {
-                    myFriendQuizListAdapter.addItem(myFriendChoiceQuizList.get(randList[i]).question, myFriendChoiceQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), myFriendChoiceQuizList.get(randList[i]).like);
+                    myFriendQuizListAdapter.addItem(myFriendChoiceQuizList.get(randList[i]).question, myFriendChoiceQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myFriendChoiceQuizList.get(randList[i]).like);
                     myFriendChoiceQuizListR.add(myFriendChoiceQuizList.get(randList[i]));
                 }
 
@@ -264,7 +264,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     }
                 }
                 for(int i=0; i<cnt; i++) {
-                    myFriendQuizListAdapter.addItem(myFriendShortQuizList.get(randList[i]).question, myFriendShortQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), myFriendShortQuizList.get(randList[i]).like);
+                    myFriendQuizListAdapter.addItem(myFriendShortQuizList.get(randList[i]).question, myFriendShortQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myFriendShortQuizList.get(randList[i]).like);
                     myFriendShortQuizListR.add(myFriendShortQuizList.get(randList[i]));
                 }
 

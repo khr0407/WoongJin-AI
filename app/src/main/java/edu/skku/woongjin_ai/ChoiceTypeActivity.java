@@ -184,13 +184,17 @@ public class ChoiceTypeActivity extends AppCompatActivity
                     quiz = editQuiz.getText().toString();
 
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
-                    desc = hintWritingFragment1.editTextHint.getText().toString();
+
+                    if(flagNoHint==0)
+                        desc = hintWritingFragment1.editTextHint.getText().toString();
+                    else
+                        desc="없음";
 
                     if(quiz.length() == 0 || ans.length() == 0 || ans1.length() == 0 || ans2.length() == 0 || ans3.length() == 0 || ans4.length() == 0 || desc.length() == 0 || starInt < 1) {
                         Toast.makeText(ChoiceTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                     } else {
                         postFirebaseDatabaseQuizChoice();
-                        hintWritingFragment1.editTextHint.setText("");
+                        Toast.makeText(ChoiceTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -426,7 +430,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
-        QuizChoiceTypeInfo post = new QuizChoiceTypeInfo(id, quiz, ans, ans1, ans2, ans3, ans4, Integer.toString(star), desc, "0", ts, 1);
+        QuizChoiceTypeInfo post = new QuizChoiceTypeInfo(id, quiz, ans, ans1, ans2, ans3, ans4, Integer.toString(starInt), desc, "0", ts, 1);
         postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/type2/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);

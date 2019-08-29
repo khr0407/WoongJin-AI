@@ -55,7 +55,7 @@ public class NationQuizActivity extends AppCompatActivity {
         getFirebaseDatabaseStudiedBookList();
 
         if(quizType.equals("me")) {
-            textView.setText(nickname + "(이)가 읽은 책 목록이야~\n추가로 문제를 내고 싶은 책을 클릭하면 문제를 만들 수 있어!");
+            textView.setText(nickname + "(이)가 읽은 책 목록이야~\n문제를 내고 싶은 책을 클릭하면 문제를 만들 수 있어!");
         } else if(quizType.equals("friend")) {
             textView.setText(nickname + "(이)가 읽은 책 목록이야~\n책을 클릭하면 다른 친구들이 낸 문제를 풀어보고 평가할 수 있어!");
         }

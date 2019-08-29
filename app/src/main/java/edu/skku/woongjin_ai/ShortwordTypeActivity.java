@@ -183,7 +183,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
                     if(flagNoHint==0)
                         desc = hintWritingFragment1.editTextHint.getText().toString();
                     else
-                        desc="힌트가 없습니다!";
+                        desc="없음";
 
                     if(quiz.length() == 0 || ans.length() == 0 || desc.length() == 0 || starInt < 1 ) {
                         Toast.makeText(ShortwordTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
@@ -193,6 +193,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
 
                     } else {
                         postFirebaseDatabaseQuizShortword();
+                        Toast.makeText(ShortwordTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
                         if(flagNoHint==0)
                             hintWritingFragment1.editTextHint.setText("");
                     }
@@ -351,7 +352,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(star), desc, "0", ts, 1);
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1);
         postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/type3/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
