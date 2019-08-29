@@ -34,6 +34,7 @@
                 android:layout_weight="2"
                 android:background="#00ff0000"
                 android:text="기록실"
+                android:textSize="20dp"
                 android:fontFamily="@font/typo_sherlock_b"/>
 
             <Button
@@ -43,6 +44,7 @@
                 android:layout_weight="2"
                 android:background="#00ff0000"
                 android:text="친구목록"
+                android:textSize="20dp"
                 android:fontFamily="@font/typo_sherlock_b"/>
 
             <LinearLayout
@@ -64,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_weight="0.5"
-                    android:src="@drawable/ic_icons_clock"/>
+                    android:src="@drawable/ic_money"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -73,8 +75,7 @@
                     android:fontFamily="@font/typo_sherlock_b"
                     android:textSize="30dp"
                     android:layout_weight="1.5"
-                    android:gravity="center"
-                    android:hint="2000 웅머니"/>
+                    android:gravity="center"/>
 
             </LinearLayout>
 
@@ -152,6 +153,7 @@
                         android:layout_weight="1"
                         android:layout_gravity="center"
                         android:background="#00ff0000"
+                        android:textSize="20dp"
                         android:text="로그아웃"
                         android:fontFamily="@font/typo_sherlock_b"/>
 
@@ -233,7 +235,8 @@
                         android:layout_gravity="center"
                         android:background="#00ff0000"
                         android:fontFamily="@font/typo_sherlock_b"
-                        android:text="내가 만든 \n 질문보기"/>
+                        android:text="내가 만든\n질문보기"
+                        android:textSize="20dp"/>
 
                     <Button
                         android:id="@+id/LikeList"
@@ -243,7 +246,8 @@
                         android:layout_gravity="center"
                         android:background="#00ff0000"
                         android:fontFamily="@font/typo_sherlock_b"
-                        android:text="내가 \n 좋아하는 \n 질문보기"/>
+                        android:text="내가\n좋아하는\n질문보기"
+                        android:textSize="20dp"/>
 
                 </LinearLayout>
 

@@ -35,7 +35,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class WordListActivity extends AppCompatActivity{
-        //implements ShowScriptFragment.OnFragmentInteractionListener
+    //implements ShowScriptFragment.OnFragmentInteractionListener
 
     DatabaseReference mPostReference;
     Intent intent, intentHome;
