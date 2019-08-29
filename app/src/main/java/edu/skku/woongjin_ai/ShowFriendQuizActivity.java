@@ -42,7 +42,9 @@ public class ShowFriendQuizActivity extends AppCompatActivity
     ShowHintFragment showHintFragment;
     CorrectFriendQuizFragment correctFriendQuizFragment;
     WrongFriendQuizFragment wrongFriendQuizFragment;
+    TextView textView;
     int cntOX, cntChoice, cntShort, flag = 0;
+    UserInfo me;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
 
         myFriendQuizListView = (ListView) findViewById(R.id.myFriendQuizList);
         likeQuizListView = (ListView) findViewById(R.id.likeQuizList);
-        TextView textView = (TextView) findViewById(R.id.textShowFriendQuiz);
+        textView = (TextView) findViewById(R.id.textShowFriendQuiz);
         ImageButton homeButton = (ImageButton) findViewById(R.id.home);
 
         likeQuizList = new ArrayList<String>();
@@ -80,7 +82,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         getFirebaseDatabaseMyFriendQuiz();
         getFirebaseDatabaseLikeQuiz();
 
-        textView.setText(id + " 친구가 낸 문제야!");
+        getFirebaseDatabaseUserInfo();
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -292,6 +294,31 @@ public class ShowFriendQuizActivity extends AppCompatActivity
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
+    }
+
+    private void getFirebaseDatabaseUserInfo() {
+        final ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String key = snapshot.getKey();
+                    if(key.equals("kakaouser_list") || key.equals("user_list")) {
+                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            String key1 = snapshot1.getKey();
+                            if(key1.equals(id)) {
+                                me = snapshot1.getValue(UserInfo.class);
+                                textView.setText(me.nickname + "의 친구가 낸 문제야!");
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        mPostReference.addValueEventListener(postListener);
     }
 
     @Override

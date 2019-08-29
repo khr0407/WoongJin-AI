@@ -31,6 +31,7 @@ public class NationQuizActivity extends AppCompatActivity {
     ListView studiedBookListView;
     ArrayList<String> studiedBookArrayList, backgroundArrayList;
     ArrayAdapter<String> studiedBookArrayAdapter;
+    UserInfo me;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class NationQuizActivity extends AppCompatActivity {
 
         intent = getIntent();
         id = intent.getStringExtra("id");
+
         quizType = intent.getStringExtra("quizType");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
@@ -54,11 +56,13 @@ public class NationQuizActivity extends AppCompatActivity {
 
         getFirebaseDatabaseStudiedBookList();
 
+        getFirebaseDatabaseUserInfo();
+        /*
         if(quizType.equals("me")) {
             textView.setText(id + "가 읽은 책 목록이야~\n추가로 문제를 내고 싶은 책을 클릭하면 문제를 만들 수 있어!\n연필 아이콘 개수는 " + id + "가 낸 문제 개수와 같아");
         } else if(quizType.equals("friend")) {
             textView.setText(id + "가 읽은 책 목록이야~\n책을 클릭하면 다른 친구들이 낸 문제를 풀어보고 평가할 수 있어!");
-        }
+        }*/
 
         studiedBookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -130,5 +134,36 @@ public class NationQuizActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
+    }
+
+    private void getFirebaseDatabaseUserInfo() {
+        final ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String key = snapshot.getKey();
+                    if(key.equals("kakaouser_list") || key.equals("user_list")) {
+                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            String key1 = snapshot1.getKey();
+                            if(key1.equals(id)) {
+                                me = snapshot1.getValue(UserInfo.class);
+                                if(quizType.equals("me")) {
+                                    textView.setText(me.nickname + "이(가) 읽은 책 목록이야~\n추가로 문제를 내고 싶은 책을 클릭하면 문제를 만들 수 있어!\n연필 아이콘 개수는 " + me.nickname + "가 낸 문제 개수와 같아");
+                                } else if(quizType.equals("friend")) {
+                                    textView.setText(me.nickname + "이(가) 읽은 책 목록이야~\n책을 클릭하면 다른 친구들이 낸 문제를 풀어보고 평가할 수 있어!");
+                                }
+                               // userNickname.setText("안녕 " + me.nickname + "!\n여행하고 싶은 나라를 골라보자!");
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+        mPostReference.addValueEventListener(postListener);
     }
 }
