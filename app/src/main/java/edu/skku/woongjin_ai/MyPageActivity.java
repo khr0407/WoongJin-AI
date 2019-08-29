@@ -132,7 +132,7 @@ public class MyPageActivity extends AppCompatActivity {
                                 me = snapshot1.getValue(UserInfo.class);
                                 userName.setText(me.name);
                                 userSchool.setText(me.school);
-                                userGrade.setText(me.grade);
+                                userGrade.setText(me.grade + "학년");
                                 userCoin.setText(me.coin + " 코인");
                                 for(DataSnapshot snapshot2 :snapshot1.child("ho_list").getChildren()) {
                                     HoInfo hoInfo = snapshot2.getValue(HoInfo.class);
