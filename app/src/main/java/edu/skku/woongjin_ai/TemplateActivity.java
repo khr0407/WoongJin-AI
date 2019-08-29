@@ -169,17 +169,17 @@ public class TemplateActivity extends AppCompatActivity {
 
                 int rand = generator.nextInt(3);
                 QuizOXShortwordTypeInfo post1 = quizListOX.get(rand);
-                String postS1 = "OX 퀴즈 예시\nQ. " + post1.question + "\nA. " + post1.answer + "\nLike: " + post1.like + "\n";
+                String postS1 = " Q. " + post1.question + "\n A. " + post1.answer + "\n Like: " + post1.like + "\n";
                 oxT.setText(postS1);
 
                 rand = generator.nextInt(3);
                 QuizChoiceTypeInfo post2 = quizListChoice.get(rand);
-                String postS2 = "객관식 퀴즈 예시\nQ. " + post2.question + "\nA1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\nA. " + post2.answer + "\nLike: " + post2.like + "\n";
+                String postS2 = " Q. " + post2.question + "\n A1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\n A. " + post2.answer + "\n Like: " + post2.like + "\n";
                 choiceT.setText(postS2);
 
                 rand = generator.nextInt(3);
                 QuizOXShortwordTypeInfo post3 = quizListShortword.get(rand);
-                String postS3 = "단답형 퀴즈 예시\nQ. " + post3.question + "\nA. " + post3.answer + "\nLike: " + post3.like;
+                String postS3 = " Q. " + post3.question + "\n A. " + post3.answer + "\n Like: " + post3.like;
                 shortwordT.setText(postS3);
             }
 
