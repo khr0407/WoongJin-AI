@@ -14,6 +14,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:weightSum="6.5"
+        android:background="@drawable/main_background"
         >
 
         <LinearLayout
@@ -81,16 +82,32 @@
                 android:layout_weight="0.5"
                 ></LinearLayout>
 
-            <ImageButton
+            <LinearLayout
+                android:id="@+id/ReadActivity"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:id="@+id/ReadActivity"
                 android:layout_weight="3"
-                android:background="#00ff0000"
-                android:src="@drawable/ic_readland"
-                />
+                android:weightSum="3"
+                android:orientation="vertical"
+                android:background="@drawable/rounded_orange_transparent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:src="@drawable/ic_readland"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="독서 나라"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    android:textSize="50dp"
+                    android:background="#00ff0000"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -104,15 +121,31 @@
                 android:layout_height="match_parent"
                 android:layout_weight="3">
 
-                <ImageButton
+                <LinearLayout
+                    android:id="@+id/QuizActivity"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:background="#00ff0000"
-                    android:id="@+id/QuizActivity"
-                    android:src="@drawable/ic_quizland"
-                    />
+                    android:weightSum="3"
+                    android:orientation="vertical"
+                    android:background="@drawable/rounded_orange_transparent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:src="@drawable/ic_quizland"/>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="퀴즈 나라"
+                        android:fontFamily="@font/typo_sherlock_b"
+                        android:textSize="50dp"
+                        android:background="#00ff0000"/>
+
+                </LinearLayout>
 
             </FrameLayout>
 
@@ -122,16 +155,32 @@
                 android:layout_weight="1"
                 ></LinearLayout>
 
-            <ImageButton
+            <LinearLayout
+                android:id="@+id/GameActivity"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:background="#00ff0000"
-                android:id="@+id/GameActivity"
                 android:layout_weight="3"
-                android:src="@drawable/ic_gameland"
-                />
+                android:weightSum="3"
+                android:orientation="vertical"
+                android:background="@drawable/rounded_orange_transparent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:src="@drawable/ic_gameland"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="게임 나라"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    android:textSize="50dp"
+                    android:background="#00ff0000"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -141,24 +190,43 @@
 
         </LinearLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="0.2"/>
 
-            <ImageButton
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.6"
+            android:weightSum="18">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="14"/>
+
+            <Button
                 android:id="@+id/myPage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="#00ff0000"
-                android:src="@drawable/ic_mypage"
-                android:padding="50dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:textSize="30dp"
+                android:text="마이페이지"
+                android:fontFamily="@font/typo_sherlock_b"
+                android:background="@drawable/rounded_yellow"/>
 
-        </android.support.constraint.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"/>
 
     </LinearLayout>
 

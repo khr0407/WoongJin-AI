@@ -8,14 +8,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements MainQuizTypeFragment.OnFragmentInteractionListener{
 
     Intent intent, intentBook, intentChatlist, intentMyPage;
     String id;
-    ImageButton bookButton, quizButton, gameButton, myPageButton;
+    LinearLayout bookButton, quizButton, gameButton;
+    Button myPageButton;
     TextView textView;
     MainQuizTypeFragment mainQuizTypeFragment;
 
@@ -24,10 +27,10 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bookButton = (ImageButton) findViewById(R.id.ReadActivity);
-        quizButton = (ImageButton) findViewById(R.id.QuizActivity);
-        gameButton = (ImageButton) findViewById(R.id.GameActivity);
-        myPageButton = (ImageButton) findViewById(R.id.myPage);
+        bookButton = (LinearLayout) findViewById(R.id.ReadActivity);
+        quizButton = (LinearLayout) findViewById(R.id.QuizActivity);
+        gameButton = (LinearLayout) findViewById(R.id.GameActivity);
+        myPageButton = (Button) findViewById(R.id.myPage);
         textView = (TextView) findViewById(R.id.main);
         mainQuizTypeFragment = new MainQuizTypeFragment();
 

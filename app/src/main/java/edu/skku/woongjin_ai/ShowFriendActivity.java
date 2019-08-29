@@ -44,9 +44,9 @@ public class ShowFriendActivity extends Activity {
     String id_key, name_key, nickname_key;
     String friend_nickname;
     String newfriend_nickname, newfriend_name, newfriend_id;
-    ImageButton invitefriend, addfriend;
+    ImageButton invitefriend, addfriend, imageButtonHome;
 
-    Intent intent;
+    Intent intent, intentHome;
     int check_choose, check_recommend;
 
     @Override
@@ -59,6 +59,7 @@ public class ShowFriendActivity extends Activity {
 
         invitefriend = (ImageButton) findViewById(R.id.invitefriend);
         addfriend = (ImageButton) findViewById(R.id.addfriend);
+        imageButtonHome = (ImageButton) findViewById(R.id.home);
 
         friend_list = findViewById(R.id.friend_list);
         data = new ArrayList<String>();
@@ -89,6 +90,15 @@ public class ShowFriendActivity extends Activity {
         else if (onlyNumCheck(id_key) == false) {
             mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("friend");
         }
+
+        imageButtonHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentHome = new Intent(ShowFriendActivity.this, MainActivity.class);
+                intentHome.putExtra("id", id_key);
+                startActivity(intentHome);
+            }
+        });
 
         invitefriend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -269,10 +279,11 @@ public class ShowFriendActivity extends Activity {
             final ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    data.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String key = snapshot.getKey();
-                        Log.d("friend key", key);
-                        data.add(key);
+                        UserInfo friend = snapshot.getValue(UserInfo.class);
+                        String add = friend.nickname + "[" + friend.name + "]";
+                        data.add(add);
                     }
                     arrayAdapter.clear();
                     arrayAdapter.addAll(data);

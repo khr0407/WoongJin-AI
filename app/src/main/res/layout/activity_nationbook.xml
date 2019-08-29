@@ -109,36 +109,44 @@
                     android:layout_weight="1"
                     android:weightSum="4">
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/science"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:text="과학"
+                        android:textSize="50dp"
+                        android:fontFamily="@font/typo_sherlock_b"
                         android:background="#00ff0000"/>
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/history"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:text="역사"
+                        android:textSize="50dp"
+                        android:fontFamily="@font/typo_sherlock_b"
                         android:background="#00ff0000"/>
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/news"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:text="어린이 시사"
+                        android:textSize="50dp"
+                        android:fontFamily="@font/typo_sherlock_b"
                         android:background="#00ff0000"/>
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/morality"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:text="도덕"
+                        android:textSize="50dp"
+                        android:fontFamily="@font/typo_sherlock_b"
                         android:background="#00ff0000"/>
 
                 </LinearLayout>
@@ -150,36 +158,44 @@
                     android:layout_weight="1"
                     android:weightSum="4">
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/mistery"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:text="미스터리"
+                        android:textSize="50dp"
+                        android:fontFamily="@font/typo_sherlock_b"
                         android:background="#00ff0000"/>
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/comics"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:text="만화"
+                        android:textSize="50dp"
+                        android:fontFamily="@font/typo_sherlock_b"
                         android:background="#00ff0000"/>
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/oldstory"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:text="동화"
+                        android:textSize="50dp"
+                        android:fontFamily="@font/typo_sherlock_b"
                         android:background="#00ff0000"/>
 
-                    <ImageButton
+                    <Button
                         android:id="@+id/greatman"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:text="위인전"
+                        android:textSize="50dp"
+                        android:fontFamily="@font/typo_sherlock_b"
                         android:background="#00ff0000"/>
 
                 </LinearLayout>

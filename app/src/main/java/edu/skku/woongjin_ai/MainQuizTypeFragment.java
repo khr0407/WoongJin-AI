@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -22,7 +23,7 @@ public class MainQuizTypeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    ImageButton meButton, friendButton;
+    Button meButton, friendButton;
     Intent intent;
     String id;
 
@@ -60,8 +61,8 @@ public class MainQuizTypeFragment extends Fragment {
         intent = new Intent(getActivity(), NationQuizActivity.class);
         intent.putExtra("id", id);
 
-        meButton = (ImageButton) view.findViewById(R.id.me);
-        friendButton = (ImageButton) view.findViewById(R.id.friend);
+        meButton = (Button) view.findViewById(R.id.me);
+        friendButton = (Button) view.findViewById(R.id.friend);
 
         meButton.setOnClickListener(new View.OnClickListener() {
             @Override

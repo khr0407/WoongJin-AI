@@ -11,13 +11,14 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         >
-        <ImageView
+        <ImageButton
             android:id="@+id/home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_icons_go_to_home"
             android:layout_gravity="center|left"
             android:layout_margin="15dp"
+            android:background="#00ff0000"
             />
     </LinearLayout>
 

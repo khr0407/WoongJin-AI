@@ -27,7 +27,7 @@
             android:layout_height="0dp"
             android:layout_weight="5"
             android:textSize="18dp"
-            android:fontFamily="@font/gungseche" />
+            android:typeface="serif"/>
 
     </LinearLayout>
 
