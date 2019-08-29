@@ -28,9 +28,10 @@ public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
     Intent intent, intentAddFriend, intent_chatlist, intent_LikeList, intent_QList, intentHome;
-    String grade ,school, name, coin,id;
-    Button btnFriendList, btnLikeList, btnQList;
+    String grade ,school, name, coin, id, nickname;
+    Button btnFriendList, btnuserLetter, btnLikeList, btnQList;
     Button logout;
+    ImageButton homeButton;
     TextView userGrade, userSchool, userName, userCoin;
 
     @Override
@@ -43,15 +44,16 @@ public class MyPageActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        ImageButton homeButton = (ImageButton) findViewById(R.id.home);
         btnFriendList = (Button)findViewById(R.id.FriendList);
+        //btnuserLetter = (Button) findViewById(R.id.userLetter);
         btnQList = (Button) findViewById(R.id.QList);
         btnLikeList = (Button) findViewById(R.id.LikeList);
         userName = (TextView) findViewById(R.id.userName);
         userSchool = (TextView) findViewById(R.id.userSchool);
-        userGrade = (TextView) findViewById(R.id.userGrade);
+        userGrade = (TextView) findViewById(R.id.grade);
         userCoin = (TextView) findViewById(R.id.userCoin);
         logout = (Button) findViewById(R.id.logout);
+        homeButton = (ImageButton)findViewById(R.id.home);
 
         getFirebaseDatabaseUserInfo();
 
@@ -60,9 +62,21 @@ public class MyPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intentAddFriend = new Intent(MyPageActivity.this, ShowFriendActivity.class);
                 intentAddFriend.putExtra("id", id);
+                intentAddFriend.putExtra("name", name);
+                intentAddFriend.putExtra("nickname", nickname);
                 startActivity(intentAddFriend);
             }
         });
+/*
+        btnuserLetter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent_chatlist = new Intent(MyPageActivity.this, ChatListActivity.class);
+                intent_chatlist.putExtra("id", id);
+                startActivity(intent_chatlist);
+            }
+        });
+        */
 
         btnQList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +129,7 @@ public class MyPageActivity extends AppCompatActivity {
                     if (id.equals(key)) {
                         UserInfo get = snapshot.getValue(UserInfo.class);
                         name = get.name;
+                        nickname = get.nickname;
                         school = get.school;
                         coin = get.coin;
                         userName.setText(name);
@@ -128,6 +143,7 @@ public class MyPageActivity extends AppCompatActivity {
                     if (id.equals(key)) {
                         UserInfo get = snapshot.getValue(UserInfo.class);
                         name = get.name;
+                        nickname = get.nickname;
                         school = get.school;
                         coin = get.coin;
                         userName.setText(name);

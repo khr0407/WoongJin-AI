@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements MainQuizTypeFragment.OnFragmentInteractionListener{
 
-    Intent intent, intentBook, intentGame, intentMyPage;
+    Intent intent, intentBook, intentChatlist, intentMyPage;
     String id;
     ImageButton bookButton, quizButton, gameButton, myPageButton;
     TextView textView;
@@ -61,9 +61,9 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentGame = new Intent(MainActivity.this, NationGameActivity.class);
-                intentGame.putExtra("id", id);
-                startActivity(intentGame);
+                intentChatlist = new Intent(MainActivity.this, ChatListActivity.class);
+                intentChatlist.putExtra("id", id);
+                startActivity(intentChatlist);
             }
         });
 

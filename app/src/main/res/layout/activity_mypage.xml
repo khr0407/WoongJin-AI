@@ -8,6 +8,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_margin="10dp"
+        android:background="@color/lightorange"
         android:weightSum="7.6">
 
         <LinearLayout
@@ -139,7 +140,7 @@
                         android:fontFamily="@font/typo_sherlock_b"/>
 
                     <TextView
-                        android:id="@+id/userGrade"
+                        android:id="@+id/grade"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_weight="1"
@@ -154,7 +155,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:layout_gravity="center"
-                        android:background="#00ff0000"
+                        android:background="@drawable/filet_green"
                         android:text="로그아웃"
                         android:fontFamily="@font/typo_sherlock_b"/>
 
