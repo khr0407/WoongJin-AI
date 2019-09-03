@@ -6,9 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +25,7 @@ public class SelectBookActivity extends AppCompatActivity {
     Intent intent, intentHome, intentReadScript;
     String id, bookType;
     ImageButton homeButton;
+    TextView textView;
     public DatabaseReference mPostReference;
     ListView bookListView;
     ArrayList<String> bookArrayList, backgroundArrayList;
@@ -37,20 +40,43 @@ public class SelectBookActivity extends AppCompatActivity {
         id = intent.getStringExtra("id");
         bookType = intent.getStringExtra("bookType");
         intentReadScript = new Intent(SelectBookActivity.this, ReadScriptActivity.class);
+        intentReadScript.putExtra("id", id);
+        intentReadScript.putExtra("bookType", bookType);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         homeButton = (ImageButton) findViewById(R.id.home);
         bookListView = (ListView) findViewById(R.id.bookList);
+        textView = (TextView) findViewById(R.id.selectBook);
 
         bookArrayList = new ArrayList<String>();
         bookArrayAdapter = new ArrayAdapter<String>(SelectBookActivity.this, android.R.layout.simple_list_item_1);
         bookListView.setAdapter(bookArrayAdapter);
 
-        bookListView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if(bookType.equals("science")) {
+            textView.setText("과학을 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        } else if(bookType.equals("history")){
+            textView.setText("역사를 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }else if(bookType.equals("news")){
+            textView.setText("어린이 시사를 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }else if(bookType.equals("morality")){
+            textView.setText("도덕을 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }else if(bookType.equals("mistery")){
+            textView.setText("미스터리 소설을 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }else if(bookType.equals("comics")){
+            textView.setText("웃긴 이야기를 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }else if(bookType.equals("oldstory")){
+            textView.setText("전래동화를 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }else if(bookType.equals("greatman")){
+            textView.setText("위인전을 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
+        }
 
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                intentReadScript.putExtra("scriptnm", bookArrayList.get(position));
+                intentReadScript.putExtra("background", backgroundArrayList.get(position));
+                startActivity(intentReadScript);
             }
         });
 

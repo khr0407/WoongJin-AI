@@ -95,8 +95,10 @@ public class HintVideoFragment extends Fragment {
                     fragmentTransaction.remove(((OXTypeActivity)getActivity()).hintVideoFragment);
                     fragmentTransaction.commit();
                 } else if(type.equals("choice")) {
-//                    fragmentTransaction.remove(((ChoiceTypeActivity)getActivity()).hintVideoFragment);
-//                    fragmentTransaction.commit();
+                    ((ChoiceTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+                    ((ChoiceTypeActivity)getActivity()).flagD = 0;
+                    fragmentTransaction.remove(((ChoiceTypeActivity)getActivity()).hintVideoFragment);
+                    fragmentTransaction.commit();
                 } else if(type.equals("shortword")) {
                     ((ShortwordTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     ((ShortwordTypeActivity)getActivity()).flagD = 0;

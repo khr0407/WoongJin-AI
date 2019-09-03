@@ -20,7 +20,7 @@ public class NationBookActivity extends AppCompatActivity {
 
         intent = getIntent();
         id = intent.getStringExtra("id");
-        intentSelectBook = new Intent(NationBookActivity.this, ReadScriptActivity.class);
+        intentSelectBook = new Intent(NationBookActivity.this, SelectBookActivity.class);
         intentSelectBook.putExtra("id", id);
 
         homeButton = (ImageButton) findViewById(R.id.home);

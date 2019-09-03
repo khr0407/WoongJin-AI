@@ -103,12 +103,15 @@ public class ChoiceTypeActivity extends AppCompatActivity
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                flagD = 1;
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("type", "choice");
+                hintWritingFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
+                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                flagD = 1;
             }
         });
 
