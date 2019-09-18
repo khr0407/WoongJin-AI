@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -36,11 +37,10 @@ import java.util.Random;
 public class ShowFriendActivity extends Activity {
     private DatabaseReference mPostReference, mPostReference2, mPostReference3;
     ListView friend_list, recommendfriend_list;
-    ArrayList<String> data, myFriendList, recommendListArrayList;
-    ArrayAdapter<String> arrayAdapter, recommendListArrayAdapter;
+    ArrayList<String> myFriendList;
     ArrayList<UserInfo> recommendList, recommendFinalList;
     UserInfo me;
-
+    ShowFriendListAdapter showFriendListAdapter, showRecommendFriendListAdapter;
     String id_key, name_key, nickname_key;
     String friend_nickname;
     String newfriend_nickname, newfriend_name, newfriend_id;
@@ -62,14 +62,14 @@ public class ShowFriendActivity extends Activity {
         imageButtonHome = (ImageButton) findViewById(R.id.home);
 
         friend_list = findViewById(R.id.friend_list);
-        data = new ArrayList<String>();
 
         myFriendList = new ArrayList<String>();
-        recommendListArrayList = new ArrayList<String>();
         recommendfriend_list = findViewById(R.id.recommendfriend_list);
         me = new UserInfo();
         recommendList = new ArrayList<UserInfo>();
         recommendFinalList = new ArrayList<UserInfo>();
+        showFriendListAdapter = new ShowFriendListAdapter();
+        showRecommendFriendListAdapter = new ShowFriendListAdapter();
 
         intent = getIntent();
         id_key = intent.getStringExtra("id");
@@ -78,11 +78,6 @@ public class ShowFriendActivity extends Activity {
 
         mPostReference2 = FirebaseDatabase.getInstance().getReference();
         //mPostReference3 = FirebaseDatabase.getInstance().getReference();
-        arrayAdapter = new ArrayAdapter<String>(ShowFriendActivity.this, android.R.layout.simple_list_item_1);
-        recommendListArrayAdapter = new ArrayAdapter<String>(ShowFriendActivity.this, android.R.layout.simple_list_item_1);
-
-        friend_list.setAdapter(arrayAdapter);
-        recommendfriend_list.setAdapter(recommendListArrayAdapter);
 
         if (onlyNumCheck(id_key) == true) {
             mPostReference = FirebaseDatabase.getInstance().getReference().child("kakaouser_list").child(id_key).child("friend");
@@ -198,7 +193,6 @@ public class ShowFriendActivity extends Activity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 myFriendList.clear();
                 recommendList.clear();
-                recommendListArrayList.clear();
                 recommendFinalList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
@@ -262,11 +256,9 @@ public class ShowFriendActivity extends Activity {
                     UserInfo finalRecommend = recommendList.get(randList[i]);
                     recommendFinalList.add(finalRecommend);
                     String post = finalRecommend.nickname + "[" + finalRecommend.name + "]"+ "\n" + finalRecommend.grade + "\n" + finalRecommend.school;
-                    recommendListArrayList.add(post);
+                    showRecommendFriendListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.kakao_default_profile_image), finalRecommend.nickname + "[" + finalRecommend.name + "]", finalRecommend.grade, finalRecommend.school);
                 }
-                recommendListArrayAdapter.clear();
-                recommendListArrayAdapter.addAll(recommendListArrayList);
-                recommendListArrayAdapter.notifyDataSetChanged();
+                recommendfriend_list.setAdapter(showRecommendFriendListAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
@@ -279,15 +271,11 @@ public class ShowFriendActivity extends Activity {
             final ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    data.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         UserInfo friend = snapshot.getValue(UserInfo.class);
-                        String add = friend.nickname + "[" + friend.name + "]";
-                        data.add(add);
+                        showFriendListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.kakao_default_profile_image), friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
                     }
-                    arrayAdapter.clear();
-                    arrayAdapter.addAll(data);
-                    arrayAdapter.notifyDataSetChanged();
+                    friend_list.setAdapter(showFriendListAdapter);
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
