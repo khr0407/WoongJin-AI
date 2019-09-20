@@ -102,7 +102,7 @@ public class FriendOXQuizFragment extends Fragment {
                     if(ans.equals(answer)) {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.contentShowScriptOX, ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
+                        fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
                         Bundle bundle = new Bundle(7);
                         bundle.putString("id", id);
                         bundle.putString("scriptnm", scriptnm);
@@ -117,7 +117,7 @@ public class FriendOXQuizFragment extends Fragment {
                     } else {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.contentShowScriptOX, ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment);
+                        fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment);
                         Bundle bundle = new Bundle(1);
                         bundle.putString("id", id);
                         ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment.setArguments(bundle);
@@ -133,7 +133,7 @@ public class FriendOXQuizFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.contentShowHintOX, ((ShowFriendQuizActivity)getActivity()).showHintFragment);
+                fragmentTransaction.replace(R.id.contentShowHint, ((ShowFriendQuizActivity)getActivity()).showHintFragment);
                 Bundle bundle = new Bundle(1);
                 bundle.putString("hint", hint);
                 ((ShowFriendQuizActivity)getActivity()).showHintFragment.setArguments(bundle);
@@ -147,7 +147,7 @@ public class FriendOXQuizFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.contentShowScriptOX, ((ShowFriendQuizActivity)getActivity()).showScriptFragment);
+                fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", scriptnm);
                 bundle.putString("type", "friend");
