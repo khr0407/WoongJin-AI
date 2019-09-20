@@ -27,8 +27,6 @@ import java.util.Random;
 public class ShowFriendQuizActivity extends AppCompatActivity
         implements FriendOXQuizFragment.OnFragmentInteractionListener, FriendChoiceQuizFragment.OnFragmentInteractionListener, FriendShortwordQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener, ShowHintFragment.OnFragmentInteractionListener, CorrectFriendQuizFragment.OnFragmentInteractionListener, WrongFriendQuizFragment.OnFragmentInteractionListener {
 
-    //TODO UI 백그라운드 이미지로 바꿀까?? 지문 제목 추가??
-
     Intent intent, intentHome;
     String id, scriptnm, background;
     public DatabaseReference mPostReference;

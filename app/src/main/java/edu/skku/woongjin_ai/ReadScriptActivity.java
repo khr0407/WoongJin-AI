@@ -131,7 +131,6 @@ public class ReadScriptActivity extends AppCompatActivity
 
     public void onStudyTypeInfoSet(String type) {
         studyType = type;
-        Log.d("hereeeeeeeeeeeeee", studyType);
         //TODO 받아온 type value로 소리내어 읽기/표시하며 읽기 나누어 구현
     }
 

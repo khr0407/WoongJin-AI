@@ -69,7 +69,6 @@ public class SelectTypeActivity extends AppCompatActivity {
         showTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 이미지 바꾸기
                 intentTemplate = new Intent(SelectTypeActivity.this, TemplateActivity.class);
                 intentTemplate.putExtra("id", id);
                 intentTemplate.putExtra("scriptnm", scriptnm);

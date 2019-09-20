@@ -144,7 +144,6 @@ public class ShortwordTypeActivity extends AppCompatActivity
                     flagD = 0;
                     flagNoHint = 0;
                 }
-                //TODO 힌트 없음도 fragment 만들어?
             }
         });
 
