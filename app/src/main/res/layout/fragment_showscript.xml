@@ -60,7 +60,7 @@
                 android:id="@+id/script1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gungseche"
+                android:typeface="serif"
                 android:layout_weight="3"
                 android:textSize="18dp"/>
 
@@ -73,7 +73,7 @@
                 android:id="@+id/script2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gungseche"
+                android:typeface="serif"
                 android:layout_weight="3"
                 android:textSize="18dp"/>
 

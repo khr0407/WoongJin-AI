@@ -12,12 +12,13 @@ public class UserInfo {
     public String gender;
     public String grade;
     public String coin;
+    public String profile;
 
     public UserInfo(){
 
     }
 
-    public UserInfo(String id, String pw, String name, String nickname, String school, String gender, String grade, String coin) {
+    public UserInfo(String id, String pw, String name, String nickname, String school, String gender, String grade, String coin, String profile) {
         this.id = id;
         this.name = name;
         this.pw = pw;
@@ -27,6 +28,7 @@ public class UserInfo {
         this.gender = gender;
         this.grade = grade;
         this.coin = coin;
+        this.profile = profile;
     }
 
     public Map<String, Object> toMap() {
@@ -40,6 +42,7 @@ public class UserInfo {
         result.put("gender", gender);
         result.put("grade", grade);
         result.put("coin", coin);
+        result.put("profile", profile);
         return result;
     }
 }

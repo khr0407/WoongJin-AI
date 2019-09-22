@@ -84,6 +84,9 @@ public class ShowScriptFragment extends Fragment {
                 } else if(type.equals("shortword")) {
                     fragmentTransaction.remove(((ShortwordTypeActivity)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
+                } else if(type.equals("friend")) {
+                    fragmentTransaction.remove(((ShowFriendQuizActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
                 }
             }
         });

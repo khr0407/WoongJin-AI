@@ -29,7 +29,7 @@ public class SelectBookActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     ListView bookListView;
     ArrayList<String> bookArrayList, backgroundArrayList;
-    ArrayAdapter<String> bookArrayAdapter;
+    SelectBookListAdapter selectBookListAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,8 +50,10 @@ public class SelectBookActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.selectBook);
 
         bookArrayList = new ArrayList<String>();
-        bookArrayAdapter = new ArrayAdapter<String>(SelectBookActivity.this, android.R.layout.simple_list_item_1);
-        bookListView.setAdapter(bookArrayAdapter);
+        backgroundArrayList = new ArrayList<String>();
+        selectBookListAdapter = new SelectBookListAdapter();
+
+        getFirebaseDatabaseBookList();
 
         if(bookType.equals("science")) {
             textView.setText("과학을 선택했구나!\n아래 목록에서 읽고싶은 지문을 선택해줘~");
@@ -95,6 +97,7 @@ public class SelectBookActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 bookArrayList.clear();
+                backgroundArrayList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String type = snapshot.child("type").getValue().toString();
                     if(type.equals(bookType)) {
@@ -102,11 +105,10 @@ public class SelectBookActivity extends AppCompatActivity {
                         String background = snapshot.child("background").getValue().toString();
                         bookArrayList.add(key);
                         backgroundArrayList.add(background);
+                        selectBookListAdapter.addItem(key);
                     }
                 }
-                bookArrayAdapter.clear();
-                bookArrayAdapter.addAll(bookArrayList);
-                bookArrayAdapter.notifyDataSetChanged();
+                bookListView.setAdapter(selectBookListAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }

@@ -5,13 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 public class NationBookActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentSelectBook;
     String id;
-    ImageButton homeButton, scienceButton, historyButton, newsButton, moralityButton, misteryButton, comicsButton, oldstoryButton, greatmanButton;
+    ImageButton homeButton;
+    Button scienceButton, historyButton, newsButton, moralityButton, misteryButton, comicsButton, oldstoryButton, greatmanButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,14 +26,14 @@ public class NationBookActivity extends AppCompatActivity {
         intentSelectBook.putExtra("id", id);
 
         homeButton = (ImageButton) findViewById(R.id.home);
-        scienceButton = (ImageButton) findViewById(R.id.science);
-        historyButton = (ImageButton) findViewById(R.id.history);
-        newsButton = (ImageButton) findViewById(R.id.news);
-        moralityButton = (ImageButton) findViewById(R.id.morality);
-        misteryButton = (ImageButton) findViewById(R.id.mistery);
-        comicsButton = (ImageButton) findViewById(R.id.comics);
-        oldstoryButton = (ImageButton) findViewById(R.id.oldstory);
-        greatmanButton = (ImageButton) findViewById(R.id.greatman);
+        scienceButton = (Button) findViewById(R.id.science);
+        historyButton = (Button) findViewById(R.id.history);
+        newsButton = (Button) findViewById(R.id.news);
+        moralityButton = (Button) findViewById(R.id.morality);
+        misteryButton = (Button) findViewById(R.id.mistery);
+        comicsButton = (Button) findViewById(R.id.comics);
+        oldstoryButton = (Button) findViewById(R.id.oldstory);
+        greatmanButton = (Button) findViewById(R.id.greatman);
 
         scienceButton.setOnClickListener(new View.OnClickListener() {
             @Override

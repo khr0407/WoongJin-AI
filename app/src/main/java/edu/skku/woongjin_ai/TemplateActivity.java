@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +24,8 @@ public class TemplateActivity extends AppCompatActivity {
 
     Intent intent, intentHome;
     String id, scriptnm;
-    TextView oxT, choiceT, shortwordT;
+    TextView oxT, choiceT, shortwordT, scriptnmT;
+    ImageView imageHome;
     public DatabaseReference mPostReference;
     ArrayList<QuizOXShortwordTypeInfo> quizListOX, quizListShortword;
     ArrayList<QuizChoiceTypeInfo> quizListChoice;
@@ -34,10 +36,11 @@ public class TemplateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_template);
 
-        ImageView imageHome = (ImageView) findViewById(R.id.home);
+        imageHome = (ImageView) findViewById(R.id.home);
         oxT = (TextView) findViewById(R.id.quiz_ox_template);
         choiceT = (TextView) findViewById(R.id.quiz_choice_template);
         shortwordT = (TextView) findViewById(R.id.quiz_shortword_template);
+        scriptnmT = (TextView) findViewById(R.id.scriptnm);
 
         quizListOX = new ArrayList<QuizOXShortwordTypeInfo>();
         quizListChoice = new ArrayList<QuizChoiceTypeInfo>();
@@ -50,6 +53,7 @@ public class TemplateActivity extends AppCompatActivity {
         intent = getIntent();
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
+        scriptnmT.setText("제목:  " + scriptnm);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -65,7 +69,7 @@ public class TemplateActivity extends AppCompatActivity {
             }
         });
 
-        final ValueEventListener postListner = new ValueEventListener() {
+        mPostReference.child("quiz_list/").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -165,22 +169,22 @@ public class TemplateActivity extends AppCompatActivity {
 
                 int rand = generator.nextInt(3);
                 QuizOXShortwordTypeInfo post1 = quizListOX.get(rand);
-                String postS1 = "OX 퀴즈 예시\nQ. " + post1.question + "\nA. " + post1.answer + "\nLike: " + post1.like + "\n";
+                String postS1 = " Q. " + post1.question + "\n A. " + post1.answer + "\n Desc: " + post1.desc + "\n Star: " + post1.star;
                 oxT.setText(postS1);
 
                 rand = generator.nextInt(3);
                 QuizChoiceTypeInfo post2 = quizListChoice.get(rand);
-                String postS2 = "객관식 퀴즈 예시\nQ. " + post2.question + "\nA1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\nA. " + post2.answer + "\nLike: " + post2.like + "\n";
+                String postS2 = " Q. " + post2.question + "\n A1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\n A. " + post2.answer + "\n Desc: " + post2.desc + "\n Star: " + post2.star;
                 choiceT.setText(postS2);
 
                 rand = generator.nextInt(3);
                 QuizOXShortwordTypeInfo post3 = quizListShortword.get(rand);
-                String postS3 = "단답형 퀴즈 예시\nQ. " + post3.question + "\nA. " + post3.answer + "\nLike: " + post3.like;
+                String postS3 = " Q. " + post3.question + "\n A. " + post3.answer + "\n Desc: " + post3.desc + "\n Star: " + post3.star;
                 shortwordT.setText(postS3);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
-        };
-        mPostReference.child("quiz_list/").addValueEventListener(postListner);
+        });
     }
 }
