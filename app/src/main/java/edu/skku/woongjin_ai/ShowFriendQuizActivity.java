@@ -27,11 +27,11 @@ import java.util.Random;
 public class ShowFriendQuizActivity extends AppCompatActivity
         implements FriendOXQuizFragment.OnFragmentInteractionListener, FriendChoiceQuizFragment.OnFragmentInteractionListener, FriendShortwordQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener, ShowHintFragment.OnFragmentInteractionListener, CorrectFriendQuizFragment.OnFragmentInteractionListener, WrongFriendQuizFragment.OnFragmentInteractionListener {
 
-    Intent intent, intentHome;
+    Intent intent, intentHome, intentUpdate;
     String id, scriptnm, background;
-    public DatabaseReference mPostReference;
+    DatabaseReference mPostReference;
     ListView myFriendQuizListView, likeQuizListView;
-    ArrayList<String> likeQuizList, myFriendList;
+    ArrayList<String> likeQuizList, myFriendList, solvedQuizList;
     ArrayList<QuizOXShortwordTypeInfo> myFriendOXQuizList, myFriendShortQuizList, myFriendOXQuizListR, myFriendShortQuizListR;
     ArrayList<QuizChoiceTypeInfo> myFriendChoiceQuizList, myFriendChoiceQuizListR;
     MyFriendQuizListAdapter myFriendQuizListAdapter;
@@ -73,6 +73,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
 
         likeQuizList = new ArrayList<String>();
         myFriendList = new ArrayList<String>();
+        solvedQuizList = new ArrayList<String>();
         myFriendOXQuizList = new ArrayList<QuizOXShortwordTypeInfo>();
         myFriendOXQuizListR = new ArrayList<QuizOXShortwordTypeInfo>();
         myFriendShortQuizList = new ArrayList<QuizOXShortwordTypeInfo>();
@@ -81,10 +82,14 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         myFriendChoiceQuizListR = new ArrayList<QuizChoiceTypeInfo>();
         myFriendQuizListAdapter = new MyFriendQuizListAdapter();
 
+        getFirebaseDatabaseUserInfo();
         getFirebaseDatabaseMyFriendQuiz();
         getFirebaseDatabaseLikeQuiz();
 
-        getFirebaseDatabaseUserInfo();
+        intentUpdate = new Intent(ShowFriendQuizActivity.this, ShowFriendQuizActivity.class);
+        intentUpdate.putExtra("id", id);
+        intentUpdate.putExtra("scriptnm", scriptnm);
+        intentUpdate.putExtra("background", background);
 
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,8 +222,18 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                             String uid = snapshot1.child("uid").getValue().toString();
                             for(String friend : myFriendList) {
                                 if(uid.equals(friend)) {
-                                    QuizOXShortwordTypeInfo quiz = snapshot1.getValue(QuizOXShortwordTypeInfo.class);
-                                    myFriendOXQuizList.add(quiz);
+                                    int flag = 0;
+                                    for(String solvedQuiz : solvedQuizList) {
+                                        String key2 = snapshot1.getKey();
+                                        if(solvedQuiz.equals(key2)) {
+                                            flag = 1;
+                                            break;
+                                        }
+                                    }
+                                    if(flag == 0) {
+                                        QuizOXShortwordTypeInfo quiz = snapshot1.getValue(QuizOXShortwordTypeInfo.class);
+                                        myFriendOXQuizList.add(quiz);
+                                    }
                                     break;
                                 }
                             }
@@ -228,8 +243,18 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                             String uid = snapshot1.child("uid").getValue().toString();
                             for(String friend : myFriendList) {
                                 if(uid.equals(friend)) {
-                                    QuizChoiceTypeInfo quiz = snapshot1.getValue(QuizChoiceTypeInfo.class);
-                                    myFriendChoiceQuizList.add(quiz);
+                                    int flag = 0;
+                                    for(String solvedQuiz : solvedQuizList) {
+                                        String key2 = snapshot1.getKey();
+                                        if(solvedQuiz.equals(key2)) {
+                                            flag = 1;
+                                            break;
+                                        }
+                                    }
+                                    if(flag == 0) {
+                                        QuizChoiceTypeInfo quiz = snapshot1.getValue(QuizChoiceTypeInfo.class);
+                                        myFriendChoiceQuizList.add(quiz);
+                                    }
                                     break;
                                 }
                             }
@@ -239,8 +264,18 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                             String uid = snapshot1.child("uid").getValue().toString();
                             for(String friend : myFriendList) {
                                 if(uid.equals(friend)) {
-                                    QuizOXShortwordTypeInfo quiz = snapshot1.getValue(QuizOXShortwordTypeInfo.class);
-                                    myFriendShortQuizList.add(quiz);
+                                    int flag = 0;
+                                    for(String solvedQuiz : solvedQuizList) {
+                                        String key2 = snapshot1.getKey();
+                                        if(solvedQuiz.equals(key2)) {
+                                            flag = 1;
+                                            break;
+                                        }
+                                    }
+                                    if(flag == 0) {
+                                        QuizOXShortwordTypeInfo quiz = snapshot1.getValue(QuizOXShortwordTypeInfo.class);
+                                        myFriendShortQuizList.add(quiz);
+                                    }
                                     break;
                                 }
                             }
@@ -303,7 +338,6 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 }
 
                 myFriendQuizListView.setAdapter(myFriendQuizListAdapter);
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
@@ -334,14 +368,21 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                solvedQuizList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
-                    if(key.equals("kakaouser_list") || key.equals("user_list")) {
+                    if(key.equals("user_list")) {
                         for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                             String key1 = snapshot1.getKey();
                             if(key1.equals(id)) {
                                 me = snapshot1.getValue(UserInfo.class);
                                 textView.setText(me.nickname + "의 친구가 낸 문제야!");
+
+                                for(DataSnapshot snapshot2 : snapshot1.child("scripts/" + scriptnm + "/solved_list").getChildren()) {
+                                    String key2 = snapshot2.getKey();
+                                    solvedQuizList.add(key2);
+                                }
+
                                 break;
                             }
                         }

@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,7 +24,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CorrectFriendQuizFragment extends Fragment {
 
@@ -35,7 +38,7 @@ public class CorrectFriendQuizFragment extends Fragment {
 
     private CorrectFriendQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, uid, star, like, key;
+    String id, scriptnm, uid, star, like, key, today;
     Button buttonSubmit;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5, imageViewThumb;
     int cnt, starInt = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagT = 0;
@@ -97,6 +100,12 @@ public class CorrectFriendQuizFragment extends Fragment {
 
         textViewID.setText("정답이야 " + id + "! 수고했어^^");
 
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        today = format.format(date);
+        mPostReference.child("user_list/" + id + "/scripts/" + scriptnm + "/solved_list/" + key).setValue(today);
+
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -152,6 +161,8 @@ public class CorrectFriendQuizFragment extends Fragment {
                     fragmentTransaction.remove(((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
                     fragmentTransaction.remove(((ShowFriendQuizActivity)getActivity()).friendOXQuizFragment);
                     fragmentTransaction.commit();
+
+                    startActivity(((ShowFriendQuizActivity) getActivity()).intentUpdate);
                 }
             }
         });
@@ -161,6 +172,8 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagT == 0) {
                     Toast.makeText(context, "좋아요를 눌렀습니다", Toast.LENGTH_SHORT).show();
+
+                    mPostReference.child("user_list/" + id + "/scripts/" + scriptnm + "/liked_list/" + key).setValue(today);
 
                     int oldLike = hoInfos.get(hoNum-1).like;
                     if(flagK == 0) mPostReference.child("user_list/" + uid + "/ho_list/ho" + hoNum + "/like").setValue(oldLike+1);
