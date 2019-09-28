@@ -104,7 +104,7 @@ public class NationQuizActivity extends AppCompatActivity {
                         for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                             String key1 = snapshot1.getKey();
                             if(key1.equals(id)) {
-                                for(DataSnapshot snapshot2 : snapshot1.child("scripts").getChildren()) {
+                                for(DataSnapshot snapshot2 : snapshot1.child("my_script_list").getChildren()) {
                                     String scriptnm = snapshot2.getKey();
                                     studiedBookArrayList.add(scriptnm);
                                     selectBookListAdapter.addItem(scriptnm);
