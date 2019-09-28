@@ -52,11 +52,12 @@ import static com.kakao.usermgmt.StringSet.nickname;
 public class MyPageActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
-    Intent intent, intentAddFriend, intent_chatlist, intent_LikeList, intent_QList, intentHome;
+    Intent intent, intentGoHome, intentAddFriend, intent_LikeList, intent_QList, intentHome, intent_Record;
     String id, profileUri;
-    Button btnFriendList, btnLikeList, btnQList, btnChangePicture, btnUpload;
+    Button btnFriendList, btnLikeList, btnQList, btnChangePicture, btnUpload, btnRecord;
     Button logout;
-    TextView userGrade, userSchool, userName, userCoin;
+    ImageButton goHome;
+    TextView userGrade, userSchool, userName, userCoin, userName1, userGrade1;
     TextView textViewCorrectL, textViewCorrectT, textViewLikeL, textViewLikeT, textViewLevelL, textViewLevelT;
     ImageView myFace;
     UserInfo me;
@@ -82,8 +83,10 @@ public class MyPageActivity extends AppCompatActivity {
         btnQList = (Button) findViewById(R.id.QList);
         btnLikeList = (Button) findViewById(R.id.LikeList);
         userName = (TextView) findViewById(R.id.userName);
+        userName1=(TextView)findViewById(R.id.userName1);
         userSchool = (TextView) findViewById(R.id.userSchool);
         userGrade = (TextView) findViewById(R.id.userGrade);
+        userGrade1 = (TextView) findViewById(R.id.userGrade1);
         userCoin = (TextView) findViewById(R.id.userCoin);
         logout = (Button) findViewById(R.id.logout);
         textViewCorrectL = (TextView) findViewById(R.id.lastCorrectCnt);
@@ -95,11 +98,31 @@ public class MyPageActivity extends AppCompatActivity {
         btnChangePicture = (Button) findViewById(R.id.changePicture);
         btnUpload = (Button) findViewById(R.id.upload);
         myFace = (ImageView) findViewById(R.id.myFace);
+        btnRecord=(Button)findViewById(R.id.record);
+        goHome=(ImageButton)findViewById(R.id.home);
 
         hoInfos = new ArrayList<HoInfo>();
 
         getFirebaseDatabaseUserInfo();
 
+
+        goHome.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                intentGoHome=new Intent(MyPageActivity.this, MainActivity.class);
+                intentGoHome.putExtra("id", id);
+                startActivity(intentGoHome);
+            }
+        });
+
+        btnRecord.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                intent_Record=new Intent(MyPageActivity.this, MyRecordActivity.class);
+                intent_Record.putExtra("id", id);
+                startActivity(intent_Record);
+            }
+        });
 
         btnFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,16 +136,16 @@ public class MyPageActivity extends AppCompatActivity {
         btnQList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent_LikeList = new Intent(MyPageActivity.this, MyQuizActivity.class);
-                intent_LikeList.putExtra("id", id);
-                startActivity(intent_LikeList);
+                intent_QList = new Intent(MyPageActivity.this, MyQuizActivity.class);
+                intent_QList.putExtra("id", id);
+                startActivity(intent_QList);
             }
         });
 
         btnLikeList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                intent_LikeList = new Intent(MyPageActivity.this, MyQuizActivity.class);
+//                intent_LikeList = new Intent(MyPageActivity.this, .class);
 //                intent_LikeList.putExtra("id", id);
 //                startActivity(intent_LikeList);
             }
@@ -253,28 +276,49 @@ public class MyPageActivity extends AppCompatActivity {
                             if (key1.equals(id)) {
                                 me = snapshot1.getValue(UserInfo.class);
                                 userName.setText(me.name);
+                                userName1.setText(me.name+" 학생");
                                 userSchool.setText(me.school);
                                 userGrade.setText(me.grade + "학년");
+                                userGrade1.setText(me.grade + "학년");
                                 userCoin.setText(me.coin + " 코인");
-                                Log.i("MY", me.profile);
                                 profileUri=me.profile;
-                                Log.i("MYURI", profileUri);
-                                storage = FirebaseStorage.getInstance();
-                                storageReference = storage.getInstance().getReference();
-                                dataReference = storageReference.child("/profile/" + profileUri);
+                                if(!profileUri.equals("noimage")) {
+                                    storage = FirebaseStorage.getInstance();
+                                    storageReference = storage.getInstance().getReference();
+                                    dataReference = storageReference.child("/profile/" + profileUri);
+                                    dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            Picasso.with(MyPageActivity.this)
+                                                    .load(uri)
+                                                    .error(R.drawable.btn_x)
+                                                    .into(myFace);
+                                        }
+                                    });
+                                }
+                                for(DataSnapshot snapshot2: snapshot1.getChildren()){
+                                    String key2=snapshot2.getKey();
+                                    if(key2.equals("my_week_list")){
+                                        long idx=snapshot2.getChildrenCount();
+                                        String This="week"+idx;
+                                        String Last="week"+(idx-1);
 
-                                dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        Picasso.with(MyPageActivity.this)
-                                                .load(uri)
-                                                .error(R.drawable.btn_x)
-                                                .into(myFace);
+                                        textViewCorrectT.setText(snapshot2.child(This).child("correct").getValue().toString());
+                                        textViewLikeT.setText(snapshot2.child(This).child("like").getValue().toString());
+                                        textViewLevelT.setText(snapshot2.child(This).child("level").getValue().toString());
+
+                                        if(idx>=2) {
+                                            textViewCorrectL.setText(snapshot2.child(Last).child("correct").getValue().toString());
+                                            textViewLikeL.setText(snapshot2.child(Last).child("like").getValue().toString());
+                                            textViewLevelL.setText(snapshot2.child(Last).child("level").getValue().toString());
+                                        }
+//                                        for(long i=past ; i>=0 ; i-- , snapshot2.getChildren()) {
+//                                            snapshot3=snapshot4;
+//                                            snapshot4=snapshot2.getRef();
+//                                        }
+
+                                        break;
                                     }
-                                });
-                                for (DataSnapshot snapshot2 : snapshot1.child("ho_list").getChildren()) {
-                                    HoInfo hoInfo = snapshot2.getValue(HoInfo.class);
-                                    hoInfos.add(hoInfo);
                                 }
                                 break;
                             }
@@ -282,23 +326,23 @@ public class MyPageActivity extends AppCompatActivity {
                     }
                 }
 
-                int hoNum = hoInfos.size();
-                if (hoNum < 2) {
-                    textViewCorrectL.setText("0");
-                    textViewCorrectT.setText(Integer.toString(hoInfos.get(hoNum - 1).correct));
-                    textViewLikeL.setText("0");
-                    textViewLikeT.setText(Integer.toString(hoInfos.get(hoNum - 1).like));
-                    textViewLevelL.setText("0.0");
-                    textViewLevelT.setText(Float.toString(hoInfos.get(hoNum - 1).level));
-
-                } else {
-                    textViewCorrectL.setText(Integer.toString(hoInfos.get(hoNum - 2).correct));
-                    textViewCorrectT.setText(Integer.toString(hoInfos.get(hoNum - 1).correct));
-                    textViewLikeL.setText(Integer.toString(hoInfos.get(hoNum - 2).like));
-                    textViewLikeT.setText(Integer.toString(hoInfos.get(hoNum - 1).like));
-                    textViewLevelL.setText(Float.toString(hoInfos.get(hoNum - 2).level));
-                    textViewLevelT.setText(Float.toString(hoInfos.get(hoNum - 1).level));
-                }
+//                int hoNum = hoInfos.size();
+//                if (hoNum < 2) {
+//                    textViewCorrectL.setText("0");
+//                    textViewCorrectT.setText(Integer.toString(hoInfos.get(hoNum - 1).correct));
+//                    textViewLikeL.setText("0");
+//                    textViewLikeT.setText(Integer.toString(hoInfos.get(hoNum - 1).like));
+//                    textViewLevelL.setText("0.0");
+//                    textViewLevelT.setText(Float.toString(hoInfos.get(hoNum - 1).level));
+//
+//                } else {
+//                    textViewCorrectL.setText(Integer.toString(hoInfos.get(hoNum - 2).correct));
+//                    textViewCorrectT.setText(Integer.toString(hoInfos.get(hoNum - 1).correct));
+//                    textViewLikeL.setText(Integer.toString(hoInfos.get(hoNum - 2).like));
+//                    textViewLikeT.setText(Integer.toString(hoInfos.get(hoNum - 1).like));
+//                    textViewLevelL.setText(Float.toString(hoInfos.get(hoNum - 2).level));
+//                    textViewLevelT.setText(Float.toString(hoInfos.get(hoNum - 1).level));
+//                }
             }
 
             @Override
