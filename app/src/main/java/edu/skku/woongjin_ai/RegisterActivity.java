@@ -150,7 +150,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void postFirebaseDatabaseUserInfo() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        UserInfo post = new UserInfo(id, pw, name, nickname, school, gender, grade, "100");
+        UserInfo post = new UserInfo(id, pw, name, nickname, school, gender, grade, "100", "noimage");
         postValues = post.toMap();
         childUpdates.put("/user_list/" + id + "/", postValues);
         mPostReference.updateChildren(childUpdates);

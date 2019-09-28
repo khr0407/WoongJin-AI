@@ -96,29 +96,16 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
     }
 
     private void getFirebaseDatabaseUserInfo() {
-        final ValueEventListener postListener = new ValueEventListener() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key = snapshot.getKey();
-                    if(key.equals("kakaouser_list") || key.equals("user_list")) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String key1 = snapshot1.getKey();
-                            if(key1.equals(id)) {
-                                me = snapshot1.getValue(UserInfo.class);
-                                nickname = me.nickname;
-                                userNickname.setText("안녕 " + nickname + "!\n여행하고 싶은 나라를 골라보자!");
-                                break;
-                            }
-                        }
-                    }
-                }
+                me = dataSnapshot.child("user_list/" + id).getValue(UserInfo.class);
+                nickname = me.nickname;
+                userNickname.setText("안녕 " + nickname + "!\n여행하고 싶은 나라를 골라보자!");
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        };
-        mPostReference.addListenerForSingleValueEvent(postListener);
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
     }
 
     @Override

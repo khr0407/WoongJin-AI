@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +28,8 @@ public class MainQuizTypeFragment extends Fragment {
     Button meButton, friendButton;
     Intent intent;
     String id, nickname;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     private MainQuizTypeFragment.OnFragmentInteractionListener mListener;
 
@@ -67,10 +71,15 @@ public class MainQuizTypeFragment extends Fragment {
         meButton = (Button) view.findViewById(R.id.me);
         friendButton = (Button) view.findViewById(R.id.friend);
 
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+
         meButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent.putExtra("quizType", "me");
+                fragmentTransaction.remove(((MainActivity)getActivity()).mainQuizTypeFragment);
+                fragmentTransaction.commit();
                 startActivity(intent);
             }
         });
@@ -79,6 +88,8 @@ public class MainQuizTypeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intent.putExtra("quizType", "friend");
+                fragmentTransaction.remove(((MainActivity)getActivity()).mainQuizTypeFragment);
+                fragmentTransaction.commit();
                 startActivity(intent);
             }
         });

@@ -82,19 +82,13 @@ public class ReadScriptActivity extends AppCompatActivity
             }
         });
 
-        mPostReference.child("script_list").addListenerForSingleValueEvent(new ValueEventListener() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key = snapshot.getKey();
-                    if(key.equals(scriptnm)) {
-                        script = snapshot.child("text").getValue().toString();
-                        String[] array=script.split("###");
-                        textview_script_1.setText(array[0]);
-                        textview_script_2.setText(array[1]);
-                        break;
-                    }
-                }
+                script = dataSnapshot.child("script_list/" + scriptnm + "/text").getValue().toString();
+                String[] array=script.split("###");
+                textview_script_1.setText(array[0]);
+                textview_script_2.setText(array[1]);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
