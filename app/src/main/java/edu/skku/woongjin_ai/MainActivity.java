@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
                                 me = snapshot1.getValue(UserInfo.class);
                                 nickname = me.nickname;
                                 userNickname.setText("안녕 " + nickname + "!\n여행하고 싶은 나라를 골라보자!");
-
                                 break;
                             }
                         }

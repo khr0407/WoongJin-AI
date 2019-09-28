@@ -27,7 +27,7 @@ public class ReadScriptActivity extends AppCompatActivity
         implements SelectStudyTypeFragment.OnFragmentInteractionListener {
     public DatabaseReference mPostReference;
     Intent intent, intentHome, intentStudyWord;
-    String userID, title, backgroundID, script, studyType = "";
+    String id, scriptnm, backgroundID, script, studyType = "";
     TextView textview_title, textview_script_1, textview_script_2;
     ImageView backgroundImage;
     ImageButton goHome, tmpSave, goStudyWord;
@@ -41,8 +41,8 @@ public class ReadScriptActivity extends AppCompatActivity
         setContentView(R.layout.activity_readscript);
 
         intent = getIntent();
-        userID= intent.getStringExtra("id");
-        title = intent.getStringExtra("scriptnm");
+        id= intent.getStringExtra("id");
+        scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
 
         selectStudyTypeFragment = new SelectStudyTypeFragment();
@@ -55,9 +55,17 @@ public class ReadScriptActivity extends AppCompatActivity
         tmpSave = (ImageButton) findViewById(R.id.save);
         goStudyWord = (ImageButton) findViewById(R.id.studyWord);
 
-        textview_title.setText(title);
+        textview_title.setText(scriptnm);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/time").setValue("2m");
+        mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test1/ex").setValue("test1Ex");
+        mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test1/meaning").setValue("test1Meaning");
+        mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test2/ex").setValue("test2Ex");
+        mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test2/meaning").setValue("test2Meaning");
+        mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/ex").setValue("test3Ex");
+        mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/meaning").setValue("test3Meaning");
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getInstance().getReference();
@@ -74,12 +82,12 @@ public class ReadScriptActivity extends AppCompatActivity
             }
         });
 
-        FirebaseDatabase.getInstance().getReference().child("script_list").addListenerForSingleValueEvent(new ValueEventListener() {
+        mPostReference.child("script_list").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
-                    if(key.equals(title)) {
+                    if(key.equals(scriptnm)) {
                         script = snapshot.child("text").getValue().toString();
                         String[] array=script.split("###");
                         textview_script_1.setText(array[0]);
@@ -105,7 +113,7 @@ public class ReadScriptActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 intentHome = new Intent(ReadScriptActivity.this, MainActivity.class);
-                intentHome.putExtra("id", userID);
+                intentHome.putExtra("id", id);
                 startActivity(intentHome);
             }
         });
@@ -121,8 +129,8 @@ public class ReadScriptActivity extends AppCompatActivity
         @Override
         public void onClick(View v) {
             intentStudyWord = new Intent(ReadScriptActivity.this, WordListActivity.class);
-            intentStudyWord.putExtra("scriptnm",title);
-            intentStudyWord.putExtra("id", userID);
+            intentStudyWord.putExtra("scriptnm",scriptnm);
+            intentStudyWord.putExtra("id", id);
             intentStudyWord.putExtra("background", backgroundID);
             startActivity(intentStudyWord);
         }

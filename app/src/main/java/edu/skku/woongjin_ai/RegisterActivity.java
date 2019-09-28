@@ -154,10 +154,10 @@ public class RegisterActivity extends AppCompatActivity {
         postValues = post.toMap();
         childUpdates.put("/user_list/" + id + "/", postValues);
         mPostReference.updateChildren(childUpdates);
-        mPostReference.child("user_list/" + id + "/ho_list/ho1/cnt").setValue(0);
-        mPostReference.child("user_list/" + id + "/ho_list/ho1/correct").setValue(0);
-        mPostReference.child("user_list/" + id + "/ho_list/ho1/level").setValue(0.0);
-        mPostReference.child("user_list/" + id + "/ho_list/ho1/like").setValue(0);
+        mPostReference.child("user_list/" + id + "/my_week_list/week1/cnt").setValue(0);
+        mPostReference.child("user_list/" + id + "/my_week_list/week1/correct").setValue(0);
+        mPostReference.child("user_list/" + id + "/my_week_list/week1/level").setValue(0.0);
+        mPostReference.child("user_list/" + id + "/my_week_list/week1/like").setValue(0);
     }
 
     private ValueEventListener checkIDRegister = new ValueEventListener() {
