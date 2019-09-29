@@ -6,12 +6,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,9 +20,6 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import static com.kakao.usermgmt.StringSet.nickname;
 
 public class MyPageActivity extends AppCompatActivity {
 
@@ -36,7 +31,7 @@ public class MyPageActivity extends AppCompatActivity {
     TextView userGrade, userSchool, userName, userCoin;
     TextView textViewCorrectL, textViewCorrectT, textViewLikeL, textViewLikeT, textViewLevelL, textViewLevelT;
     UserInfo me;
-    ArrayList<HoInfo> hoInfos;
+    ArrayList<WeekInfo> weekInfos;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +59,7 @@ public class MyPageActivity extends AppCompatActivity {
         textViewLevelL = (TextView) findViewById(R.id.lastLevel);
         textViewLevelT = (TextView) findViewById(R.id.thisLevel);
 
-        hoInfos = new ArrayList<HoInfo>();
+        weekInfos = new ArrayList<WeekInfo>();
 
         getFirebaseDatabaseUserInfo();
 
@@ -135,8 +130,8 @@ public class MyPageActivity extends AppCompatActivity {
                                 userGrade.setText(me.grade + "학년");
                                 userCoin.setText(me.coin + " 코인");
                                 for(DataSnapshot snapshot2 :snapshot1.child("ho_list").getChildren()) {
-                                    HoInfo hoInfo = snapshot2.getValue(HoInfo.class);
-                                    hoInfos.add(hoInfo);
+                                    WeekInfo weekInfo = snapshot2.getValue(WeekInfo.class);
+                                    weekInfos.add(weekInfo);
                                 }
                                 break;
                             }
@@ -144,22 +139,22 @@ public class MyPageActivity extends AppCompatActivity {
                     }
                 }
 
-                int hoNum = hoInfos.size();
+                int hoNum = weekInfos.size();
                 if(hoNum < 2) {
                     textViewCorrectL.setText("0");
-                    textViewCorrectT.setText(Integer.toString(hoInfos.get(hoNum-1).correct));
+                    textViewCorrectT.setText(Integer.toString(weekInfos.get(hoNum-1).correct));
                     textViewLikeL.setText("0");
-                    textViewLikeT.setText(Integer.toString(hoInfos.get(hoNum-1).like));
+                    textViewLikeT.setText(Integer.toString(weekInfos.get(hoNum-1).like));
                     textViewLevelL.setText("0.0");
-                    textViewLevelT.setText(Float.toString(hoInfos.get(hoNum-1).level));
+                    textViewLevelT.setText(Float.toString(weekInfos.get(hoNum-1).level));
 
                 } else {
-                    textViewCorrectL.setText(Integer.toString(hoInfos.get(hoNum-2).correct));
-                    textViewCorrectT.setText(Integer.toString(hoInfos.get(hoNum-1).correct));
-                    textViewLikeL.setText(Integer.toString(hoInfos.get(hoNum-2).like));
-                    textViewLikeT.setText(Integer.toString(hoInfos.get(hoNum-1).like));
-                    textViewLevelL.setText(Float.toString(hoInfos.get(hoNum-2).level));
-                    textViewLevelT.setText(Float.toString(hoInfos.get(hoNum-1).level));
+                    textViewCorrectL.setText(Integer.toString(weekInfos.get(hoNum-2).correct));
+                    textViewCorrectT.setText(Integer.toString(weekInfos.get(hoNum-1).correct));
+                    textViewLikeL.setText(Integer.toString(weekInfos.get(hoNum-2).like));
+                    textViewLikeT.setText(Integer.toString(weekInfos.get(hoNum-1).like));
+                    textViewLevelL.setText(Float.toString(weekInfos.get(hoNum-2).level));
+                    textViewLevelT.setText(Float.toString(weekInfos.get(hoNum-1).level));
                 }
             }
 

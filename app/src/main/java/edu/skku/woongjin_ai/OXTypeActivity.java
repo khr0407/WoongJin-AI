@@ -54,6 +54,8 @@ public class OXTypeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oxtype);
 
+        // TODO: 유형별 문제 만들기 기능 탭으로 테스트
+
         intent = getIntent();
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");

@@ -20,6 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity implements MainQuizTypeFragment.OnFragmentInteractionListener{
 
     public DatabaseReference mPostReference;
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         getFirebaseDatabaseUserInfo();
+        postFirebaseDatabaseAttend();
 
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,6 +97,54 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
                 intentMyPage.putExtra("nickname", nickname);
                 startActivity(intentMyPage);
             }
+        });
+    }
+
+    private void postFirebaseDatabaseAttend() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int weekNum = 0;
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_week_list").getChildren()) weekNum++;
+
+                Calendar calendar = Calendar.getInstance();
+                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                String dayOfWeekS = "";
+                switch(dayOfWeek) {
+                    case 1:
+                        dayOfWeekS = "일"; break;
+                    case 2:
+                        dayOfWeekS = "월"; break;
+                    case 3:
+                        dayOfWeekS = "화"; break;
+                    case 4:
+                        dayOfWeekS = "수"; break;
+                    case 5:
+                        dayOfWeekS = "목"; break;
+                    case 6:
+                        dayOfWeekS = "금"; break;
+                    case 7:
+                        dayOfWeekS = "토"; break;
+                }
+
+                if(weekNum == 0) {
+                    weekNum++;
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/cnt").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/correct").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/level").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/like").setValue(0);
+                }
+
+                if(!dataSnapshot.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).exists()) {
+                    long now = System.currentTimeMillis();
+                    Date date = new Date(now);
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String today = format.format(date);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).setValue(today);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
     }
 

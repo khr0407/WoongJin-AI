@@ -36,6 +36,8 @@ public class TemplateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_template);
 
+        // TODO: 탭으로 테스트
+
         imageHome = (ImageView) findViewById(R.id.home);
         oxT = (TextView) findViewById(R.id.quiz_ox_template);
         choiceT = (TextView) findViewById(R.id.quiz_choice_template);
