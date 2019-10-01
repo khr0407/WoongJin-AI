@@ -9,18 +9,18 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MyQuizListAdapter extends BaseAdapter {
+public class QuizListAdapter extends BaseAdapter {
 
-    private ArrayList<MyQuizListItem> myQuizListItems = new ArrayList<MyQuizListItem>();
+    private ArrayList<QuizListItem> QuizListItems = new ArrayList<QuizListItem>();
 
     @Override
     public int getCount() {
-        return myQuizListItems.size();
+        return QuizListItems.size();
     }
 
     @Override
-    public MyQuizListItem getItem(int position) {
-        return myQuizListItems.get(position);
+    public QuizListItem getItem(int position) {
+        return QuizListItems.get(position);
     }
 
     @Override
@@ -39,16 +39,16 @@ public class MyQuizListAdapter extends BaseAdapter {
 
         TextView textViewTmp = (TextView) convertView.findViewById(R.id.tmpMyQuiz);
 
-        MyQuizListItem myQuizListItem = getItem(position);
+        QuizListItem quizListItem = getItem(position);
 
-        textViewTmp.setText(myQuizListItem.getTmp());
+        textViewTmp.setText(quizListItem.getTmp());
 
         return convertView;
     }
 
     public void addItem(String tmp) {
-        MyQuizListItem myQuizListItem = new MyQuizListItem();
-        myQuizListItem.setTmp(tmp);
-        myQuizListItems.add(myQuizListItem);
+        QuizListItem quizListItem = new QuizListItem();
+        quizListItem.setTmp(tmp);
+        QuizListItems.add(quizListItem);
     }
 }

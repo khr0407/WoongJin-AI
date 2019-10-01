@@ -120,9 +120,8 @@ public class MyRecordActivity extends AppCompatActivity {
                                         for(DataSnapshot snapshot3:snapshot2.getChildren()){
                                             for(DataSnapshot snapshot4:snapshot3.getChildren()){
                                                 String key5=snapshot4.getKey();
-                                                if(key5.equals("attend")){
-                                                    String days=snapshot4.getValue().toString();
-                                                    attendcnt+=days.length();
+                                                if(key5.equals("attend_list")){
+                                                    attendcnt+=snapshot4.getChildrenCount();
                                                     break;
                                                 }
                                             }

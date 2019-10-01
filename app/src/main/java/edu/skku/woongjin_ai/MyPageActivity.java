@@ -40,6 +40,8 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -57,7 +59,9 @@ public class MyPageActivity extends AppCompatActivity {
     Button btnFriendList, btnLikeList, btnQList, btnChangePicture, btnUpload, btnRecord;
     Button logout;
     ImageButton goHome;
+    ImageView attendw, readw, quizw, quizhunterw, bombmasterw, bucketw;
     TextView userGrade, userSchool, userName, userCoin, userName1, userGrade1;
+    TextView attendd, readd, quizd, quizhunterd, bombmasterd, bucketd;
     TextView textViewCorrectL, textViewCorrectT, textViewLikeL, textViewLikeT, textViewLevelL, textViewLevelT;
     ImageView myFace;
     UserInfo me;
@@ -100,6 +104,19 @@ public class MyPageActivity extends AppCompatActivity {
         myFace = (ImageView) findViewById(R.id.myFace);
         btnRecord=(Button)findViewById(R.id.record);
         goHome=(ImageButton)findViewById(R.id.home);
+        attendw=(ImageView)findViewById(R.id.attend_wang);
+        quizw=(ImageView)findViewById(R.id.quiz_wang);
+        readw=(ImageView)findViewById(R.id.read_lot_wang);
+        quizhunterw=(ImageView)findViewById(R.id.quiz_hunter);
+        bombmasterw=(ImageView)findViewById(R.id.bomb_master);
+        bucketw=(ImageView)findViewById(R.id.bucket_wang);
+        attendd=(TextView)findViewById(R.id.attend_wang_date);
+        readd=(TextView)findViewById(R.id.read_lot_wang_date);
+        quizd=(TextView)findViewById(R.id.quiz_wang_date);
+        quizhunterd=(TextView)findViewById(R.id.quiz_hunter_date);
+        bombmasterd=(TextView)findViewById(R.id.bomb_master_date);
+        bucketd=(TextView)findViewById(R.id.bucket_wang_date);
+
 
         hoInfos = new ArrayList<HoInfo>();
 
@@ -145,7 +162,7 @@ public class MyPageActivity extends AppCompatActivity {
         btnLikeList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                intent_LikeList = new Intent(MyPageActivity.this, .class);
+//                intent_LikeList = new Intent(MyPageActivity.this, LikeQuizActivity.class);
 //                intent_LikeList.putExtra("id", id);
 //                startActivity(intent_LikeList);
             }
@@ -312,12 +329,43 @@ public class MyPageActivity extends AppCompatActivity {
                                             textViewLikeL.setText(snapshot2.child(Last).child("like").getValue().toString());
                                             textViewLevelL.setText(snapshot2.child(Last).child("level").getValue().toString());
                                         }
-//                                        for(long i=past ; i>=0 ; i-- , snapshot2.getChildren()) {
-//                                            snapshot3=snapshot4;
-//                                            snapshot4=snapshot2.getRef();
-//                                        }
 
                                         break;
+                                    }
+
+                                    else if(key2.equals("my_medal_list")){
+                                        for(DataSnapshot snapshot3: snapshot2.getChildren()){
+                                            String what_wang=snapshot3.getKey(); //출석왕? 무슨왕?
+                                            String date=snapshot3.getValue().toString();
+                                            switch (what_wang){
+                                                case "출석왕":
+                                                    attendw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                    attendd.setText(date);
+                                                    break;
+                                                case "다독왕":
+                                                    readw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                    readd.setText(date);
+                                                    break;
+                                                case "출제왕":
+                                                    quizw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                    quizd.setText(date);
+                                                    break;
+                                                case "문제사냥꾼":
+                                                    quizhunterw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                    quizhunterd.setText(date);
+                                                    break;
+                                                case "폭탄마스터":
+                                                    bombmasterw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                    bombmasterd.setText(date);
+                                                    break;
+                                                case "협동왕":
+                                                    bucketw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                    bucketd.setText(date);
+                                                    break;
+                                                default:
+                                                    break;
+                                            }
+                                        }
                                     }
                                 }
                                 break;
@@ -325,26 +373,7 @@ public class MyPageActivity extends AppCompatActivity {
                         }
                     }
                 }
-
-//                int hoNum = hoInfos.size();
-//                if (hoNum < 2) {
-//                    textViewCorrectL.setText("0");
-//                    textViewCorrectT.setText(Integer.toString(hoInfos.get(hoNum - 1).correct));
-//                    textViewLikeL.setText("0");
-//                    textViewLikeT.setText(Integer.toString(hoInfos.get(hoNum - 1).like));
-//                    textViewLevelL.setText("0.0");
-//                    textViewLevelT.setText(Float.toString(hoInfos.get(hoNum - 1).level));
-//
-//                } else {
-//                    textViewCorrectL.setText(Integer.toString(hoInfos.get(hoNum - 2).correct));
-//                    textViewCorrectT.setText(Integer.toString(hoInfos.get(hoNum - 1).correct));
-//                    textViewLikeL.setText(Integer.toString(hoInfos.get(hoNum - 2).like));
-//                    textViewLikeT.setText(Integer.toString(hoInfos.get(hoNum - 1).like));
-//                    textViewLevelL.setText(Float.toString(hoInfos.get(hoNum - 2).level));
-//                    textViewLevelT.setText(Float.toString(hoInfos.get(hoNum - 1).level));
-//                }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }

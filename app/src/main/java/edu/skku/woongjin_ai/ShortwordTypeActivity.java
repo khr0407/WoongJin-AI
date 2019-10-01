@@ -352,7 +352,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1);
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts,"test-ing, no",1);
         postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/type3/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);

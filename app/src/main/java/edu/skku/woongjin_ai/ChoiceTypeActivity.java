@@ -430,7 +430,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
-        QuizChoiceTypeInfo post = new QuizChoiceTypeInfo(id, quiz, ans, ans1, ans2, ans3, ans4, Integer.toString(starInt), desc, "0", ts, 1);
+        QuizChoiceTypeInfo post = new QuizChoiceTypeInfo(id, quiz, ans, ans1, ans2, ans3, ans4, Integer.toString(starInt), desc, "0", ts,"test-ing, no! ask to seyoung", 1);
         postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/type2/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
