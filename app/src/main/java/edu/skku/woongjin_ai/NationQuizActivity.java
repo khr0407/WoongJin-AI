@@ -98,23 +98,14 @@ public class NationQuizActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 studiedBookArrayList.clear();
                 backgroundArrayList.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_script_list").getChildren()) {
                     String key = snapshot.getKey();
-                    if(key.equals("kakaouser_list") || key.equals("user_list")) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String key1 = snapshot1.getKey();
-                            if(key1.equals(id)) {
-                                for(DataSnapshot snapshot2 : snapshot1.child("scripts").getChildren()) {
-                                    String scriptnm = snapshot2.getKey();
-                                    studiedBookArrayList.add(scriptnm);
-                                    selectBookListAdapter.addItem(scriptnm);
-                                }
-                                break;
-                            }
-                        }
-                    }
+                    studiedBookArrayList.add(key);
+                    selectBookListAdapter.addItem(key);
                 }
                 studiedBookListView.setAdapter(selectBookListAdapter);
+
                 for(DataSnapshot snapshot : dataSnapshot.child("script_list").getChildren()) {
                     String key = snapshot.getKey();
                     for(String script : studiedBookArrayList) {

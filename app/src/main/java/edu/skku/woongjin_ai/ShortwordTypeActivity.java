@@ -30,12 +30,12 @@ public class ShortwordTypeActivity extends AppCompatActivity
 
     DatabaseReference mPostReference;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    EditText editQuiz, editAns, editDesc;
+    EditText editQuiz, editAns;
     Intent intent, intentHome;
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
     int star = 0, starInt = 0;
-    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0, flagB=0, flagNoHint=0;
+    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
@@ -52,10 +52,6 @@ public class ShortwordTypeActivity extends AppCompatActivity
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
 
-        showScriptFragment = new ShowScriptFragment();
-        hintWritingFragment = new HintWritingFragment();
-        hintVideoFragment = new HintVideoFragment();
-
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageViewS1 = (ImageView) findViewById(R.id.star1);
         imageViewS2 = (ImageView) findViewById(R.id.star2);
@@ -64,7 +60,6 @@ public class ShortwordTypeActivity extends AppCompatActivity
         imageViewS5 = (ImageView) findViewById(R.id.star5);
         editQuiz = (EditText) findViewById(R.id.quiz);
         editAns = (EditText) findViewById(R.id.ans);
-        //editDesc = (EditText) findViewById(R.id.desc);
         TextView title = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
         checkButton = (ImageButton) findViewById(R.id.check);
@@ -95,6 +90,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hintWritingFragment = new HintWritingFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
                 Bundle bundle = new Bundle(1);
@@ -110,6 +106,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hintVideoFragment = new HintVideoFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentShowScriptShortword, hintVideoFragment);
                 Bundle bundle = new Bundle(1);
@@ -119,54 +116,34 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 transaction.commit();
             }
         });
-/*
+
         noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
-                flagD = 1;
-                flagNoHint=1;
-                desc = "NoHint";
-            }
-        });*/
-        noHintButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(flagNoHint == 0) {
+                if(flagD != 2) {
                     noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
                     checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
                     flagD = 2;
-                    flagNoHint = 1;
                 } else {
                     noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
                     checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     flagD = 0;
-                    flagNoHint = 0;
                 }
-                //TODO 힌트 없음도 fragment 만들어?
             }
         });
 
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagB == 1) {
-                    scriptButton.setImageResource(R.drawable.ic_icons_see_script);
-                    flagB = 0;
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.remove(hintVideoFragment);
-                    transaction.commit();
-                } else {
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.contentShowScriptShortword, showScriptFragment);
-                    Bundle bundle = new Bundle(2);
-                    bundle.putString("scriptnm", scriptnm);
-                    bundle.putString("type", "shortword");
-                    showScriptFragment.setArguments(bundle);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                }
+                showScriptFragment = new ShowScriptFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentShowScriptShortword, showScriptFragment);
+                Bundle bundle = new Bundle(2);
+                bundle.putString("scriptnm", scriptnm);
+                bundle.putString("type", "shortword");
+                showScriptFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -176,26 +153,21 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 if(flagD == 0) {
                     Toast.makeText(ShortwordTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
                 } else {
-                    quiz = editQuiz.getText().toString();
-                    ans=editAns.getText().toString();
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
-
-                    if(flagNoHint==0)
-                        desc = hintWritingFragment1.editTextHint.getText().toString();
-                    else
+                    if(flagD == 2) {
                         desc="없음";
+                    } else {
+                        desc = hintWritingFragment1.editTextHint.getText().toString();
+                    }
+                    quiz = editQuiz.getText().toString();
+                    ans = editAns.getText().toString();
 
                     if(quiz.length() == 0 || ans.length() == 0 || desc.length() == 0 || starInt < 1 ) {
                         Toast.makeText(ShortwordTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
-//                        Log.d("quiz_length", quiz );
-//                        Log.d("ans_length", ans);
-//                        Log.d("desc_length", desc);
-
                     } else {
                         postFirebaseDatabaseQuizShortword();
+                        if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
                         Toast.makeText(ShortwordTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
-                        if(flagNoHint==0)
-                            hintWritingFragment1.editTextHint.setText("");
                     }
                 }
             }
@@ -352,13 +324,12 @@ public class ShortwordTypeActivity extends AppCompatActivity
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts,"test-ing, no",1);
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, "없음", 3);
         postValues = post.toMap();
-        childUpdates.put("/quiz_list/" + scriptnm + "/type3/" + ts + "/", postValues);
+        childUpdates.put("/quiz_list/" + scriptnm + "/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
         editAns.setText("");
-        //editDesc.setText("");
     }
     @Override
     public void onFragmentInteraction(Uri uri) {

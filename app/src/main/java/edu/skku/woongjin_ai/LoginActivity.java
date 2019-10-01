@@ -95,13 +95,14 @@ public class LoginActivity extends AppCompatActivity {
             final ValueEventListener overlapCheck = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot ds : dataSnapshot.child("kakaouser_list").getChildren()) {
+                    for (DataSnapshot ds : dataSnapshot.child("user_list").getChildren()) {
                         String key = ds.getKey();
                         if (data.equals(key)) {
                             //Toast.makeText(getApplicationContext(), "카카오 계정으로 가입되어 있는 ID입니다.", Toast.LENGTH_SHORT).show();
                             overlapflag = 1;
                             Intent intent_main = new Intent(LoginActivity.this, MainActivity.class);
                             intent_main.putExtra("id", data);
+                            Toast.makeText(getApplicationContext(), "카카오 계정으로 로그인 되었습니다", Toast.LENGTH_SHORT).show();
                             startActivity(intent_main);
                             finish();
                             return;
@@ -138,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(id.length() == 0 || pw.length() == 0) {
                     Toast.makeText(LoginActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                 } else {
-                    mPostReference.child("user_list").addListenerForSingleValueEvent(new ValueEventListener() {
+                    final ValueEventListener postListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -167,8 +168,9 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {                        }
-                    });
+                        public void onCancelled(@NonNull DatabaseError databaseError) {         }
+                    };
+                    mPostReference.child("user_list").addListenerForSingleValueEvent(postListener);
                 }
             }
         });
@@ -271,7 +273,7 @@ public class LoginActivity extends AppCompatActivity {
     private ValueEventListener checkIDRegister = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            for (DataSnapshot ds : dataSnapshot.child("kakaouser_list").getChildren()) {
+            for (DataSnapshot ds : dataSnapshot.child("user_list").getChildren()) {
                 String key = ds.getKey();
                 if (savedKakao.equals(key)) {
                     //Toast.makeText(getApplicationContext(), "카카오 계정으로 가입되어 있는 ID입니다.", Toast.LENGTH_SHORT).show();
@@ -289,4 +291,3 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 }
-

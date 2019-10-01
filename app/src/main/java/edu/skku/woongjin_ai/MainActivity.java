@@ -20,6 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity implements MainQuizTypeFragment.OnFragmentInteractionListener{
 
     public DatabaseReference mPostReference;
@@ -49,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         getFirebaseDatabaseUserInfo();
+        postFirebaseDatabaseAttend();
 
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,31 +100,65 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
         });
     }
 
-    private void getFirebaseDatabaseUserInfo() {
-        final ValueEventListener postListener = new ValueEventListener() {
+    private void postFirebaseDatabaseAttend() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key = snapshot.getKey();
-                    if(key.equals("kakaouser_list") || key.equals("user_list")) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String key1 = snapshot1.getKey();
-                            if(key1.equals(id)) {
-                                me = snapshot1.getValue(UserInfo.class);
-                                nickname = me.nickname;
-                                userNickname.setText("안녕 " + nickname + "!\n여행하고 싶은 나라를 골라보자!");
+                int weekNum = 0;
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_week_list").getChildren()) weekNum++;
 
-                                break;
-                            }
-                        }
-                    }
+                Calendar calendar = Calendar.getInstance();
+                int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+                String dayOfWeekS = "";
+                switch(dayOfWeek) {
+                    case 1:
+                        dayOfWeekS = "일"; break;
+                    case 2:
+                        dayOfWeekS = "월"; break;
+                    case 3:
+                        dayOfWeekS = "화"; break;
+                    case 4:
+                        dayOfWeekS = "수"; break;
+                    case 5:
+                        dayOfWeekS = "목"; break;
+                    case 6:
+                        dayOfWeekS = "금"; break;
+                    case 7:
+                        dayOfWeekS = "토"; break;
+                }
+
+                if(weekNum == 0) {
+                    weekNum++;
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/cnt").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/correct").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/level").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/like").setValue(0);
+                }
+
+                if(!dataSnapshot.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).exists()) {
+                    long now = System.currentTimeMillis();
+                    Date date = new Date(now);
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String today = format.format(date);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).setValue(today);
                 }
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+    }
+
+    private void getFirebaseDatabaseUserInfo() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                me = dataSnapshot.child("user_list/" + id).getValue(UserInfo.class);
+                nickname = me.nickname;
+                userNickname.setText("안녕 " + nickname + "!\n여행하고 싶은 나라를 골라보자!");
             }
-        };
-        mPostReference.addListenerForSingleValueEvent(postListener);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
     }
 
     @Override

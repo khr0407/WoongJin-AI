@@ -142,26 +142,18 @@ public class KakaoRegisterActivity extends AppCompatActivity {
     private void postFirebaseDatabaseUserInfo() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        UserInfo post = new UserInfo(id, pw, name, nickname, school, gender, grade, "100", "NULL");
+        UserInfo post = new UserInfo(id, pw, name, nickname, school, gender, grade, "100", "noimage");
         postValues = post.toMap();
-        childUpdates.put("/kakaouser_list/" + id + "/", postValues);
+        childUpdates.put("/user_list/" + id + "/", postValues);
         mPostReference.updateChildren(childUpdates);
     }
 
     private ValueEventListener checkNicknameRegister = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            Iterator<DataSnapshot> child = dataSnapshot.child("kakaouser_list").getChildren().iterator();
+            Iterator<DataSnapshot> child = dataSnapshot.child("user_list").getChildren().iterator();
             while (child.hasNext()) {
                 if (editTextNickname.getText().toString().equals(child.next().child("nickname").getValue())) {
-                    Toast.makeText(getApplicationContext(), "이미 존재하는 닉네임입니다.", Toast.LENGTH_SHORT).show();
-                    mPostReference.removeEventListener(this);
-                    return;
-                }
-            }
-            Iterator<DataSnapshot> child1 = dataSnapshot.child("user_list").getChildren().iterator();
-            while (child1.hasNext()) {
-                if (editTextNickname.getText().toString().equals(child1.next().child("nickname").getValue())) {
                     Toast.makeText(getApplicationContext(), "이미 존재하는 닉네임입니다.", Toast.LENGTH_SHORT).show();
                     mPostReference.removeEventListener(this);
                     return;

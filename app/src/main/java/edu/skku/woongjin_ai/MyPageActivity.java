@@ -65,7 +65,7 @@ public class MyPageActivity extends AppCompatActivity {
     TextView textViewCorrectL, textViewCorrectT, textViewLikeL, textViewLikeT, textViewLevelL, textViewLevelT;
     ImageView myFace;
     UserInfo me;
-    ArrayList<HoInfo> hoInfos;
+    ArrayList<WeekInfo> weekInfos;
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
     private static final int REQUEST_CODE = 0;
@@ -87,7 +87,7 @@ public class MyPageActivity extends AppCompatActivity {
         btnQList = (Button) findViewById(R.id.QList);
         btnLikeList = (Button) findViewById(R.id.LikeList);
         userName = (TextView) findViewById(R.id.userName);
-        userName1=(TextView)findViewById(R.id.userName1);
+        userName1 = (TextView) findViewById(R.id.userName1);
         userSchool = (TextView) findViewById(R.id.userSchool);
         userGrade = (TextView) findViewById(R.id.userGrade);
         userGrade1 = (TextView) findViewById(R.id.userGrade1);
@@ -102,40 +102,40 @@ public class MyPageActivity extends AppCompatActivity {
         btnChangePicture = (Button) findViewById(R.id.changePicture);
         btnUpload = (Button) findViewById(R.id.upload);
         myFace = (ImageView) findViewById(R.id.myFace);
-        btnRecord=(Button)findViewById(R.id.record);
-        goHome=(ImageButton)findViewById(R.id.home);
-        attendw=(ImageView)findViewById(R.id.attend_wang);
-        quizw=(ImageView)findViewById(R.id.quiz_wang);
-        readw=(ImageView)findViewById(R.id.read_lot_wang);
-        quizhunterw=(ImageView)findViewById(R.id.quiz_hunter);
-        bombmasterw=(ImageView)findViewById(R.id.bomb_master);
-        bucketw=(ImageView)findViewById(R.id.bucket_wang);
-        attendd=(TextView)findViewById(R.id.attend_wang_date);
-        readd=(TextView)findViewById(R.id.read_lot_wang_date);
-        quizd=(TextView)findViewById(R.id.quiz_wang_date);
-        quizhunterd=(TextView)findViewById(R.id.quiz_hunter_date);
-        bombmasterd=(TextView)findViewById(R.id.bomb_master_date);
-        bucketd=(TextView)findViewById(R.id.bucket_wang_date);
+        btnRecord = (Button) findViewById(R.id.record);
+        goHome = (ImageButton) findViewById(R.id.home);
+        attendw = (ImageView) findViewById(R.id.attend_wang);
+        quizw = (ImageView) findViewById(R.id.quiz_wang);
+        readw = (ImageView) findViewById(R.id.read_lot_wang);
+        quizhunterw = (ImageView) findViewById(R.id.quiz_hunter);
+        bombmasterw = (ImageView) findViewById(R.id.bomb_master);
+        bucketw = (ImageView) findViewById(R.id.bucket_wang);
+        attendd = (TextView) findViewById(R.id.attend_wang_date);
+        readd = (TextView) findViewById(R.id.read_lot_wang_date);
+        quizd = (TextView) findViewById(R.id.quiz_wang_date);
+        quizhunterd = (TextView) findViewById(R.id.quiz_hunter_date);
+        bombmasterd = (TextView) findViewById(R.id.bomb_master_date);
+        bucketd = (TextView) findViewById(R.id.bucket_wang_date);
 
 
-        hoInfos = new ArrayList<HoInfo>();
+        weekInfos = new ArrayList<WeekInfo>();
 
         getFirebaseDatabaseUserInfo();
 
 
-        goHome.setOnClickListener(new View.OnClickListener(){
+        goHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentGoHome=new Intent(MyPageActivity.this, MainActivity.class);
+                intentGoHome = new Intent(MyPageActivity.this, MainActivity.class);
                 intentGoHome.putExtra("id", id);
                 startActivity(intentGoHome);
             }
         });
 
-        btnRecord.setOnClickListener(new View.OnClickListener(){
+        btnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent_Record=new Intent(MyPageActivity.this, MyRecordActivity.class);
+                intent_Record = new Intent(MyPageActivity.this, MyRecordActivity.class);
                 intent_Record.putExtra("id", id);
                 startActivity(intent_Record);
             }
@@ -162,7 +162,7 @@ public class MyPageActivity extends AppCompatActivity {
         btnLikeList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                intent_LikeList = new Intent(MyPageActivity.this, LikeQuizActivity.class);
+//                intent_LikeList = new Intent(MyPageActivity.this, MyQuizActivity.class);
 //                intent_LikeList.putExtra("id", id);
 //                startActivity(intent_LikeList);
             }
@@ -254,7 +254,7 @@ public class MyPageActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss(); //업로드 진행 Dialog 상자 닫기
                             Toast.makeText(getApplicationContext(), "업로드 완료!", Toast.LENGTH_SHORT).show();
-                            mPostReference.child("user_list/" + id +"/profile").setValue(filename);
+                            mPostReference.child("user_list/" + id + "/profile").setValue(filename);
                         }
                     })
                     //실패시
@@ -293,13 +293,13 @@ public class MyPageActivity extends AppCompatActivity {
                             if (key1.equals(id)) {
                                 me = snapshot1.getValue(UserInfo.class);
                                 userName.setText(me.name);
-                                userName1.setText(me.name+" 학생");
+                                userName1.setText(me.name + " 학생");
                                 userSchool.setText(me.school);
                                 userGrade.setText(me.grade + "학년");
                                 userGrade1.setText(me.grade + "학년");
                                 userCoin.setText(me.coin + " 코인");
-                                profileUri=me.profile;
-                                if(!profileUri.equals("noimage")) {
+                                profileUri = me.profile;
+                                if (!profileUri.equals("noimage")) {
                                     storage = FirebaseStorage.getInstance();
                                     storageReference = storage.getInstance().getReference();
                                     dataReference = storageReference.child("/profile/" + profileUri);
@@ -313,71 +313,68 @@ public class MyPageActivity extends AppCompatActivity {
                                         }
                                     });
                                 }
-                                for(DataSnapshot snapshot2: snapshot1.getChildren()){
-                                    String key2=snapshot2.getKey();
-                                    if(key2.equals("my_week_list")){
-                                        long idx=snapshot2.getChildrenCount();
-                                        String This="week"+idx;
-                                        String Last="week"+(idx-1);
+                                for (DataSnapshot snapshot2 : snapshot1.getChildren()) {
+                                    String key2 = snapshot2.getKey();
+                                    if (key2.equals("my_week_list")) {
+                                            long idx = snapshot2.getChildrenCount();
+                                            String This = "week" + idx;
+                                            String Last = "week" + (idx - 1);
 
-                                        textViewCorrectT.setText(snapshot2.child(This).child("correct").getValue().toString());
-                                        textViewLikeT.setText(snapshot2.child(This).child("like").getValue().toString());
-                                        textViewLevelT.setText(snapshot2.child(This).child("level").getValue().toString());
+                                            textViewCorrectT.setText(snapshot2.child(This).child("correct").getValue().toString());
+                                            textViewLikeT.setText(snapshot2.child(This).child("like").getValue().toString());
+                                            textViewLevelT.setText(snapshot2.child(This).child("level").getValue().toString());
 
-                                        if(idx>=2) {
-                                            textViewCorrectL.setText(snapshot2.child(Last).child("correct").getValue().toString());
-                                            textViewLikeL.setText(snapshot2.child(Last).child("like").getValue().toString());
-                                            textViewLevelL.setText(snapshot2.child(Last).child("level").getValue().toString());
-                                        }
-
-                                        break;
-                                    }
-
-                                    else if(key2.equals("my_medal_list")){
-                                        for(DataSnapshot snapshot3: snapshot2.getChildren()){
-                                            String what_wang=snapshot3.getKey(); //출석왕? 무슨왕?
-                                            String date=snapshot3.getValue().toString();
-                                            switch (what_wang){
-                                                case "출석왕":
-                                                    attendw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
-                                                    attendd.setText(date);
-                                                    break;
-                                                case "다독왕":
-                                                    readw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
-                                                    readd.setText(date);
-                                                    break;
-                                                case "출제왕":
-                                                    quizw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
-                                                    quizd.setText(date);
-                                                    break;
-                                                case "문제사냥꾼":
-                                                    quizhunterw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
-                                                    quizhunterd.setText(date);
-                                                    break;
-                                                case "폭탄마스터":
-                                                    bombmasterw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
-                                                    bombmasterd.setText(date);
-                                                    break;
-                                                case "협동왕":
-                                                    bucketw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
-                                                    bucketd.setText(date);
-                                                    break;
-                                                default:
-                                                    break;
+                                            if (idx >= 2) {
+                                                textViewCorrectL.setText(snapshot2.child(Last).child("correct").getValue().toString());
+                                                textViewLikeL.setText(snapshot2.child(Last).child("like").getValue().toString());
+                                                textViewLevelL.setText(snapshot2.child(Last).child("level").getValue().toString());
+                                            }
+                                            break;
+                                    } else if (key2.equals("my_medal_list")) {
+                                            for (DataSnapshot snapshot3 : snapshot2.getChildren()) {
+                                                String what_wang = snapshot3.getKey(); //출석왕? 무슨왕?
+                                                String date = snapshot3.getValue().toString();
+                                                switch (what_wang) {
+                                                    case "출석왕":
+                                                        attendw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        attendd.setText(date);
+                                                        break;
+                                                    case "다독왕":
+                                                        readw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        readd.setText(date);
+                                                        break;
+                                                    case "출제왕":
+                                                        quizw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        quizd.setText(date);
+                                                        break;
+                                                    case "문제사냥꾼":
+                                                        quizhunterw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        quizhunterd.setText(date);
+                                                        break;
+                                                    case "폭탄마스터":
+                                                        bombmasterw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        bombmasterd.setText(date);
+                                                        break;
+                                                    case "협동왕":
+                                                        bucketw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        bucketd.setText(date);
+                                                        break;
+                                                    default:
+                                                        break;
+                                                }
                                             }
                                         }
                                     }
+                                    break;
                                 }
-                                break;
                             }
                         }
                     }
                 }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        };
-        mPostReference.addValueEventListener(postListener);
+                @Override
+                public void onCancelled (@NonNull DatabaseError databaseError){
+                }
+            };
+            mPostReference.addValueEventListener(postListener);
     }
 }

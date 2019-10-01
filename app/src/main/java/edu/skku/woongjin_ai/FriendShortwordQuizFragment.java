@@ -19,6 +19,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class FriendShortwordQuizFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -27,21 +33,22 @@ public class FriendShortwordQuizFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private FriendOXQuizFragment.OnFragmentInteractionListener mListener;
+    private FriendShortwordQuizFragment.OnFragmentInteractionListener mListener;
 
     String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "";
     int cnt, flagAO = 0, flagAX = 0;
     float starFloat;
-    ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
+    ImageView imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     ImageButton imageButtonScript, imageButtonHint;
     Button imageButtonCheck;
+    EditText editTextAns;
 
     public FriendShortwordQuizFragment() {
 
     }
 
-    public static FriendOXQuizFragment newInstance(String param1, String param2) {
-        FriendOXQuizFragment fragment = new FriendOXQuizFragment();
+    public static FriendShortwordQuizFragment newInstance(String param1, String param2) {
+        FriendShortwordQuizFragment fragment = new FriendShortwordQuizFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -78,15 +85,14 @@ public class FriendShortwordQuizFragment extends Fragment {
         TextView textViewUid = view.findViewById(R.id.uidFriendShortword);
         TextView textViewName = view.findViewById(R.id.nameFriendShortword);
         TextView textViewQuestion = view.findViewById(R.id.questionFriendShortword);
-        imageO = (ImageView) view.findViewById(R.id.oFriendOX);
-        imageX = (ImageView) view.findViewById(R.id.xFriendOX);
+        editTextAns = (EditText) view.findViewById(R.id.ansShortword);
         imageViewS2 = (ImageView) view.findViewById(R.id.star2);
         imageViewS3 = (ImageView) view.findViewById(R.id.star3);
         imageViewS4 = (ImageView) view.findViewById(R.id.star4);
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
-        imageButtonScript = (ImageButton) view.findViewById(R.id.scriptFriendOX);
-        imageButtonHint = (ImageButton) view.findViewById(R.id.hintFriendOX);
-        imageButtonCheck = (Button) view.findViewById(R.id.checkFriendOX);
+        imageButtonScript = (ImageButton) view.findViewById(R.id.scriptFriendShortword);
+        imageButtonHint = (ImageButton) view.findViewById(R.id.hintFriendShortword);
+        imageButtonCheck = (Button) view.findViewById(R.id.checkFriendShortword);
 
         starFloat = Float.parseFloat(star);
 
@@ -97,13 +103,14 @@ public class FriendShortwordQuizFragment extends Fragment {
         imageButtonCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ans = editTextAns.getText().toString();
                 if(ans.equals("")) {
                     Toast.makeText(context, "정답을 입력하세요.", Toast.LENGTH_SHORT).show();
                 } else {
                     if(ans.equals(answer)) {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.contentShowScriptOX, ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
+                        fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
                         Bundle bundle = new Bundle(7);
                         bundle.putString("id", id);
                         bundle.putString("scriptnm", scriptnm);
@@ -118,7 +125,7 @@ public class FriendShortwordQuizFragment extends Fragment {
                     } else {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.contentShowScriptOX, ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment);
+                        fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment);
                         Bundle bundle = new Bundle(1);
                         bundle.putString("id", id);
                         ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment.setArguments(bundle);
@@ -134,7 +141,7 @@ public class FriendShortwordQuizFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.contentShowFriendQuiz, ((ShowFriendQuizActivity)getActivity()).showHintFragment);
+                fragmentTransaction.replace(R.id.contentShowHint, ((ShowFriendQuizActivity)getActivity()).showHintFragment);
                 Bundle bundle = new Bundle(1);
                 bundle.putString("hint", hint);
                 ((ShowFriendQuizActivity)getActivity()).showHintFragment.setArguments(bundle);
@@ -148,7 +155,7 @@ public class FriendShortwordQuizFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.contentShowScriptOX, ((ShowFriendQuizActivity)getActivity()).showScriptFragment);
+                fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", scriptnm);
                 bundle.putString("type", "friend");
@@ -171,44 +178,6 @@ public class FriendShortwordQuizFragment extends Fragment {
             }
         }
 
-        imageO.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(flagAO == 0) {
-                    if(flagAX == 1) {
-                        imageX.setImageResource(R.drawable.x_white);
-                        flagAX = 0;
-                    }
-                    ans = "o";
-                    imageO.setImageResource(R.drawable.o_orange);
-                    flagAO = 1;
-                } else {
-                    ans = "";
-                    imageO.setImageResource(R.drawable.o_white);
-                    flagAO = 0;
-                }
-            }
-        });
-
-        imageX.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(flagAX == 0) {
-                    if(flagAO == 1) {
-                        imageO.setImageResource(R.drawable.o_white);
-                        flagAO = 0;
-                    }
-                    ans = "x";
-                    imageX.setImageResource(R.drawable.x_orange);
-                    flagAX = 1;
-                } else {
-                    ans = "";
-                    imageX.setImageResource(R.drawable.x_white);
-                    flagAX = 0;
-                }
-            }
-        });
-
         return view;
     }
 
@@ -221,8 +190,8 @@ public class FriendShortwordQuizFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FriendOXQuizFragment.OnFragmentInteractionListener) {
-            mListener = (FriendOXQuizFragment.OnFragmentInteractionListener) context;
+        if (context instanceof FriendShortwordQuizFragment.OnFragmentInteractionListener) {
+            mListener = (FriendShortwordQuizFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

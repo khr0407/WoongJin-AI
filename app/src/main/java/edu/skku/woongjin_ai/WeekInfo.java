@@ -3,17 +3,17 @@ package edu.skku.woongjin_ai;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HoInfo {
+public class WeekInfo {
     public int correct;
     public float level;
     public int like;
     public int cnt;
 
-    public HoInfo() {
+    public WeekInfo() {
 
     }
 
-    public HoInfo(int correct, float level, int like, int cnt) {
+    public WeekInfo(int correct, float level, int like, int cnt) {
         this.correct = correct;
         this.level = level;
         this.like = like;

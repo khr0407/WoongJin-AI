@@ -65,7 +65,7 @@
                 android:layout_weight="1"/>
 
             <FrameLayout
-                android:id="@+id/contentShowScriptOX"
+                android:id="@+id/contentShowScript"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="10">
@@ -110,7 +110,7 @@
                         android:layout_weight="1"/>
 
                     <FrameLayout
-                        android:id="@+id/contentShowHintOX"
+                        android:id="@+id/contentShowHint"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="4.5">

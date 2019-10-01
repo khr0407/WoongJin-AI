@@ -150,14 +150,14 @@ public class RegisterActivity extends AppCompatActivity {
     private void postFirebaseDatabaseUserInfo() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        UserInfo post = new UserInfo(id, pw, name, nickname, school, gender, grade, "100", "NULL");
+        UserInfo post = new UserInfo(id, pw, name, nickname, school, gender, grade, "100", "noimage");
         postValues = post.toMap();
         childUpdates.put("/user_list/" + id + "/", postValues);
         mPostReference.updateChildren(childUpdates);
-        mPostReference.child("user_list/" + id + "/ho_list/ho1/cnt").setValue(0);
-        mPostReference.child("user_list/" + id + "/ho_list/ho1/correct").setValue(0);
-        mPostReference.child("user_list/" + id + "/ho_list/ho1/level").setValue(0.0);
-        mPostReference.child("user_list/" + id + "/ho_list/ho1/like").setValue(0);
+        mPostReference.child("user_list/" + id + "/my_week_list/week1/cnt").setValue(0);
+        mPostReference.child("user_list/" + id + "/my_week_list/week1/correct").setValue(0);
+        mPostReference.child("user_list/" + id + "/my_week_list/week1/level").setValue(0.0);
+        mPostReference.child("user_list/" + id + "/my_week_list/week1/like").setValue(0);
     }
 
     private ValueEventListener checkIDRegister = new ValueEventListener() {

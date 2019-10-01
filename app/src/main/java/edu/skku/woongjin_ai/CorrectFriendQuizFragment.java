@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +22,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CorrectFriendQuizFragment extends Fragment {
 
@@ -35,14 +36,14 @@ public class CorrectFriendQuizFragment extends Fragment {
 
     private CorrectFriendQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, uid, star, like, key;
+    String id, scriptnm, uid, star, like, key, today;
     Button buttonSubmit;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5, imageViewThumb;
     int cnt, starInt = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagT = 0;
     float oldLevel;
     public DatabaseReference mPostReference;
-    ArrayList<HoInfo> hoInfos;
-    int hoNum = 0, flagK = 0;
+    WeekInfo thisWeekInfo;
+    int weekNum = 0;
 
     public CorrectFriendQuizFragment() {
 
@@ -91,32 +92,22 @@ public class CorrectFriendQuizFragment extends Fragment {
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
         imageViewThumb = (ImageView) view.findViewById(R.id.thumbCheckCorrect);
 
-        hoInfos = new ArrayList<HoInfo>();
-
         oldLevel = Float.parseFloat(star);
 
         textViewID.setText("정답이야 " + id + "! 수고했어^^");
 
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        today = format.format(date);
+        mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/solved_list/" + key).setValue(today);
+
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key = snapshot.getKey();
-                    if(key.equals("kakaouser_list") || key.equals("user_list")) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String key1 = snapshot1.getKey();
-                            if(key1.equals(uid)) {
-                                if(key.equals("kakaouser_list")) flagK = 1;
-                                for(DataSnapshot snapshot2 : snapshot1.child("ho_list").getChildren()) {
-                                    HoInfo hoInfo = snapshot2.getValue(HoInfo.class);
-                                    hoInfos.add(hoInfo);
-                                }
-                                hoNum = hoInfos.size();
-                                break;
-                            }
-                        }
-                    }
-                }
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_week_list").getChildren()) weekNum++;
+
+                thisWeekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + weekNum).getValue(WeekInfo.class);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {                        }
@@ -129,21 +120,16 @@ public class CorrectFriendQuizFragment extends Fragment {
                 if(starInt == 0) {
                     Toast.makeText(context, "난이도를 선택해주세요", Toast.LENGTH_SHORT).show();
                 } else {
-                    float oldLevel = hoInfos.get(hoNum-1).level;
-                    int oldCnt = hoInfos.get(hoNum-1).cnt;
-                    float newLevel = (oldLevel*oldCnt + starInt) / (oldCnt + 1);
-                    if(flagK == 0) {
-                        mPostReference.child("user_list/" + uid + "/ho_list/ho" + hoNum + "/level").setValue(newLevel);
-                        mPostReference.child("user_list/" + uid + "/ho_list/ho" + hoNum + "/cnt").setValue(oldCnt + 1);
-                    } else {
-                        mPostReference.child("kakaouser_list/" + uid + "/ho_list/ho" + hoNum + "/level").setValue(newLevel);
-                        mPostReference.child("kakaouser_list/" + uid + "/ho_list/ho" + hoNum + "/cnt").setValue(oldCnt + 1);
-                    }
+                    float oldLevel = thisWeekInfo.level;
+                    int oldCnt = thisWeekInfo.cnt;
+                    float newLevel = (oldLevel * oldCnt + starInt) / (oldCnt + 1);
+                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + weekNum + "/level").setValue(newLevel);
+                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + weekNum + "/cnt").setValue(oldCnt + 1);
 
                     oldLevel = Integer.parseInt(star);
                     newLevel = (oldLevel*cnt + starInt) / (cnt + 1);
-                    mPostReference.child("quiz_list/" + scriptnm + "/type1/" + key + "/star").setValue(Float.toString(newLevel));
-                    mPostReference.child("quiz_list/" + scriptnm + "/type1/" + key + "/cnt").setValue(cnt+1);
+                    mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/star").setValue(Float.toString(newLevel));
+                    mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/cnt").setValue(cnt+1);
 
                     Toast.makeText(context, "제출이 완료되었습니다.", Toast.LENGTH_SHORT).show();
 
@@ -152,6 +138,8 @@ public class CorrectFriendQuizFragment extends Fragment {
                     fragmentTransaction.remove(((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
                     fragmentTransaction.remove(((ShowFriendQuizActivity)getActivity()).friendOXQuizFragment);
                     fragmentTransaction.commit();
+
+                    startActivity(((ShowFriendQuizActivity) getActivity()).intentUpdate);
                 }
             }
         });
@@ -162,14 +150,15 @@ public class CorrectFriendQuizFragment extends Fragment {
                 if(flagT == 0) {
                     Toast.makeText(context, "좋아요를 눌렀습니다", Toast.LENGTH_SHORT).show();
 
-                    int oldLike = hoInfos.get(hoNum-1).like;
-                    if(flagK == 0) mPostReference.child("user_list/" + uid + "/ho_list/ho" + hoNum + "/like").setValue(oldLike+1);
-                    else mPostReference.child("kakaouser_list/" + uid + "/ho_list/ho" + hoNum + "/like").setValue(oldLike+1);
+                    mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/liked_list/" + key).setValue(today);
+
+                    int oldLike = thisWeekInfo.like;
+                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + weekNum + "/like").setValue(oldLike+1);
 
                     int newLike = Integer.parseInt(like);
                     newLike++;
                     like = Integer.toString(newLike);
-                    mPostReference.child("quiz_list/" + scriptnm + "/type1/" + key + "/like/").setValue(like);
+                    mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/liked_user/" + id).setValue(like);
 
                     flagT = 1;
                 } else {

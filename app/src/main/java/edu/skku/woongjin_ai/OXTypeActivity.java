@@ -42,7 +42,7 @@ public class OXTypeActivity extends AppCompatActivity
     String quiz = "", ans = "", desc = "";
     int star = 0 , starInt = 0;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0, flagNoHint = 0;
+    int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
@@ -54,14 +54,12 @@ public class OXTypeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oxtype);
 
+        // TODO: 유형별 문제 만들기 기능 탭으로 테스트
+
         intent = getIntent();
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
-
-        showScriptFragment = new ShowScriptFragment();
-        hintWritingFragment = new HintWritingFragment();
-        hintVideoFragment = new HintVideoFragment();
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageO = (ImageView) findViewById(R.id.o);
@@ -99,9 +97,10 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
-        hintWritingButton.setOnClickListener(new View.OnClickListener() {
+        hintWritingButton.setOnClickListener(new View.OnClickListener() { // flagD == 1
             @Override
             public void onClick(View v) {
+                hintWritingFragment = new HintWritingFragment(); // TODO: 얘네들 밖으로 빼도 되나?
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
                 Bundle bundle = new Bundle(1);
@@ -117,6 +116,7 @@ public class OXTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hintVideoFragment = new HintVideoFragment(); // TODO: 얘네들 밖으로 빼도 되나?
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentShowScriptOX, hintVideoFragment);
                 Bundle bundle = new Bundle(1);
@@ -127,27 +127,25 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
-        noHintButton.setOnClickListener(new View.OnClickListener() {
+        noHintButton.setOnClickListener(new View.OnClickListener() { // flagD == 2
             @Override
             public void onClick(View v) {
-                if(flagNoHint == 0) {
+                if(flagD != 2) {
                     noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
                     checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
                     flagD = 2;
-                    flagNoHint = 1;
                 } else {
                     noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
                     checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     flagD = 0;
-                    flagNoHint = 0;
                 }
-                //TODO 힌트 없음도 fragment 만들어?
             }
         });
 
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showScriptFragment = new ShowScriptFragment(); // TODO: 얘네들 밖으로 빼도 되나?
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
                 Bundle bundle = new Bundle(2);
@@ -373,9 +371,9 @@ public class OXTypeActivity extends AppCompatActivity
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts,"test-ing, no", 1);
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, "없음", 1);
         postValues = post.toMap();
-        childUpdates.put("/quiz_list/" + scriptnm + "/type1/" + ts + "/", postValues);
+        childUpdates.put("/quiz_list/" + scriptnm + "/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
     }

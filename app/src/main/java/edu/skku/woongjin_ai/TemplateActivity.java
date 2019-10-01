@@ -29,12 +29,14 @@ public class TemplateActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     ArrayList<QuizOXShortwordTypeInfo> quizListOX, quizListShortword;
     ArrayList<QuizChoiceTypeInfo> quizListChoice;
-    int minLikeQuiz = 0, cnt = 0;
+    int minLikeQuiz1 = 0, cnt1 = 0, minLikeQuiz2 = 0, cnt2 = 0, minLikeQuiz3 = 0, cnt3 = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_template);
+
+        // TODO: 탭으로 테스트
 
         imageHome = (ImageView) findViewById(R.id.home);
         oxT = (TextView) findViewById(R.id.quiz_ox_template);
@@ -69,103 +71,166 @@ public class TemplateActivity extends AppCompatActivity {
             }
         });
 
-        mPostReference.child("quiz_list/").addListenerForSingleValueEvent(new ValueEventListener() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key = snapshot.getKey();
-                    if(key.equals(scriptnm)) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String type = snapshot1.getKey();
-                            if(type.equals("type1")) {
-                                for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
-                                    QuizOXShortwordTypeInfo getNew = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
+                for(DataSnapshot snapshot : dataSnapshot.child("quiz_list/" + scriptnm).getChildren()) {
+                    String type = snapshot.child("type").getValue().toString();
+                    if(type.equals("1")) {
+                        QuizOXShortwordTypeInfo getNew = snapshot.getValue(QuizOXShortwordTypeInfo.class);
 
-                                    if(cnt < 3) {
-                                        quizListOX.add(getNew);
-                                        for(QuizOXShortwordTypeInfo findMinLike : quizListOX) {
-                                            int findMin = Integer.parseInt(findMinLike.like);
-                                            int minLike = Integer.parseInt(quizListOX.get(minLikeQuiz).like);
-                                            if(findMin < minLike) minLikeQuiz = quizListOX.indexOf(findMinLike);
-                                        }
-                                        cnt++;
-                                    } else {
-                                        String getLike = getNew.like;
-                                        int minLike = Integer.parseInt(quizListOX.get(minLikeQuiz).like);
-                                        if(minLike < Integer.parseInt(getLike)) {
-                                            quizListOX.remove(minLikeQuiz);
-                                            quizListOX.add(minLikeQuiz, getNew);
-                                            for(QuizOXShortwordTypeInfo findMinLike : quizListOX) {
-                                                int findMin = Integer.parseInt(findMinLike.like);
-                                                int minLikeNew = Integer.parseInt(quizListOX.get(minLikeQuiz).like);
-                                                if(findMin < minLikeNew) minLikeQuiz = quizListOX.indexOf(findMinLike);
-                                            }
-                                        }
-                                    }
+                        if(cnt1 < 3) {
+                            quizListOX.add(getNew);
+                            for(QuizOXShortwordTypeInfo findMinLike : quizListOX) {
+                                int findMin = Integer.parseInt(findMinLike.like);
+                                int minLike = Integer.parseInt(quizListOX.get(minLikeQuiz1).like);
+                                if(findMin < minLike) minLikeQuiz1 = quizListOX.indexOf(findMinLike);
+                            }
+                            cnt1++;
+                        } else {
+                            String getLike = getNew.like;
+                            int minLike = Integer.parseInt(quizListOX.get(minLikeQuiz1).like);
+                            if(minLike < Integer.parseInt(getLike)) {
+                                quizListOX.remove(minLikeQuiz1);
+                                quizListOX.add(minLikeQuiz1, getNew);
+                                for(QuizOXShortwordTypeInfo findMinLike : quizListOX) {
+                                    int findMin = Integer.parseInt(findMinLike.like);
+                                    int minLikeNew = Integer.parseInt(quizListOX.get(minLikeQuiz1).like);
+                                    if(findMin < minLikeNew) minLikeQuiz1 = quizListOX.indexOf(findMinLike);
                                 }
-                                cnt = 0;
-                                minLikeQuiz = 0;
-                            } else if(type.equals("type2")) {
-                                for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
-                                    QuizChoiceTypeInfo getNew = snapshot2.getValue(QuizChoiceTypeInfo.class);
-
-                                    if(cnt < 3) {
-                                        quizListChoice.add(getNew);
-                                        for(QuizChoiceTypeInfo findMinLike : quizListChoice) {
-                                            int findMin = Integer.parseInt(findMinLike.like);
-                                            int minLike = Integer.parseInt(quizListChoice.get(minLikeQuiz).like);
-                                            if(findMin < minLike) minLikeQuiz = quizListChoice.indexOf(findMinLike);
-                                        }
-                                        cnt++;
-                                    } else {
-                                        String getLike = getNew.like;
-                                        int minLike = Integer.parseInt(quizListChoice.get(minLikeQuiz).like);
-                                        if(minLike < Integer.parseInt(getLike)) {
-                                            quizListChoice.remove(minLikeQuiz);
-                                            quizListChoice.add(minLikeQuiz, getNew);
-                                            for(QuizChoiceTypeInfo findMinLike : quizListChoice) {
-                                                int findMin = Integer.parseInt(findMinLike.like);
-                                                int minLikeNew = Integer.parseInt(quizListChoice.get(minLikeQuiz).like);
-                                                if(findMin < minLikeNew) minLikeQuiz = quizListChoice.indexOf(findMinLike);
-                                            }
-                                        }
-                                    }
-                                }
-                                cnt = 0;
-                                minLikeQuiz = 0;
-                            } else {
-                                for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
-                                    QuizOXShortwordTypeInfo getNew = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
-
-                                    if(cnt < 3) {
-                                        quizListShortword.add(getNew);
-                                        for(QuizOXShortwordTypeInfo findMinLike : quizListShortword) {
-                                            int findMin = Integer.parseInt(findMinLike.like);
-                                            int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz).like);
-                                            if(findMin < minLike) minLikeQuiz = quizListShortword.indexOf(findMinLike);
-                                        }
-                                        cnt++;
-                                    } else {
-                                        String getLike = getNew.like;
-                                        int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz).like);
-                                        if(minLike < Integer.parseInt(getLike)) {
-                                            quizListShortword.remove(minLikeQuiz);
-                                            quizListShortword.add(minLikeQuiz, getNew);
-                                            for(QuizOXShortwordTypeInfo findMinLike : quizListShortword) {
-                                                int findMin = Integer.parseInt(findMinLike.like);
-                                                int minLikeNew = Integer.parseInt(quizListShortword.get(minLikeQuiz).like);
-                                                if(findMin < minLikeNew) minLikeQuiz = quizListShortword.indexOf(findMinLike);
-                                            }
-                                        }
-                                    }
-                                }
-                                cnt = 0;
-                                minLikeQuiz = 0;
                             }
                         }
-                        break;
+                    } else if(type.equals("2")) {
+                        QuizChoiceTypeInfo getNew = snapshot.getValue(QuizChoiceTypeInfo.class);
+
+                        if(cnt2 < 3) {
+                            quizListChoice.add(getNew);
+                            for(QuizChoiceTypeInfo findMinLike : quizListChoice) {
+                                int findMin = Integer.parseInt(findMinLike.like);
+                                int minLike = Integer.parseInt(quizListChoice.get(minLikeQuiz2).like);
+                                if(findMin < minLike) minLikeQuiz2 = quizListChoice.indexOf(findMinLike);
+                            }
+                            cnt2++;
+                        } else {
+                            String getLike = getNew.like;
+                            int minLike = Integer.parseInt(quizListChoice.get(minLikeQuiz2).like);
+                            if(minLike < Integer.parseInt(getLike)) {
+                                quizListChoice.remove(minLikeQuiz2);
+                                quizListChoice.add(minLikeQuiz2, getNew);
+                                for(QuizChoiceTypeInfo findMinLike : quizListChoice) {
+                                    int findMin = Integer.parseInt(findMinLike.like);
+                                    int minLikeNew = Integer.parseInt(quizListChoice.get(minLikeQuiz2).like);
+                                    if(findMin < minLikeNew) minLikeQuiz2 = quizListChoice.indexOf(findMinLike);
+                                }
+                            }
+                        }
+                    } else if(type.equals("3")) {
+                        QuizOXShortwordTypeInfo getNew = snapshot.getValue(QuizOXShortwordTypeInfo.class);
+
+                        if(cnt3 < 3) {
+                            quizListShortword.add(getNew);
+                            for(QuizOXShortwordTypeInfo findMinLike : quizListShortword) {
+                                int findMin = Integer.parseInt(findMinLike.like);
+                                int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz3).like);
+                                if(findMin < minLike) minLikeQuiz3 = quizListShortword.indexOf(findMinLike);
+                            }
+                            cnt3++;
+                        } else {
+                            String getLike = getNew.like;
+                            int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz3).like);
+                            if(minLike < Integer.parseInt(getLike)) {
+                                quizListShortword.remove(minLikeQuiz3);
+                                quizListShortword.add(minLikeQuiz3, getNew);
+                                for(QuizOXShortwordTypeInfo findMinLike : quizListShortword) {
+                                    int findMin = Integer.parseInt(findMinLike.like);
+                                    int minLikeNew = Integer.parseInt(quizListShortword.get(minLikeQuiz3).like);
+                                    if(findMin < minLikeNew) minLikeQuiz3 = quizListShortword.indexOf(findMinLike);
+                                }
+                            }
+                        }
                     }
                 }
+
+//                for(DataSnapshot snapshot1 : dataSnapshot.getChildren()) {
+//                    for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
+//                        QuizOXShortwordTypeInfo getNew = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
+//
+//                        if(cnt1 < 3) {
+//                            quizListOX.add(getNew);
+//                            for(QuizOXShortwordTypeInfo findMinLike : quizListOX) {
+//                                int findMin = Integer.parseInt(findMinLike.like);
+//                                int minLike = Integer.parseInt(quizListOX.get(minLikeQuiz1).like);
+//                                if(findMin < minLike) minLikeQuiz1 = quizListOX.indexOf(findMinLike);
+//                            }
+//                            cnt1++;
+//                        } else {
+//                            String getLike = getNew.like;
+//                            int minLike = Integer.parseInt(quizListOX.get(minLikeQuiz1).like);
+//                            if(minLike < Integer.parseInt(getLike)) {
+//                                quizListOX.remove(minLikeQuiz1);
+//                                quizListOX.add(minLikeQuiz1, getNew);
+//                                for(QuizOXShortwordTypeInfo findMinLike : quizListOX) {
+//                                    int findMin = Integer.parseInt(findMinLike.like);
+//                                    int minLikeNew = Integer.parseInt(quizListOX.get(minLikeQuiz1).like);
+//                                    if(findMin < minLikeNew) minLikeQuiz1 = quizListOX.indexOf(findMinLike);
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
+//                        QuizChoiceTypeInfo getNew = snapshot2.getValue(QuizChoiceTypeInfo.class);
+//
+//                        if(cnt2 < 3) {
+//                            quizListChoice.add(getNew);
+//                            for(QuizChoiceTypeInfo findMinLike : quizListChoice) {
+//                                int findMin = Integer.parseInt(findMinLike.like);
+//                                int minLike = Integer.parseInt(quizListChoice.get(minLikeQuiz2).like);
+//                                if(findMin < minLike) minLikeQuiz2 = quizListChoice.indexOf(findMinLike);
+//                            }
+//                            cnt2++;
+//                        } else {
+//                            String getLike = getNew.like;
+//                            int minLike = Integer.parseInt(quizListChoice.get(minLikeQuiz2).like);
+//                            if(minLike < Integer.parseInt(getLike)) {
+//                                quizListChoice.remove(minLikeQuiz2);
+//                                quizListChoice.add(minLikeQuiz2, getNew);
+//                                for(QuizChoiceTypeInfo findMinLike : quizListChoice) {
+//                                    int findMin = Integer.parseInt(findMinLike.like);
+//                                    int minLikeNew = Integer.parseInt(quizListChoice.get(minLikeQuiz2).like);
+//                                    if(findMin < minLikeNew) minLikeQuiz2 = quizListChoice.indexOf(findMinLike);
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                    for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
+//                        QuizOXShortwordTypeInfo getNew = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
+//
+//                        if(cnt3 < 3) {
+//                            quizListShortword.add(getNew);
+//                            for(QuizOXShortwordTypeInfo findMinLike : quizListShortword) {
+//                                int findMin = Integer.parseInt(findMinLike.like);
+//                                int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz3).like);
+//                                if(findMin < minLike) minLikeQuiz3 = quizListShortword.indexOf(findMinLike);
+//                            }
+//                            cnt3++;
+//                        } else {
+//                            String getLike = getNew.like;
+//                            int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz3).like);
+//                            if(minLike < Integer.parseInt(getLike)) {
+//                                quizListShortword.remove(minLikeQuiz3);
+//                                quizListShortword.add(minLikeQuiz3, getNew);
+//                                for(QuizOXShortwordTypeInfo findMinLike : quizListShortword) {
+//                                    int findMin = Integer.parseInt(findMinLike.like);
+//                                    int minLikeNew = Integer.parseInt(quizListShortword.get(minLikeQuiz3).like);
+//                                    if(findMin < minLikeNew) minLikeQuiz3 = quizListShortword.indexOf(findMinLike);
+//                                }
+//                            }
+//                        }
+//                    }
+//
+//                }
 
                 int rand = generator.nextInt(3);
                 QuizOXShortwordTypeInfo post1 = quizListOX.get(rand);

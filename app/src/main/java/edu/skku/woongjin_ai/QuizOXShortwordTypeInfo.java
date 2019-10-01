@@ -11,14 +11,15 @@ public class QuizOXShortwordTypeInfo {
     public String desc;
     public String like;
     public String key;
-    public String url;
     public int cnt;
+    public String url;
+    public int type;
 
     public QuizOXShortwordTypeInfo() {
 
     }
 
-    public QuizOXShortwordTypeInfo(String uid, String question, String answer, String star, String desc, String like, String key, String url, int cnt) {
+    public QuizOXShortwordTypeInfo(String uid, String question, String answer, String star, String desc, String like, String key, int cnt, String url, int type) {
         this.uid = uid;
         this.question = question;
         this.answer = answer;
@@ -26,8 +27,9 @@ public class QuizOXShortwordTypeInfo {
         this.desc = desc;
         this.like = like;
         this.key = key;
-        this.url = url;
         this.cnt = cnt;
+        this.url = url;
+        this.type = type;
     }
 
     public Map<String, Object> toMap() {
@@ -39,8 +41,9 @@ public class QuizOXShortwordTypeInfo {
         result.put("desc", desc);
         result.put("like", like);
         result.put("key", key);
-        result.put("url", url);
         result.put("cnt", cnt);
+        result.put("url", url);
+        result.put("type", type);
         return result;
     }
 }

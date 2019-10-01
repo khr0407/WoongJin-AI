@@ -30,12 +30,12 @@ public class ChoiceTypeActivity extends AppCompatActivity
 
     DatabaseReference mPostReference;
     ImageView imageScript, imageCheck,imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    EditText editQuiz, editAns, editAns1, editAns2, editAns3, editAns4, editDesc;
+    EditText editQuiz, editAns, editAns1, editAns2, editAns3, editAns4;
     Intent intent, intentHome;
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "", desc = "";
     int star = 0, starInt = 0;
-    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0, flagB=0, flagNoHint=0;
+    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
     int flagA1 =0, flagA2=0, flagA3=0,flagA4 =0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
@@ -53,10 +53,6 @@ public class ChoiceTypeActivity extends AppCompatActivity
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
 
-        showScriptFragment = new ShowScriptFragment();
-        hintWritingFragment = new HintWritingFragment();
-        hintVideoFragment = new HintVideoFragment();
-
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageScript = (ImageView) findViewById(R.id.script);
         imageCheck = (ImageView) findViewById(R.id.check);
@@ -71,7 +67,6 @@ public class ChoiceTypeActivity extends AppCompatActivity
         editAns2 = (EditText) findViewById(R.id.ans2);
         editAns3 = (EditText) findViewById(R.id.ans3);
         editAns4 = (EditText) findViewById(R.id.ans4);
-        //editDesc = (EditText) findViewById(R.id.desc);
         TextView title = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
         checkButton = (ImageButton) findViewById(R.id.check);
@@ -103,6 +98,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hintWritingFragment = new HintWritingFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
                 Bundle bundle = new Bundle(1);
@@ -118,6 +114,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hintVideoFragment = new HintVideoFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentShowScriptChoice, hintVideoFragment);
                 Bundle bundle = new Bundle(1);
@@ -131,16 +128,14 @@ public class ChoiceTypeActivity extends AppCompatActivity
         noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagNoHint == 0) {
+                if(flagD != 2) {
                     noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
                     checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
                     flagD = 2;
-                    flagNoHint = 1;
                 } else {
                     noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
                     checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     flagD = 0;
-                    flagNoHint = 0;
                 }
             }
         });
@@ -148,52 +143,42 @@ public class ChoiceTypeActivity extends AppCompatActivity
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagB == 1) {
-                    scriptButton.setImageResource(R.drawable.ic_icons_see_script);
-                    flagB = 0;
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.remove(hintVideoFragment);
-                    transaction.commit();
-                } else {
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
-                    Bundle bundle = new Bundle(2);
-                    bundle.putString("scriptnm", scriptnm);
-                    bundle.putString("type", "choice");
-                    showScriptFragment.setArguments(bundle);
-                    //transaction.addToBackStack(null);
-                    transaction.commit();
-                }
+                showScriptFragment = new ShowScriptFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
+                Bundle bundle = new Bundle(2);
+                bundle.putString("scriptnm", scriptnm);
+                bundle.putString("type", "choice");
+                showScriptFragment.setArguments(bundle);
+                //transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                quiz = editQuiz.getText().toString();
-                //ans = editAns.getText().toString();//문제코드
-                ans1 = editAns1.getText().toString();
-                ans2 = editAns2.getText().toString();
-                ans3 = editAns3.getText().toString();
-                ans4 = editAns4.getText().toString();
-                //desc = editDesc.getText().toString();
-
                 if(flagD == 0) {
                     Toast.makeText(ChoiceTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
                 } else {
                     quiz = editQuiz.getText().toString();
-
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
-
-                    if(flagNoHint==0)
-                        desc = hintWritingFragment1.editTextHint.getText().toString();
-                    else
+                    if(flagD == 2) {
                         desc="없음";
+                    } else {
+                        desc = hintWritingFragment1.editTextHint.getText().toString();
+                    }
+                    quiz = editQuiz.getText().toString();
+                    ans1 = editAns1.getText().toString();
+                    ans2 = editAns2.getText().toString();
+                    ans3 = editAns3.getText().toString();
+                    ans4 = editAns4.getText().toString();
 
                     if(quiz.length() == 0 || ans.length() == 0 || ans1.length() == 0 || ans2.length() == 0 || ans3.length() == 0 || ans4.length() == 0 || desc.length() == 0 || starInt < 1) {
                         Toast.makeText(ChoiceTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                     } else {
                         postFirebaseDatabaseQuizChoice();
+                        if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
                         Toast.makeText(ChoiceTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -430,17 +415,15 @@ public class ChoiceTypeActivity extends AppCompatActivity
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
-        QuizChoiceTypeInfo post = new QuizChoiceTypeInfo(id, quiz, ans, ans1, ans2, ans3, ans4, Integer.toString(starInt), desc, "0", ts,"test-ing, no! ask to seyoung", 1);
+        QuizChoiceTypeInfo post = new QuizChoiceTypeInfo(id, quiz, ans, ans1, ans2, ans3, ans4, Integer.toString(starInt), desc, "0", ts, 1, "없음", 2);
         postValues = post.toMap();
-        childUpdates.put("/quiz_list/" + scriptnm + "/type2/" + ts + "/", postValues);
+        childUpdates.put("/quiz_list/" + scriptnm + "/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
-        //editAns.setText("");
         editAns1.setText("");
         editAns2.setText("");
         editAns3.setText("");
         editAns4.setText("");
-        //editDesc.setText("");
     }
 
     @Override
