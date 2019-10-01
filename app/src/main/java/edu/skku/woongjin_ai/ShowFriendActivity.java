@@ -84,12 +84,7 @@ public class ShowFriendActivity extends Activity {
         friend_list.setAdapter(arrayAdapter);
         recommendfriend_list.setAdapter(recommendListArrayAdapter);
 
-        if (onlyNumCheck(id_key) == true) {
-            mPostReference = FirebaseDatabase.getInstance().getReference().child("kakaouser_list").child(id_key).child("friend");
-        }
-        else if (onlyNumCheck(id_key) == false) {
-            mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("friend");
-        }
+        mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("friend");
 
         imageButtonHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,12 +197,12 @@ public class ShowFriendActivity extends Activity {
                 recommendFinalList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
-                    if(key.equals("user_list") || key.equals("kakaouser_list")) {
+                    if(key.equals("user_list")) {
                         for(DataSnapshot snapshot0 : snapshot.getChildren()) {
                             String key1 = snapshot0.getKey();
                             if(key1.equals(id_key)) {
                                 me = snapshot0.getValue(UserInfo.class);
-                                for(DataSnapshot snapshot1 : snapshot0.child("friend").getChildren()) {
+                                for(DataSnapshot snapshot1 : snapshot0.child("my_friend_list").getChildren()) {
                                     String key2 = snapshot1.getKey();
                                     myFriendList.add(key2);
                                 }
@@ -221,7 +216,7 @@ public class ShowFriendActivity extends Activity {
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key0 = snapshot.getKey();
-                    if(key0.equals("user_list") || key0.equals("kakaouser_list")) {
+                    if(key0.equals("user_list")) {
                         for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                             String key = snapshot1.getKey();
                             if(!key.equals(id_key)) {

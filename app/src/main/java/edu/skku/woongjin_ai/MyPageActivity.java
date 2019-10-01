@@ -287,7 +287,7 @@ public class MyPageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
-                    if (key.equals("kakaouser_list") || key.equals("user_list")) {
+                    if (key.equals("user_list")) {
                         for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                             String key1 = snapshot1.getKey();
                             if (key1.equals(id)) {
