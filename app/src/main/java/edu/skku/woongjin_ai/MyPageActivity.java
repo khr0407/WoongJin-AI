@@ -162,9 +162,9 @@ public class MyPageActivity extends AppCompatActivity {
         btnLikeList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                intent_LikeList = new Intent(MyPageActivity.this, MyQuizActivity.class);
-//                intent_LikeList.putExtra("id", id);
-//                startActivity(intent_LikeList);
+                intent_LikeList = new Intent(MyPageActivity.this, MyQuizActivity.class);
+                intent_LikeList.putExtra("id", id);
+                startActivity(intent_LikeList);
             }
         });
 
