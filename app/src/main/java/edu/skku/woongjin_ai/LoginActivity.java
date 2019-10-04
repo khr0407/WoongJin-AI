@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
             final ValueEventListener overlapCheck = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot ds : dataSnapshot.child("kakaouser_list").getChildren()) {
+                    for (DataSnapshot ds : dataSnapshot.child("user_list").getChildren()) {
                         String key = ds.getKey();
                         if (data.equals(key)) {
                             //Toast.makeText(getApplicationContext(), "카카오 계정으로 가입되어 있는 ID입니다.", Toast.LENGTH_SHORT).show();
@@ -273,7 +273,7 @@ public class LoginActivity extends AppCompatActivity {
     private ValueEventListener checkIDRegister = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            for (DataSnapshot ds : dataSnapshot.child("kakaouser_list").getChildren()) {
+            for (DataSnapshot ds : dataSnapshot.child("user_list").getChildren()) {
                 String key = ds.getKey();
                 if (savedKakao.equals(key)) {
                     //Toast.makeText(getApplicationContext(), "카카오 계정으로 가입되어 있는 ID입니다.", Toast.LENGTH_SHORT).show();
