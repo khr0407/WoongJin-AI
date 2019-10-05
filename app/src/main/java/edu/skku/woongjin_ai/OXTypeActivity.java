@@ -100,7 +100,7 @@ public class OXTypeActivity extends AppCompatActivity
         hintWritingButton.setOnClickListener(new View.OnClickListener() { // flagD == 1
             @Override
             public void onClick(View v) {
-                hintWritingFragment = new HintWritingFragment(); // TODO: 얘네들 밖으로 빼도 되나?
+                hintWritingFragment = new HintWritingFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
                 Bundle bundle = new Bundle(1);
@@ -116,7 +116,7 @@ public class OXTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hintVideoFragment = new HintVideoFragment(); // TODO: 얘네들 밖으로 빼도 되나?
+                hintVideoFragment = new HintVideoFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentShowScriptOX, hintVideoFragment);
                 Bundle bundle = new Bundle(1);

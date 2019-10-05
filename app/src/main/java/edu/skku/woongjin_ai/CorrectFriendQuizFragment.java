@@ -42,8 +42,8 @@ public class CorrectFriendQuizFragment extends Fragment {
     int cnt, starInt = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagT = 0;
     float oldLevel;
     public DatabaseReference mPostReference;
-    WeekInfo thisWeekInfo;
-    int weekNum = 0;
+    WeekInfo myThisWeekInfo, friendThisWeekInfo;
+    int myWeekNum = 0, friendWeekNum = 0;
 
     public CorrectFriendQuizFragment() {
 
@@ -105,9 +105,11 @@ public class CorrectFriendQuizFragment extends Fragment {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_week_list").getChildren()) weekNum++;
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_week_list").getChildren()) myWeekNum++;
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + uid + "/my_week_list").getChildren()) friendWeekNum++;
 
-                thisWeekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + weekNum).getValue(WeekInfo.class);
+                myThisWeekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + myWeekNum).getValue(WeekInfo.class);
+                friendThisWeekInfo = dataSnapshot.child("user_list/" + uid + "/my_week_list/week" + friendWeekNum).getValue(WeekInfo.class);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {                        }
@@ -120,11 +122,14 @@ public class CorrectFriendQuizFragment extends Fragment {
                 if(starInt == 0) {
                     Toast.makeText(context, "난이도를 선택해주세요", Toast.LENGTH_SHORT).show();
                 } else {
-                    float oldLevel = thisWeekInfo.level;
-                    int oldCnt = thisWeekInfo.cnt;
+                    float oldLevel = friendThisWeekInfo.level;
+                    int oldCnt = friendThisWeekInfo.cnt;
                     float newLevel = (oldLevel * oldCnt + starInt) / (oldCnt + 1);
-                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + weekNum + "/level").setValue(newLevel);
-                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + weekNum + "/cnt").setValue(oldCnt + 1);
+                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + friendWeekNum + "/level").setValue(newLevel);
+                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + friendWeekNum + "/cnt").setValue(oldCnt + 1);
+
+                    int oldCorrect = myThisWeekInfo.correct;
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + myWeekNum + "/correct").setValue(oldCorrect + 1);
 
                     oldLevel = Integer.parseInt(star);
                     newLevel = (oldLevel*cnt + starInt) / (cnt + 1);
@@ -152,13 +157,14 @@ public class CorrectFriendQuizFragment extends Fragment {
 
                     mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/liked_list/" + key).setValue(today);
 
-                    int oldLike = thisWeekInfo.like;
-                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + weekNum + "/like").setValue(oldLike+1);
+                    int oldLike = friendThisWeekInfo.like;
+                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + friendWeekNum + "/like").setValue(oldLike + 1);
 
                     int newLike = Integer.parseInt(like);
                     newLike++;
                     like = Integer.toString(newLike);
-                    mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/liked_user/" + id).setValue(like);
+                    mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/liked_user/" + id).setValue(today);
+                    mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/like/").setValue(like);
 
                     flagT = 1;
                 } else {
