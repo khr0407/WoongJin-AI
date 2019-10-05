@@ -38,10 +38,11 @@ public class WordListActivity extends AppCompatActivity{
     //implements ShowScriptFragment.OnFragmentInteractionListener
 
     DatabaseReference mPostReference;
-    Intent intent, intentHome;
+    Intent intent, intentHome, intentQuiz;
     String id, scriptnm, backgroundID;
     ImageView backgroundImage;
     ImageButton scriptButton;
+    Button makeQuizButton;
     FirebaseStorage storage;
     ListView wordListView;
     ArrayList<String> wordArrayList;
@@ -58,11 +59,13 @@ public class WordListActivity extends AppCompatActivity{
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+
         wordListView = (ListView)findViewById(R.id.wordlist);
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         TextView title = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
         scriptButton = (ImageButton) findViewById(R.id.script);
+        makeQuizButton = (Button) findViewById(R.id.makeQuiz);
 
         wordArrayList = new ArrayList<String>();
         wordListAdapter = new WordListAdapter();
@@ -73,7 +76,6 @@ public class WordListActivity extends AppCompatActivity{
         mPostReference = FirebaseDatabase.getInstance().getReference();
         getFirebaseDatabaseWordList();
         //dataSetting();
-
 
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getInstance().getReference();
@@ -87,6 +89,17 @@ public class WordListActivity extends AppCompatActivity{
                         .error(R.drawable.btn_x)
                         .into(backgroundImage);
                 backgroundImage.setAlpha(0.5f);
+            }
+        });
+
+        makeQuizButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentQuiz = new Intent(WordListActivity.this, SelectTypeActivity.class);
+                intentQuiz.putExtra("id", id);
+                intentQuiz.putExtra("scriptnm", scriptnm);
+                intentQuiz.putExtra("background", backgroundID);
+                startActivity(intentQuiz);
             }
         });
 /*
