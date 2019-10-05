@@ -151,26 +151,43 @@ public class TemplateActivity extends AppCompatActivity {
                     }
                 }
 
-                int bound = 3;
-                if(cnt1 < 3) bound = cnt1;
-                int rand = generator.nextInt(bound);
-                QuizOXShortwordTypeInfo post1 = quizListOX.get(rand);
-                String postS1 = " Q. " + post1.question + "\n A. " + post1.answer + "\n Desc: " + post1.desc + "\n Star: " + post1.star;
-                oxT.setText(postS1);
+                int bound, rand;
+                String post;
+                if(cnt1 == 0) {
+                    post = "Q. 탬플릿\nA. 탬플릿\nDesc: 탬플릿\nLevel: 탬플릿";
+                    oxT.setText(post);
+                } else {
+                    bound = 3;
+                    if(cnt1 < 3) bound = cnt1;
+                    rand = generator.nextInt(bound);
+                    QuizOXShortwordTypeInfo post1 = quizListOX.get(rand);
+                    post = "Q. " + post1.question + "\nA. " + post1.answer + "\nDesc: " + post1.desc + "\nLevel: " + post1.star;
+                    oxT.setText(post);
+                }
 
-                bound = 3;
-                if(cnt2 < 3) bound = cnt2;
-                rand = generator.nextInt(bound);
-                QuizChoiceTypeInfo post2 = quizListChoice.get(rand);
-                String postS2 = " Q. " + post2.question + "\n A1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\n A. " + post2.answer + "\n Desc: " + post2.desc + "\n Star: " + post2.star;
-                choiceT.setText(postS2);
+                if(cnt2 == 0) {
+                    post = "Q. 탬플릿\nA1. 탬플릿\nA2. 탬플릿\nA3. 탬플릿\nA4. 탬플릿\nA. 탬플릿\nDesc: 탬플릿\nLevel: 탬플릿";
+                    choiceT.setText(post);
+                } else {
+                    bound = 3;
+                    if(cnt2 < 3) bound = cnt2;
+                    rand = generator.nextInt(bound);
+                    QuizChoiceTypeInfo post2 = quizListChoice.get(rand);
+                    post = "Q. " + post2.question + "\nA1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\nA. " + post2.answer + "\nDesc: " + post2.desc + "\nLevel: " + post2.star;
+                    choiceT.setText(post);
+                }
 
-                bound = 3;
-                if(cnt3 < 3) bound = cnt3;
-                rand = generator.nextInt(bound);
-                QuizOXShortwordTypeInfo post3 = quizListShortword.get(rand);
-                String postS3 = " Q. " + post3.question + "\n A. " + post3.answer + "\n Desc: " + post3.desc + "\n Star: " + post3.star;
-                shortwordT.setText(postS3);
+                if(cnt3 == 0) {
+                    post = "Q. 탬플릿\nA. 탬플릿\nDesc: 탬플릿\nLevel: 탬플릿";
+                    shortwordT.setText(post);
+                } else {
+                    bound = 3;
+                    if(cnt3 < 3) bound = cnt3;
+                    rand = generator.nextInt(bound);
+                    QuizOXShortwordTypeInfo post3 = quizListShortword.get(rand);
+                    post = "Q. " + post3.question + "\nA. " + post3.answer + "\nDesc: " + post3.desc + "\nLevel: " + post3.star;
+                    shortwordT.setText(post);
+                }
             }
 
             @Override
