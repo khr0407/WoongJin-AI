@@ -112,8 +112,9 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                     QuizOXShortwordTypeInfo quiz = myOXList.get(position);
 
                     transaction.replace(R.id.seequiz_fragment, OXFragment);
-                    Bundle bundle = new Bundle(10);
+                    Bundle bundle = new Bundle(11);
                     bundle.putString("id", id);
+                    bundle.putString("mine_or_like", "0");
                     bundle.putString("scriptnm", quiz.scriptnm);
                     bundle.putString("question", quiz.question);
                     bundle.putString("answer", quiz.answer);
@@ -132,8 +133,9 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                         QuizChoiceTypeInfo quiz = myChoiceList.get(position);
 
                         transaction.replace(R.id.seequiz_fragment, ChoiceFragment);
-                        Bundle bundle = new Bundle(14);
+                        Bundle bundle = new Bundle(15);
                         bundle.putString("id", id);
+                        bundle.putString("mine_or_like", "0");
                         bundle.putString("scriptnm", quiz.scriptnm);
                         bundle.putString("question", quiz.question);
                         bundle.putString("answer", quiz.answer);
@@ -155,8 +157,9 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                         QuizOXShortwordTypeInfo quiz = myShortList.get(position);
 
                         transaction.replace(R.id.seequiz_fragment, ShortFragment);
-                        Bundle bundle = new Bundle(10);
+                        Bundle bundle = new Bundle(11);
                         bundle.putString("id", id);
+                        bundle.putString("mine_or_like", "0");
                         bundle.putString("scriptnm", quiz.scriptnm);
                         bundle.putString("question", quiz.question);
                         bundle.putString("answer", quiz.answer);
