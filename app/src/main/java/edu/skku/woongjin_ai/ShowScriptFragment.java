@@ -91,14 +91,13 @@ public class ShowScriptFragment extends Fragment {
                 } else if(type.equals("friend")) {
                     fragmentTransaction.remove(((ShowFriendQuizActivity)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
-                }else if(type.equals("myquiz")) {
+                } else if(type.equals("myquiz")) {
                     fragmentTransaction.remove(((MyQuizActivity)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
-                }
-                //else if(type.equals("likequiz")) {
-                //   fragmentTransaction.remove(((LikeQuizActivity)getActivity()).showScriptFragment);
-                //    fragmentTransaction.commit();
-                // }
+                } else if(type.equals("likequiz")) {
+                   fragmentTransaction.remove(((LikeQuizActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                 }
             }
         });
 
