@@ -214,6 +214,7 @@ public class MyPageActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             filePath = data.getData();
+
             Log.d(TAG, "uri:" + String.valueOf(filePath));
             try {
                 InputStream in = getContentResolver().openInputStream(data.getData());

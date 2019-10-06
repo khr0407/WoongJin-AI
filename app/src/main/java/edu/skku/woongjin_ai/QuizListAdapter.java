@@ -1,17 +1,19 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class QuizListAdapter extends BaseAdapter {
 
-    private ArrayList<QuizListItem> QuizListItems = new ArrayList<QuizListItem>();
+    private ArrayList<MyFriendQuizListItem> QuizListItems = new ArrayList<MyFriendQuizListItem>();
 
     @Override
     public int getCount() {
@@ -19,7 +21,7 @@ public class QuizListAdapter extends BaseAdapter {
     }
 
     @Override
-    public QuizListItem getItem(int position) {
+    public MyFriendQuizListItem getItem(int position) {
         return QuizListItems.get(position);
     }
 
@@ -37,18 +39,28 @@ public class QuizListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.listviewcustom_myquizlist, parent, false);
         }
 
-        TextView textViewTmp = (TextView) convertView.findViewById(R.id.tmpMyQuiz);
+        TextView textViewQuiz = (TextView) convertView.findViewById(R.id.MyQuizContent);
+        TextView textViewTitle = (TextView) convertView.findViewById(R.id.ScriptTitle);
+        ImageButton imageButtonIconLike = (ImageButton) convertView.findViewById(R.id.iconLikeMyFriendQuizList);
+        TextView textViewLike = (TextView) convertView.findViewById(R.id.like);
 
-        QuizListItem quizListItem = getItem(position);
+        MyFriendQuizListItem QuizListItems = getItem(position);
 
-        textViewTmp.setText(quizListItem.getTmp());
+        textViewQuiz.setText(QuizListItems.getQuiz());
+        textViewTitle.setText(QuizListItems.getUid());
+        imageButtonIconLike.setImageDrawable(QuizListItems.getIconLikr());
+        textViewLike.setText(QuizListItems.getLike());
 
         return convertView;
     }
 
-    public void addItem(String tmp) {
-        QuizListItem quizListItem = new QuizListItem();
-        quizListItem.setTmp(tmp);
-        QuizListItems.add(quizListItem);
+
+    public void addItem(String quiz, String uid, Drawable iconLike, String like) {
+        MyFriendQuizListItem quizListItems = new MyFriendQuizListItem();
+        quizListItems.setQuiz(quiz);
+        quizListItems.setUid(uid);
+        quizListItems.setIconLikr(iconLike);
+        quizListItems.setLike(like);
+        QuizListItems.add(quizListItems);
     }
 }

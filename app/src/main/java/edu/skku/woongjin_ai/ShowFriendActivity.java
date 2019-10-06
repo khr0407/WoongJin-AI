@@ -208,6 +208,7 @@ public class ShowFriendActivity extends Activity {
                     }
                 }
 
+                ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key0 = snapshot.getKey();
                     if(key0.equals("user_list")) {
@@ -216,7 +217,6 @@ public class ShowFriendActivity extends Activity {
                             for(String friendID : myFriendList) {
                                 if(uid.equals(friendID)) {
                                     UserInfo friend=snapshot1.getValue(UserInfo.class);
-                                    ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
                                     showFriendListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.kakao_default_profile_image), friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
                                     friend_list.setAdapter(showFriendListAdapter);
                                     break;

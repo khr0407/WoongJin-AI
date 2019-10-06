@@ -18,6 +18,7 @@ public class QuizChoiceTypeInfo {
     public int cnt;
     public String url;
     public int type;
+    public String scriptnm;
 
     public QuizChoiceTypeInfo() {
 
@@ -56,6 +57,7 @@ public class QuizChoiceTypeInfo {
         result.put("cnt", cnt);
         result.put("url", url);
         result.put("type", type);
+        result.put("scriptnm", scriptnm);
         return result;
     }
 }

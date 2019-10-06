@@ -3,7 +3,7 @@ package edu.skku.woongjin_ai;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QuizOXShortwordTypeInfo {
+public class QuizOXInfo {
     public String uid;
     public String question;
     public String answer;
@@ -16,11 +16,11 @@ public class QuizOXShortwordTypeInfo {
     public int type;
     public String scriptnm;
 
-    public QuizOXShortwordTypeInfo() {
+    public QuizOXInfo() {
 
     }
 
-    public QuizOXShortwordTypeInfo(String uid, String question, String answer, String star, String desc, String like, String key, int cnt, String url, int type) {
+    public QuizOXInfo(String uid, String question, String answer, String star, String desc, String like, String key, int cnt, String url, int type) {
         this.uid = uid;
         this.question = question;
         this.answer = answer;
