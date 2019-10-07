@@ -30,29 +30,29 @@
 
 
 
-            <Button
+            <ImageButton
                 android:id="@+id/record"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:background="@drawable/rounded_blue"
+                android:background="#00FFFFFF"
                 android:layout_margin="5dp"
                 android:layout_gravity="center"
-                android:fontFamily="@font/typo_sherlock_b"
-                android:text="나의 기록실"
-                android:textSize="20dp"/>
+                android:src="@drawable/record_room"
+                android:scaleType="fitCenter"
+                />
 
 
-            <Button
+            <ImageButton
                 android:id="@+id/FriendList"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
-                android:background="@drawable/rounded_blue"
+                android:background="#00FFFFFF"
                 android:layout_margin="5dp"
-                android:text="친구목록"
-                android:textSize="20dp"
-                android:fontFamily="@font/typo_sherlock_b"/>
+                android:src="@drawable/friend_room"
+                android:scaleType="fitCenter"
+                />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -138,34 +138,42 @@
                         android:layout_height="match_parent"
                         android:layout_weight="3"
                         android:padding="5dp"
-                        android:src="@drawable/kakao_default_profile_image"/>
+                        android:src="@drawable/kakao_default_profile_image"
+                        android:scaleType="fitCenter"
+                        />
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:orientation="vertical"
-                        android:weightSum="2">
-                        <Button
+                        android:weightSum="2"
+                        android:layout_padding="3dp"
+                        >
+                        <ImageButton
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:id="@+id/changePicture"
-                            android:text="프로필\n사진\n바꾸기"
-                            android:fontFamily="@font/typo_sherlock_b"
                             android:layout_margin="5dp"
+                            android:padding="5dp"
+                            android:src="@drawable/pick_profile"
+                            android:scaleType="fitCenter"
+                            android:background="@drawable/rounded_white"
                             />
-                        <Button
+                        <ImageButton
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:id="@+id/upload"
-                            android:text="업로드\n하기"
-                            android:fontFamily="@font/typo_sherlock_b"
+                            android:src="@drawable/upload_profile"
                             android:layout_margin="5dp"
+                            android:padding="5dp"
+                            android:scaleType="fitCenter"
+                            android:background="@drawable/rounded_white"
                             />
                     </LinearLayout>
                 </LinearLayout>
@@ -231,19 +239,14 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:padding="10dp"
-                    android:background="@drawable/rounded_white"
+                    android:background="@drawable/hoonjang_frame"
                     android:orientation="vertical"
-                    android:weightSum="17">
+                    android:weightSum="15">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_weight="3"
-                        android:text="내가 받은 훈장"
-                        android:gravity="center"
-                        android:textSize="30dp"
-                        android:textColor="@color/black"
-                        android:fontFamily="@font/typo_sherlock_b"/>
+                        android:layout_weight="1"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -404,7 +407,7 @@
                     android:layout_weight="1"
                     android:weightSum="6.1"
                     android:padding="10dp"
-                    android:background="@drawable/rounded_white"
+                    android:background="@drawable/record_frame"
                     android:orientation="vertical"
 
                     >
@@ -606,7 +609,7 @@
                         android:id="@+id/QList"
                         android:layout_gravity="center"
                         android:scaleType="fitCenter"
-
+                        android:background="#00FFFFFF"
                         />
 
                 <ImageButton
@@ -617,6 +620,7 @@
                     android:layout_gravity="center"
                     android:src="@drawable/quiz_like"
                     android:scaleType="fitCenter"
+                    android:background="#00FFFFFF"
                     />
 
 
