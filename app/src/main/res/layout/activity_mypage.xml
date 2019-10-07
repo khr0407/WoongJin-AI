@@ -597,28 +597,27 @@
                 android:weightSum="2"
                 android:orientation="vertical"
                 >
+                    <ImageButton
+                        android:src="@drawable/quiz_made"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:padding="2dp"
+                        android:id="@+id/QList"
+                        android:layout_gravity="center"
+                        android:scaleType="fitCenter"
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:padding="2dp"
-                    android:id="@+id/QList"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/typo_sherlock_b"
-                    android:text="내가 만든\n질문보기"
-                    android:textSize="20dp"
-                    />
+                        />
 
-                <Button
+                <ImageButton
                     android:id="@+id/LikeList"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/typo_sherlock_b"
-                    android:text="내가\n좋아요한\n질문보기"
-                    android:textSize="20dp"/>
+                    android:src="@drawable/quiz_like"
+                    android:scaleType="fitCenter"
+                    />
 
 
             </LinearLayout>

@@ -56,9 +56,9 @@ public class MyPageActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     Intent intent, intentGoHome, intentAddFriend, intent_LikeList, intent_QList, intentHome, intent_Record;
     String id, profileUri;
-    Button btnFriendList, btnLikeList, btnQList, btnChangePicture, btnUpload, btnRecord;
+    Button btnFriendList, btnChangePicture, btnUpload, btnRecord;
     Button logout;
-    ImageButton goHome;
+    ImageButton goHome, btnLikeList, btnQList;
     ImageView attendw, readw, quizw, quizhunterw, bombmasterw, bucketw;
     TextView userGrade, userSchool, userName, userCoin, userName1, userGrade1;
     TextView attendd, readd, quizd, quizhunterd, bombmasterd, bucketd;
@@ -84,8 +84,8 @@ public class MyPageActivity extends AppCompatActivity {
 
         ImageButton homeButton = (ImageButton) findViewById(R.id.home);
         btnFriendList = (Button) findViewById(R.id.FriendList);
-        btnQList = (Button) findViewById(R.id.QList);
-        btnLikeList = (Button) findViewById(R.id.LikeList);
+        btnQList = (ImageButton) findViewById(R.id.QList);
+        btnLikeList = (ImageButton) findViewById(R.id.LikeList);
         userName = (TextView) findViewById(R.id.userName);
         userName1 = (TextView) findViewById(R.id.userName1);
         userSchool = (TextView) findViewById(R.id.userSchool);
@@ -334,30 +334,62 @@ public class MyPageActivity extends AppCompatActivity {
                                     } else if (key2.equals("my_medal_list")) {
                                             for (DataSnapshot snapshot3 : snapshot2.getChildren()) {
                                                 String what_wang = snapshot3.getKey(); //출석왕? 무슨왕?
-                                                String date = snapshot3.getValue().toString();
+                                                String[] array=snapshot3.getValue().toString().split("##");
+                                                String level = array[0];
+                                                String date = array[1];
                                                 switch (what_wang) {
                                                     case "출석왕":
-                                                        attendw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        if(level.equals("1"))
+                                                            attendw.setImageDrawable(getDrawable(R.drawable.attend_1));
+                                                        else if(level.equals("2"))
+                                                            attendw.setImageDrawable(getDrawable(R.drawable.attend_2));
+                                                        else
+                                                            attendw.setImageDrawable(getDrawable(R.drawable.attend_3));
                                                         attendd.setText(date);
                                                         break;
                                                     case "다독왕":
-                                                        readw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        if(level.equals("1"))
+                                                            readw.setImageDrawable(getDrawable(R.drawable.read_1));
+                                                        else if(level.equals("2"))
+                                                            readw.setImageDrawable(getDrawable(R.drawable.read_2));
+                                                        else
+                                                            readw.setImageDrawable(getDrawable(R.drawable.read_3));
                                                         readd.setText(date);
                                                         break;
                                                     case "출제왕":
-                                                        quizw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        if(level.equals("1"))
+                                                            quizw.setImageDrawable(getDrawable(R.drawable.quiz_1));
+                                                        else if(level.equals("2"))
+                                                            quizw.setImageDrawable(getDrawable(R.drawable.quiz_2));
+                                                        else
+                                                            quizw.setImageDrawable(getDrawable(R.drawable.quiz_3));
                                                         quizd.setText(date);
                                                         break;
                                                     case "문제사냥꾼":
-                                                        quizhunterw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        if(level.equals("1"))
+                                                            quizhunterw.setImageDrawable(getDrawable(R.drawable.quizhunter_1));
+                                                        else if(level.equals("2"))
+                                                            quizhunterw.setImageDrawable(getDrawable(R.drawable.quizhunter_2));
+                                                        else
+                                                            quizhunterw.setImageDrawable(getDrawable(R.drawable.quizhunter_3));
                                                         quizhunterd.setText(date);
                                                         break;
                                                     case "폭탄마스터":
-                                                        bombmasterw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        if(level.equals("1"))
+                                                            bombmasterw.setImageDrawable(getDrawable(R.drawable.bombmaster_1));
+                                                        else if(level.equals("2"))
+                                                            bombmasterw.setImageDrawable(getDrawable(R.drawable.bombmaster_2));
+                                                        else
+                                                            bombmasterw.setImageDrawable(getDrawable(R.drawable.bombmaster_3));
                                                         bombmasterd.setText(date);
                                                         break;
                                                     case "협동왕":
-                                                        bucketw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        if(level.equals("1"))
+                                                            bucketw.setImageDrawable(getDrawable(R.drawable.bucket_1));
+                                                        else if(level.equals("2"))
+                                                            bucketw.setImageDrawable(getDrawable(R.drawable.bucket_2));
+                                                        else
+                                                            bucketw.setImageDrawable(getDrawable(R.drawable.bucket_3));
                                                         bucketd.setText(date);
                                                         break;
                                                     default:

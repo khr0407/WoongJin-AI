@@ -192,6 +192,7 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_add_friend"
                         android:background="@drawable/rounded_white"
+                        android:scaleType="fitCenter"
                         />
                 </LinearLayout>
 
@@ -213,6 +214,7 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_invite_kakao_friend"
                         android:background="@drawable/rounded_white"
+                        android:scaleType="fitCenter"
                         />
                 </LinearLayout>
 
