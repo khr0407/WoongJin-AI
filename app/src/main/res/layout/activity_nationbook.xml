@@ -114,7 +114,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:src="@drawable/ic_science"
                         android:background="#00ff0000"/>
 
                     <ImageButton
@@ -122,7 +122,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:src="@drawable/ic_history"
                         android:background="#00ff0000"/>
 
                     <ImageButton
@@ -130,7 +130,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:src="@drawable/ic_news"
                         android:background="#00ff0000"/>
 
                     <ImageButton
@@ -138,7 +138,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:src="@drawable/ic_ethics"
                         android:background="#00ff0000"/>
 
                 </LinearLayout>
@@ -155,7 +155,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:src="@drawable/ic_misterynovel"
                         android:background="#00ff0000"/>
 
                     <ImageButton
@@ -163,7 +163,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:src="@drawable/ic_comics"
                         android:background="#00ff0000"/>
 
                     <ImageButton
@@ -171,7 +171,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:src="@drawable/ic_oldstory"
                         android:background="#00ff0000"/>
 
                     <ImageButton
@@ -179,7 +179,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@drawable/ic_icons_blue_o"
+                        android:src="@drawable/ic_greatman"
                         android:background="#00ff0000"/>
 
                 </LinearLayout>
