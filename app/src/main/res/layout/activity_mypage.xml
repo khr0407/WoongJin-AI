@@ -59,7 +59,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:orientation="horizontal"
-                android:background="@drawable/rounded_white"
+                android:background="@drawable/rounded_white_transparent"
                 android:layout_margin="5dp"
                 android:padding="8dp"
                 android:weightSum="6">
@@ -299,7 +299,7 @@
                             android:text="\?"
                             android:fontFamily="@font/typo_sherlock_l"
                             android:gravity="center"
-                            android:textSize="35dp"
+                            android:textSize="25dp"
                             />
 
                         <TextView
@@ -310,7 +310,7 @@
                             android:text="\?"
                             android:fontFamily="@font/typo_sherlock_l"
                             android:gravity="center"
-                            android:textSize="35dp"
+                            android:textSize="25dp"
                             />
 
                         <TextView
@@ -321,7 +321,7 @@
                             android:text="\?"
                             android:fontFamily="@font/typo_sherlock_l"
                             android:gravity="center"
-                            android:textSize="35dp"
+                            android:textSize="25dp"
                             />
 
                     </LinearLayout>
@@ -374,7 +374,7 @@
                             android:text="\?"
                             android:fontFamily="@font/typo_sherlock_l"
                             android:gravity="center"
-                            android:textSize="35dp"
+                            android:textSize="25dp"
                             />
 
                         <TextView
@@ -385,7 +385,7 @@
                             android:text="\?"
                             android:fontFamily="@font/typo_sherlock_l"
                             android:gravity="center"
-                            android:textSize="35dp"
+                            android:textSize="25dp"
                             />
 
                         <TextView
@@ -396,7 +396,7 @@
                             android:text="\?"
                             android:fontFamily="@font/typo_sherlock_l"
                             android:gravity="center"
-                            android:textSize="35dp"
+                            android:textSize="25dp"
                             />
 
                     </LinearLayout>
@@ -585,6 +585,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
+                            android:fontFamily="@font/typo_sherlock_b"
                             android:textSize="35dp"
                             android:textColor="@color/orange"
                             android:text="데이터 없음"/>

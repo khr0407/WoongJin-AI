@@ -342,54 +342,54 @@ public class MyPageActivity extends AppCompatActivity {
                                                 String date = array[1];
                                                 switch (what_wang) {
                                                     case "출석왕":
-                                                        if(level.equals("1"))
+                                                        if(level.equals("Lev1"))
                                                             attendw.setImageDrawable(getDrawable(R.drawable.attend_1));
-                                                        else if(level.equals("2"))
+                                                        else if(level.equals("Lev2"))
                                                             attendw.setImageDrawable(getDrawable(R.drawable.attend_2));
                                                         else
                                                             attendw.setImageDrawable(getDrawable(R.drawable.attend_3));
                                                         attendd.setText(date);
                                                         break;
                                                     case "다독왕":
-                                                        if(level.equals("1"))
+                                                        if(level.equals("Lev1"))
                                                             readw.setImageDrawable(getDrawable(R.drawable.read_1));
-                                                        else if(level.equals("2"))
+                                                        else if(level.equals("Lev2"))
                                                             readw.setImageDrawable(getDrawable(R.drawable.read_2));
                                                         else
                                                             readw.setImageDrawable(getDrawable(R.drawable.read_3));
                                                         readd.setText(date);
                                                         break;
                                                     case "출제왕":
-                                                        if(level.equals("1"))
+                                                        if(level.equals("Lev1"))
                                                             quizw.setImageDrawable(getDrawable(R.drawable.quiz_1));
-                                                        else if(level.equals("2"))
+                                                        else if(level.equals("Lev2"))
                                                             quizw.setImageDrawable(getDrawable(R.drawable.quiz_2));
                                                         else
                                                             quizw.setImageDrawable(getDrawable(R.drawable.quiz_3));
                                                         quizd.setText(date);
                                                         break;
                                                     case "문제사냥꾼":
-                                                        if(level.equals("1"))
+                                                        if(level.equals("Lev1"))
                                                             quizhunterw.setImageDrawable(getDrawable(R.drawable.quizhunter_1));
-                                                        else if(level.equals("2"))
+                                                        else if(level.equals("Lev2"))
                                                             quizhunterw.setImageDrawable(getDrawable(R.drawable.quizhunter_2));
                                                         else
                                                             quizhunterw.setImageDrawable(getDrawable(R.drawable.quizhunter_3));
                                                         quizhunterd.setText(date);
                                                         break;
                                                     case "폭탄마스터":
-                                                        if(level.equals("1"))
+                                                        if(level.equals("Lev1"))
                                                             bombmasterw.setImageDrawable(getDrawable(R.drawable.bombmaster_1));
-                                                        else if(level.equals("2"))
+                                                        else if(level.equals("Lev2"))
                                                             bombmasterw.setImageDrawable(getDrawable(R.drawable.bombmaster_2));
                                                         else
                                                             bombmasterw.setImageDrawable(getDrawable(R.drawable.bombmaster_3));
                                                         bombmasterd.setText(date);
                                                         break;
                                                     case "협동왕":
-                                                        if(level.equals("1"))
+                                                        if(level.equals("Lev1"))
                                                             bucketw.setImageDrawable(getDrawable(R.drawable.bucket_1));
-                                                        else if(level.equals("2"))
+                                                        else if(level.equals("Lev2"))
                                                             bucketw.setImageDrawable(getDrawable(R.drawable.bucket_2));
                                                         else
                                                             bucketw.setImageDrawable(getDrawable(R.drawable.bucket_3));

@@ -7,8 +7,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="10dp"
-        android:weightSum="7.6">
+        android:weightSum="7.2"
+        android:background="@drawable/mypage_background"
+        >
 
         <LinearLayout
             android:id="@+id/LinearLayout1"
@@ -43,7 +44,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:orientation="horizontal"
-                android:background="@drawable/rounded"
+                android:background="@drawable/rounded_white_transparent"
+                android:layout_margin="5dp"
                 android:padding="8dp"
                 android:weightSum="6">
 
@@ -51,22 +53,24 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:id="@+id/userName"
+                    android:id="@+id/userName1"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="test"
                     android:fontFamily="@font/typo_sherlock_b"
+                    android:textSize="35dp"
                     />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:id="@+id/userGrade"
+                    android:id="@+id/userGrade1"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="test"
                     android:fontFamily="@font/typo_sherlock_b"
+                    android:textSize="35dp"
                     />
 
                 <ImageView
@@ -74,14 +78,14 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="0.5"
-                    android:src="@drawable/ic_money"/>
+                    android:src="@drawable/ic_coin"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:id="@+id/userCoin"
                     android:fontFamily="@font/typo_sherlock_b"
-                    android:textSize="@dimen/activity_vertical_margin"
+                    android:textSize="35dp"
                     android:layout_weight="1.5"
                     android:gravity="center"/>
 
@@ -92,7 +96,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.7"/>
+            android:layout_weight="0.5"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -106,15 +110,15 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
 
-            //6. record
+            //4. record
             <LinearLayout
                 android:id="@+id/record_list"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="6"
+                android:layout_weight="4"
                 android:orientation="vertical"
                 android:weightSum="7"
-                android:background="@drawable/rounded_yellow"
+                android:background="@drawable/record_frame"
                 >
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -137,8 +141,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="  누적 출석일 수"
+                        android:layout_weight="1.5"
+                        android:text="누적 출석일 수"
                         android:layout_gravity="center"
                         android:gravity="left"
                         android:fontFamily="@font/typo_sherlock_b"
@@ -146,7 +150,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:id="@+id/attendDays"
                         android:text="test"
                         android:layout_gravity="center"
@@ -177,8 +181,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="  읽은 지문 개수"
+                        android:layout_weight="1.5"
+                        android:text="읽은 지문 개수"
                         android:layout_gravity="center"
                         android:gravity="left"
                         android:fontFamily="@font/typo_sherlock_b"
@@ -186,7 +190,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:id="@+id/scriptNum"
                         android:text="test"
                         android:layout_gravity="center"
@@ -217,8 +221,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="  만든 문제 수"
+                        android:layout_weight="1.5"
+                        android:text="만든 문제 수"
                         android:layout_gravity="center"
                         android:gravity="left"
                         android:fontFamily="@font/typo_sherlock_b"
@@ -226,7 +230,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:id="@+id/myQnum"
                         android:text="test"
                         android:layout_gravity="center"
@@ -257,8 +261,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="  친구 문제 풀어본 횟수"
+                        android:layout_weight="1.5"
+                        android:text="친구 문제 풀어본 횟수"
                         android:layout_gravity="center"
                         android:gravity="left"
                         android:fontFamily="@font/typo_sherlock_b"
@@ -266,7 +270,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:id="@+id/solveQnum"
                         android:text="test"
                         android:layout_gravity="center"
@@ -297,8 +301,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="  폭탄 해체 횟수"
+                        android:layout_weight="1.5"
+                        android:text="폭탄 해체 횟수"
                         android:layout_gravity="center"
                         android:gravity="left"
                         android:fontFamily="@font/typo_sherlock_b"
@@ -306,7 +310,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:id="@+id/bombNum"
                         android:text="test"
                         android:layout_gravity="center"
@@ -337,8 +341,8 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="  퀴즈 버킷 챌린지 성공 횟수"
+                        android:layout_weight="1.5"
+                        android:text="퀴즈 버킷 챌린지 성공 횟수"
                         android:layout_gravity="center"
                         android:gravity="left"
                         android:fontFamily="@font/typo_sherlock_b"
@@ -346,7 +350,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:id="@+id/bucketNum"
                         android:text="test"
                         android:layout_gravity="center"
@@ -376,15 +380,117 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
 
-            //4. hunjang
+            //6. graph
             <LinearLayout
                 android:id="@+id/hoonjang"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:orientation="horizontal"
-                android:background="@drawable/rounded_green"
+                android:layout_weight="6"
+                android:orientation="vertical"
+                android:weightSum="10"
                 >
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="8.5"
+                    android:background="@drawable/record_frame"
+                    android:padding="20dp"
+                    >
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="5.4"
+                    android:orientation="horizontal"
+                    >
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="출석일수"
+                        android:fontFamily="@font/typo_sherlock_l"
+                        android:background="@drawable/rounded_white_transparent"
+                        android:id="@+id/graph_attend"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="cnt"
+                        android:fontFamily="@font/typo_sherlock_l"
+                        android:background="@drawable/rounded_white_transparent"
+                        android:id="@+id/graph_cnt"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="맞춘 문제\n개수"
+                        android:fontFamily="@font/typo_sherlock_l"
+                        android:background="@drawable/rounded_white_transparent"
+                        android:id="@+id/graph_correct"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="내 문제\n평균 레벨"
+                        android:fontFamily="@font/typo_sherlock_l"
+                        android:background="@drawable/rounded_white_transparent"
+                        android:id="@+id/graph_level"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="받은 좋아요"
+                        android:fontFamily="@font/typo_sherlock_l"
+                        android:background="@drawable/rounded_white_transparent"
+                        android:id="@+id/graph_like"
+                        />
+
+                </LinearLayout>
 
 
             </LinearLayout>
@@ -401,7 +507,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.7"/>
+            android:layout_weight="0.5"/>
 
     </LinearLayout>
 
