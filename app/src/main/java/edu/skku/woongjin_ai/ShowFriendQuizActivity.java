@@ -143,7 +143,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     position -= cntOX;
                     if(position < cntChoice) {
                         flag = 2;
-                        QuizChoiceTypeInfo quiz = myFriendChoiceQuizList.get(position);
+                        QuizChoiceTypeInfo quiz = myFriendChoiceQuizListR.get(position);
 
                         transaction.replace(R.id.contentShowFriendQuiz, friendChoiceQuizFragment);
                         Bundle bundle = new Bundle(14);
@@ -166,7 +166,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     } else {
                         position -= cntChoice;
                         flag = 3;
-                        QuizOXShortwordTypeInfo quiz = myFriendShortQuizList.get(position);
+                        QuizOXShortwordTypeInfo quiz = myFriendShortQuizListR.get(position);
 
                         transaction.replace(R.id.contentShowFriendQuiz, friendShortwordQuizFragment);
                         Bundle bundle = new Bundle(10);

@@ -96,11 +96,6 @@ public class ReadScriptActivity extends AppCompatActivity
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.contentReadScript, selectStudyTypeFragment);
-//        Bundle bundle = new Bundle(3);
-//        bundle.putString("userID", userID);
-//        bundle.putString("scriptnm", script);
-//        bundle.putString("backgroundID", backgroundID);
-//        selectStudyTypeFragment.setArguments(bundle);
         transaction.commit();
 
         goHome.setOnClickListener(new View.OnClickListener() {
