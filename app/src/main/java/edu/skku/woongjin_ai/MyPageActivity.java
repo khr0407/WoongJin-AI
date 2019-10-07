@@ -56,9 +56,8 @@ public class MyPageActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     Intent intent, intentGoHome, intentAddFriend, intent_LikeList, intent_QList, intentHome, intent_Record;
     String id, profileUri;
-    Button btnFriendList, btnChangePicture, btnUpload, btnRecord;
     Button logout;
-    ImageButton goHome, btnLikeList, btnQList;
+    ImageButton goHome, btnLikeList, btnQList, btnFriendList, btnChangePicture, btnUpload, btnRecord;
     ImageView attendw, readw, quizw, quizhunterw, bombmasterw, bucketw;
     TextView userGrade, userSchool, userName, userCoin, userName1, userGrade1;
     TextView attendd, readd, quizd, quizhunterd, bombmasterd, bucketd;
@@ -83,7 +82,7 @@ public class MyPageActivity extends AppCompatActivity {
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         ImageButton homeButton = (ImageButton) findViewById(R.id.home);
-        btnFriendList = (Button) findViewById(R.id.FriendList);
+        btnFriendList = (ImageButton) findViewById(R.id.FriendList);
         btnQList = (ImageButton) findViewById(R.id.QList);
         btnLikeList = (ImageButton) findViewById(R.id.LikeList);
         userName = (TextView) findViewById(R.id.userName);
@@ -99,10 +98,10 @@ public class MyPageActivity extends AppCompatActivity {
         textViewLikeT = (TextView) findViewById(R.id.thisLikeCnt);
         textViewLevelL = (TextView) findViewById(R.id.lastLevel);
         textViewLevelT = (TextView) findViewById(R.id.thisLevel);
-        btnChangePicture = (Button) findViewById(R.id.changePicture);
-        btnUpload = (Button) findViewById(R.id.upload);
+        btnChangePicture = (ImageButton) findViewById(R.id.changePicture);
+        btnUpload = (ImageButton) findViewById(R.id.upload);
         myFace = (ImageView) findViewById(R.id.myFace);
-        btnRecord = (Button) findViewById(R.id.record);
+        btnRecord = (ImageButton) findViewById(R.id.record);
         goHome = (ImageButton) findViewById(R.id.home);
         attendw = (ImageView) findViewById(R.id.attend_wang);
         quizw = (ImageView) findViewById(R.id.quiz_wang);
