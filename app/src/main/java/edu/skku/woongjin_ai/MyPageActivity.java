@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -42,8 +43,10 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -218,6 +221,7 @@ public class MyPageActivity extends AppCompatActivity {
             try {
                 InputStream in = getContentResolver().openInputStream(data.getData());
                 Bitmap img = BitmapFactory.decodeStream(in);
+                //Bitmap result=Bitmap.createBitmap(img, 시작위치x, 시작위치y, myFace.getWidth(), myFace.getHeight());
                 in.close();
                 myFace.setImageBitmap(img);
             } catch (Exception e) {
@@ -409,4 +413,5 @@ public class MyPageActivity extends AppCompatActivity {
             };
             mPostReference.addValueEventListener(postListener);
     }
+
 }
