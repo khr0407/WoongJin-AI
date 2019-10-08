@@ -44,7 +44,7 @@ public class SeeChoiceQuizFragment extends Fragment implements ShowWhoLikedFragm
     Button imageButtonCheck, wholike;
     TextView textViewAns1, textViewAns2, textViewAns3, textViewAns4;
     ShowWhoLikedFragment showWhoLikedFragment;
-    MyQuizActivity activity;
+    //MyQuizActivity activity;
 
     public SeeChoiceQuizFragment() {
 
@@ -128,14 +128,14 @@ public class SeeChoiceQuizFragment extends Fragment implements ShowWhoLikedFragm
                 FragmentManager fragmentManager=getFragmentManager();
                 FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
                 if(mine_or_like.equals("0")) {
-                    activity.onFragmentChange(0, key, 2);
-                    /*
-                    fragmentTransaction.replace(R.id.contentFriendChoiceQuiz, ((MyQuizActivity) getActivity()).showWhoLikedFragment);
+                    //activity.onFragmentChange(0, key, 2);
+
+                    fragmentTransaction.replace(R.id.seequiz_fragment, ((MyQuizActivity) getActivity()).showWhoLikedFragment);
                     Bundle bundle = new Bundle(1);
                     bundle.putString("quizKey", key);
                     showWhoLikedFragment.setArguments(bundle);
                     fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();*/
+                    fragmentTransaction.commit();
                 }
             }
         });
@@ -206,7 +206,7 @@ public class SeeChoiceQuizFragment extends Fragment implements ShowWhoLikedFragm
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity=(MyQuizActivity)getActivity();
+        //activity=(MyQuizActivity)getActivity();
         if (context instanceof SeeChoiceQuizFragment.OnFragmentInteractionListener) {
             mListener = (SeeChoiceQuizFragment.OnFragmentInteractionListener) context;
         } else {

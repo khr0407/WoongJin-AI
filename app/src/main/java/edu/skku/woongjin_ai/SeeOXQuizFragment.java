@@ -44,8 +44,6 @@ public class SeeOXQuizFragment extends Fragment implements ShowWhoLikedFragment.
     Button wholike;
     ShowWhoLikedFragment showWhoLikedFragment;
 
-    MyQuizActivity activity;
-
     public SeeOXQuizFragment() {
 
     }
@@ -116,13 +114,13 @@ public class SeeOXQuizFragment extends Fragment implements ShowWhoLikedFragment.
                 FragmentManager fragmentManager=getFragmentManager();
                 FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
                 if(mine_or_like.equals("0")){
-                    activity.onFragmentChange(0, key, 3);
-                    /*fragmentTransaction.replace(R.id.contentFriendOXQuiz, ((MyQuizActivity)getActivity()).showWhoLikedFragment);
+                    //activity.onFragmentChange(0, key, 3);
+                    fragmentTransaction.replace(R.id.seequiz_fragment, ((MyQuizActivity)getActivity()).showWhoLikedFragment);
                     Bundle bundle=new Bundle(1);
                     bundle.putString("quizKey", key);
                     showWhoLikedFragment.setArguments(bundle);
                     fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();*/
+                    fragmentTransaction.commit();
                 }
             }
         });
@@ -185,7 +183,6 @@ public class SeeOXQuizFragment extends Fragment implements ShowWhoLikedFragment.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity=(MyQuizActivity) getActivity();
         if (context instanceof SeeOXQuizFragment.OnFragmentInteractionListener) {
             mListener = (SeeOXQuizFragment.OnFragmentInteractionListener) context;
         } else {

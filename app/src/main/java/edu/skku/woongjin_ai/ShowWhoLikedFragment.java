@@ -76,29 +76,29 @@ public class ShowWhoLikedFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_wholiked, container, false);
         final Context context = container.getContext();
 
-        int backType=getArguments().getInt("type");
-        String key=getArguments().getString("key");
-        showFriendListAdapter=activity.getFirebaseDatabaseUserList(key);
-        likedfriends=(ListView)view.findViewById(R.id.wholiked_list);
-        Uinfos=new ArrayList<UserInfo>();
+        //int backType=getArguments().getInt("type");
+        //String key=getArguments().getString("quizKey");
+        //showFriendListAdapter=activity.getFirebaseDatabaseUserList(key);
+        //likedfriends=(ListView)view.findViewById(R.id.wholiked_list);
+        //Uinfos=new ArrayList<UserInfo>();
         close=(ImageButton)view.findViewById(R.id.close);
 
 
         //getFirebaseDatabaseUserInfo();
         mPostReference=FirebaseDatabase.getInstance().getReference();
 
-        likedfriends.setAdapter(showFriendListAdapter);
+        //likedfriends.setAdapter(showFriendListAdapter);
 
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*
+
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.remove(((MyQuizActivity)getActivity()).showWhoLikedFragment);
-                fragmentTransaction.commit();*/
-                activity.onFragmentChange(backType, "noKey", 0);
+                fragmentTransaction.commit();
+                //activity.onFragmentChange(backType, "noKey", 0);
             }
         });
         return view;

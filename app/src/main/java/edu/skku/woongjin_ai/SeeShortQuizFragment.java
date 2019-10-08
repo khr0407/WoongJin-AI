@@ -44,7 +44,7 @@ public class SeeShortQuizFragment extends Fragment implements  ShowWhoLikedFragm
     Button wholike;
     ShowWhoLikedFragment showWhoLikedFragment;
 
-    MyQuizActivity activity;
+    //MyQuizActivity activity;
 
     public SeeShortQuizFragment() {
 
@@ -116,16 +116,14 @@ public class SeeShortQuizFragment extends Fragment implements  ShowWhoLikedFragm
                 FragmentManager fragmentManager=getFragmentManager();
                 FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
                 if(mine_or_like.equals("0")){
-                    activity.onFragmentChange(0, key, 1);
-/*
-                    fragmentTransaction.replace(R.id.contentFriendShortwordQuiz, ((MyQuizActivity)getActivity()).showWhoLikedFragment);
+                    //activity.onFragmentChange(0, key, 1);
+                    fragmentTransaction.replace(R.id.seequiz_fragment, ((MyQuizActivity)getActivity()).showWhoLikedFragment);
                     Bundle bundle=new Bundle(1);
                     bundle.putString("quizKey", key);
                     showWhoLikedFragment.setArguments(bundle);
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                     //이 코드 choice, short에도 적용하고 showwholikedfragment.java에서 파베에서 키값 이용해서 누가 좋아햇는지 어레이리스트에 넣어놧다가 커스텀 리스트뷰에 띄우기
-                */
                 }
             }
         });
@@ -185,7 +183,7 @@ public class SeeShortQuizFragment extends Fragment implements  ShowWhoLikedFragm
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        activity=(MyQuizActivity) getActivity();
+        //activity=(MyQuizActivity) getActivity();
         if (context instanceof SeeShortQuizFragment.OnFragmentInteractionListener) {
             mListener = (SeeShortQuizFragment.OnFragmentInteractionListener) context;
         } else {
