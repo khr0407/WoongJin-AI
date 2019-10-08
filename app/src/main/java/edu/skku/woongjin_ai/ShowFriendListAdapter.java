@@ -70,7 +70,7 @@ public class ShowFriendListAdapter extends BaseAdapter {
             });
         }
         textViewName.setText(showFriendListItem.getNameFriend());
-        textViewGrade.setText(showFriendListItem.getGradeFriend());
+        textViewGrade.setText(showFriendListItem.getGradeFriend()+"학년");
         textViewSchool.setText(showFriendListItem.getSchoolFriend());
 
         return convertView;
