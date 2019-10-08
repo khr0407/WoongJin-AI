@@ -6,7 +6,7 @@
     android:clickable="true">
 
     <FrameLayout
-        android:id="@+id/contentFriendShortwordQuiz"
+        android:id="@+id/contentFriendOXQuiz"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -221,6 +221,7 @@
                     android:src="@drawable/ic_icons_see_script"
                     android:background="#00ff0000"
                     android:id="@+id/see_script"
+                    android:scaleType="fitCenter"
                     />
 
 

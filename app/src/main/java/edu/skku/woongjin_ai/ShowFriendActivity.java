@@ -2,7 +2,10 @@ package edu.skku.woongjin_ai;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -12,14 +15,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.kakao.kakaolink.v2.KakaoLinkResponse;
 import com.kakao.kakaolink.v2.KakaoLinkService;
 import com.kakao.message.template.LinkObject;
@@ -27,6 +36,7 @@ import com.kakao.message.template.TextTemplate;
 import com.kakao.network.ErrorResult;
 import com.kakao.network.callback.ResponseCallback;
 import com.kakao.util.helper.log.Logger;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,19 +45,31 @@ import java.util.Map;
 import java.util.Random;
 
 public class ShowFriendActivity extends Activity {
-    private DatabaseReference mPostReference, mPostReference2, mPostReference3;
-    ListView friend_list, recommendfriend_list;
+    private DatabaseReference mPostReference, mPostReference2, sReference;
+    private FirebaseDatabase database;
+    ListView friend_list, recommendfriend_list, search_list;
     ArrayList<String> myFriendList;
     ArrayList<UserInfo> recommendList, recommendFinalList;
     UserInfo me;
     String id_key, name_key, nickname_key;
+    EditText findID;
 //    String friend_nickname;
-    String newfriend_nickname, newfriend_name, newfriend_id, newfriend_grade, newfriend_school;
+    String newfriend_nickname, newfriend_name, newfriend_id, newfriend_grade, newfriend_school, newfriend_profile;
     ImageButton invitefriend, addfriend, imageButtonHome;
-
+    Button search;
+    TextView searchName, searchGrade, searchSchool;
+    ImageView searchFace;
     Intent intent, intentHome;
 //    int check_choose;
     int check_recommend;
+    UserInfo searched;
+    ArrayList<UserInfo> searchList;
+
+
+    FirebaseStorage storage;
+    private StorageReference storageReference, dataReference;
+
+    String FriendID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +83,19 @@ public class ShowFriendActivity extends Activity {
         invitefriend = (ImageButton) findViewById(R.id.invitefriend);
         addfriend = (ImageButton) findViewById(R.id.addfriend);
         imageButtonHome = (ImageButton) findViewById(R.id.home);
+        search=(Button)findViewById(R.id.search);
+
+        findID=(EditText)findViewById(R.id.searchID);
 
         friend_list = findViewById(R.id.friend_list);
+        search_list=findViewById(R.id.search_list);
 
         myFriendList = new ArrayList<String>();
         recommendfriend_list = findViewById(R.id.recommendfriend_list);
         me = new UserInfo();
         recommendList = new ArrayList<UserInfo>();
         recommendFinalList = new ArrayList<UserInfo>();
+        searchList = new ArrayList<UserInfo>();
 
         intent = getIntent();
         id_key = intent.getStringExtra("id");
@@ -79,9 +106,12 @@ public class ShowFriendActivity extends Activity {
         //mPostReference3 = FirebaseDatabase.getInstance().getReference();
 
         mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("my_friend_list");
-
+        database = FirebaseDatabase.getInstance();
 
         getFirebaseDatabaseRecommendFriendList();
+
+
+
 
         imageButtonHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,30 +122,34 @@ public class ShowFriendActivity extends Activity {
             }
         });
 
-        invitefriend.setOnClickListener(new View.OnClickListener() {
+        search.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                TextTemplate params = TextTemplate.newBuilder(
-                        "친구와 함께 책을 읽고 퀴즈 폭탄을 던지세요!",
-                        LinkObject.newBuilder()
-                                .setWebUrl("https://skku.edu")
-                                .setMobileWebUrl("https://skku.edu")
-                                .build()
-                )
-                        .setButtonTitle("친구야 같이 하자!")
-                        .build();
-                KakaoLinkService.getInstance().sendDefault(ShowFriendActivity.this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+            public void onClick(View v) {
+                String UID=findID.getText().toString();
+                database.getReference().child("user_list").addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onFailure(ErrorResult errorResult) {
-                        Logger.e(errorResult.toString());
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
+                        int flag=0;
+                        for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                            if(snapshot.getKey().equals(UID)){
+                                searched=snapshot.getValue(UserInfo.class);
+                                searchList.add(searched);
+                                showFriendListAdapter.addItem(searched.profile, searched.nickname + "[" + searched.name + "]", searched.grade, searched.school);
+                                search_list.setAdapter(showFriendListAdapter);
+                                flag=1;
+                                break;
+                            }
+                        }
                     }
+
                     @Override
-                    public void onSuccess(KakaoLinkResponse result) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
                     }
                 });
             }
         });
-
 //        friend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -133,6 +167,21 @@ public class ShowFriendActivity extends Activity {
                 newfriend_name = temp.name;
                 newfriend_grade = temp.grade;
                 newfriend_school = temp.school;
+                newfriend_profile=temp.profile;
+                check_recommend = 1;
+            }
+        });
+
+        search_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                UserInfo temp = searchList.get(position);
+                newfriend_id = temp.id;
+                newfriend_nickname = temp.nickname;
+                newfriend_name = temp.name;
+                newfriend_grade = temp.grade;
+                newfriend_school = temp.school;
+                newfriend_profile=temp.profile;
                 check_recommend = 1;
             }
         });
@@ -148,6 +197,7 @@ public class ShowFriendActivity extends Activity {
                     mPostReference.child(newfriend_id + "/nickname").setValue(newfriend_nickname);
                     mPostReference.child(newfriend_id + "/grade").setValue(newfriend_grade);
                     mPostReference.child(newfriend_id + "/school").setValue(newfriend_school);
+                    mPostReference.child(newfriend_id + "/profile").setValue(newfriend_profile);
 
 //                    mPostReference3.child(id_key + "/name").setValue(me.name);
 //                    mPostReference3.child(id_key + "/nickname").setValue(me.nickname);
@@ -183,6 +233,7 @@ public class ShowFriendActivity extends Activity {
     private ResponseCallback<KakaoLinkResponse> callback;
     private Map<String, String> serverCallbackArgs = getServerCallbackArgs();
 
+
     public void getFirebaseDatabaseRecommendFriendList() {
         final ValueEventListener postListner = new ValueEventListener() {
             @Override
@@ -217,7 +268,7 @@ public class ShowFriendActivity extends Activity {
                             for(String friendID : myFriendList) {
                                 if(uid.equals(friendID)) {
                                     UserInfo friend=snapshot1.getValue(UserInfo.class);
-                                    showFriendListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.kakao_default_profile_image), friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
+                                    showFriendListAdapter.addItem(friend.profile, friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
                                     friend_list.setAdapter(showFriendListAdapter);
                                     break;
                                     }
@@ -274,7 +325,7 @@ public class ShowFriendActivity extends Activity {
                 for(int i = 0; i < cntAll; i++) {
                     UserInfo finalRecommend = recommendList.get(randList[i]);
                     recommendFinalList.add(finalRecommend);
-                    showRecommendFriendListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.kakao_default_profile_image), finalRecommend.nickname + "[" + finalRecommend.name + "]", finalRecommend.grade, finalRecommend.school);
+                    showRecommendFriendListAdapter.addItem(finalRecommend.profile, finalRecommend.nickname + "[" + finalRecommend.name + "]", finalRecommend.grade, finalRecommend.school);
                 }
                 recommendfriend_list.setAdapter(showRecommendFriendListAdapter);
             }
@@ -292,7 +343,7 @@ public class ShowFriendActivity extends Activity {
                     ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         UserInfo friend = snapshot.getValue(UserInfo.class);
-                        showFriendListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.kakao_default_profile_image), friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
+                        showFriendListAdapter.addItem(friend.profile, friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
                     }
                     friend_list.setAdapter(showFriendListAdapter);
                 }
@@ -306,17 +357,4 @@ public class ShowFriendActivity extends Activity {
 
         }
     }
-
-//    public boolean onlyNumCheck(String spaceCheck) {
-//        for (int i = 0 ; i < spaceCheck.length() ; i++) {
-//            if (spaceCheck.charAt(i) == '1' || spaceCheck.charAt(i) == '2' || spaceCheck.charAt(i) == '3' || spaceCheck.charAt(i) == '4' || spaceCheck.charAt(i) == '5'
-//                    || spaceCheck.charAt(i) == '6' || spaceCheck.charAt(i) == '7' || spaceCheck.charAt(i) == '8' || spaceCheck.charAt(i) == '9' || spaceCheck.charAt(i) == '0') {
-//                continue;
-//            }
-//            else {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
 }

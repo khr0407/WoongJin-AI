@@ -1,18 +1,19 @@
 package edu.skku.woongjin_ai;
 
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 
 public class ShowFriendListItem {
-    private Drawable faceFriend;
+    private String faceFriend;
     private String nameFriend;
     private String gradeFriend;
     private String schoolFriend;
 
-    public Drawable getFaceFriend() {
+    public String getFaceFriend() {
         return faceFriend;
     }
 
-    public void setFaceFriend(Drawable faceFriend) {
+    public void setFaceFriend(String faceFriend) {
         this.faceFriend = faceFriend;
     }
 

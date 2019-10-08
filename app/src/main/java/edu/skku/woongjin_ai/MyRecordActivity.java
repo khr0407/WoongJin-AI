@@ -1,9 +1,12 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -24,13 +27,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MyRecordActivity extends AppCompatActivity {
+public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjangCriteriaFragment.OnFragmentInteractionListener {
 
     public DatabaseReference mPostReference;
     Intent intent;
     String id;
     TextView userGrade, userSchool, userName, userCoin;
     TextView attend, script, myQnum, solveQnum, bombNum, bucketNum;
+    Button Hoonjang;
     ImageButton goHome;
     UserInfo me;
     Button graph_attend, graph_made, graph_correct, graph_level, graph_like;
@@ -38,6 +42,7 @@ public class MyRecordActivity extends AppCompatActivity {
     LineChart lineChart;
     int MAX_SIZE=100;
     int f1=0, f2=0, f3=0, f4=0, f5=0;
+    ShowHoonjangCriteriaFragment showHoonjang;
 
     Intent intentGoHome;
 
@@ -73,10 +78,13 @@ public class MyRecordActivity extends AppCompatActivity {
         graph_level=(Button)findViewById(R.id.graph_level);
         graph_like=(Button)findViewById(R.id.graph_like);
 
+        Hoonjang=(Button)findViewById(R.id.showHoonjang);
+
         lineChart=(LineChart)findViewById(R.id.chart);
 
         entries=new ArrayList<Entry>();
 
+        showHoonjang=new ShowHoonjangCriteriaFragment();
 
         
         //week_attend=new long[MAX_SIZE];
@@ -213,6 +221,19 @@ public class MyRecordActivity extends AppCompatActivity {
             }
         });
 
+        Hoonjang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.commit();
+                showHoonjang=new ShowHoonjangCriteriaFragment();
+
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.BiggestFrame, showHoonjang);
+                transaction.commit();
+            }
+        });
+
     }
 
     private void getFirebaseDatabaseWeekInfo(){
@@ -326,4 +347,10 @@ public class MyRecordActivity extends AppCompatActivity {
         };
         mPostReference.addValueEventListener(postListener);
     }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
 }
