@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SeeOXQuizFragment extends Fragment {
+public class SeeOXQuizFragment extends Fragment implements ShowWhoLikedFragment.OnFragmentInteractionListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -42,6 +42,9 @@ public class SeeOXQuizFragment extends Fragment {
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     ImageButton imageButtonScript, imageButtonHint;
     Button wholike;
+    ShowWhoLikedFragment showWhoLikedFragment;
+
+    MyQuizActivity activity;
 
     public SeeOXQuizFragment() {
 
@@ -83,7 +86,7 @@ public class SeeOXQuizFragment extends Fragment {
         cnt = getArguments().getInt("cnt");
         mine_or_like = getArguments().getString("mine_or_like");
 
-
+        showWhoLikedFragment=new ShowWhoLikedFragment();
         wholike=view.findViewById(R.id.fakeBT_likecnt_or_friendname);
 
         if(mine_or_like.equals("0"))//내문제보기
@@ -107,6 +110,22 @@ public class SeeOXQuizFragment extends Fragment {
         QuizContent.setText(question);
 
         //wholike눌렀을때 fragment..
+        wholike.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager=getFragmentManager();
+                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                if(mine_or_like.equals("0")){
+                    activity.onFragmentChange(0, key, 3);
+                    /*fragmentTransaction.replace(R.id.contentFriendOXQuiz, ((MyQuizActivity)getActivity()).showWhoLikedFragment);
+                    Bundle bundle=new Bundle(1);
+                    bundle.putString("quizKey", key);
+                    showWhoLikedFragment.setArguments(bundle);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();*/
+                }
+            }
+        });
 
 
         imageButtonScript.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +185,7 @@ public class SeeOXQuizFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        activity=(MyQuizActivity) getActivity();
         if (context instanceof SeeOXQuizFragment.OnFragmentInteractionListener) {
             mListener = (SeeOXQuizFragment.OnFragmentInteractionListener) context;
         } else {
@@ -178,6 +198,11 @@ public class SeeOXQuizFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     public interface OnFragmentInteractionListener {

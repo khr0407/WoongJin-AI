@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SeeShortQuizFragment extends Fragment {
+public class SeeShortQuizFragment extends Fragment implements  ShowWhoLikedFragment.OnFragmentInteractionListener{
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -42,6 +42,9 @@ public class SeeShortQuizFragment extends Fragment {
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     ImageButton imageButtonScript, imageButtonHint;
     Button wholike;
+    ShowWhoLikedFragment showWhoLikedFragment;
+
+    MyQuizActivity activity;
 
     public SeeShortQuizFragment() {
 
@@ -82,7 +85,7 @@ public class SeeShortQuizFragment extends Fragment {
         key = getArguments().getString("key");
         cnt = getArguments().getInt("cnt");
         mine_or_like = getArguments().getString("mine_or_like");
-
+        showWhoLikedFragment=new ShowWhoLikedFragment();
 
         wholike=view.findViewById(R.id.fakeBT_likecnt_or_friendname);
 
@@ -107,6 +110,26 @@ public class SeeShortQuizFragment extends Fragment {
         Answer.setText(answer);
 
         //wholike눌렀을때 fragment..
+        wholike.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager=getFragmentManager();
+                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                if(mine_or_like.equals("0")){
+                    activity.onFragmentChange(0, key, 1);
+/*
+                    fragmentTransaction.replace(R.id.contentFriendShortwordQuiz, ((MyQuizActivity)getActivity()).showWhoLikedFragment);
+                    Bundle bundle=new Bundle(1);
+                    bundle.putString("quizKey", key);
+                    showWhoLikedFragment.setArguments(bundle);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    //이 코드 choice, short에도 적용하고 showwholikedfragment.java에서 파베에서 키값 이용해서 누가 좋아햇는지 어레이리스트에 넣어놧다가 커스텀 리스트뷰에 띄우기
+                */
+                }
+            }
+        });
+
 
 
         imageButtonScript.setOnClickListener(new View.OnClickListener() {
@@ -162,6 +185,7 @@ public class SeeShortQuizFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        activity=(MyQuizActivity) getActivity();
         if (context instanceof SeeShortQuizFragment.OnFragmentInteractionListener) {
             mListener = (SeeShortQuizFragment.OnFragmentInteractionListener) context;
         } else {
@@ -174,6 +198,11 @@ public class SeeShortQuizFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     public interface OnFragmentInteractionListener {

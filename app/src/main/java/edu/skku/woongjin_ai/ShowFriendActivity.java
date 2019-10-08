@@ -306,17 +306,4 @@ public class ShowFriendActivity extends Activity {
 
         }
     }
-
-//    public boolean onlyNumCheck(String spaceCheck) {
-//        for (int i = 0 ; i < spaceCheck.length() ; i++) {
-//            if (spaceCheck.charAt(i) == '1' || spaceCheck.charAt(i) == '2' || spaceCheck.charAt(i) == '3' || spaceCheck.charAt(i) == '4' || spaceCheck.charAt(i) == '5'
-//                    || spaceCheck.charAt(i) == '6' || spaceCheck.charAt(i) == '7' || spaceCheck.charAt(i) == '8' || spaceCheck.charAt(i) == '9' || spaceCheck.charAt(i) == '0') {
-//                continue;
-//            }
-//            else {
-//                return false;
-//            }
-//        }
-//        return true;
-//    }
 }

@@ -25,13 +25,13 @@ import java.util.ArrayList;
 
 import static android.media.CamcorderProfile.get;
 
-public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragment.OnFragmentInteractionListener, SeeChoiceQuizFragment.OnFragmentInteractionListener, SeeShortQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener{
+public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragment.OnFragmentInteractionListener, SeeChoiceQuizFragment.OnFragmentInteractionListener, SeeShortQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener, ShowWhoLikedFragment.OnFragmentInteractionListener{
 
-    public DatabaseReference mPostReference;
+    public DatabaseReference mPostReference, uPostReference;
     Intent intent, intentHome, intentUpdate;
     String id;
     TextView instruction;
-    ListView quizlist;
+    ListView quizlist, likefriends;
     ArrayList<QuizChoiceTypeInfo> myChoiceList;
     ArrayList<QuizOXShortwordTypeInfo> myOXList, myShortList;
     MyFriendQuizListAdapter myQuizListAdapter;
@@ -40,7 +40,12 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
     SeeChoiceQuizFragment ChoiceFragment;
     SeeShortQuizFragment ShortFragment;
     ShowScriptFragment showScriptFragment;
+    ShowWhoLikedFragment showWhoLikedFragment;
+    ArrayList<UserInfo> Uinfos;
     int cntOX, cntChoice, cntShort;
+    String showQkey;
+    ShowFriendListAdapter showFriendListAdapter;
+
 
 
     @Override
@@ -50,8 +55,12 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         quizlist = (ListView) findViewById(R.id.quizlist);
+        likefriends=(ListView) findViewById(R.id.wholiked_list);
+
         instruction=(TextView)findViewById(R.id.instruction);
 
+
+        Uinfos=new ArrayList<UserInfo>();
 
         intent = getIntent();
         id = intent.getStringExtra("id");
@@ -61,8 +70,12 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
         ShortFragment=new SeeShortQuizFragment();
 
         showScriptFragment=new ShowScriptFragment();
+        showWhoLikedFragment=new ShowWhoLikedFragment();
+
+        showFriendListAdapter=new ShowFriendListAdapter();
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
+
 
         myQuizListAdapter = new MyFriendQuizListAdapter();
 
@@ -112,7 +125,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                     QuizOXShortwordTypeInfo quiz = myOXList.get(position);
 
                     transaction.replace(R.id.seequiz_fragment, OXFragment);
-                    Bundle bundle = new Bundle(11);
+                    Bundle bundle = new Bundle(12);
                     bundle.putString("id", id);
                     bundle.putString("mine_or_like", "0");
                     bundle.putString("scriptnm", quiz.scriptnm);
@@ -124,6 +137,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                     bundle.putString("desc", quiz.desc);
                     bundle.putString("key", quiz.key);
                     bundle.putInt("cnt", quiz.cnt);
+                    bundle.putInt("type", 1);
                     OXFragment.setArguments(bundle);
                     transaction.commit();
                 } else {
@@ -133,7 +147,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                         QuizChoiceTypeInfo quiz = myChoiceList.get(position);
 
                         transaction.replace(R.id.seequiz_fragment, ChoiceFragment);
-                        Bundle bundle = new Bundle(15);
+                        Bundle bundle = new Bundle(16);
                         bundle.putString("id", id);
                         bundle.putString("mine_or_like", "0");
                         bundle.putString("scriptnm", quiz.scriptnm);
@@ -149,6 +163,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                         bundle.putString("desc", quiz.desc);
                         bundle.putString("key", quiz.key);
                         bundle.putInt("cnt", quiz.cnt);
+                        bundle.putInt("type", 2);
                         ChoiceFragment.setArguments(bundle);
                         transaction.commit();
                     } else {
@@ -157,7 +172,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                         QuizOXShortwordTypeInfo quiz = myShortList.get(position);
 
                         transaction.replace(R.id.seequiz_fragment, ShortFragment);
-                        Bundle bundle = new Bundle(11);
+                        Bundle bundle = new Bundle(12);
                         bundle.putString("id", id);
                         bundle.putString("mine_or_like", "0");
                         bundle.putString("scriptnm", quiz.scriptnm);
@@ -169,6 +184,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                         bundle.putString("desc", quiz.desc);
                         bundle.putString("key", quiz.key);
                         bundle.putInt("cnt", quiz.cnt);
+                        bundle.putInt("type", 3);
                         ShortFragment.setArguments(bundle);
                         transaction.commit();
                     }
@@ -176,6 +192,51 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
             }
         });
 
+    }
+
+    public void onFragmentChange(int index, String Qkey, int originalType){
+        if(index==0){
+            showQkey=Qkey;
+            Bundle bundle=new Bundle(2);
+            bundle.putInt("type", originalType);
+            bundle.putString("key", showQkey);
+            showWhoLikedFragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.seequiz_fragment, showWhoLikedFragment).commit();
+        }else if(index==1){
+            getSupportFragmentManager().beginTransaction().replace(R.id.seequiz_fragment, ShortFragment).commit();
+        }else if(index==2){
+            getSupportFragmentManager().beginTransaction().replace(R.id.seequiz_fragment, ChoiceFragment).commit();
+        }else if(index==3){
+            getSupportFragmentManager().beginTransaction().replace(R.id.seequiz_fragment, OXFragment).commit();
+        }
+    }
+
+    public ShowFriendListAdapter getFirebaseDatabaseUserList(String QKEY) {
+        ShowFriendListAdapter showFriendListAdapterL=new ShowFriendListAdapter();
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Uinfos.clear();
+                DataSnapshot snapshot=dataSnapshot.child("user_list");
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) { //uid 키값
+                    DataSnapshot snapshot2=snapshot1.child("my_script_list");
+                    for(DataSnapshot snapshot3:snapshot2.getChildren()){ //스크립트 각각
+                        DataSnapshot snapshot5=snapshot3.child("liked_list");
+                        for(DataSnapshot snapshot4:snapshot5.getChildren()){
+                            String key=snapshot4.getKey();
+                            if(key.equals(QKEY)){
+                                UserInfo friend = snapshot1.getValue(UserInfo.class);
+                                Uinfos.add(friend);
+                                showFriendListAdapterL.addItem(getResources().getDrawable(R.drawable.kakao_default_profile_image), friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
+                            }
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+        return showFriendListAdapterL;
     }
 
     private void getFirebaseDatabaseMyQuizList() {
@@ -252,6 +313,35 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
         });
     }
 
+    /*
+    private void getFirebaseDatabaseUserInfo() {
+        final ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Uinfos.clear();
+                DataSnapshot snapshot=dataSnapshot.child("user_list");
+                for (DataSnapshot snapshot1 : snapshot.getChildren()) { //uid 키값
+                    DataSnapshot snapshot2=snapshot1.child("my_script_list");
+                    for(DataSnapshot snapshot3:snapshot2.getChildren()){ //스크립트 각각
+                        DataSnapshot snapshot5=snapshot3.child("liked_list");
+                        for(DataSnapshot snapshot4:snapshot5.getChildren()){
+                            String qkey=snapshot4.getKey();
+                            if(qkey.equals(key)){
+                                UserInfo friend = snapshot1.getValue(UserInfo.class);
+                                Uinfos.add(friend);
+                                showFriendListAdapter.addItem(getResources().getDrawable(R.drawable.kakao_default_profile_image), friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
+                            }
+                        }
+                    }
+                }
+                likedfriends.setAdapter(showFriendListAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        };
+    }
+    */
 
     @Override
     public void onFragmentInteraction(Uri uri) {

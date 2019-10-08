@@ -189,6 +189,7 @@
                     android:src="@drawable/ic_icons_see_script"
                     android:background="#00ff0000"
                     android:id="@+id/see_script"
+                    android:scaleType="fitCenter"
                     />
 
 
