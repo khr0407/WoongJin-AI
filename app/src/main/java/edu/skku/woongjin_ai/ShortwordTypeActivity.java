@@ -31,7 +31,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
     DatabaseReference mPostReference;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     EditText editQuiz, editAns;
-    Intent intent, intentHome;
+    Intent intent, intentHome, intentType;
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
     int star = 0, starInt = 0;
@@ -168,6 +168,12 @@ public class ShortwordTypeActivity extends AppCompatActivity
                         postFirebaseDatabaseQuizShortword();
                         if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
                         Toast.makeText(ShortwordTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
+
+                        intentType = new Intent(ShortwordTypeActivity.this, SelectTypeActivity.class);
+                        intentType.putExtra("id", id);
+                        intentType.putExtra("scriptnm", scriptnm);
+                        intentType.putExtra("background", backgroundID);
+                        startActivity(intentType);
                     }
                 }
             }
