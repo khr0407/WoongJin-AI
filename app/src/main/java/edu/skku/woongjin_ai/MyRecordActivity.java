@@ -1,13 +1,19 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -24,8 +30,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.DayViewDecorator;
+import com.prolificinteractive.materialcalendarview.DayViewFacade;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.Executors;
 
 public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjangCriteriaFragment.OnFragmentInteractionListener {
 
@@ -33,7 +48,6 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
     Intent intent;
     String id;
     TextView userGrade, userSchool, userName, userCoin;
-    TextView attend, script, myQnum, solveQnum, bombNum, bucketNum;
     Button Hoonjang;
     ImageButton goHome;
     UserInfo me;
@@ -48,6 +62,8 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
 
     ArrayList<String> week_made, week_correct, week_level, week_like, week_attend;
     ArrayList<Entry> entries;
+
+    MaterialCalendarView materialCalendarView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,23 +80,32 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
         userSchool = (TextView) findViewById(R.id.userSchool);
         userGrade = (TextView) findViewById(R.id.userGrade1);
         userCoin = (TextView) findViewById(R.id.userCoin);
-        attend=(TextView)findViewById(R.id.attendDays);
-        script=(TextView)findViewById(R.id.scriptNum);
-        myQnum=(TextView)findViewById(R.id.myQnum);
-        solveQnum=(TextView)findViewById(R.id.solveQnum);
-        bombNum=(TextView)findViewById(R.id.bombNum);
-        bucketNum=(TextView)findViewById(R.id.bucketNum);
         goHome=(ImageButton)findViewById(R.id.home);
-
         graph_attend=(Button)findViewById(R.id.graph_attend);
         graph_made=(Button)findViewById(R.id.graph_made);
         graph_correct=(Button)findViewById(R.id.graph_correct);
         graph_level=(Button)findViewById(R.id.graph_level);
         graph_like=(Button)findViewById(R.id.graph_like);
-
         Hoonjang=(Button)findViewById(R.id.showHoonjang);
-
         lineChart=(LineChart)findViewById(R.id.chart);
+
+        materialCalendarView = (MaterialCalendarView) findViewById(R.id.attendCalendar);
+
+        materialCalendarView.state().edit()
+                .setFirstDayOfWeek(Calendar.SUNDAY)
+                .setMinimumDate(CalendarDay.from(2018, 0, 1))
+                .setMaximumDate(CalendarDay.from(2030, 11, 31))
+                .setCalendarDisplayMode(CalendarMode.MONTHS)
+                .commit();
+
+        materialCalendarView.addDecorators(
+                new SundayDecorator(),
+                new SaturdayDecorator(),
+                new OnDayDecorator());
+
+        String[] result = {"2019,10,01","2019,09,18","2019,10,18","2017,10,09"};
+
+        new CheckAttendedDay(result).executeOnExecutor(Executors.newSingleThreadExecutor());
 
         entries=new ArrayList<Entry>();
 
@@ -269,81 +294,18 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key = snapshot.getKey();
-                    if (key.equals("user_list")) {
-                        for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String key1 = snapshot1.getKey();
-                            if (key1.equals(id)) {
-                                me = snapshot1.getValue(UserInfo.class);
-                                userName.setText(me.name+" 학생");
-                                userGrade.setText(me.grade + "학년");
-                                userCoin.setText(me.coin + " 코인");
-
-                                for(DataSnapshot snapshot2:snapshot1.getChildren()){
-                                    String key2=snapshot2.getKey();
-                                    if(key2.equals("my_game_list")){
-                                        String bomb, bucket;
-                                        for(DataSnapshot snapshot3:snapshot2.getChildren()){
-                                            String key3=snapshot3.getKey();
-                                            if(key3.equals("bomb_cnt")){
-                                                bomb=snapshot3.getValue().toString();
-                                                bombNum.setText(bomb+" 회");
-                                            }
-                                            else{
-                                                bucket=snapshot3.getValue().toString();
-                                                bucketNum.setText(bucket+" 회");
-                                            }
-                                        }
-                                    }
-                                    else if(key2.equals("my_script_list")){
-                                        long readcnt=0;
-                                        long solvecnt=0;
-                                        readcnt=snapshot2.getChildrenCount();
-                                        for(DataSnapshot snapshot3:snapshot2.getChildren()){ //snapshot3에는 책 제목
-                                            //친구 문제 풀어본 수
-                                            for(DataSnapshot snapshot4:snapshot3.getChildren()){
-                                                String key4=snapshot4.getKey();
-                                                if(key4.equals("solved_list")){
-                                                    solvecnt+=snapshot4.getChildrenCount();
-                                                    solveQnum.setText(solvecnt+" 개");
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        script.setText(readcnt+" 개");
-                                    }
-                                    else if(key2.equals("my_week_list")){
-                                        int attendcnt=0;
-                                        int madecnt=0;
-                                        for(DataSnapshot snapshot3:snapshot2.getChildren()){
-                                            for(DataSnapshot snapshot4:snapshot3.getChildren()){
-                                                String key5=snapshot4.getKey();
-                                                if(key5.equals("attend_list")){
-                                                    attendcnt+=snapshot4.getChildrenCount();
-                                                    break;
-                                                }else if(key5.equals("made")){
-                                                    attendcnt+=Integer.parseInt(snapshot4.getValue().toString());
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        attend.setText(attendcnt+" 일");
-                                        myQnum.setText(madecnt+" 개");
-                                    }
-                                }
-                                break;
-                            }
-                        }
+                for (DataSnapshot snapshot : dataSnapshot.child("user_list").getChildren()) {
+                    if(snapshot.getKey().equals(id)) {
+                        me = snapshot.getValue(UserInfo.class);
+                        userName.setText(me.name+" 학생");
+                        userGrade.setText(me.grade + "학년");
+                        userCoin.setText(me.coin + " 코인");
+                        break;
                     }
                 }
-
-
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
         };
         mPostReference.addValueEventListener(postListener);
     }
@@ -353,4 +315,106 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
 
     }
 
+    private class CheckAttendedDay extends AsyncTask<Void, Void, List<CalendarDay>> {
+
+        String[] Time_Result;
+
+        CheckAttendedDay(String[] Time_Result) {
+            this.Time_Result = Time_Result;
+        }
+
+        @Override
+        protected List<CalendarDay> doInBackground(Void... voids) {
+            Calendar calendar = Calendar.getInstance();
+            ArrayList<CalendarDay> dates = new ArrayList<>();
+
+            for(int i = 0 ; i < Time_Result.length ; i ++) {
+                CalendarDay day = CalendarDay.from(calendar);
+                String[] time = Time_Result[i].split(",");
+                int year = Integer.parseInt(time[0]);
+                int month = Integer.parseInt(time[1]);
+                int dayy = Integer.parseInt(time[2]);
+
+                dates.add(day);
+                calendar.set(year, month - 1, dayy);
+            }
+
+            return dates;
+        }
+
+        @Override
+        protected void onPostExecute(List<CalendarDay> calendarDays) {
+            super.onPostExecute(calendarDays);
+
+            if(isFinishing()) return;
+
+            materialCalendarView.addDecorator(new EventDecorator(Color.GREEN, calendarDays, getApplicationContext()));
+        }
+    }
+
+    private class SundayDecorator implements DayViewDecorator {
+
+        private final Calendar calendar = Calendar.getInstance();
+
+        public SundayDecorator() {
+        }
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            day.copyTo(calendar);
+            int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+            return weekDay == Calendar.SUNDAY;
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new ForegroundColorSpan(Color.RED));
+        }
+    }
+
+    private class SaturdayDecorator implements DayViewDecorator {
+
+        private final Calendar calendar = Calendar.getInstance();
+
+        public SaturdayDecorator() {
+        }
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            day.copyTo(calendar);
+            int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+            return weekDay == Calendar.SATURDAY;
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new ForegroundColorSpan(Color.BLUE));
+        }
+    }
+
+    private class OnDayDecorator implements DayViewDecorator {
+
+        private CalendarDay date;
+
+        public OnDayDecorator() {
+            date = CalendarDay.today();
+        }
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            return date != null && day.equals(date);
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan(new StyleSpan(Typeface.BOLD));
+            view.addSpan(new RelativeSizeSpan(1.4f));
+            view.addSpan(new ForegroundColorSpan(Color.GREEN));
+        }
+
+        public void setDate(Date date) {
+            this.date = CalendarDay.from(date);
+        }
+    }
 }
+

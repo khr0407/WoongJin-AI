@@ -37,7 +37,7 @@ public class OXTypeActivity extends AppCompatActivity
     DatabaseReference mPostReference;
     ImageView imageO, imageX;
     EditText editQuiz;
-    Intent intent, intentHome;
+    Intent intent, intentHome, intentType;
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
     int star = 0 , starInt = 0;
@@ -53,8 +53,6 @@ public class OXTypeActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_oxtype);
-
-        // TODO: 유형별 문제 만들기 기능 탭으로 테스트
 
         intent = getIntent();
         id = intent.getStringExtra("id");
@@ -177,6 +175,12 @@ public class OXTypeActivity extends AppCompatActivity
                         postFirebaseDatabaseQuizOX();
                         if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
                         Toast.makeText(OXTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
+
+                        intentType = new Intent(OXTypeActivity.this, SelectTypeActivity.class);
+                        intentType.putExtra("id", id);
+                        intentType.putExtra("scriptnm", scriptnm);
+                        intentType.putExtra("background", backgroundID);
+                        startActivity(intentType);
                     }
                 }
             }

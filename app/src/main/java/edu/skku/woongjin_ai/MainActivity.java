@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -112,35 +113,69 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
                 String dayOfWeekS = "";
                 switch(dayOfWeek) {
                     case 1:
-                        dayOfWeekS = "일"; break;
+                        dayOfWeekS = "일"; calendar.add(Calendar.DAY_OF_MONTH, -6); break;
                     case 2:
                         dayOfWeekS = "월"; break;
                     case 3:
-                        dayOfWeekS = "화"; break;
+                        dayOfWeekS = "화"; calendar.add(Calendar.DAY_OF_MONTH, -1); break;
                     case 4:
-                        dayOfWeekS = "수"; break;
+                        dayOfWeekS = "수"; calendar.add(Calendar.DAY_OF_MONTH, -2); break;
                     case 5:
-                        dayOfWeekS = "목"; break;
+                        dayOfWeekS = "목"; calendar.add(Calendar.DAY_OF_MONTH, -3); break;
                     case 6:
-                        dayOfWeekS = "금"; break;
+                        dayOfWeekS = "금"; calendar.add(Calendar.DAY_OF_MONTH, -4); break;
                     case 7:
-                        dayOfWeekS = "토"; break;
+                        dayOfWeekS = "토"; calendar.add(Calendar.DAY_OF_MONTH, -5); break;
                 }
+
+                String startDate = "";
+                Date dateS = calendar.getTime();
 
                 if(weekNum == 0) {
                     weekNum++;
+                    String startDate2 = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/cnt").setValue(0);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/correct").setValue(0);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/level").setValue(0);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/like").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/made").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/firstDateOfWeek").setValue(startDate2);
+                } else startDate = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + weekNum + "/firstDateOfWeek").getValue().toString();
+
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+                String todayDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+
+                Log.d("hereeeeeeeeeee1", startDate + " " + todayDate);
+
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                Date date1 = new Date();
+                Date date2 = new Date();
+                try {
+                    date1 = format.parse(todayDate);
+                    date2 = format.parse(startDate);
+                } catch (ParseException e) {
+                    e.printStackTrace();
                 }
 
-                if(!dataSnapshot.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).exists()) {
-                    long now = System.currentTimeMillis();
-                    Date date = new Date(now);
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    String today = format.format(date);
+                if(Math.abs((date1.getTime() - date2.getTime()) / (24*60*60*1000)) > 6) {
+                    Log.d("hereeeeeeeeeeeee2", Math.abs((date1.getTime() - date2.getTime()) / (24*60*60*1000)) + "");
+                    weekNum++;
+                    String startDate2 = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/cnt").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/correct").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/level").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/like").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/made").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/firstDateOfWeek").setValue(startDate2);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).setValue(today);
+                } else {
+                    if(!dataSnapshot.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).exists()) {
+                        Log.d("hereeeeeeeeeeeee3", Math.abs((date1.getTime() - date2.getTime()) / (24*60*60*1000)) + "");
+
+                        mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).setValue(today);
+                    }
                 }
             }
             @Override
