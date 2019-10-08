@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,8 @@ public class ShowWhoLikedFragment extends Fragment {
         //likedfriends=(ListView)view.findViewById(R.id.wholiked_list);
         //Uinfos=new ArrayList<UserInfo>();
         close=(ImageButton)view.findViewById(R.id.close);
+
+
 
 
         //getFirebaseDatabaseUserInfo();
