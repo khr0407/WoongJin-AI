@@ -1,6 +1,6 @@
 package edu.skku.woongjin_ai;
 
-public class MyQuizListItem {
+public class QuizListItem {
     private String tmp;
 
     public String getTmp() {

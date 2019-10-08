@@ -54,6 +54,7 @@ public class ShowFriendActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showfriend);
 
+
 //        check_choose = 0;
         check_recommend = 0;
 
@@ -77,12 +78,10 @@ public class ShowFriendActivity extends Activity {
         mPostReference2 = FirebaseDatabase.getInstance().getReference();
         //mPostReference3 = FirebaseDatabase.getInstance().getReference();
 
-        if (onlyNumCheck(id_key) == true) {
-            mPostReference = FirebaseDatabase.getInstance().getReference().child("kakaouser_list").child(id_key).child("friend");
-        }
-        else if (onlyNumCheck(id_key) == false) {
-            mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("friend");
-        }
+        mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("my_friend_list");
+
+
+        getFirebaseDatabaseRecommendFriendList();
 
         imageButtonHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,16 +149,10 @@ public class ShowFriendActivity extends Activity {
                     mPostReference.child(newfriend_id + "/grade").setValue(newfriend_grade);
                     mPostReference.child(newfriend_id + "/school").setValue(newfriend_school);
 
-                    if (onlyNumCheck(newfriend_id) == true) {
-                        mPostReference3 = FirebaseDatabase.getInstance().getReference().child("kakaouser_list").child(newfriend_id).child("friend");
-                    }
-                    else if (onlyNumCheck(newfriend_id) == false) {
-                        mPostReference3 = FirebaseDatabase.getInstance().getReference().child("user_list").child(newfriend_id).child("friend");
-                    }
-                    mPostReference3.child(id_key + "/name").setValue(me.name);
-                    mPostReference3.child(id_key + "/nickname").setValue(me.nickname);
-                    mPostReference3.child(id_key + "/grade").setValue(me.grade);
-                    mPostReference3.child(id_key + "/school").setValue(me.school);
+//                    mPostReference3.child(id_key + "/name").setValue(me.name);
+//                    mPostReference3.child(id_key + "/nickname").setValue(me.nickname);
+//                    mPostReference3.child(id_key + "/grade").setValue(me.grade);
+//                    mPostReference3.child(id_key + "/school").setValue(me.school);
 
                     Toast.makeText(ShowFriendActivity.this, newfriend_nickname + "(이)가 친구리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                     check_recommend = 0;
@@ -199,26 +192,48 @@ public class ShowFriendActivity extends Activity {
                 recommendFinalList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
-                    if(key.equals("user_list") || key.equals("kakaouser_list")) {
+                    if(key.equals("user_list")) {
                         for(DataSnapshot snapshot0 : snapshot.getChildren()) {
                             String key1 = snapshot0.getKey();
                             if(key1.equals(id_key)) {
                                 me = snapshot0.getValue(UserInfo.class);
-                                for(DataSnapshot snapshot1 : snapshot0.child("friend").getChildren()) {
+                                for(DataSnapshot snapshot1 : snapshot0.child("my_friend_list").getChildren()) {
                                     String key2 = snapshot1.getKey();
                                     myFriendList.add(key2);
                                 }
+
                                 break;
                             }
                         }
                     }
                 }
+
+                ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String key0 = snapshot.getKey();
+                    if(key0.equals("user_list")) {
+                        for(DataSnapshot snapshot1 : snapshot.child("my_friend_list").getChildren()) {
+                            String uid = snapshot1.getKey();
+                            for(String friendID : myFriendList) {
+                                if(uid.equals(friendID)) {
+                                    UserInfo friend=snapshot1.getValue(UserInfo.class);
+                                    showFriendListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.kakao_default_profile_image), friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
+                                    friend_list.setAdapter(showFriendListAdapter);
+                                    break;
+                                    }
+                                }
+
+                        }
+                    }
+
+                }
+
                 String myGrade = me.grade;
                 String mySchool = me.school;
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key0 = snapshot.getKey();
-                    if(key0.equals("user_list") || key0.equals("kakaouser_list")) {
+                    if(key0.equals("user_list")) {
                         for(DataSnapshot snapshot1 : snapshot.getChildren()) {
                             String key = snapshot1.getKey();
                             if(!key.equals(id_key)) {
@@ -292,16 +307,16 @@ public class ShowFriendActivity extends Activity {
         }
     }
 
-    public boolean onlyNumCheck(String spaceCheck) {
-        for (int i = 0 ; i < spaceCheck.length() ; i++) {
-            if (spaceCheck.charAt(i) == '1' || spaceCheck.charAt(i) == '2' || spaceCheck.charAt(i) == '3' || spaceCheck.charAt(i) == '4' || spaceCheck.charAt(i) == '5'
-                    || spaceCheck.charAt(i) == '6' || spaceCheck.charAt(i) == '7' || spaceCheck.charAt(i) == '8' || spaceCheck.charAt(i) == '9' || spaceCheck.charAt(i) == '0') {
-                continue;
-            }
-            else {
-                return false;
-            }
-        }
-        return true;
-    }
+//    public boolean onlyNumCheck(String spaceCheck) {
+//        for (int i = 0 ; i < spaceCheck.length() ; i++) {
+//            if (spaceCheck.charAt(i) == '1' || spaceCheck.charAt(i) == '2' || spaceCheck.charAt(i) == '3' || spaceCheck.charAt(i) == '4' || spaceCheck.charAt(i) == '5'
+//                    || spaceCheck.charAt(i) == '6' || spaceCheck.charAt(i) == '7' || spaceCheck.charAt(i) == '8' || spaceCheck.charAt(i) == '9' || spaceCheck.charAt(i) == '0') {
+//                continue;
+//            }
+//            else {
+//                return false;
+//            }
+//        }
+//        return true;
+//    }
 }

@@ -14,6 +14,7 @@ public class QuizOXShortwordTypeInfo {
     public int cnt;
     public String url;
     public int type;
+    public String scriptnm;
 
     public QuizOXShortwordTypeInfo() {
 
@@ -44,6 +45,7 @@ public class QuizOXShortwordTypeInfo {
         result.put("cnt", cnt);
         result.put("url", url);
         result.put("type", type);
+        result.put("scriptnm", scriptnm);
         return result;
     }
 }

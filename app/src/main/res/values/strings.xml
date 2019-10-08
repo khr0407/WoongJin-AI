@@ -16,4 +16,6 @@
     <string name="friend_list">친구 추천 목록에서 친구를 선택한 후, 밑의 친구 추가 버튼을 누르면 친구가 될 수 있어!\n카카오톡 친구도 초대해서 함께 즐겨봐~</string>
     <string name="quiz_nation">네가 읽은 책 목록이야~\n추가로 문제를 내고 싶은 책을 클릭하면 문제를 만들 수 있어!\n연필 아이콘 개수는 헤라가 낸 문제 개수와 같아</string>
     <string name="select_book">"위인전"을 선택했네!\n어떤 책을 읽어볼까? 읽고 싶은 책을 클릭해줘!</string>
+    <string name="like_Q_list">내가 좋아요를 누른 질문들의 목록이야!\n클릭하면 자세한 문제를 볼 수 있어~</string>
+    <string name="my_Q_list">내가 만든 질문들의 목록이야!\n클릭하면 자세한 문제를 볼 수 있어~</string>
 </resources>

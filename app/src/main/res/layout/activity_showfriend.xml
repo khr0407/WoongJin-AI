@@ -84,12 +84,12 @@
             android:layout_height="0dp"
             android:layout_weight="9"
             android:orientation="horizontal"
-            android:weightSum="16"
+            android:weightSum="14"
             >
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 ></LinearLayout>
 
             //6
@@ -124,7 +124,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 ></LinearLayout>
 
             //5
@@ -168,7 +168,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:weightSum="5.5"
                 android:orientation="vertical"
                 >
@@ -192,6 +192,7 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_add_friend"
                         android:background="@drawable/rounded_white"
+                        android:scaleType="fitCenter"
                         />
                 </LinearLayout>
 
@@ -213,6 +214,7 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/ic_invite_kakao_friend"
                         android:background="@drawable/rounded_white"
+                        android:scaleType="fitCenter"
                         />
                 </LinearLayout>
 

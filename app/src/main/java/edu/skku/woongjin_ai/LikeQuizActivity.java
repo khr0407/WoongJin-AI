@@ -25,7 +25,7 @@ import java.util.ArrayList;
 
 import static android.media.CamcorderProfile.get;
 
-public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragment.OnFragmentInteractionListener, SeeChoiceQuizFragment.OnFragmentInteractionListener, SeeShortQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener{
+public class LikeQuizActivity extends AppCompatActivity implements SeeOXQuizFragment.OnFragmentInteractionListener, SeeChoiceQuizFragment.OnFragmentInteractionListener, SeeShortQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener{
 
     public DatabaseReference mPostReference;
     Intent intent, intentHome, intentUpdate;
@@ -34,6 +34,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
     ListView quizlist;
     ArrayList<QuizChoiceTypeInfo> myChoiceList;
     ArrayList<QuizOXShortwordTypeInfo> myOXList, myShortList;
+    ArrayList<String> LikedKey;
     MyFriendQuizListAdapter myQuizListAdapter;
     int flag=0;
     SeeOXQuizFragment OXFragment;
@@ -70,16 +71,20 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
         myOXList=new ArrayList<QuizOXShortwordTypeInfo>();
         myShortList=new ArrayList<QuizOXShortwordTypeInfo>();
 
-        intentUpdate = new Intent(MyQuizActivity.this, MyQuizActivity.class);
+        LikedKey=new ArrayList<String>();
+
+        intentUpdate = new Intent(LikeQuizActivity.this, LikeQuizActivity.class);
         intentUpdate.putExtra("id", id);
         ////
+
+        instruction.setText("좋아요를 누른 문제들이야!\n문제를 클릭하면 자세히 볼 수 있어");
 
         getFirebaseDatabaseMyQuizList();
 
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentHome = new Intent(MyQuizActivity.this, MainActivity.class);
+                intentHome = new Intent(LikeQuizActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
                 finish();
@@ -114,7 +119,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                     transaction.replace(R.id.seequiz_fragment, OXFragment);
                     Bundle bundle = new Bundle(11);
                     bundle.putString("id", id);
-                    bundle.putString("mine_or_like", "0");
+                    bundle.putString("mine_or_like", "1");
                     bundle.putString("scriptnm", quiz.scriptnm);
                     bundle.putString("question", quiz.question);
                     bundle.putString("answer", quiz.answer);
@@ -135,7 +140,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                         transaction.replace(R.id.seequiz_fragment, ChoiceFragment);
                         Bundle bundle = new Bundle(15);
                         bundle.putString("id", id);
-                        bundle.putString("mine_or_like", "0");
+                        bundle.putString("mine_or_like", "1");
                         bundle.putString("scriptnm", quiz.scriptnm);
                         bundle.putString("question", quiz.question);
                         bundle.putString("answer", quiz.answer);
@@ -159,7 +164,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                         transaction.replace(R.id.seequiz_fragment, ShortFragment);
                         Bundle bundle = new Bundle(11);
                         bundle.putString("id", id);
-                        bundle.putString("mine_or_like", "0");
+                        bundle.putString("mine_or_like", "1");
                         bundle.putString("scriptnm", quiz.scriptnm);
                         bundle.putString("question", quiz.question);
                         bundle.putString("answer", quiz.answer);
@@ -185,6 +190,19 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                 myOXList.clear();
                 myChoiceList.clear();
                 myShortList.clear();
+                LikedKey.clear();
+                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    String key=snapshot.getKey();
+                    if(key.equals("user_list")){
+                        DataSnapshot snapshot1 = snapshot.child(id).child("my_script_list");
+                        for(DataSnapshot snapshot2:snapshot1.getChildren()){ //지문
+                            DataSnapshot snapshot3 = snapshot2.child("liked_list");
+                            for(DataSnapshot snapshot4: snapshot3.getChildren())
+                                LikedKey.add(snapshot4.getKey());
+                        }
+
+                    }
+                }
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
@@ -193,39 +211,25 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                             String scriptTitle = snapshot1.getKey();
                             for (DataSnapshot snapshot2 : snapshot1.getChildren()) { // inside-script
                                 String question_key = snapshot2.getKey();
-                                if (question_key.endsWith(id)) {
-                                    String type = snapshot2.child("type").getValue().toString();
-                                    if (type.equals("1")) {
-                                        QuizOXShortwordTypeInfo quiz = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
-                                        quiz.scriptnm=scriptTitle;
-                                        myOXList.add(quiz);
-                                        //ox type
-                                        //QuizOXShortwordTypeInfo get = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
-//                                        String quiz=snapshot2.child("question").getValue().toString();
-//                                        String myQuiz = "[" + scriptTitle + "] Q." + quiz;
-//                                        myQuizList.add(myQuiz);
-//                                        myQuizListAdapter.addItem(myQuiz);
-                                    } else if (type.equals("2")) {
-                                        QuizChoiceTypeInfo quiz = snapshot2.getValue(QuizChoiceTypeInfo.class);
-                                        quiz.scriptnm=scriptTitle;
-                                        myChoiceList.add(quiz);
-                                        //choice
-//                                        QuizChoiceTypeInfo get = snapshot2.getValue(QuizChoiceTypeInfo.class);
-//                                        String myQuiz = "[" + scriptTitle + "] Q." + get.question;
-//                                        myQuizList.add(myQuiz);
-//                                        myQuizListAdapter.addItem(myQuiz);
-                                    } else {
-                                        QuizOXShortwordTypeInfo quiz = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
-                                        quiz.scriptnm=scriptTitle;
-                                        myShortList.add(quiz);
-                                        //shortwrd
-//                                        QuizOXShortwordTypeInfo get = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
-//                                        String myQuiz = "[" + scriptTitle + "] Q." + get.question;
-//                                        myQuizList.add(myQuiz);
-//                                        myQuizListAdapter.addItem(myQuiz);
-                                    }
-                                    //
+                                for(String liked_key:LikedKey) {
+                                    if (question_key.equals(liked_key)) {
+                                        String type = snapshot2.child("type").getValue().toString();
+                                        if (type.equals("1")) {
+                                            QuizOXShortwordTypeInfo quiz = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
+                                            quiz.scriptnm = scriptTitle;
+                                            myOXList.add(quiz);
+                                        } else if (type.equals("2")) {
+                                            QuizChoiceTypeInfo quiz = snapshot2.getValue(QuizChoiceTypeInfo.class);
+                                            quiz.scriptnm = scriptTitle;
+                                            myChoiceList.add(quiz);
+                                        } else {
+                                            QuizOXShortwordTypeInfo quiz = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
+                                            quiz.scriptnm = scriptTitle;
+                                            myShortList.add(quiz);
+                                        }
+                                        //
 
+                                    }
                                 }
                             }
                         }

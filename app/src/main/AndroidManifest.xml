@@ -78,6 +78,8 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".MyQuizActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".LikeQuizActivity"
+            android:screenOrientation="landscape"/>
         <activity android:name=".ChatroomActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
@@ -90,6 +92,8 @@
         <activity android:name=".SelectBookActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".ShowFriendQuizActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".MyRecordActivity"
             android:screenOrientation="landscape"/>
     </application>
 </manifest>
