@@ -2,6 +2,7 @@ package edu.skku.woongjin_ai;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class ShowFriendListAdapter extends BaseAdapter {
+
+    FirebaseStorage storage;
+    private StorageReference storageReference, dataReference;
 
     private ArrayList<ShowFriendListItem> showFriendListItems = new ArrayList<ShowFriendListItem>();
 
@@ -46,7 +55,20 @@ public class ShowFriendListAdapter extends BaseAdapter {
 
         ShowFriendListItem showFriendListItem = getItem(position);
 
-        imageViewFace.setImageDrawable(showFriendListItem.getFaceFriend());
+        if (!showFriendListItem.getFaceFriend().equals("noimage")) {
+            storage = FirebaseStorage.getInstance();
+            storageReference = storage.getInstance().getReference();
+            dataReference = storageReference.child("/profile/" + showFriendListItem.getFaceFriend());
+            dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.with(context)
+                            .load(uri)
+                            .error(R.drawable.btn_x)
+                            .into(imageViewFace);
+                }
+            });
+        }
         textViewName.setText(showFriendListItem.getNameFriend());
         textViewGrade.setText(showFriendListItem.getGradeFriend());
         textViewSchool.setText(showFriendListItem.getSchoolFriend());
@@ -54,8 +76,9 @@ public class ShowFriendListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void addItem(Drawable faceFriend, String nameFriend, String gradeFriend, String schoolFriend) {
+    public void addItem(String faceFriend, String nameFriend, String gradeFriend, String schoolFriend) {
         ShowFriendListItem showFriendListItem = new ShowFriendListItem();
+
         showFriendListItem.setFaceFriend(faceFriend);
         showFriendListItem.setNameFriend(nameFriend);
         showFriendListItem.setGradeFriend(gradeFriend);

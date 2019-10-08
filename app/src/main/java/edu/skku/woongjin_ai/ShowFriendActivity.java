@@ -54,7 +54,7 @@ public class ShowFriendActivity extends Activity {
     String id_key, name_key, nickname_key;
     EditText findID;
 //    String friend_nickname;
-    String newfriend_nickname, newfriend_name, newfriend_id, newfriend_grade, newfriend_school;
+    String newfriend_nickname, newfriend_name, newfriend_id, newfriend_grade, newfriend_school, newfriend_profile;
     ImageButton invitefriend, addfriend, imageButtonHome;
     Button search;
     TextView searchName, searchGrade, searchSchool;
@@ -135,7 +135,7 @@ public class ShowFriendActivity extends Activity {
                             if(snapshot.getKey().equals(UID)){
                                 searched=snapshot.getValue(UserInfo.class);
                                 searchList.add(searched);
-                                showFriendListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.kakao_default_profile_image), searched.nickname + "[" + searched.name + "]", searched.grade, searched.school);
+                                showFriendListAdapter.addItem(searched.profile, searched.nickname + "[" + searched.name + "]", searched.grade, searched.school);
                                 search_list.setAdapter(showFriendListAdapter);
                                 flag=1;
                                 break;
@@ -167,6 +167,7 @@ public class ShowFriendActivity extends Activity {
                 newfriend_name = temp.name;
                 newfriend_grade = temp.grade;
                 newfriend_school = temp.school;
+                newfriend_profile=temp.profile;
                 check_recommend = 1;
             }
         });
@@ -180,6 +181,7 @@ public class ShowFriendActivity extends Activity {
                 newfriend_name = temp.name;
                 newfriend_grade = temp.grade;
                 newfriend_school = temp.school;
+                newfriend_profile=temp.profile;
                 check_recommend = 1;
             }
         });
@@ -195,6 +197,7 @@ public class ShowFriendActivity extends Activity {
                     mPostReference.child(newfriend_id + "/nickname").setValue(newfriend_nickname);
                     mPostReference.child(newfriend_id + "/grade").setValue(newfriend_grade);
                     mPostReference.child(newfriend_id + "/school").setValue(newfriend_school);
+                    mPostReference.child(newfriend_id + "/profile").setValue(newfriend_profile);
 
 //                    mPostReference3.child(id_key + "/name").setValue(me.name);
 //                    mPostReference3.child(id_key + "/nickname").setValue(me.nickname);
@@ -265,7 +268,7 @@ public class ShowFriendActivity extends Activity {
                             for(String friendID : myFriendList) {
                                 if(uid.equals(friendID)) {
                                     UserInfo friend=snapshot1.getValue(UserInfo.class);
-                                    showFriendListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.kakao_default_profile_image), friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
+                                    showFriendListAdapter.addItem(friend.profile, friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
                                     friend_list.setAdapter(showFriendListAdapter);
                                     break;
                                     }
@@ -322,7 +325,7 @@ public class ShowFriendActivity extends Activity {
                 for(int i = 0; i < cntAll; i++) {
                     UserInfo finalRecommend = recommendList.get(randList[i]);
                     recommendFinalList.add(finalRecommend);
-                    showRecommendFriendListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.kakao_default_profile_image), finalRecommend.nickname + "[" + finalRecommend.name + "]", finalRecommend.grade, finalRecommend.school);
+                    showRecommendFriendListAdapter.addItem(finalRecommend.profile, finalRecommend.nickname + "[" + finalRecommend.name + "]", finalRecommend.grade, finalRecommend.school);
                 }
                 recommendfriend_list.setAdapter(showRecommendFriendListAdapter);
             }
@@ -340,7 +343,7 @@ public class ShowFriendActivity extends Activity {
                     ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         UserInfo friend = snapshot.getValue(UserInfo.class);
-                        showFriendListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.kakao_default_profile_image), friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
+                        showFriendListAdapter.addItem(friend.profile, friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
                     }
                     friend_list.setAdapter(showFriendListAdapter);
                 }

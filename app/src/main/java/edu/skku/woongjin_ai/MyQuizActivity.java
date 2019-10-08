@@ -227,7 +227,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                             if(key.equals(QKEY)){
                                 UserInfo friend = snapshot1.getValue(UserInfo.class);
                                 Uinfos.add(friend);
-                                showFriendListAdapterL.addItem(getResources().getDrawable(R.drawable.kakao_default_profile_image), friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
+                                showFriendListAdapterL.addItem(friend.profile, friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
                             }
                         }
                     }
