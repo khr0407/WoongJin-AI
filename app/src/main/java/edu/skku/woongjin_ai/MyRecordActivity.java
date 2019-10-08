@@ -33,7 +33,7 @@ public class MyRecordActivity extends AppCompatActivity {
     TextView attend, script, myQnum, solveQnum, bombNum, bucketNum;
     ImageButton goHome;
     UserInfo me;
-    Button graph_attend, graph_cnt, graph_correct, graph_level, graph_like;
+    Button graph_attend, graph_made, graph_correct, graph_level, graph_like;
     int total_week;
     LineChart lineChart;
     int MAX_SIZE=100;
@@ -41,7 +41,7 @@ public class MyRecordActivity extends AppCompatActivity {
 
     Intent intentGoHome;
 
-    ArrayList<String> week_cnt, week_correct, week_level, week_like, week_attend;
+    ArrayList<String> week_made, week_correct, week_level, week_like, week_attend;
     ArrayList<Entry> entries;
 
     @Override
@@ -68,7 +68,7 @@ public class MyRecordActivity extends AppCompatActivity {
         goHome=(ImageButton)findViewById(R.id.home);
 
         graph_attend=(Button)findViewById(R.id.graph_attend);
-        graph_cnt=(Button)findViewById(R.id.graph_cnt);
+        graph_made=(Button)findViewById(R.id.graph_made);
         graph_correct=(Button)findViewById(R.id.graph_correct);
         graph_level=(Button)findViewById(R.id.graph_level);
         graph_like=(Button)findViewById(R.id.graph_like);
@@ -86,7 +86,7 @@ public class MyRecordActivity extends AppCompatActivity {
        // week_like=new int[MAX_SIZE];
 
         week_attend=new ArrayList<String>();
-        week_cnt=new ArrayList<String>();
+        week_made=new ArrayList<String>();
         week_correct=new ArrayList<String>();
         week_level=new ArrayList<String>();
         week_like=new ArrayList<String>();
@@ -109,7 +109,7 @@ public class MyRecordActivity extends AppCompatActivity {
                 graph_attend.setBackgroundResource(R.drawable.rounded_yellow);
                 f1=1;
                 if(f2==1||f3==1||f4==1||f5==1){
-                    graph_cnt.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_made.setBackgroundResource(R.drawable.rounded_white_transparent);
                     graph_correct.setBackgroundResource(R.drawable.rounded_white_transparent);
                     graph_level.setBackgroundResource(R.drawable.rounded_white_transparent);
                     graph_like.setBackgroundResource(R.drawable.rounded_white_transparent);
@@ -125,10 +125,10 @@ public class MyRecordActivity extends AppCompatActivity {
             }
         });
 
-        graph_cnt.setOnClickListener(new View.OnClickListener(){
+        graph_made.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                graph_cnt.setBackgroundResource(R.drawable.rounded_yellow);
+                graph_made.setBackgroundResource(R.drawable.rounded_yellow);
                 f2=1;
                 if(f1==1||f3==1||f4==1||f5==1){
                     graph_attend.setBackgroundResource(R.drawable.rounded_white_transparent);
@@ -138,9 +138,9 @@ public class MyRecordActivity extends AppCompatActivity {
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
-                    entries.add(new Entry(j, Float.parseFloat(week_cnt.get(j))));
+                    entries.add(new Entry(j, Float.parseFloat(week_made.get(j))));
                 }
-                LineDataSet dataset = new LineDataSet(entries, "주간 cnt 수");
+                LineDataSet dataset = new LineDataSet(entries, "주간 만든 문제 수");
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
                 lineChart.animateY(5000);
@@ -153,7 +153,7 @@ public class MyRecordActivity extends AppCompatActivity {
                 graph_correct.setBackgroundResource(R.drawable.rounded_yellow);
                 f3=1;
                 if(f2==1||f1==1||f4==1||f5==1){
-                    graph_cnt.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_made.setBackgroundResource(R.drawable.rounded_white_transparent);
                     graph_attend.setBackgroundResource(R.drawable.rounded_white_transparent);
                     graph_level.setBackgroundResource(R.drawable.rounded_white_transparent);
                     graph_like.setBackgroundResource(R.drawable.rounded_white_transparent);
@@ -175,7 +175,7 @@ public class MyRecordActivity extends AppCompatActivity {
                 graph_level.setBackgroundResource(R.drawable.rounded_yellow);
                 f4=1;
                 if(f2==1||f3==1||f1==1||f5==1){
-                    graph_cnt.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_made.setBackgroundResource(R.drawable.rounded_white_transparent);
                     graph_correct.setBackgroundResource(R.drawable.rounded_white_transparent);
                     graph_attend.setBackgroundResource(R.drawable.rounded_white_transparent);
                     graph_like.setBackgroundResource(R.drawable.rounded_white_transparent);
@@ -197,7 +197,7 @@ public class MyRecordActivity extends AppCompatActivity {
                 graph_like.setBackgroundResource(R.drawable.rounded_yellow);
                 f5=1;
                 if(f2==1||f3==1||f4==1||f1==1){
-                    graph_cnt.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_made.setBackgroundResource(R.drawable.rounded_white_transparent);
                     graph_correct.setBackgroundResource(R.drawable.rounded_white_transparent);
                     graph_level.setBackgroundResource(R.drawable.rounded_white_transparent);
                     graph_attend.setBackgroundResource(R.drawable.rounded_white_transparent);
@@ -223,13 +223,13 @@ public class MyRecordActivity extends AppCompatActivity {
                 week_level.clear();
                 week_correct.clear();
                 week_attend.clear();
-                week_cnt.clear();
+                week_made.clear();
                 total_week=0;
                 DataSnapshot snapshot=dataSnapshot.child("user_list").child(id).child("my_week_list");
                 for(DataSnapshot snapshot1:snapshot.getChildren()){ //week껍데기
                     long attendCnt=snapshot1.child("attend_list").getChildrenCount();
                     week_attend.add(Long.toString(attendCnt));
-                    week_cnt.add(snapshot1.child("cnt").getValue().toString());
+                    week_made.add(snapshot1.child("made").getValue().toString());
                     week_correct.add(snapshot1.child("correct").getValue().toString());
                     week_level.add(snapshot1.child("level").getValue().toString());
                     week_like.add(snapshot1.child("like").getValue().toString());
@@ -294,16 +294,21 @@ public class MyRecordActivity extends AppCompatActivity {
                                     }
                                     else if(key2.equals("my_week_list")){
                                         int attendcnt=0;
+                                        int madecnt=0;
                                         for(DataSnapshot snapshot3:snapshot2.getChildren()){
                                             for(DataSnapshot snapshot4:snapshot3.getChildren()){
                                                 String key5=snapshot4.getKey();
                                                 if(key5.equals("attend_list")){
                                                     attendcnt+=snapshot4.getChildrenCount();
                                                     break;
+                                                }else if(key5.equals("made")){
+                                                    attendcnt+=Integer.parseInt(snapshot4.getValue().toString());
+                                                    break;
                                                 }
                                             }
                                         }
                                         attend.setText(attendcnt+" 일");
+                                        myQnum.setText(madecnt+" 개");
                                     }
                                 }
                                 break;

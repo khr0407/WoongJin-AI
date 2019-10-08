@@ -451,10 +451,10 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="cnt"
+                        android:text="만든 문제 수"
                         android:fontFamily="@font/typo_sherlock_l"
                         android:background="@drawable/rounded_white_transparent"
-                        android:id="@+id/graph_cnt"
+                        android:id="@+id/graph_made"
                         />
 
                     <LinearLayout
