@@ -21,11 +21,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 public class ShowFriendQuizActivity extends AppCompatActivity
-        implements FriendOXQuizFragment.OnFragmentInteractionListener, FriendChoiceQuizFragment.OnFragmentInteractionListener, FriendShortwordQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener, ShowHintFragment.OnFragmentInteractionListener, CorrectFriendQuizFragment.OnFragmentInteractionListener, WrongFriendQuizFragment.OnFragmentInteractionListener {
+        implements NewHoonjangFragment.OnFragmentInteractionListener, FriendOXQuizFragment.OnFragmentInteractionListener, FriendChoiceQuizFragment.OnFragmentInteractionListener, FriendShortwordQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener, ShowHintFragment.OnFragmentInteractionListener, CorrectFriendQuizFragment.OnFragmentInteractionListener, WrongFriendQuizFragment.OnFragmentInteractionListener {
 
     Intent intent, intentHome, intentUpdate;
     String id, scriptnm, background;
@@ -45,6 +48,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
     TextView textView;
     int cntOX, cntChoice, cntShort, flag = 0;
     UserInfo me;
+    NewHoonjangFragment hoonjangFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +89,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         getFirebaseDatabaseUserInfo();
         getFirebaseDatabaseMyFriendQuiz();
         getFirebaseDatabaseLikeQuiz();
+        getFirebaseDatabaseHoonjangInfo();
 
         intentUpdate = new Intent(ShowFriendQuizActivity.this, ShowFriendQuizActivity.class);
         intentUpdate.putExtra("id", id);
@@ -328,6 +333,54 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_script_list/" + scriptnm + "/solved_list").getChildren()) {
                     String key = snapshot.getKey();
                     solvedQuizList.add(key);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+    }
+
+    private void getFirebaseDatabaseHoonjangInfo() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int SolvedCount=0;
+                DataSnapshot dataSnapshot1=dataSnapshot.child("user_list/"+id+"my_week_list");
+                for(DataSnapshot dataSnapshot2: dataSnapshot1.getChildren()){ //week 껍데기
+                    SolvedCount+=Integer.parseInt(dataSnapshot2.child("correct").getValue().toString());
+                }
+                Calendar calendar = Calendar.getInstance();
+                Date dateS = calendar.getTime();
+                String MedalUpdate = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                hoonjangFragment=new NewHoonjangFragment();
+                if(SolvedCount==150) {
+                    mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev3##"+MedalUpdate);
+                    transaction.replace(R.id.friendquizFrame, hoonjangFragment);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "quizhunter");
+                    bundle.putString("from", "showfriendquiz");
+                    bundle.putInt("level", 3);
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }else if(SolvedCount==100){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev2##"+MedalUpdate);
+                    transaction.replace(R.id.friendquizFrame, hoonjangFragment);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "quizhunter");
+                    bundle.putString("from", "showfriendquiz");
+                    bundle.putInt("level", 2);
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }else if(SolvedCount==50){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev1##"+MedalUpdate);
+                    transaction.replace(R.id.friendquizFrame, hoonjangFragment);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "quizhunter");
+                    bundle.putString("from", "showfriendquiz");
+                    bundle.putInt("level", 1);
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
                 }
             }
             @Override

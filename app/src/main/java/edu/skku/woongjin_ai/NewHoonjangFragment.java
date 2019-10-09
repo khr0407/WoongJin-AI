@@ -90,8 +90,14 @@ public class NewHoonjangFragment extends Fragment {
                 if(from.equals("quiz")) {
                     fragmentTransaction.remove(((SelectTypeActivity)getActivity()).hoonjangFragment);
                     fragmentTransaction.commit();
-                }else if(from.equals("main")) {
-                    fragmentTransaction.remove(((MainActivity)getActivity()).hoonjangFragment);
+                }else if(from.equals("main_attend")) {
+                    fragmentTransaction.remove(((MainActivity)getActivity()).hoonjangFragment_attend);
+                    fragmentTransaction.commit();
+                }else if(from.equals("main_read")) {
+                    fragmentTransaction.remove(((MainActivity)getActivity()).hoonjangFragment_read);
+                    fragmentTransaction.commit();
+                }else if(from.equals("showfriendquiz")) {
+                    fragmentTransaction.remove(((ShowFriendQuizActivity)getActivity()).hoonjangFragment);
                     fragmentTransaction.commit();
                 }
             }
