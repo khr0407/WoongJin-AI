@@ -1,14 +1,17 @@
 package edu.skku.woongjin_ai;
 
-import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -18,21 +21,34 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
-public class ShowFriendQuizActivity extends AppCompatActivity {
+public class ShowFriendQuizActivity extends AppCompatActivity
+        implements NewHoonjangFragment.OnFragmentInteractionListener, FriendOXQuizFragment.OnFragmentInteractionListener, FriendChoiceQuizFragment.OnFragmentInteractionListener, FriendShortwordQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener, ShowHintFragment.OnFragmentInteractionListener, CorrectFriendQuizFragment.OnFragmentInteractionListener, WrongFriendQuizFragment.OnFragmentInteractionListener {
 
-    //TODO UI 백그라운드 이미지로 바꿀까?? 지문 제목 추가??
-
-    Intent intent;
+    Intent intent, intentHome, intentUpdate;
     String id, scriptnm, background;
-    public DatabaseReference mPostReference;
+    DatabaseReference mPostReference;
     ListView myFriendQuizListView, likeQuizListView;
-    ArrayList<String> likeQuizList, myFriendList;
-    ArrayList<QuizOXShortwordTypeInfo> myFriendOXQuiz, myFriendShortQuizList;
-    ArrayList<QuizChoiceTypeInfo> myFriendChoiceQuizList;
+    ArrayList<String> likeQuizList, myFriendList, solvedQuizList;
+    ArrayList<QuizOXShortwordTypeInfo> myFriendOXQuizList, myFriendShortQuizList, myFriendOXQuizListR, myFriendShortQuizListR;
+    ArrayList<QuizChoiceTypeInfo> myFriendChoiceQuizList, myFriendChoiceQuizListR;
     MyFriendQuizListAdapter myFriendQuizListAdapter;
+    FriendOXQuizFragment friendOXQuizFragment;
+    FriendChoiceQuizFragment friendChoiceQuizFragment;
+    FriendShortwordQuizFragment friendShortwordQuizFragment;
+    ShowScriptFragment showScriptFragment;
+    ShowHintFragment showHintFragment;
+    CorrectFriendQuizFragment correctFriendQuizFragment;
+    WrongFriendQuizFragment wrongFriendQuizFragment;
+    TextView textView;
+    int cntOX, cntChoice, cntShort, flag = 0;
+    UserInfo me;
+    NewHoonjangFragment hoonjangFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,21 +62,135 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
+        friendOXQuizFragment = new FriendOXQuizFragment();
+        friendChoiceQuizFragment = new FriendChoiceQuizFragment();
+        friendShortwordQuizFragment = new FriendShortwordQuizFragment();
+        showScriptFragment = new ShowScriptFragment();
+        showHintFragment = new ShowHintFragment();
+        correctFriendQuizFragment = new CorrectFriendQuizFragment();
+        wrongFriendQuizFragment = new WrongFriendQuizFragment();
+
         myFriendQuizListView = (ListView) findViewById(R.id.myFriendQuizList);
         likeQuizListView = (ListView) findViewById(R.id.likeQuizList);
-        TextView textView = (TextView) findViewById(R.id.textShowFriendQuiz);
+        textView = (TextView) findViewById(R.id.textShowFriendQuiz);
+        ImageButton homeButton = (ImageButton) findViewById(R.id.home);
 
         likeQuizList = new ArrayList<String>();
         myFriendList = new ArrayList<String>();
-        myFriendOXQuiz = new ArrayList<QuizOXShortwordTypeInfo>();
+        solvedQuizList = new ArrayList<String>();
+        myFriendOXQuizList = new ArrayList<QuizOXShortwordTypeInfo>();
+        myFriendOXQuizListR = new ArrayList<QuizOXShortwordTypeInfo>();
         myFriendShortQuizList = new ArrayList<QuizOXShortwordTypeInfo>();
+        myFriendShortQuizListR = new ArrayList<QuizOXShortwordTypeInfo>();
         myFriendChoiceQuizList = new ArrayList<QuizChoiceTypeInfo>();
+        myFriendChoiceQuizListR = new ArrayList<QuizChoiceTypeInfo>();
         myFriendQuizListAdapter = new MyFriendQuizListAdapter();
 
+        getFirebaseDatabaseUserInfo();
         getFirebaseDatabaseMyFriendQuiz();
         getFirebaseDatabaseLikeQuiz();
+        getFirebaseDatabaseHoonjangInfo();
 
-        textView.setText(id + " 친구가 낸 문제야!");
+        intentUpdate = new Intent(ShowFriendQuizActivity.this, ShowFriendQuizActivity.class);
+        intentUpdate.putExtra("id", id);
+        intentUpdate.putExtra("scriptnm", scriptnm);
+        intentUpdate.putExtra("background", background);
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentHome = new Intent(ShowFriendQuizActivity.this, MainActivity.class);
+                intentHome.putExtra("id", id);
+                startActivity(intentHome);
+            }
+        });
+
+        myFriendQuizListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
+                if(flag == 1) {
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.remove(friendOXQuizFragment);
+                    fragmentTransaction.commit();
+                    friendOXQuizFragment = new FriendOXQuizFragment();
+                } else if(flag == 2) {
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.remove(friendChoiceQuizFragment);
+                    fragmentTransaction.commit();
+                    friendChoiceQuizFragment = new FriendChoiceQuizFragment();
+                } else if(flag == 3) {
+                    FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.remove(friendShortwordQuizFragment);
+                    fragmentTransaction.commit();
+                    friendShortwordQuizFragment = new FriendShortwordQuizFragment();
+                }
+
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                if(position < cntOX) {
+                    flag = 1;
+                    QuizOXShortwordTypeInfo quiz = myFriendOXQuizListR.get(position);
+
+                    transaction.replace(R.id.contentShowFriendQuiz, friendOXQuizFragment);
+                    Bundle bundle = new Bundle(10);
+                    bundle.putString("id", id);
+                    bundle.putString("scriptnm", scriptnm);
+                    bundle.putString("question", quiz.question);
+                    bundle.putString("answer", quiz.answer);
+                    bundle.putString("uid", quiz.uid);
+                    bundle.putString("star", quiz.star);
+                    bundle.putString("like", quiz.like);
+                    bundle.putString("desc", quiz.desc);
+                    bundle.putString("key", quiz.key);
+                    bundle.putInt("cnt", quiz.cnt);
+                    friendOXQuizFragment.setArguments(bundle);
+                    transaction.commit();
+                } else {
+                    position -= cntOX;
+                    if(position < cntChoice) {
+                        flag = 2;
+                        QuizChoiceTypeInfo quiz = myFriendChoiceQuizListR.get(position);
+
+                        transaction.replace(R.id.contentShowFriendQuiz, friendChoiceQuizFragment);
+                        Bundle bundle = new Bundle(14);
+                        bundle.putString("id", id);
+                        bundle.putString("scriptnm", scriptnm);
+                        bundle.putString("question", quiz.question);
+                        bundle.putString("answer", quiz.answer);
+                        bundle.putString("answer1", quiz.answer1);
+                        bundle.putString("answer2", quiz.answer2);
+                        bundle.putString("answer3", quiz.answer3);
+                        bundle.putString("answer4", quiz.answer4);
+                        bundle.putString("uid", quiz.uid);
+                        bundle.putString("star", quiz.star);
+                        bundle.putString("like", quiz.like);
+                        bundle.putString("desc", quiz.desc);
+                        bundle.putString("key", quiz.key);
+                        bundle.putInt("cnt", quiz.cnt);
+                        friendChoiceQuizFragment.setArguments(bundle);
+                        transaction.commit();
+                    } else {
+                        position -= cntChoice;
+                        flag = 3;
+                        QuizOXShortwordTypeInfo quiz = myFriendShortQuizListR.get(position);
+
+                        transaction.replace(R.id.contentShowFriendQuiz, friendShortwordQuizFragment);
+                        Bundle bundle = new Bundle(10);
+                        bundle.putString("id", id);
+                        bundle.putString("scriptnm", scriptnm);
+                        bundle.putString("question", quiz.question);
+                        bundle.putString("answer", quiz.answer);
+                        bundle.putString("uid", quiz.uid);
+                        bundle.putString("star", quiz.star);
+                        bundle.putString("like", quiz.like);
+                        bundle.putString("desc", quiz.desc);
+                        bundle.putString("key", quiz.key);
+                        bundle.putInt("cnt", quiz.cnt);
+                        friendShortwordQuizFragment.setArguments(bundle);
+                        transaction.commit();
+                    }
+                }
+            }
+        });
     }
 
     private void getFirebaseDatabaseMyFriendQuiz() {
@@ -68,76 +198,104 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 myFriendList.clear();
-                myFriendOXQuiz.clear();
-                myFriendShortQuizList.clear();
+                myFriendOXQuizList.clear();
                 myFriendChoiceQuizList.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                myFriendShortQuizList.clear();
+                myFriendOXQuizListR.clear();
+                myFriendChoiceQuizListR.clear();
+                myFriendShortQuizListR.clear();
+
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_friend_list").getChildren()) {
                     String key = snapshot.getKey();
-                    if(key.equals("kakaouser_list") || key.equals("user_list")) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String key1 = snapshot1.getKey();
-                            if(key1.equals(id)) {
-                                for(DataSnapshot snapshot2 : snapshot1.child("friend").getChildren()) {
-                                    String key2 = snapshot2.getKey();
-                                    myFriendList.add(key2);
-                                }
-                                break;
-                            }
-                        }
-                    }
+                    myFriendList.add(key);
                 }
 
                 for(DataSnapshot snapshot : dataSnapshot.child("quiz_list/" + scriptnm).getChildren()) {
-                    String key = snapshot.getKey();
-                    if(key.equals("type1") || key.equals("type3")) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String uid = snapshot1.child("uid").getValue().toString();
-                            for(String friend : myFriendList) {
-                                if(uid.equals(friend)) {
-                                    QuizOXShortwordTypeInfo quiz = snapshot1.getValue(QuizOXShortwordTypeInfo.class);
-                                    myFriendOXQuiz.add(quiz);
+                    String type = snapshot.child("type").getValue().toString();
+                    String uid = snapshot.child("uid").getValue().toString();
+                    for(String friend : myFriendList) {
+                        if(friend.equals(uid)) {
+                            int flag = 0;
+                            for(String solved : solvedQuizList) {
+                                String key = snapshot.getKey();
+                                if(solved.equals(key)) {
+                                    flag = 1;
                                     break;
                                 }
                             }
-                        }
-                    } else if(key.equals("type2")) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String uid = snapshot1.child("uid").getValue().toString();
-                            for(String friend : myFriendList) {
-                                if(uid.equals(friend)) {
-                                    QuizChoiceTypeInfo quiz = snapshot1.getValue(QuizChoiceTypeInfo.class);
+                            if(flag == 0) {
+                                if(type.equals("1")) {
+                                    QuizOXShortwordTypeInfo quiz = snapshot.getValue(QuizOXShortwordTypeInfo.class);
+                                    myFriendOXQuizList.add(quiz);
+                                } else if(type.equals("2")) {
+                                    QuizChoiceTypeInfo quiz = snapshot.getValue(QuizChoiceTypeInfo.class);
                                     myFriendChoiceQuizList.add(quiz);
-                                    break;
-                                }
-                            }
-                        }
-                    } else if(key.equals("type3")) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String uid = snapshot1.child("uid").getValue().toString();
-                            for(String friend : myFriendList) {
-                                if(uid.equals(friend)) {
-                                    QuizOXShortwordTypeInfo quiz = snapshot1.getValue(QuizOXShortwordTypeInfo.class);
+                                } else if(type.equals("3")) {
+                                    QuizOXShortwordTypeInfo quiz = snapshot.getValue(QuizOXShortwordTypeInfo.class);
                                     myFriendShortQuizList.add(quiz);
-                                    break;
                                 }
                             }
+                            break;
                         }
                     }
                 }
 
-//                Random generator = new Random();
 
-                for(QuizOXShortwordTypeInfo quiz : myFriendOXQuiz) {
-                    myFriendQuizListAdapter.addItem(quiz.question, quiz.uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), quiz.like);
+                Random generator = new Random();
+                cntOX = myFriendOXQuizList.size();
+                cntChoice = myFriendChoiceQuizList.size();
+                cntShort = myFriendShortQuizList.size();
+                int[] randList = new int[5];
+
+                int cnt = 5;
+                if(cnt > cntOX) cnt = cntOX;
+                for(int i=0; i<cnt; i++) {
+                    randList[i] = generator.nextInt(cntOX);
+                    for(int j = 0; j < i; j++) {
+                        if(randList[i] == randList[j]) {
+                            i--;
+                            break;
+                        }
+                    }
                 }
-                for(QuizChoiceTypeInfo quiz : myFriendChoiceQuizList) {
-                    myFriendQuizListAdapter.addItem(quiz.question, quiz.uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), quiz.like);
+                for(int i=0; i<cnt; i++) {
+                    myFriendQuizListAdapter.addItem(myFriendOXQuizList.get(randList[i]).question, myFriendOXQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myFriendOXQuizList.get(randList[i]).like);
+                    myFriendOXQuizListR.add(myFriendOXQuizList.get(randList[i]));
                 }
-                for(QuizOXShortwordTypeInfo quiz : myFriendShortQuizList) {
-                    myFriendQuizListAdapter.addItem(quiz.question, quiz.uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_question_mark), quiz.like);
+
+                cnt = 5;
+                if(cnt > cntChoice) cnt = cntChoice;
+                for(int i=0; i<cnt; i++) {
+                    randList[i] = generator.nextInt(cntChoice);
+                    for(int j = 0; j < i; j++) {
+                        if(randList[i] == randList[j]) {
+                            i--;
+                            break;
+                        }
+                    }
                 }
+                for(int i=0; i<cnt; i++) {
+                    myFriendQuizListAdapter.addItem(myFriendChoiceQuizList.get(randList[i]).question, myFriendChoiceQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myFriendChoiceQuizList.get(randList[i]).like);
+                    myFriendChoiceQuizListR.add(myFriendChoiceQuizList.get(randList[i]));
+                }
+
+                cnt = 5;
+                if(cnt > cntShort) cnt = cntShort;
+                for(int i=0; i<cnt; i++) {
+                    randList[i] = generator.nextInt(cntShort);
+                    for(int j = 0; j < i; j++) {
+                        if(randList[i] == randList[j]) {
+                            i--;
+                            break;
+                        }
+                    }
+                }
+                for(int i=0; i<cnt; i++) {
+                    myFriendQuizListAdapter.addItem(myFriendShortQuizList.get(randList[i]).question, myFriendShortQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myFriendShortQuizList.get(randList[i]).like);
+                    myFriendShortQuizListR.add(myFriendShortQuizList.get(randList[i]));
+                }
+
                 myFriendQuizListView.setAdapter(myFriendQuizListAdapter);
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
@@ -162,5 +320,76 @@ public class ShowFriendQuizActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
+    }
+
+    private void getFirebaseDatabaseUserInfo() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                solvedQuizList.clear();
+                me = dataSnapshot.child("user_list/" + id).getValue(UserInfo.class);
+                textView.setText(me.nickname + "의 친구가 낸 문제야!");
+
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_script_list/" + scriptnm + "/solved_list").getChildren()) {
+                    String key = snapshot.getKey();
+                    solvedQuizList.add(key);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+    }
+
+    private void getFirebaseDatabaseHoonjangInfo() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int SolvedCount=0;
+                DataSnapshot dataSnapshot1=dataSnapshot.child("user_list/"+id+"my_week_list");
+                for(DataSnapshot dataSnapshot2: dataSnapshot1.getChildren()){ //week 껍데기
+                    SolvedCount+=Integer.parseInt(dataSnapshot2.child("correct").getValue().toString());
+                }
+                Calendar calendar = Calendar.getInstance();
+                Date dateS = calendar.getTime();
+                String MedalUpdate = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                hoonjangFragment=new NewHoonjangFragment();
+                if(SolvedCount==150) {
+                    mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev3##"+MedalUpdate);
+                    transaction.replace(R.id.friendquizFrame, hoonjangFragment);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "quizhunter");
+                    bundle.putString("from", "showfriendquiz");
+                    bundle.putInt("level", 3);
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }else if(SolvedCount==100){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev2##"+MedalUpdate);
+                    transaction.replace(R.id.friendquizFrame, hoonjangFragment);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "quizhunter");
+                    bundle.putString("from", "showfriendquiz");
+                    bundle.putInt("level", 2);
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }else if(SolvedCount==50){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev1##"+MedalUpdate);
+                    transaction.replace(R.id.friendquizFrame, hoonjangFragment);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "quizhunter");
+                    bundle.putString("from", "showfriendquiz");
+                    bundle.putInt("level", 1);
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

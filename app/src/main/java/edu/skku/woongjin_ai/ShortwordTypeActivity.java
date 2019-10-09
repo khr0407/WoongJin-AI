@@ -3,6 +3,7 @@ package edu.skku.woongjin_ai;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,12 +17,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,13 +36,13 @@ public class ShortwordTypeActivity extends AppCompatActivity
         implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
-    ImageView imageStar1, imageStar2, imageStar3, imageStar4, imageStar5;
-    EditText editQuiz, editAns, editDesc;
-    Intent intent, intentHome;
+    ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
+    EditText editQuiz, editAns;
+    Intent intent, intentHome, intentType;
     String id, scriptnm, backgroundID;
     String quiz = "", ans = "", desc = "";
-    int star = 0;
-    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD=0, flagB=0, flagNoHint=0;
+    int star = 0, starInt = 0;
+    int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
     FirebaseStorage storage;
@@ -52,19 +59,14 @@ public class ShortwordTypeActivity extends AppCompatActivity
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
 
-        showScriptFragment = new ShowScriptFragment();
-        hintWritingFragment = new HintWritingFragment();
-        hintVideoFragment = new HintVideoFragment();
-
         ImageView imageHome = (ImageView) findViewById(R.id.home);
-        imageStar1 = (ImageView) findViewById(R.id.star1);
-        imageStar2 = (ImageView) findViewById(R.id.star2);
-        imageStar3 = (ImageView) findViewById(R.id.star3);
-        imageStar4 = (ImageView) findViewById(R.id.star4);
-        imageStar5 = (ImageView) findViewById(R.id.star5);
+        imageViewS1 = (ImageView) findViewById(R.id.star1);
+        imageViewS2 = (ImageView) findViewById(R.id.star2);
+        imageViewS3 = (ImageView) findViewById(R.id.star3);
+        imageViewS4 = (ImageView) findViewById(R.id.star4);
+        imageViewS5 = (ImageView) findViewById(R.id.star5);
         editQuiz = (EditText) findViewById(R.id.quiz);
         editAns = (EditText) findViewById(R.id.ans);
-        //editDesc = (EditText) findViewById(R.id.desc);
         TextView title = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
         checkButton = (ImageButton) findViewById(R.id.check);
@@ -95,6 +97,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hintWritingFragment = new HintWritingFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentSelectHint, hintWritingFragment);
                 Bundle bundle = new Bundle(1);
@@ -110,6 +113,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hintVideoFragment = new HintVideoFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentShowScriptShortword, hintVideoFragment);
                 Bundle bundle = new Bundle(1);
@@ -119,54 +123,34 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 transaction.commit();
             }
         });
-/*
+
         noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
-                flagD = 1;
-                flagNoHint=1;
-                desc = "NoHint";
-            }
-        });*/
-        noHintButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(flagNoHint == 0) {
+                if(flagD != 2) {
                     noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
                     checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
                     flagD = 2;
-                    flagNoHint = 1;
                 } else {
                     noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
                     checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     flagD = 0;
-                    flagNoHint = 0;
                 }
-                //TODO 힌트 없음도 fragment 만들어?
             }
         });
 
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagB == 1) {
-                    scriptButton.setImageResource(R.drawable.ic_icons_see_script);
-                    flagB = 0;
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.remove(hintVideoFragment);
-                    transaction.commit();
-                } else {
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.contentShowScriptShortword, showScriptFragment);
-                    Bundle bundle = new Bundle(2);
-                    bundle.putString("scriptnm", scriptnm);
-                    bundle.putString("type", "shortword");
-                    showScriptFragment.setArguments(bundle);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
-                }
+                showScriptFragment = new ShowScriptFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentShowScriptShortword, showScriptFragment);
+                Bundle bundle = new Bundle(2);
+                bundle.putString("scriptnm", scriptnm);
+                bundle.putString("type", "shortword");
+                showScriptFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
 
@@ -176,25 +160,27 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 if(flagD == 0) {
                     Toast.makeText(ShortwordTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
                 } else {
-                    quiz = editQuiz.getText().toString();
-                    ans=editAns.getText().toString();
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
-
-                    if(flagNoHint==0)
+                    if(flagD == 2) {
+                        desc="없음";
+                    } else {
                         desc = hintWritingFragment1.editTextHint.getText().toString();
-                    else
-                        desc="힌트가 없습니다!";
+                    }
+                    quiz = editQuiz.getText().toString();
+                    ans = editAns.getText().toString();
 
-                    if(quiz.length() == 0 || ans.length() == 0 || desc.length() == 0 || star < 1 ) {
+                    if(quiz.length() == 0 || ans.length() == 0 || desc.length() == 0 || starInt < 1 ) {
                         Toast.makeText(ShortwordTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
-//                        Log.d("quiz_length", quiz );
-//                        Log.d("ans_length", ans);
-//                        Log.d("desc_length", desc);
-
                     } else {
                         postFirebaseDatabaseQuizShortword();
-                        if(flagNoHint==0)
-                            hintWritingFragment1.editTextHint.setText("");
+                        if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
+                        Toast.makeText(ShortwordTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
+
+                        intentType = new Intent(ShortwordTypeActivity.this, SelectTypeActivity.class);
+                        intentType.putExtra("id", id);
+                        intentType.putExtra("scriptnm", scriptnm);
+                        intentType.putExtra("background", backgroundID);
+                        startActivity(intentType);
                     }
                 }
             }
@@ -209,76 +195,136 @@ public class ShortwordTypeActivity extends AppCompatActivity
             }
         });
 
-        imageStar1.setOnClickListener(new View.OnClickListener() {
+        imageViewS1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagS1 == 0) {
-                    star++;
-                    imageStar1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    starInt = 1;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
                     flagS1 = 1;
                 } else {
-                    star--;
-                    imageStar1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    starInt = 0;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
                     flagS1 = 0;
+                    flagS2 = 0;
+                    flagS3 = 0;
+                    flagS4 = 0;
+                    flagS5 = 0;
                 }
             }
         });
 
-        imageStar2.setOnClickListener(new View.OnClickListener() {
+        imageViewS2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagS2 == 0) {
-                    star++;
-                    imageStar2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    starInt = 2;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    flagS1 = 1;
                     flagS2 = 1;
                 } else {
-                    star--;
-                    imageStar2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    starInt = 0;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    flagS1 = 0;
                     flagS2 = 0;
+                    flagS3 = 0;
+                    flagS4 = 0;
+                    flagS5 = 0;
                 }
             }
         });
 
-        imageStar3.setOnClickListener(new View.OnClickListener() {
+        imageViewS3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagS3 == 0) {
-                    star++;
-                    imageStar3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    starInt = 3;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    flagS1 = 1;
+                    flagS2 = 1;
                     flagS3 = 1;
                 } else {
-                    star--;
-                    imageStar3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    starInt = 0;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    flagS1 = 0;
+                    flagS2 = 0;
                     flagS3 = 0;
+                    flagS4 = 0;
+                    flagS5 = 0;
                 }
             }
         });
 
-        imageStar4.setOnClickListener(new View.OnClickListener() {
+        imageViewS4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagS4 == 0) {
-                    star++;
-                    imageStar4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    starInt = 4;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    flagS1 = 1;
+                    flagS2 = 1;
+                    flagS3 = 1;
                     flagS4 = 1;
                 } else {
-                    star--;
-                    imageStar4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    starInt = 0;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    flagS1 = 0;
+                    flagS2 = 0;
+                    flagS3 = 0;
                     flagS4 = 0;
+                    flagS5 = 0;
                 }
             }
         });
 
-        imageStar5.setOnClickListener(new View.OnClickListener() {
+        imageViewS5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagS5 == 0) {
-                    star++;
-                    imageStar5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    starInt = 5;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    flagS1 = 1;
+                    flagS2 = 1;
+                    flagS3 = 1;
+                    flagS4 = 1;
                     flagS5 = 1;
                 } else {
-                    star--;
-                    imageStar5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    starInt = 0;
+                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    flagS1 = 0;
+                    flagS2 = 0;
+                    flagS3 = 0;
+                    flagS4 = 0;
                     flagS5 = 0;
                 }
             }
@@ -288,17 +334,19 @@ public class ShortwordTypeActivity extends AppCompatActivity
     private void postFirebaseDatabaseQuizShortword() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(star), desc, "0");
-        postValues = post.toMap();
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
-        childUpdates.put("/quiz_list/" + scriptnm + "/type3/" + ts + "/", postValues);
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, "없음", 3);
+        postValues = post.toMap();
+        childUpdates.put("/quiz_list/" + scriptnm + "/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
         editAns.setText("");
-        //editDesc.setText("");
     }
+
+
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 

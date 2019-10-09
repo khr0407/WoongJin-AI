@@ -2,6 +2,7 @@ package edu.skku.woongjin_ai;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -148,10 +150,14 @@ public class RegisterActivity extends AppCompatActivity {
     private void postFirebaseDatabaseUserInfo() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        UserInfo post = new UserInfo(id, pw, name, nickname, school, gender, grade, "100");
+        UserInfo post = new UserInfo(id, pw, name, nickname, school, gender, grade, "100", "noimage");
         postValues = post.toMap();
         childUpdates.put("/user_list/" + id + "/", postValues);
         mPostReference.updateChildren(childUpdates);
+        mPostReference.child("user_list/" + id + "/my_week_list/week1/cnt").setValue(0);
+        mPostReference.child("user_list/" + id + "/my_week_list/week1/correct").setValue(0);
+        mPostReference.child("user_list/" + id + "/my_week_list/week1/level").setValue(0.0);
+        mPostReference.child("user_list/" + id + "/my_week_list/week1/like").setValue(0);
     }
 
     private ValueEventListener checkIDRegister = new ValueEventListener() {
