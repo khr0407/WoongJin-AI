@@ -204,24 +204,27 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                 if(AttendCount==365) {
                     mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev3##"+MedalUpdate);
                     transaction.replace(R.id.Mainframe, hoonjangFragment);
-                    Bundle bundle = new Bundle(2);
+                    Bundle bundle = new Bundle(3);
                     bundle.putString("what", "attend");
+                    bundle.putString("from", "main");
                     bundle.putInt("level", 3);
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }else if(AttendCount==100){
                     mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev2##"+MedalUpdate);
                     transaction.replace(R.id.Mainframe, hoonjangFragment);
-                    Bundle bundle = new Bundle(2);
+                    Bundle bundle = new Bundle(3);
                     bundle.putString("what", "attend");
+                    bundle.putString("from", "main");
                     bundle.putInt("level", 2);
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }else if(AttendCount==30){
                     mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev1##"+MedalUpdate);
                     transaction.replace(R.id.Mainframe, hoonjangFragment);
-                    Bundle bundle = new Bundle(2);
+                    Bundle bundle = new Bundle(3);
                     bundle.putString("what", "attend");
+                    bundle.putString("from", "main");
                     bundle.putInt("level", 1);
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();

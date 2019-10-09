@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ public class NewHoonjangFragment extends Fragment {
     ImageView hoonjang;
     TextView congratulation;
     DatabaseReference mPostReference;
+    ImageButton close;
+    String from;
 
     private NewHoonjangFragment.OnFragmentInteractionListener mListener;
 
@@ -68,13 +71,31 @@ public class NewHoonjangFragment extends Fragment {
 
         congratulation=(TextView)view.findViewById(R.id.congratulation);
         hoonjang=(ImageView)view.findViewById(R.id.hoonjangImage);
+        close=(ImageButton)view.findViewById(R.id.close);
 
         what= getArguments().getString("what");
         level=getArguments().getInt("level");
+        from=getArguments().getString("from");
 
         congratulation.setText(what+" 레벨 "+level+"달성!");
 
-        String path=what+"_"+level;
+
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        close.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                if(from.equals("quiz")) {
+                    fragmentTransaction.remove(((SelectTypeActivity)getActivity()).hoonjangFragment);
+                    fragmentTransaction.commit();
+                }else if(from.equals("main")) {
+                    fragmentTransaction.remove(((MainActivity)getActivity()).hoonjangFragment);
+                    fragmentTransaction.commit();
+                }
+            }
+        });
 
 
         if(what.equals("attend")){
