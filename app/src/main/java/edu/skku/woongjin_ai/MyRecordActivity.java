@@ -358,6 +358,8 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
 
                 dates.add(calendarDay);
                 calendar.set(year, month-1, day);
+
+                Log.d("hereeeeeeeeee", date);
             }
 
             return dates;
