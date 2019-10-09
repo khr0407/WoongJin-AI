@@ -135,7 +135,7 @@ public class ShowFriendActivity extends Activity {
                             if(snapshot.getKey().equals(UID)){
                                 searched=snapshot.getValue(UserInfo.class);
                                 searchList.add(searched);
-                                showFriendListAdapter.addItem(searched.profile, searched.nickname + "[" + searched.name + "]", searched.grade, searched.school);
+                                showFriendListAdapter.addItem(searched.profile, searched.nickname, searched.grade, searched.school);
                                 search_list.setAdapter(showFriendListAdapter);
                                 flag=1;
                                 break;
@@ -268,7 +268,7 @@ public class ShowFriendActivity extends Activity {
                             for(String friendID : myFriendList) {
                                 if(uid.equals(friendID)) {
                                     UserInfo friend=snapshot1.getValue(UserInfo.class);
-                                    showFriendListAdapter.addItem(friend.profile, friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
+                                    showFriendListAdapter.addItem(friend.profile, friend.nickname, friend.grade, friend.school);
                                     friend_list.setAdapter(showFriendListAdapter);
                                     break;
                                     }
@@ -299,8 +299,7 @@ public class ShowFriendActivity extends Activity {
                                 if(flag == 0) {
                                     UserInfo friend = snapshot1.getValue(UserInfo.class);
                                     String grade = friend.grade;
-                                    String school = friend.school;
-                                    if (grade.equals(myGrade) || school.equals(mySchool)) {
+                                    if (grade.equals(myGrade)) {
                                         recommendList.add(friend);
                                     }
                                 }
@@ -325,7 +324,7 @@ public class ShowFriendActivity extends Activity {
                 for(int i = 0; i < cntAll; i++) {
                     UserInfo finalRecommend = recommendList.get(randList[i]);
                     recommendFinalList.add(finalRecommend);
-                    showRecommendFriendListAdapter.addItem(finalRecommend.profile, finalRecommend.nickname + "[" + finalRecommend.name + "]", finalRecommend.grade, finalRecommend.school);
+                    showRecommendFriendListAdapter.addItem(finalRecommend.profile, finalRecommend.nickname, finalRecommend.grade, finalRecommend.school);
                 }
                 recommendfriend_list.setAdapter(showRecommendFriendListAdapter);
             }
@@ -343,7 +342,7 @@ public class ShowFriendActivity extends Activity {
                     ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         UserInfo friend = snapshot.getValue(UserInfo.class);
-                        showFriendListAdapter.addItem(friend.profile, friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
+                        showFriendListAdapter.addItem(friend.profile, friend.nickname, friend.grade, friend.school);
                     }
                     friend_list.setAdapter(showFriendListAdapter);
                 }
