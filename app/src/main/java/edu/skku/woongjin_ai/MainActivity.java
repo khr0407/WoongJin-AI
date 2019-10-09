@@ -147,8 +147,6 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
                 String today = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                 String todayDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
 
-                Log.d("hereeeeeeeeeee1", startDate + " " + todayDate);
-
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 Date date1 = new Date();
                 Date date2 = new Date();
@@ -160,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
                 }
 
                 if(Math.abs((date1.getTime() - date2.getTime()) / (24*60*60*1000)) > 6) {
-                    Log.d("hereeeeeeeeeeeee2", Math.abs((date1.getTime() - date2.getTime()) / (24*60*60*1000)) + "");
                     weekNum++;
                     String startDate2 = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/cnt").setValue(0);
@@ -172,8 +169,6 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).setValue(today);
                 } else {
                     if(!dataSnapshot.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).exists()) {
-                        Log.d("hereeeeeeeeeeeee3", Math.abs((date1.getTime() - date2.getTime()) / (24*60*60*1000)) + "");
-
                         mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).setValue(today);
                     }
                 }
