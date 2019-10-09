@@ -25,7 +25,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements MainQuizTypeFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements NewHoonjangFragment.OnFragmentInteractionListener, MainQuizTypeFragment.OnFragmentInteractionListener{
 
     public DatabaseReference mPostReference;
     Intent intent, intentBook, intentChatlist, intentMyPage;
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
     TextView userNickname;
     MainQuizTypeFragment mainQuizTypeFragment;
     UserInfo me;
+    NewHoonjangFragment hoonjangFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,6 +191,42 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
                 me = dataSnapshot.child("user_list/" + id).getValue(UserInfo.class);
                 nickname = me.nickname;
                 userNickname.setText("안녕 " + nickname + "!\n여행하고 싶은 나라를 골라보자!");
+                int AttendCount=0;
+                DataSnapshot dataSnapshot1=dataSnapshot.child("user_list/"+id+"my_week_list");
+                for(DataSnapshot dataSnapshot2: dataSnapshot1.getChildren()){ //week 껍데기
+                    AttendCount+=dataSnapshot2.child("attend_list").getChildrenCount();
+                }
+                Calendar calendar = Calendar.getInstance();
+                Date dateS = calendar.getTime();
+                String MedalUpdate = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                hoonjangFragment=new NewHoonjangFragment();
+                if(AttendCount==365) {
+                    mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev3##"+MedalUpdate);
+                    transaction.replace(R.id.Mainframe, hoonjangFragment);
+                    Bundle bundle = new Bundle(2);
+                    bundle.putString("what", "attend");
+                    bundle.putInt("level", 3);
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }else if(AttendCount==100){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev2##"+MedalUpdate);
+                    transaction.replace(R.id.Mainframe, hoonjangFragment);
+                    Bundle bundle = new Bundle(2);
+                    bundle.putString("what", "attend");
+                    bundle.putInt("level", 2);
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }else if(AttendCount==30){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev1##"+MedalUpdate);
+                    transaction.replace(R.id.Mainframe, hoonjangFragment);
+                    Bundle bundle = new Bundle(2);
+                    bundle.putString("what", "attend");
+                    bundle.putInt("level", 1);
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
