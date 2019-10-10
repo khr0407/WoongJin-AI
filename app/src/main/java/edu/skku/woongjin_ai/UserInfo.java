@@ -7,37 +7,42 @@ public class UserInfo {
     public String id;
     public String name;
     public String pw;
-    public String coin;
-    public String birth;
-    public String gender;
-    public String school;
     public String nickname;
+    public String school;
+    public String gender;
+    public String grade;
+    public String coin;
+    public String profile;
 
-    public UserInfo() {
+    public UserInfo(){
 
     }
 
-    public UserInfo(String id, String name, String pw, String coin, String birth, String gender, String school, String nickname) {
+    public UserInfo(String id, String pw, String name, String nickname, String school, String gender, String grade, String coin, String profile) {
         this.id = id;
         this.name = name;
         this.pw = pw;
-        this.coin = coin;
-        this.birth = birth;
-        this.gender = gender;
-        this.school = school;
+        this.name = name;
         this.nickname = nickname;
+        this.school = school;
+        this.gender = gender;
+        this.grade = grade;
+        this.coin = coin;
+        this.profile = profile;
     }
 
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("id", id);
-        result.put("name", name);
         result.put("pw", pw);
-        result.put("coin", coin);
-        result.put("birth", birth);
-        result.put("gender", gender);
-        result.put("school", school);
+        result.put("name",name);
         result.put("nickname", nickname);
+        //result.put("address", address);
+        result.put("school", school);
+        result.put("gender", gender);
+        result.put("grade", grade);
+        result.put("coin", coin);
+        result.put("profile", profile);
         return result;
     }
 }

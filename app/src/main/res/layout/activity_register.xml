@@ -1,94 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="#FFFFFF"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/editTextName"
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="100dp"
+                        android:background="#FFC89A"
+                        android:hint="Name"
+                        android:padding="10dp"
+                        android:textColor="#ffffff"
+                        android:textColorHint="#ffffff" />
+
+                    <LinearLayout
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/editTextNickname"
+                            android:layout_width="230dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:background="#FFC89A"
+                            android:hint="Nickname"
+                            android:padding="10dp"
+                            android:textColor="#ffffff"
+                            android:textColorHint="#ffffff" />
+
+                        <Button
+                            android:id="@+id/check_nickname"
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:text="Check"
+                            android:textColor="#FF8C00"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/editTextID"
+                            android:layout_width="230dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="10dp"
+                            android:background="#FFC89A"
+                            android:hint="ID"
+                            android:padding="10dp"
+                            android:textColor="#ffffff"
+                            android:textColorHint="#ffffff" />
+
+                        <Button
+                            android:id="@+id/check_id"
+                            android:layout_width="80dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:text="Check ID"
+                            android:textColor="#FF8C00"
+                            android:textSize="12.5dp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/editTextPW"
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="#FFC89A"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:padding="10dp"
+                        android:textColor="#ffffff"
+                        android:textColorHint="#ffffff" />
+
+                    <LinearLayout
+                        android:layout_width="320dp"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="성별"
+                            android:textAlignment="center"
+                            android:textSize="19dp"
+                            android:textStyle="bold"
+                            android:layout_gravity="center"/>
+
+                        <Spinner
+                            android:id="@+id/gender"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"/>
+
+                        <TextView
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:text="학년"
+                            android:textAlignment="center"
+                            android:textSize="19dp"
+                            android:textStyle="bold"
+                            android:layout_gravity="center"/>
+
+                        <Spinner
+                            android:id="@+id/grade"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center" />
+
+                    </LinearLayout>
+
+
+                    <EditText
+                        android:id="@+id/editTextSchool"
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="#FFC89A"
+                        android:hint="School"
+                        android:padding="10dp"
+                        android:textColor="#ffffff"
+                        android:textColorHint="#ffffff" />
+
+                    <Button
+                        android:id="@+id/btn_register"
+                        android:layout_width="320dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:background="#FF8C00"
+                        android:text="Register"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout9"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="#FF8C00"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/scrollView2">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="ID"
-                android:textAlignment="center"
-                android:textSize="19dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/editTextID"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Type your id"
-                android:inputType="text"
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="NM"
-                android:textAlignment="center"
-                android:textSize="19dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/editTextNM"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Type your name"
-                android:inputType="text"
-                android:text="" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:text="PW"
-                android:textAlignment="center"
-                android:textSize="19dp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/editTextPW"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="Type your password"
-                android:inputType="textPassword"
-                android:text="" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:text="Register"/>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:text="Member Registration"
+            android:textAlignment="center"
+            android:textColor="#ffffff"
+            android:textSize="30dp"
+            android:textStyle="bold" />
     </LinearLayout>
-
 </android.support.constraint.ConstraintLayout>
