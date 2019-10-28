@@ -347,7 +347,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
         @Override
         protected List<CalendarDay> doInBackground(Void... voids) {
             Calendar calendar = Calendar.getInstance();
-            ArrayList<CalendarDay> dates = new ArrayList<>();
+            List<CalendarDay> dates = new ArrayList<>();
 
             for(String date : attendedDatesList) {
                 CalendarDay calendarDay = CalendarDay.from(calendar);
@@ -355,12 +355,19 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 int year = Integer.parseInt(time[0]);
                 int month = Integer.parseInt(time[1]);
                 int day = Integer.parseInt(time[2]);
-
                 dates.add(calendarDay);
                 calendar.set(year, month-1, day);
-
-                Log.d("hereeeeeeeeee", date);
             }
+
+            int size = attendedDatesList.size();
+            String date = attendedDatesList.get(size-1);
+            CalendarDay calendarDay = CalendarDay.from(calendar);
+            String[] time = date.split("-");
+            int year = Integer.parseInt(time[0]);
+            int month = Integer.parseInt(time[1]);
+            int day = Integer.parseInt(time[2]);
+            dates.add(calendarDay);
+            calendar.set(year, month-1, day);
 
             return dates;
         }
