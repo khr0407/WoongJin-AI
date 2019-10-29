@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -59,7 +60,7 @@ public class HintWritingFragment extends Fragment {
         type = getArguments().getString("type");
 
         editTextHint = (EditText) view.findViewById(R.id.hint);
-        ImageButton goBackButton = (ImageButton) view.findViewById(R.id.goBack);
+        Button goBackButton = (Button) view.findViewById(R.id.goBack);
 
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,17 +68,17 @@ public class HintWritingFragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 if(type.equals("ox")) {
-                    ((OXTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+//                    ((OXTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     ((OXTypeActivity)getActivity()).flagD = 0;
                     fragmentTransaction.remove(((OXTypeActivity)getActivity()).hintWritingFragment);
                     fragmentTransaction.commit();
                 } else if(type.equals("choice")) {
-                    ((ChoiceTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+//                    ((ChoiceTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     ((ChoiceTypeActivity)getActivity()).flagD = 0;
                     fragmentTransaction.remove(((ChoiceTypeActivity)getActivity()).hintWritingFragment);
                     fragmentTransaction.commit();
                 } else if(type.equals("shortword")) {
-                    ((ShortwordTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+//                    ((ShortwordTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     ((ShortwordTypeActivity)getActivity()).flagD = 0;
                     fragmentTransaction.remove(((ShortwordTypeActivity)getActivity()).hintWritingFragment);
                     fragmentTransaction.commit();

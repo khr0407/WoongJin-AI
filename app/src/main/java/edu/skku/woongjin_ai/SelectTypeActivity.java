@@ -24,11 +24,11 @@ public class SelectTypeActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentOX, intentChoice, intentShortword, intentTemplate;
     String id, scriptnm, backgroundID;
-    FrameLayout frameOX, frameChoice, frameShortword;
-    ImageButton goHome, tmpSave;
-    ImageView backgroundImage;
-    FirebaseStorage storage;
-    private StorageReference storageReference, dataReference;
+    ImageButton frameOX, frameChoice, frameShortword;
+    ImageButton goHome;
+//    ImageView backgroundImage;
+//    FirebaseStorage storage;
+//    private StorageReference storageReference, dataReference;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,13 +36,13 @@ public class SelectTypeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_selecttype);
 
         goHome = (ImageButton) findViewById(R.id.home);
-        tmpSave = (ImageButton) findViewById(R.id.save);
-        frameOX = (FrameLayout) findViewById(R.id.quiz_ox);
-        frameChoice = (FrameLayout) findViewById(R.id.quiz_choice);
-        frameShortword = (FrameLayout) findViewById(R.id.quiz_shortword);
+        frameOX = (ImageButton) findViewById(R.id.quiz_ox);
+        frameChoice = (ImageButton) findViewById(R.id.quiz_choice);
+        frameShortword = (ImageButton) findViewById(R.id.quiz_shortword);
         Button showTemplate = (Button) findViewById(R.id.template);
         TextView textViewTitle = (TextView) findViewById(R.id.title);
-        backgroundImage = (ImageView) findViewById(R.id.background);
+        TextView textViewId = (TextView) findViewById(R.id.makeQuiz);
+//        backgroundImage = (ImageView) findViewById(R.id.background);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
@@ -50,21 +50,22 @@ public class SelectTypeActivity extends AppCompatActivity {
         backgroundID = intent.getStringExtra("background");
 
         textViewTitle.setText("지문 제목: " + scriptnm);
+        textViewId.setText(id + "(이)가 직접 문제를 만들어보자~");
 
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getInstance().getReference();
-        dataReference = storageReference.child("/scripts_background/" + backgroundID);
-        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.with(SelectTypeActivity.this)
-                        .load(uri)
-                        .placeholder(R.drawable.bot)
-                        .error(R.drawable.btn_x)
-                        .into(backgroundImage);
-                backgroundImage.setAlpha(0.5f);
-            }
-        });
+//        storage = FirebaseStorage.getInstance();
+//        storageReference = storage.getInstance().getReference();
+//        dataReference = storageReference.child("/scripts_background/" + backgroundID);
+//        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Picasso.with(SelectTypeActivity.this)
+//                        .load(uri)
+//                        .placeholder(R.drawable.bot)
+//                        .error(R.drawable.btn_x)
+//                        .into(backgroundImage);
+//                backgroundImage.setAlpha(0.5f);
+//            }
+//        });
 
         showTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,13 +84,6 @@ public class SelectTypeActivity extends AppCompatActivity {
                 intentHome = new Intent(SelectTypeActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
-            }
-        });
-
-        tmpSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO 임시저장 기능
             }
         });
 
