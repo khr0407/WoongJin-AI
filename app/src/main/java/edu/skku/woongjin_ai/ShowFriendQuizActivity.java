@@ -27,7 +27,7 @@ import java.util.Random;
 public class ShowFriendQuizActivity extends AppCompatActivity
         implements FriendOXQuizFragment.OnFragmentInteractionListener, FriendChoiceQuizFragment.OnFragmentInteractionListener, FriendShortwordQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener, ShowHintFragment.OnFragmentInteractionListener, CorrectFriendQuizFragment.OnFragmentInteractionListener, WrongFriendQuizFragment.OnFragmentInteractionListener {
 
-    Intent intent, intentHome, intentUpdate;
+    Intent intent, intentHome, intentUpdate, intentMyPage;
     String id, scriptnm, background;
     DatabaseReference mPostReference;
     ListView myFriendQuizListView, likeQuizListView;
@@ -67,9 +67,10 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         wrongFriendQuizFragment = new WrongFriendQuizFragment();
 
         myFriendQuizListView = (ListView) findViewById(R.id.myFriendQuizList);
-        likeQuizListView = (ListView) findViewById(R.id.likeQuizList);
+//        likeQuizListView = (ListView) findViewById(R.id.likeQuizList);
         textView = (TextView) findViewById(R.id.textShowFriendQuiz);
         ImageButton homeButton = (ImageButton) findViewById(R.id.home);
+        ImageButton myPageButtom = (ImageButton) findViewById(R.id.myPage);
 
         likeQuizList = new ArrayList<String>();
         myFriendList = new ArrayList<String>();
@@ -97,6 +98,15 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 intentHome = new Intent(ShowFriendQuizActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
+            }
+        });
+
+        myPageButtom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentMyPage = new Intent(ShowFriendQuizActivity.this, MyPageActivity.class);
+                intentMyPage.putExtra("id", id);
+                startActivity(intentMyPage);
             }
         });
 

@@ -50,7 +50,7 @@ public class SelectTypeActivity extends AppCompatActivity {
         backgroundID = intent.getStringExtra("background");
 
         textViewTitle.setText("지문 제목: " + scriptnm);
-        textViewId.setText(id + "(이)가 직접 문제를 만들어보자~");
+        textViewId.setText(id + "(이)가 직접 문제를 만들어볼까?\n퀴즈를 내고 이 달의 출제왕이 되어보자!");
 
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
