@@ -20,6 +20,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -52,6 +54,9 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
     Button graph_attend, graph_made, graph_correct, graph_level, graph_like;
     int total_week;
     LineChart lineChart;
+    XAxis xAxis;
+    YAxis left, right;
+
     int MAX_SIZE=100;
     int f1=0, f2=0, f3=0, f4=0, f5=0;
     ShowHoonjangCriteriaFragment showHoonjang;
@@ -87,6 +92,9 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
         graph_like=(Button)findViewById(R.id.graph_like);
         Hoonjang=(Button)findViewById(R.id.showHoonjang);
         lineChart=(LineChart)findViewById(R.id.chart);
+        xAxis=lineChart.getXAxis();
+        left=lineChart.getAxisLeft();
+        right=lineChart.getAxisRight();
 
         materialCalendarView = (MaterialCalendarView) findViewById(R.id.attendCalendar);
         attendedDatesList = new ArrayList<String>();
@@ -170,8 +178,16 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                     entries.add(new Entry(j, Float.parseFloat(week_attend.get(j))));
                 }
                 LineDataSet dataset = new LineDataSet(entries, "주간 출석일 수");
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(15);
+                xAxis.setDrawGridLines(false);
+                left.setDrawGridLines(false);
+                right.setEnabled(false);
+                right.setDrawGridLines(false);
+                dataset.setValueTextSize(30);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
+                lineChart.setDescription(null);
                 lineChart.animateY(1000);
             }
         });
@@ -192,8 +208,16 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                     entries.add(new Entry(j, Float.parseFloat(week_made.get(j))));
                 }
                 LineDataSet dataset = new LineDataSet(entries, "주간 만든 문제 수");
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(15);
+                xAxis.setDrawGridLines(false);
+                left.setDrawGridLines(false);
+                right.setEnabled(false);
+                right.setDrawGridLines(false);
+                dataset.setValueTextSize(30);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
+                lineChart.setDescription(null);
                 lineChart.animateY(1000);
             }
         });
@@ -214,8 +238,16 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                     entries.add(new Entry(j, Float.parseFloat(week_correct.get(j))));
                 }
                 LineDataSet dataset = new LineDataSet(entries, "주간 맞춘 문제 수");
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(15);
+                xAxis.setDrawGridLines(false);
+                left.setDrawGridLines(false);
+                right.setDrawGridLines(false);
+                right.setEnabled(false);
+                dataset.setValueTextSize(30);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
+                lineChart.setDescription(null);
                 lineChart.animateY(1000);
             }
         });
@@ -236,8 +268,16 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                     entries.add(new Entry(j, Float.parseFloat(week_level.get(j))));
                 }
                 LineDataSet dataset = new LineDataSet(entries, "주간 평균 레벨");
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(15);
+                xAxis.setDrawGridLines(false);
+                left.setDrawGridLines(false);
+                right.setDrawGridLines(false);
+                right.setEnabled(false);
+                dataset.setValueTextSize(30);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
+                lineChart.setDescription(null);
                 lineChart.animateY(1000);
             }
         });
@@ -258,8 +298,16 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                     entries.add(new Entry(j,Float.parseFloat(week_like.get(j))));
                 }
                 LineDataSet dataset = new LineDataSet(entries, "주간 좋아요 수");
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(15);
+                xAxis.setDrawGridLines(false);
+                left.setDrawGridLines(false);
+                right.setDrawGridLines(false);
+                right.setEnabled(false);
+                dataset.setValueTextSize(30);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
+                lineChart.setDescription(null);
                 lineChart.animateY(1000);
             }
         });
