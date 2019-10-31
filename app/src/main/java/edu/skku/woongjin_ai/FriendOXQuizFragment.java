@@ -38,8 +38,7 @@ public class FriendOXQuizFragment extends Fragment {
     int cnt, flagAO = 0, flagAX = 0;
     float starFloat;
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    ImageButton imageButtonScript, imageButtonHint;
-    Button imageButtonCheck;
+    Button imageButtonScript, imageButtonHint, imageButtonCheck;
 
     public FriendOXQuizFragment() {
 
@@ -89,8 +88,8 @@ public class FriendOXQuizFragment extends Fragment {
         imageViewS3 = (ImageView) view.findViewById(R.id.star3);
         imageViewS4 = (ImageView) view.findViewById(R.id.star4);
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
-        imageButtonScript = (ImageButton) view.findViewById(R.id.scriptFriendOX);
-        imageButtonHint = (ImageButton) view.findViewById(R.id.hintFriendOX);
+        imageButtonScript = (Button) view.findViewById(R.id.scriptFriendOX);
+        imageButtonHint = (Button) view.findViewById(R.id.hintFriendOX);
         imageButtonCheck = (Button) view.findViewById(R.id.checkFriendOX);
 
         starFloat = Float.parseFloat(star);
@@ -164,13 +163,13 @@ public class FriendOXQuizFragment extends Fragment {
         });
 
         if(starFloat >= 1.5) {
-            imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+            imageViewS2.setImageResource(R.drawable.star_full);
             if(starFloat >= 2.5) {
-                imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                imageViewS3.setImageResource(R.drawable.star_full);
                 if(starFloat >= 3.5) {
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     if(starFloat >= 4.5) {
-                        imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                        imageViewS5.setImageResource(R.drawable.star_full);
                     }
                 }
             }

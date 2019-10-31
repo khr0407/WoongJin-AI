@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/darkgreen"
+    >
 
     <ImageView
         android:id="@+id/background"
@@ -13,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="6.3"
+        android:weightSum="9"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,39 +29,85 @@
             <ImageView
                 android:id="@+id/home"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_icons_go_to_home"
-                android:layout_weight="1"
-                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:src="@drawable/go_home"
+                android:scaleType="centerCrop"
+                android:padding="40dp"
+                android:background="#00ff0000"
+                android:layout_weight="2"
                 />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="8"/>
 
-            <TextView
-                android:id="@+id/instruction"
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="11">
+
+            <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_icons_speech_bubble2"
-                android:text="@string/my_Q_list"
-                android:textSize="30dp"
-                android:fontFamily="@font/typo_sherlock_b"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="7"
-                />
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
 
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/nationbook_board"
+                    android:scaleType="centerCrop"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/instruction"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/nationbook_board"
+                        android:text="내가 만든 질문 목록이야!"
+                        android:textSize="40dp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:layout_gravity="center"
+                        android:gravity="center"/>
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="0.3"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:orientation="horizontal"
-            android:layout_weight="5"
-            android:weightSum="12.8"
+            android:layout_weight="6.2"
+            android:weightSum="12"
             >
             <LinearLayout
                 android:layout_width="0dp"
@@ -69,21 +117,21 @@
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="10.8"
+                android:layout_weight="10"
                 android:id="@+id/contentShowScript"
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:weightSum="10.8"
+                    android:weightSum="10"
                     android:orientation="horizontal">
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="4.5"
-                        android:background="@drawable/rounded_yellow"
+                        android:layout_weight="5.5"
+                        android:background="@color/white"
                         >
                         <ListView
                             android:layout_width="match_parent"
@@ -101,13 +149,13 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.8"/>
+                        android:layout_weight="0.2"/>
 
                         <FrameLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="5.5"
-                            android:background="@drawable/rounded_blue"
+                            android:layout_weight="4.3"
+                            android:background="@color/white"
                             android:id="@+id/seequiz_fragment"
                             android:orientation="vertical"
                             >
@@ -140,7 +188,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.3"></LinearLayout>
+            android:layout_weight="0.5"></LinearLayout>
 
     </LinearLayout>
 </FrameLayout>

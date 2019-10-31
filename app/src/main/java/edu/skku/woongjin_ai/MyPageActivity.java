@@ -59,7 +59,7 @@ public class MyPageActivity extends AppCompatActivity {
     public DatabaseReference mPostReference;
     Intent intent, intentGoHome, intentAddFriend, intent_LikeList, intent_QList, intentHome, intent_Record;
     String id, profileUri;
-    Button logout;
+    ImageButton logout;
     ImageButton goHome, btnLikeList, btnQList, btnFriendList, btnChangePicture, btnUpload, btnRecord;
     ImageView attendw, readw, quizw, quizhunterw, bombmasterw, bucketw;
     TextView userGrade, userSchool, userName, userCoin, userName1, userGrade1;
@@ -94,7 +94,7 @@ public class MyPageActivity extends AppCompatActivity {
         userGrade = (TextView) findViewById(R.id.userGrade);
         userGrade1 = (TextView) findViewById(R.id.userGrade1);
         userCoin = (TextView) findViewById(R.id.userCoin);
-        logout = (Button) findViewById(R.id.logout);
+        logout = (ImageButton) findViewById(R.id.logout);
         textViewCorrectL = (TextView) findViewById(R.id.lastCorrectCnt);
         textViewCorrectT = (TextView) findViewById(R.id.thisCorrectCnt);
         textViewLikeL = (TextView) findViewById(R.id.lastLikeCnt);

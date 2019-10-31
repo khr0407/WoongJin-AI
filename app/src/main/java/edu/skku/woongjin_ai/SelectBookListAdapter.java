@@ -38,17 +38,20 @@ public class SelectBookListAdapter extends BaseAdapter {
         }
 
         TextView textViewTitle = (TextView) convertView.findViewById(R.id.titleSelectBookList);
+        TextView textViewBookName = (TextView) convertView.findViewById(R.id.booknameSelectBookList);
 
         SelectBookListItem selectBookListItem = getItem(position);
 
         textViewTitle.setText(selectBookListItem.getTitle());
+        textViewBookName.setText(selectBookListItem.getBookName());
 
         return convertView;
     }
 
-    public void addItem(String title) {
+    public void addItem(String title, String bookName) {
         SelectBookListItem selectBookListItem = new SelectBookListItem();
         selectBookListItem.setTitle(title);
+        selectBookListItem.setBookName(bookName);
         selectBookListItems.add(selectBookListItem);
     }
 }

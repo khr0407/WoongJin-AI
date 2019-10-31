@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,8 +39,7 @@ public class FriendChoiceQuizFragment extends Fragment {
     int cnt, flagA1 = 0, flagA2 = 0, flagA3 = 0, flagA4 = 0;
     float starFloat;
     ImageView imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    ImageButton imageButtonScript, imageButtonHint;
-    Button imageButtonCheck;
+    Button imageButtonScript, imageButtonHint, imageButtonCheck;
     TextView textViewAns1, textViewAns2, textViewAns3, textViewAns4;
 
     public FriendChoiceQuizFragment() {
@@ -92,8 +92,8 @@ public class FriendChoiceQuizFragment extends Fragment {
         imageViewS3 = (ImageView) view.findViewById(R.id.star3);
         imageViewS4 = (ImageView) view.findViewById(R.id.star4);
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
-        imageButtonScript = (ImageButton) view.findViewById(R.id.scriptFriendChoice);
-        imageButtonHint = (ImageButton) view.findViewById(R.id.hintFriendChoice);
+        imageButtonScript = (Button) view.findViewById(R.id.scriptFriendChoice);
+        imageButtonHint = (Button) view.findViewById(R.id.hintFriendChoice);
         imageButtonCheck = (Button) view.findViewById(R.id.checkFriendChoice);
         textViewAns1 = (TextView) view.findViewById(R.id.ans1);
         textViewAns2 = (TextView) view.findViewById(R.id.ans2);
@@ -115,15 +115,15 @@ public class FriendChoiceQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagA1 == 0) {
                     ans = answer1;
-                    textViewAns1.setBackgroundResource(R.drawable.ic_icons_selector_correct);
-                    textViewAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns1.setBackgroundColor(Color.rgb(255, 153, 0));
+                    textViewAns2.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns3.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns4.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA1 = 1;
                     flagA2 = flagA3 = flagA4 = 0;
                 } else {
                     ans = "";
-                    textViewAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns1.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA1 = 0;
                 }
             }
@@ -134,15 +134,15 @@ public class FriendChoiceQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagA2 == 0){
                     ans = answer2;
-                    textViewAns2.setBackgroundResource(R.drawable.ic_icons_selector_correct);
-                    textViewAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns2.setBackgroundColor(Color.rgb(255, 153, 0));
+                    textViewAns1.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns3.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns4.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA2 = 1;
                     flagA1 = flagA3 = flagA4 = 0;
                 } else {
                     ans = "";
-                    textViewAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns2.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA2 = 0;
                 }
             }
@@ -153,15 +153,15 @@ public class FriendChoiceQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagA3 == 0){
                     ans = answer3;
-                    textViewAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
-                    textViewAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns3.setBackgroundColor(Color.rgb(255, 153, 0));
+                    textViewAns2.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns1.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns4.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA3 = 1;
                     flagA2 = flagA1 = flagA4 = 0;
                 } else {
                     ans = "";
-                    textViewAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns3.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA3 = 0;
                 }
             }
@@ -172,15 +172,15 @@ public class FriendChoiceQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagA4 == 0){
                     ans = answer4;
-                    textViewAns4.setBackgroundResource(R.drawable.ic_icons_selector_correct);
-                    textViewAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns4.setBackgroundColor(Color.rgb(255, 153, 0));
+                    textViewAns2.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns3.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns1.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA4 = 1;
                     flagA2 = flagA3 = flagA1 = 0;
                 } else {
                     ans = "";
-                    textViewAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns4.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA4 = 0;
                 }
             }

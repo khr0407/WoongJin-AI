@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ public class NewHoonjangFragment extends Fragment {
     DatabaseReference mPostReference;
     ImageButton close;
     String from;
+    CheckBox nomore;
 
     private NewHoonjangFragment.OnFragmentInteractionListener mListener;
 
@@ -72,8 +75,9 @@ public class NewHoonjangFragment extends Fragment {
         congratulation=(TextView)view.findViewById(R.id.congratulation);
         hoonjang=(ImageView)view.findViewById(R.id.hoonjangImage);
         close=(ImageButton)view.findViewById(R.id.close);
+        //nomore=(CheckBox)view.findViewById(R.id.nomore);
 
-        what= getArguments().getString("what");
+        what=getArguments().getString("what");
         level=getArguments().getInt("level");
         from=getArguments().getString("from");
 
@@ -81,6 +85,14 @@ public class NewHoonjangFragment extends Fragment {
 
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
+//
+//        nomore.setOnClickListener(new View.OnClickListener(){
+//            @Override
+//            public void onClick(View v) {
+//                SharedPreferences sharedPreferences = getSharedPreferences
+//            }
+//        });
+
 
         close.setOnClickListener(new View.OnClickListener(){
             @Override

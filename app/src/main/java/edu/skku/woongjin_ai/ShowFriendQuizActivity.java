@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -30,7 +31,7 @@ import java.util.Random;
 public class ShowFriendQuizActivity extends AppCompatActivity
         implements NewHoonjangFragment.OnFragmentInteractionListener, FriendOXQuizFragment.OnFragmentInteractionListener, FriendChoiceQuizFragment.OnFragmentInteractionListener, FriendShortwordQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener, ShowHintFragment.OnFragmentInteractionListener, CorrectFriendQuizFragment.OnFragmentInteractionListener, WrongFriendQuizFragment.OnFragmentInteractionListener {
 
-    Intent intent, intentHome, intentUpdate;
+    Intent intent, intentHome, intentUpdate, intentMyPage;
     String id, scriptnm, background;
     DatabaseReference mPostReference;
     ListView myFriendQuizListView, likeQuizListView;
@@ -50,10 +51,17 @@ public class ShowFriendQuizActivity extends AppCompatActivity
     UserInfo me;
     NewHoonjangFragment hoonjangFragment;
 
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
+    String nomore;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showfriendquiz);
+
+        setting = getSharedPreferences("nomore", MODE_PRIVATE);
+        nomore = setting.getString("showfriendquiz", "keepgoing");
 
         intent = getIntent();
         id = intent.getStringExtra("id");
@@ -71,9 +79,10 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         wrongFriendQuizFragment = new WrongFriendQuizFragment();
 
         myFriendQuizListView = (ListView) findViewById(R.id.myFriendQuizList);
-        likeQuizListView = (ListView) findViewById(R.id.likeQuizList);
+//        likeQuizListView = (ListView) findViewById(R.id.likeQuizList);
         textView = (TextView) findViewById(R.id.textShowFriendQuiz);
         ImageButton homeButton = (ImageButton) findViewById(R.id.home);
+        ImageButton myPageButtom = (ImageButton) findViewById(R.id.myPage);
 
         likeQuizList = new ArrayList<String>();
         myFriendList = new ArrayList<String>();
@@ -102,6 +111,15 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 intentHome = new Intent(ShowFriendQuizActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
+            }
+        });
+
+        myPageButtom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentMyPage = new Intent(ShowFriendQuizActivity.this, MyPageActivity.class);
+                intentMyPage.putExtra("id", id);
+                startActivity(intentMyPage);
             }
         });
 
@@ -354,31 +372,40 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 String MedalUpdate = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 hoonjangFragment=new NewHoonjangFragment();
-                if(SolvedCount==150) {
+                if(SolvedCount==150 && nomore.equals("stop3")) {
                     mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev3##"+MedalUpdate);
                     transaction.replace(R.id.friendquizFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quizhunter");
                     bundle.putString("from", "showfriendquiz");
                     bundle.putInt("level", 3);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("showfriendquiz", "stop3");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
-                }else if(SolvedCount==100){
+                }else if(SolvedCount==100 && nomore.equals("stop2")){
                     mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev2##"+MedalUpdate);
                     transaction.replace(R.id.friendquizFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quizhunter");
                     bundle.putString("from", "showfriendquiz");
                     bundle.putInt("level", 2);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("showfriendquiz", "stop2");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
-                }else if(SolvedCount==50){
+                }else if(SolvedCount==50 && nomore.equals("stop1")){
                     mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev1##"+MedalUpdate);
                     transaction.replace(R.id.friendquizFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quizhunter");
                     bundle.putString("from", "showfriendquiz");
                     bundle.putInt("level", 1);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("showfriendquiz", "stop1");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }

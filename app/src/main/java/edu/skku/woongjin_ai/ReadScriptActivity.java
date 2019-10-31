@@ -30,13 +30,14 @@ import java.util.Date;
 public class ReadScriptActivity extends AppCompatActivity
         implements SelectStudyTypeFragment.OnFragmentInteractionListener, NewHoonjangFragment.OnFragmentInteractionListener {
     public DatabaseReference mPostReference;
-    Intent intent, intentHome, intentStudyWord;
+    Intent intent, intentHome, intentMakeQuiz;
     String id, scriptnm, backgroundID, script, studyType = "";
     TextView textview_title, textview_script_1, textview_script_2;
-    ImageView backgroundImage;
-    ImageButton goHome, tmpSave, goStudyWord;
-    FirebaseStorage storage;
-    private StorageReference storageReference, dataReference;
+    ImageButton goHome;
+    TextView goMakeQuiz;
+//    TextView goStudyWord;
+//    FirebaseStorage storage;
+//    private StorageReference storageReference, dataReference;
     Fragment selectStudyTypeFragment;
     NewHoonjangFragment hoonjangFragment;
 
@@ -55,10 +56,9 @@ public class ReadScriptActivity extends AppCompatActivity
         textview_title = (TextView) findViewById(R.id.textview_title);
         textview_script_1 = (TextView) findViewById(R.id.textview_script_1);
         textview_script_2 = (TextView) findViewById(R.id.textview_script_2);
-        backgroundImage = (ImageView) findViewById(R.id.background);
         goHome = (ImageButton) findViewById(R.id.home);
-        tmpSave = (ImageButton) findViewById(R.id.save);
-        goStudyWord = (ImageButton) findViewById(R.id.studyWord);
+//        goStudyWord = (TextView) findViewById(R.id.studyWord);
+        goMakeQuiz = (TextView) findViewById(R.id.makeQuiz);
 
         textview_title.setText(scriptnm);
 
@@ -72,20 +72,20 @@ public class ReadScriptActivity extends AppCompatActivity
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/ex").setValue("test3Ex");
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/meaning").setValue("test3Meaning");
 
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getInstance().getReference();
-        dataReference = storageReference.child("/scripts_background/" + backgroundID);
-        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.with(ReadScriptActivity.this)
-                        .load(uri)
-                        .placeholder(R.drawable.bot)
-                        .error(R.drawable.btn_x)
-                        .into(backgroundImage);
-                backgroundImage.setAlpha(0.5f);
-            }
-        });
+//        storage = FirebaseStorage.getInstance();
+//        storageReference = storage.getInstance().getReference();
+//        dataReference = storageReference.child("/scripts_background/" + backgroundID);
+//        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Picasso.with(ReadScriptActivity.this)
+//                        .load(uri)
+//                        .placeholder(R.drawable.bot)
+//                        .error(R.drawable.btn_x)
+//                        .into(backgroundImage);
+//                backgroundImage.setAlpha(0.5f);
+//            }
+//        });
 
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -112,23 +112,27 @@ public class ReadScriptActivity extends AppCompatActivity
             }
         });
 
-        tmpSave.setOnClickListener(new View.OnClickListener() {
+        goMakeQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 임시저장 기능
+                intentMakeQuiz = new Intent(ReadScriptActivity.this, SelectTypeActivity.class);
+                intentMakeQuiz.putExtra("id", id);
+                intentMakeQuiz.putExtra("scriptnm", scriptnm);
+                intentMakeQuiz.putExtra("background", backgroundID);
+                startActivity(intentMakeQuiz);
             }
         });
 
-        goStudyWord.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            intentStudyWord = new Intent(ReadScriptActivity.this, WordListActivity.class);
-            intentStudyWord.putExtra("scriptnm",scriptnm);
-            intentStudyWord.putExtra("id", id);
-            intentStudyWord.putExtra("background", backgroundID);
-            startActivity(intentStudyWord);
-        }
-    });
+//        goStudyWord.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            Intent intentStudyWord = new Intent(ReadScriptActivity.this, WordListActivity.class);
+//            intentStudyWord.putExtra("scriptnm",scriptnm);
+//            intentStudyWord.putExtra("id", id);
+//            intentStudyWord.putExtra("background", backgroundID);
+//            startActivity(intentStudyWord);
+//        }
+//    });
 }
 
     public void onStudyTypeInfoSet(String type) {

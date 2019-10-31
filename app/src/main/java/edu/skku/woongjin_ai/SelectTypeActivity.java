@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,27 +34,36 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
 
     Intent intent, intentHome, intentOX, intentChoice, intentShortword, intentTemplate;
     String id, scriptnm, backgroundID;
-    FrameLayout frameOX, frameChoice, frameShortword;
-    ImageButton goHome, tmpSave;
-    ImageView backgroundImage;
-    FirebaseStorage storage;
-    private StorageReference storageReference, dataReference;
-    DatabaseReference mPostReference;
+    ImageButton frameOX, frameChoice, frameShortword;
+    ImageButton goHome;
     NewHoonjangFragment hoonjangFragment;
+    DatabaseReference mPostReference;
+//    ImageView backgroundImage;
+//    FirebaseStorage storage;
+//    private StorageReference storageReference, dataReference;
+
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
+    String nomore;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selecttype);
 
+
+        setting = getSharedPreferences("nomore", MODE_PRIVATE);
+        nomore = setting.getString("quiz", "keepgoing");
+
         goHome = (ImageButton) findViewById(R.id.home);
-        tmpSave = (ImageButton) findViewById(R.id.save);
-        frameOX = (FrameLayout) findViewById(R.id.quiz_ox);
-        frameChoice = (FrameLayout) findViewById(R.id.quiz_choice);
-        frameShortword = (FrameLayout) findViewById(R.id.quiz_shortword);
+        frameOX = (ImageButton) findViewById(R.id.quiz_ox);
+        frameChoice = (ImageButton) findViewById(R.id.quiz_choice);
+        frameShortword = (ImageButton) findViewById(R.id.quiz_shortword);
         Button showTemplate = (Button) findViewById(R.id.template);
         TextView textViewTitle = (TextView) findViewById(R.id.title);
-        backgroundImage = (ImageView) findViewById(R.id.background);
+        TextView textViewId = (TextView) findViewById(R.id.makeQuiz);
+//        backgroundImage = (ImageView) findViewById(R.id.background);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
@@ -61,25 +71,22 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
         backgroundID = intent.getStringExtra("background");
 
         textViewTitle.setText("지문 제목: " + scriptnm);
+        textViewId.setText(id + "(이)가 직접 문제를 만들어볼까?\n퀴즈를 내고 이 달의 출제왕이 되어보자!");
 
-        mPostReference = FirebaseDatabase.getInstance().getReference();
-
-        getFirebaseDatabaseMedalInfo();
-
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getInstance().getReference();
-        dataReference = storageReference.child("/scripts_background/" + backgroundID);
-        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.with(SelectTypeActivity.this)
-                        .load(uri)
-                        .placeholder(R.drawable.bot)
-                        .error(R.drawable.btn_x)
-                        .into(backgroundImage);
-                backgroundImage.setAlpha(0.5f);
-            }
-        });
+//        storage = FirebaseStorage.getInstance();
+//        storageReference = storage.getInstance().getReference();
+//        dataReference = storageReference.child("/scripts_background/" + backgroundID);
+//        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Picasso.with(SelectTypeActivity.this)
+//                        .load(uri)
+//                        .placeholder(R.drawable.bot)
+//                        .error(R.drawable.btn_x)
+//                        .into(backgroundImage);
+//                backgroundImage.setAlpha(0.5f);
+//            }
+//        });
 
         showTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,13 +105,6 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 intentHome = new Intent(SelectTypeActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
-            }
-        });
-
-        tmpSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //TODO 임시저장 기능
             }
         });
 
@@ -142,6 +142,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
         });
     }
 
+
     private void getFirebaseDatabaseMedalInfo() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -156,31 +157,40 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 String MedalUpdate = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 hoonjangFragment=new NewHoonjangFragment();
-                if(MadeCount==100) {
+                if(MadeCount==100 && nomore.equals("stop2")) {
                     mPostReference.child("user_list/" + id + "/my_medal_list/출제왕").setValue("Lev3##"+MedalUpdate);
                     transaction.replace(R.id.selectMainFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quiz");
                     bundle.putString("from", "quiz");
                     bundle.putInt("level", 3);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("quiz", "stop3");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
-                }else if(MadeCount==60){
+                }else if(MadeCount==60 && nomore.equals("stop1")){
                     mPostReference.child("user_list/" + id + "/my_medal_list/출제왕").setValue("Lev2##"+MedalUpdate);
                     transaction.replace(R.id.selectMainFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quiz");
                     bundle.putString("from", "quiz");
                     bundle.putInt("level", 2);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("quiz", "stop2");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
-                }else if(MadeCount==30){
+                }else if(MadeCount==30 && nomore.equals("keepgoing")){
                     mPostReference.child("user_list/" + id + "/my_medal_list/출제왕").setValue("Lev1##"+MedalUpdate);
                     transaction.replace(R.id.selectMainFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quiz");
                     bundle.putString("from", "quiz");
                     bundle.putInt("level", 1);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("quiz", "stop1");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }

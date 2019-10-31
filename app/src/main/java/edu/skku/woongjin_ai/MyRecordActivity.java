@@ -157,13 +157,13 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
         graph_attend.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                graph_attend.setBackgroundResource(R.drawable.rounded_yellow);
+                graph_attend.setBackgroundColor(getResources().getColor(R.color.blue));
                 f1=1;
                 if(f2==1||f3==1||f4==1||f5==1){
-                    graph_made.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_correct.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_level.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_like.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
@@ -172,20 +172,20 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 LineDataSet dataset = new LineDataSet(entries, "주간 출석일 수");
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
-                lineChart.animateY(5000);
+                lineChart.animateY(1000);
             }
         });
 
         graph_made.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                graph_made.setBackgroundResource(R.drawable.rounded_yellow);
+                graph_made.setBackgroundColor(getResources().getColor(R.color.blue));
                 f2=1;
                 if(f1==1||f3==1||f4==1||f5==1){
-                    graph_attend.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_correct.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_level.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_like.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
@@ -194,20 +194,20 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 LineDataSet dataset = new LineDataSet(entries, "주간 만든 문제 수");
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
-                lineChart.animateY(5000);
+                lineChart.animateY(1000);
             }
         });
 
         graph_correct.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                graph_correct.setBackgroundResource(R.drawable.rounded_yellow);
+                graph_correct.setBackgroundColor(getResources().getColor(R.color.blue));
                 f3=1;
                 if(f2==1||f1==1||f4==1||f5==1){
-                    graph_made.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_attend.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_level.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_like.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
@@ -216,20 +216,20 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 LineDataSet dataset = new LineDataSet(entries, "주간 맞춘 문제 수");
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
-                lineChart.animateY(5000);
+                lineChart.animateY(1000);
             }
         });
 
         graph_level.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                graph_level.setBackgroundResource(R.drawable.rounded_yellow);
+                graph_level.setBackgroundColor(getResources().getColor(R.color.blue));
                 f4=1;
                 if(f2==1||f3==1||f1==1||f5==1){
-                    graph_made.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_correct.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_attend.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_like.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
@@ -238,20 +238,20 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 LineDataSet dataset = new LineDataSet(entries, "주간 평균 레벨");
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
-                lineChart.animateY(5000);
+                lineChart.animateY(1000);
             }
         });
 
         graph_like.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                graph_like.setBackgroundResource(R.drawable.rounded_yellow);
+                graph_like.setBackgroundColor(getResources().getColor(R.color.blue));
                 f5=1;
                 if(f2==1||f3==1||f4==1||f1==1){
-                    graph_made.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_correct.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_level.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_attend.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
@@ -344,7 +344,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
         @Override
         protected List<CalendarDay> doInBackground(Void... voids) {
             Calendar calendar = Calendar.getInstance();
-            ArrayList<CalendarDay> dates = new ArrayList<>();
+            List<CalendarDay> dates = new ArrayList<>();
 
             for(String date : attendedDatesList) {
                 CalendarDay calendarDay = CalendarDay.from(calendar);
@@ -352,12 +352,19 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 int year = Integer.parseInt(time[0]);
                 int month = Integer.parseInt(time[1]);
                 int day = Integer.parseInt(time[2]);
-
                 dates.add(calendarDay);
                 calendar.set(year, month-1, day);
-
-                Log.d("hereeeeeeeeee", date);
             }
+
+            int size = attendedDatesList.size();
+            String date = attendedDatesList.get(size-1);
+            CalendarDay calendarDay = CalendarDay.from(calendar);
+            String[] time = date.split("-");
+            int year = Integer.parseInt(time[0]);
+            int month = Integer.parseInt(time[1]);
+            int day = Integer.parseInt(time[2]);
+            dates.add(calendarDay);
+            calendar.set(year, month-1, day);
 
             return dates;
         }
