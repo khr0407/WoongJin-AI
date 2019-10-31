@@ -2,11 +2,13 @@ package edu.skku.woongjin_ai;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -54,7 +56,7 @@ import java.util.Iterator;
 
 import static com.kakao.usermgmt.StringSet.nickname;
 
-public class MyPageActivity extends AppCompatActivity {
+public class MyPageActivity extends AppCompatActivity{
 
     public DatabaseReference mPostReference;
     Intent intent, intentGoHome, intentAddFriend, intent_LikeList, intent_QList, intentHome, intent_Record;
@@ -73,11 +75,17 @@ public class MyPageActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 0;
     private static final String TAG = "MyPageActivity";
     private Uri filePath;
+    //Context context;
+    //GradientDrawable drawable;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
+
+        //context=MyPageActivity.this;
+        //drawable=(GradientDrawable) context.getDrawable(R.drawable.background_rounding);
 
         intent = getIntent();
         id = intent.getStringExtra("id");
@@ -121,6 +129,10 @@ public class MyPageActivity extends AppCompatActivity {
 
 
         weekInfos = new ArrayList<WeekInfo>();
+
+
+        //myFace.setBackground(drawable);
+        //myFace.setClipToOutline(true);
 
         getFirebaseDatabaseUserInfo();
 
@@ -224,6 +236,8 @@ public class MyPageActivity extends AppCompatActivity {
                 //Bitmap result=Bitmap.createBitmap(img, 시작위치x, 시작위치y, myFace.getWidth(), myFace.getHeight());
                 in.close();
                 myFace.setImageBitmap(img);
+                //myFace.setBackground(drawable);
+                //myFace.setClipToOutline(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -314,6 +328,8 @@ public class MyPageActivity extends AppCompatActivity {
                                                     .load(uri)
                                                     .error(R.drawable.btn_x)
                                                     .into(myFace);
+                                            //myFace.setBackground(drawable);
+                                            //myFace.setClipToOutline(true);
                                         }
                                     });
                                 }
