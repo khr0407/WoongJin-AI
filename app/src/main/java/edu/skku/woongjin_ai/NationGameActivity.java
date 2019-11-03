@@ -1,130 +1,280 @@
 package edu.skku.woongjin_ai;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
+import com.google.firebase.database.ValueEventListener;
+import com.kakao.kakaolink.v2.KakaoLinkResponse;
+import com.kakao.kakaolink.v2.KakaoLinkService;
+import com.kakao.message.template.LinkObject;
+import com.kakao.message.template.TextTemplate;
+import com.kakao.network.ErrorResult;
+import com.kakao.network.callback.ResponseCallback;
+import com.kakao.util.helper.log.Logger;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NationGameActivity extends AppCompatActivity {
+    private DatabaseReference mPostReference, sPostReference, gPostReference;
+    ListView friend_list, script_list;
+    ArrayList<String> data, data1;
+    ArrayAdapter<String> arrayAdapter, arrayAdapter1;
 
-    Intent intent, intentHome, intentOX, intentChoice, intentShortword, intentTemplate;
-    String id, scriptnm, backgroundID;
-    FrameLayout frameOX, frameChoice, frameShortword;
-    ImageButton goHome, tmpSave;
-    ImageView backgroundImage;
-    FirebaseStorage storage;
-    private StorageReference storageReference, dataReference;
+    String id_key, nickname_key;
+    String friend_nickname, script_name;
+    ImageButton invitefriend, imageButtonHome;
+
+    String text_roomname;
+    EditText editText_roomname;
+    Button create;
+
+    Intent intent;
+    int check_choose, check_script, flag;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nationgame);
 
-        goHome = (ImageButton) findViewById(R.id.home);
-        tmpSave = (ImageButton) findViewById(R.id.save);
-        frameOX = (FrameLayout) findViewById(R.id.quiz_ox);
-        frameChoice = (FrameLayout) findViewById(R.id.quiz_choice);
-        frameShortword = (FrameLayout) findViewById(R.id.quiz_shortword);
-        Button showTemplate = (Button) findViewById(R.id.template);
-        TextView textViewTitle = (TextView) findViewById(R.id.title);
-        backgroundImage = (ImageView) findViewById(R.id.background);
+        check_choose = 0;
+        check_script = 0;
+        flag = 0;
+
+        invitefriend = (ImageButton) findViewById(R.id.invitefriend);
+        imageButtonHome = (ImageButton) findViewById(R.id.home);
+
+        editText_roomname = (EditText) findViewById(R.id.roomname);
+        create = (Button) findViewById(R.id.create);
+
+        friend_list = findViewById(R.id.friend_list);
+        script_list = findViewById(R.id.script_list);
+        data = new ArrayList<String>();
+        data1 = new ArrayList<String>();
 
         intent = getIntent();
-        id = intent.getStringExtra("id");
-        /*scriptnm = intent.getStringExtra("scriptnm");
-        backgroundID = intent.getStringExtra("background");*/
+        id_key = intent.getStringExtra("id");
+        nickname_key = intent.getStringExtra("nickname");
 
-        textViewTitle.setText("지문 제목: " + scriptnm);
+        arrayAdapter = new ArrayAdapter<String>(NationGameActivity.this, android.R.layout.simple_list_item_1);
+        arrayAdapter1 = new ArrayAdapter<String>(NationGameActivity.this, android.R.layout.simple_list_item_1);
 
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getInstance().getReference();
-        dataReference = storageReference.child("/scripts_background/" + backgroundID);
-        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.with(NationGameActivity.this)
-                        .load(uri)
-                        .placeholder(R.drawable.bot)
-                        .error(R.drawable.btn_x)
-                        .into(backgroundImage);
-                backgroundImage.setAlpha(0.5f);
-            }
-        });
+        friend_list.setAdapter(arrayAdapter);
+        script_list.setAdapter(arrayAdapter1);
 
-        showTemplate.setOnClickListener(new View.OnClickListener() {
+        mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("my_friend_list");
+        sPostReference = FirebaseDatabase.getInstance().getReference().child("script_list");
+        gPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list");
+
+        imageButtonHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 이미지 바꾸기
-                intentTemplate = new Intent(NationGameActivity.this, TemplateActivity.class);
-                intentTemplate.putExtra("id", id);
-                //intentTemplate.putExtra("scriptnm", scriptnm);
-                //intentTemplate.putExtra("background", backgroundID);
-                startActivity(intentTemplate);
-            }
-        });
-
-        goHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intentHome = new Intent(NationGameActivity.this, MainActivity.class);
-                intentHome.putExtra("id", id);
+                Intent intentHome = new Intent(NationGameActivity.this, MainActivity.class);
+                intentHome.putExtra("id", id_key);
                 startActivity(intentHome);
             }
         });
 
-        tmpSave.setOnClickListener(new View.OnClickListener() {
+        invitefriend.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                //TODO 임시저장 기능
+            public void onClick(View view) {
+                TextTemplate params = TextTemplate.newBuilder(
+                        "친구와 함께 책을 읽고 퀴즈 폭탄을 던지세요!",
+                        LinkObject.newBuilder()
+                                .setWebUrl("https://skku.edu")
+                                .setMobileWebUrl("https://skku.edu")
+                                .build()
+                )
+                        .setButtonTitle("친구야 같이 하자!")
+                        .build();
+                KakaoLinkService.getInstance().sendDefault(NationGameActivity.this, params, serverCallbackArgs, new ResponseCallback<KakaoLinkResponse>() {
+                    @Override
+                    public void onFailure(ErrorResult errorResult) {
+                        Logger.e(errorResult.toString());
+                    }
+                    @Override
+                    public void onSuccess(KakaoLinkResponse result) {
+                    }
+                });
             }
         });
 
-        frameOX.setOnClickListener(new View.OnClickListener() {
+        friend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                intentOX = new Intent(NationGameActivity.this, OXTypeActivity.class);
-                intentOX.putExtra("id", id);
-                //intentOX.putExtra("scriptnm", scriptnm);
-                //intentOX.putExtra("background", backgroundID);
-                startActivity(intentOX);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                friend_nickname = friend_list.getItemAtPosition(position).toString();
+                check_choose = 1;
             }
         });
 
-        frameChoice.setOnClickListener(new View.OnClickListener() {
+        script_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                intentChoice = new Intent(NationGameActivity.this, ChoiceTypeActivity.class);
-                intentChoice.putExtra("id", id);
-                //intentChoice.putExtra("scriptnm", scriptnm);
-                //intentChoice.putExtra("background", backgroundID);
-                startActivity(intentChoice);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
+                script_name = script_list.getItemAtPosition(position).toString();
+                check_script = 1;
             }
         });
 
-        frameShortword.setOnClickListener(new View.OnClickListener() {
+        create.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                intentShortword = new Intent(NationGameActivity.this, ShortwordTypeActivity.class);
-                intentShortword.putExtra("id", id);
-                //intentShortword.putExtra("scriptnm", scriptnm);
-                //intentShortword.putExtra("background", backgroundID);
-                startActivity(intentShortword);
+            public void onClick(View view) {
+                text_roomname = editText_roomname.getText().toString();
+                if (check_choose == 1 && check_script == 1) {
+                    if (friend_nickname.length() > 0 && spaceCheck(text_roomname) == false && text_roomname.length() > 0) { //create chat room
+                        final ValueEventListener checkRoomRegister = new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                                    String user1 = postSnapshot.child("user1").getValue().toString();
+                                    String user2 = postSnapshot.child("user2").getValue().toString();
+                                    String state = postSnapshot.child("state").getValue().toString();
+                                    Log.d("_user1", user1);
+                                    Log.d("_user2", user2);
+                                    if (!(state.equals("win") || state.equals("win1") || state.equals("win2")) &&
+                                            editText_roomname.getText().toString().length() > 0 &&
+                                            ((user1.equals(nickname_key) && user2.equals(friend_nickname)) || (user2.equals(nickname_key) && user1.equals(friend_nickname)))) { //있으면
+                                        Toast.makeText(getApplicationContext(), "이미 " + friend_nickname + " 와 게임에 참여중입니다.\n 진행중인 request를 먼저 완료해주세요", Toast.LENGTH_SHORT).show();
+                                        flag = 1;
+                                    }
+                                }
+                                if (editText_roomname.getText().toString().length() > 0 && flag == 0) { //채팅방이 처음 만들어질 경우
+                                    postListDatabase(true);
+                                    editText_roomname.setText("");
+                                    Toast.makeText(getApplicationContext(), friend_nickname + "와의 게임방이 생성되었습니다.", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                                flag = 0;
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) { }
+                        };
+                        gPostReference.addValueEventListener(checkRoomRegister);
+                    }
+                    else if (friend_nickname.length() == 0 || spaceCheck(text_roomname) == true || text_roomname.length() == 0) {
+                        editText_roomname.setText("");
+                        Toast.makeText(NationGameActivity.this, "채팅방 이름을 바르게 입력해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else if (check_choose == 0){
+                    Toast.makeText(NationGameActivity.this, "채팅할 친구를 골라주세요", Toast.LENGTH_SHORT).show();
+                }
+                else if (check_script == 0){
+                    Toast.makeText(NationGameActivity.this, "채팅할 지문을 골라주세요", Toast.LENGTH_SHORT).show();
+                }
+                else if (check_choose == 0 && check_script == 0){
+                    Toast.makeText(NationGameActivity.this, "채팅할 친구와 게임할 지문을 골라주세요", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
+        callback = new ResponseCallback<KakaoLinkResponse>() {
+            @Override
+            public void onFailure(ErrorResult errorResult) {
+                Toast.makeText(getApplicationContext(), errorResult.getErrorMessage(), Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onSuccess(KakaoLinkResponse result) {
+                Toast.makeText(getApplicationContext(), "Successfully sent KakaoLink v2 message.", Toast.LENGTH_LONG).show();
+            }
+        };
+        getFirebaseDatabase();
+        getFirebaseDatabaseScriptList();
+    }
+
+    private Map<String, String> getServerCallbackArgs() {
+        Map<String, String> callbackParameters = new HashMap<>();
+        return callbackParameters;
+    }
+
+    private ResponseCallback<KakaoLinkResponse> callback;
+    private Map<String, String> serverCallbackArgs = getServerCallbackArgs();
+
+    public void getFirebaseDatabase() {
+        try {
+            final ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        UserInfo friend = snapshot.getValue(UserInfo.class);
+                        showFriendListAdapter.addItem(friend.profile, friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
+                    }
+                    friend_list.setAdapter(showFriendListAdapter);
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            };
+            mPostReference.addValueEventListener(postListener);
+
+        } catch (java.lang.NullPointerException e) {
+
+        }
+    }
+
+    public void getFirebaseDatabaseScriptList() {
+        try {
+            final ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String key = snapshot.getKey();
+                        Log.d("friend key", key);
+                        data1.add(key);
+                    }
+                    arrayAdapter1.clear();
+                    arrayAdapter1.addAll(data1);
+                    arrayAdapter1.notifyDataSetChanged();
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            };
+            sPostReference.addValueEventListener(postListener);
+
+        } catch (java.lang.NullPointerException e) {
+        }
+    }
+
+    public void postListDatabase(boolean add) {
+        Map<String, Object> childUpdates = new HashMap<>();
+        Map<String, Object> postValues = null;
+        Long time = System.currentTimeMillis() / 1000;
+        String ts = time.toString();
+        if(add) {
+            FirebasePost_list post = new FirebasePost_list(editText_roomname.getText().toString(), nickname_key, friend_nickname, script_name,"gaming0" );
+            postValues = post.toMap();
+        }
+        childUpdates.put(ts, postValues);
+        gPostReference.updateChildren(childUpdates);
+    }
+
+    public boolean spaceCheck(String spaceCheck) {
+        for (int i = 0 ; i < spaceCheck.length() ; i++) {
+            if (spaceCheck.charAt(i) == ' ')
+                continue;
+            else if (spaceCheck.charAt(i) != ' ') {
+                return false;
+            }
+        }
+        return true;
     }
 }

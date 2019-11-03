@@ -18,10 +18,10 @@
             android:layout_weight="1"
             android:text="질문 만들기"
             android:gravity="center"
-            android:fontFamily="@font/typo_sherlock_b"
-            android:textColor="@color/white"
+            android:fontFamily="@font/bmjua_ttf"
+            android:textColor="@color/black"
             android:textSize="40dp"
-            android:background="@drawable/rounded_green"/>
+            android:background="@drawable/rounded_yellow"/>
 
         <Button
             android:id="@+id/friend"
@@ -30,8 +30,8 @@
             android:layout_weight="1"
             android:text="친구 질문 보기"
             android:gravity="center"
-            android:fontFamily="@font/typo_sherlock_b"
-            android:textColor="@color/white"
+            android:fontFamily="@font/bmjua_ttf"
+            android:textColor="@color/black"
             android:textSize="40dp"
             android:background="@drawable/rounded_blue"/>
 

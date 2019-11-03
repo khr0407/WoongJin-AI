@@ -120,9 +120,10 @@ public class SelectBookActivity extends AppCompatActivity {
                         if(flag == 0) {
                             String key1 = snapshot.getKey();
                             String background = snapshot.child("background").getValue().toString();
+                            String bookname = snapshot.child("book_name").getValue().toString();
                             bookArrayList.add(key1);
                             backgroundArrayList.add(background);
-                            selectBookListAdapter.addItem(key1);
+                            selectBookListAdapter.addItem(key1, bookname);
                         }
                     }
                 }

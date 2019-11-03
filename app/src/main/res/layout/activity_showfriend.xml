@@ -4,15 +4,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:background="@color/lightorange"
-    android:weightSum="13"
-    >
+    android:weightSum="13">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
         android:orientation="horizontal"
-        android:weightSum="10"
-        >
+        android:weightSum="10" >
         <ImageButton
             android:id="@+id/home"
             android:layout_width="wrap_content"
@@ -21,8 +19,7 @@
             android:layout_gravity="center|left"
             android:layout_margin="15dp"
             android:background="#00ff0000"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -244,8 +241,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="2"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    >
+                    android:gravity="center">
+
                     <ImageButton
                         android:id="@+id/invitefriend"
                         android:layout_width="match_parent"

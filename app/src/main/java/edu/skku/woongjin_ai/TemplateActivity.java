@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,10 +23,11 @@ import java.util.Random;
 
 public class TemplateActivity extends AppCompatActivity {
 
-    Intent intent, intentHome;
-    String id, scriptnm;
-    TextView oxT, choiceT, shortwordT, scriptnmT;
+    Intent intent, intentHome, intentSelectType;
+    String id, scriptnm, backgroundID;
+    TextView oxT, choiceT, shortwordT;
     ImageView imageHome;
+    Button buttonGoBack;
     public DatabaseReference mPostReference;
     ArrayList<QuizOXShortwordTypeInfo> quizListOX, quizListShortword;
     ArrayList<QuizChoiceTypeInfo> quizListChoice;
@@ -42,7 +44,7 @@ public class TemplateActivity extends AppCompatActivity {
         oxT = (TextView) findViewById(R.id.quiz_ox_template);
         choiceT = (TextView) findViewById(R.id.quiz_choice_template);
         shortwordT = (TextView) findViewById(R.id.quiz_shortword_template);
-        scriptnmT = (TextView) findViewById(R.id.scriptnm);
+        buttonGoBack = (Button) findViewById(R.id.goBack);
 
         quizListOX = new ArrayList<QuizOXShortwordTypeInfo>();
         quizListChoice = new ArrayList<QuizChoiceTypeInfo>();
@@ -55,11 +57,22 @@ public class TemplateActivity extends AppCompatActivity {
         intent = getIntent();
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
-        scriptnmT.setText("제목:  " + scriptnm);
+        backgroundID = intent.getStringExtra("background");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         final Random generator = new Random();
+
+        buttonGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentSelectType = new Intent(TemplateActivity.this, SelectTypeActivity.class);
+                intentSelectType.putExtra("id", id);
+                intentSelectType.putExtra("scriptnm", scriptnm);
+                intentSelectType.putExtra("background", backgroundID);
+                startActivity(intentSelectType);
+            }
+        });
 
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
