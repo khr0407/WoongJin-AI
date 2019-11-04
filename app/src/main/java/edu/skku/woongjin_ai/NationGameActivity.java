@@ -60,7 +60,7 @@ public class NationGameActivity extends AppCompatActivity {
         invitefriend = (ImageButton) findViewById(R.id.invitefriend);
         imageButtonHome = (ImageButton) findViewById(R.id.home);
 
-        editText_roomname = (EditText) findViewById(R.id.timer);
+        editText_roomname = (EditText) findViewById(R.id.edit_roomname);
         create = (Button) findViewById(R.id.create);
 
         friend_list = findViewById(R.id.friend_list);
