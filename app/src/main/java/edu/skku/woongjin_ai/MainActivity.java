@@ -29,7 +29,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity implements NewHoonjangFragment.OnFragmentInteractionListener, MainQuizTypeFragment.OnFragmentInteractionListener{
 
     public DatabaseReference mPostReference;
-    Intent intent, intentBook, intentChatlist, intentMyPage;
+    Intent intent, intentBook, intentGamelist, intentMyPage;
     String id, nickname = "";
     LinearLayout bookButton, quizButton, gameButton;
     Button myPageButton;
@@ -93,10 +93,10 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentChatlist = new Intent(MainActivity.this, GameListActivity.class);
-                intentChatlist.putExtra("id", id);
-                intentChatlist.putExtra("nickname", nickname);
-                startActivity(intentChatlist);
+                intentGamelist = new Intent(MainActivity.this, GameListActivity.class);
+                intentGamelist.putExtra("id", id);
+                intentGamelist.putExtra("nickname", nickname);
+                startActivity(intentGamelist);
             }
         });
 
