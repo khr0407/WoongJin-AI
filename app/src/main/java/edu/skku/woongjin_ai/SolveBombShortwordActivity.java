@@ -184,4 +184,9 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
     public void onFragmentInteraction(Uri uri) {
 
     }
+    
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
 }
