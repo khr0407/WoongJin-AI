@@ -1,8 +1,10 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class SolveBombChoiceActivity extends AppCompatActivity {
+public class SolveBombChoiceActivity extends AppCompatActivity implements ShowScriptFragment.OnFragmentInteractionListener  {
     DatabaseReference mPostReference;
     Intent intent;
     String timestamp_key, id_key, nickname_key, user1_key, user2_key, roomname_key, script_key, state_key, question_key, answer_key;
@@ -31,6 +33,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity {
     TextView textViewAns1, textViewAns2, textViewAns3, textViewAns4;
     int flagA1 = 0, flagA2 = 0, flagA3 = 0, flagA4 = 0;
     int count = 2;
+    Fragment showScriptFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -234,9 +237,20 @@ public class SolveBombChoiceActivity extends AppCompatActivity {
         imageButtonScript.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showScriptFragment = new ShowScriptFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
+                Bundle bundle = new Bundle(2);
+                bundle.putString("scriptnm", script_key);
+                bundle.putString("type", "ox");
+                showScriptFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
+    }
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
