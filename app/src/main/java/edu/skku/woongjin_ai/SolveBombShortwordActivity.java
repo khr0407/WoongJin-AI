@@ -1,8 +1,10 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -19,23 +21,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class SolveBombShortwordActivity extends AppCompatActivity {
+public class SolveBombShortwordActivity extends AppCompatActivity implements ShowScriptFragment.OnFragmentInteractionListener {
     DatabaseReference mPostReference;
     Intent intent;
     String timestamp_key, id_key, nickname_key, user1_key, user2_key, roomname_key, script_key, state_key, question_key, answer_key;
     char bomb_cnt;
-    TextView roomname, gamers, question;
+    TextView timer, gamers, question;
     EditText answer_edit;
     ImageButton imageButtonScript;
     Button imageButtonCheck;
     String user_answer;
+    Fragment showScriptFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solvebombshortword);
 
-        roomname = (TextView) findViewById(R.id.roomname);
+        timer = (TextView) findViewById(R.id.timer);
         gamers = (TextView) findViewById(R.id.gamers);
         question = (TextView) findViewById(R.id.question);
         answer_edit = (EditText) findViewById(R.id.answer_edit);
@@ -57,7 +60,6 @@ public class SolveBombShortwordActivity extends AppCompatActivity {
         bomb_cnt = state_key.charAt(6);
         mPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key).child("quiz_list");
 
-        roomname.setText(roomname_key);
         gamers.setText(user1_key + " vs " + user2_key);
         question.setText(question_key);
 
@@ -138,9 +140,20 @@ public class SolveBombShortwordActivity extends AppCompatActivity {
         imageButtonScript.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showScriptFragment = new ShowScriptFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
+                Bundle bundle = new Bundle(2);
+                bundle.putString("scriptnm", script_key);
+                bundle.putString("type", "ox");
+                showScriptFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
+    }
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }

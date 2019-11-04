@@ -1,6 +1,5 @@
 package edu.skku.woongjin_ai;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -61,7 +60,7 @@ public class NationGameActivity extends AppCompatActivity {
         invitefriend = (ImageButton) findViewById(R.id.invitefriend);
         imageButtonHome = (ImageButton) findViewById(R.id.home);
 
-        editText_roomname = (EditText) findViewById(R.id.roomname);
+        editText_roomname = (EditText) findViewById(R.id.timer);
         create = (Button) findViewById(R.id.create);
 
         friend_list = findViewById(R.id.friend_list);

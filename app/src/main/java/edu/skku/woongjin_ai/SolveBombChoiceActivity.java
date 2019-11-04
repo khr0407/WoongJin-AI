@@ -30,13 +30,14 @@ public class SolveBombChoiceActivity extends AppCompatActivity {
     String user_answer;
     TextView textViewAns1, textViewAns2, textViewAns3, textViewAns4;
     int flagA1 = 0, flagA2 = 0, flagA3 = 0, flagA4 = 0;
+    int count = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solvebombchoice);
 
-        roomname = (TextView) findViewById(R.id.roomname);
+        roomname = (TextView) findViewById(R.id.timer);
         gamers = (TextView) findViewById(R.id.gamers);
         question = (TextView) findViewById(R.id.question);
         imageButtonScript = (ImageButton) findViewById(R.id.script);
@@ -209,17 +210,22 @@ public class SolveBombChoiceActivity extends AppCompatActivity {
                         }
                     }
                     else if (!user_answer.equals(answer_key)) {
-                        Toast.makeText(SolveBombChoiceActivity.this, "다시 시도해보세요.", Toast.LENGTH_SHORT).show();
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        WrongBombFragment fragment = new WrongBombFragment();
-                        Bundle bundle = new Bundle(4);
-                        bundle.putString("id", id_key);
-                        bundle.putString("nickname", nickname_key);
-                        bundle.putString("user1", user1_key);
-                        bundle.putString("user2", user2_key);
-                        fragment.setArguments(bundle);
-                        transaction.replace(R.id.contents, fragment);
-                        transaction.commit();
+                        if (count == 2) {
+                            Toast.makeText(SolveBombChoiceActivity.this, "1번의 기회가 남았습니다. 다시 시도해보세요!", Toast.LENGTH_SHORT).show();
+                            count = 1;
+                        }
+                        else if (count == 1) {
+                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                            WrongBombFragment fragment = new WrongBombFragment();
+                            Bundle bundle = new Bundle(4);
+                            bundle.putString("id", id_key);
+                            bundle.putString("nickname", nickname_key);
+                            bundle.putString("user1", user1_key);
+                            bundle.putString("user2", user2_key);
+                            fragment.setArguments(bundle);
+                            transaction.replace(R.id.contents, fragment);
+                            transaction.commit();
+                        }
                     }
                 }
             }

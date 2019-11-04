@@ -229,7 +229,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/solvebomb" />
+                        android:src="@drawable/solvebomb"
+                        android:background="#00FFFFFF"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -243,7 +244,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/makebomb" />
+                        android:src="@drawable/makebomb"
+                        android:background="#00FFFFFF"/>
 
                     <LinearLayout
                         android:layout_width="0dp"
