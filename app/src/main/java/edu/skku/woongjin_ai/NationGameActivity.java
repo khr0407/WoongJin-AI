@@ -206,7 +206,7 @@ public class NationGameActivity extends AppCompatActivity {
     private ResponseCallback<KakaoLinkResponse> callback;
     private Map<String, String> serverCallbackArgs = getServerCallbackArgs();
 
-    public void getFirebaseDatabase() {
+    /*public void getFirebaseDatabase() {
         try {
             final ValueEventListener postListener = new ValueEventListener() {
                 @Override
@@ -217,6 +217,30 @@ public class NationGameActivity extends AppCompatActivity {
                         showFriendListAdapter.addItem(friend.profile, friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
                     }
                     friend_list.setAdapter(showFriendListAdapter);
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            };
+            mPostReference.addValueEventListener(postListener);
+
+        } catch (java.lang.NullPointerException e) {
+
+        }
+    }*/
+    public void getFirebaseDatabase() {
+        try {
+            final ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String key = snapshot.child("nickname").getValue().toString();
+                        Log.d("friend key", key);
+                        data.add(key);
+                    }
+                    arrayAdapter.clear();
+                    arrayAdapter.addAll(data);
+                    arrayAdapter.notifyDataSetChanged();
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {

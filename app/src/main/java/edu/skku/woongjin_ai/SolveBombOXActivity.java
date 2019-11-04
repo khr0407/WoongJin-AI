@@ -219,4 +219,9 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
     public void onFragmentInteraction(Uri uri) {
 
     }
+    
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
 }
