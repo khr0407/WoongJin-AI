@@ -3,6 +3,8 @@ package edu.skku.woongjin_ai;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,7 +28,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
     String timestamp_key, id_key, nickname_key, user1_key, user2_key, roomname_key, script_key, state_key, question_key, answer_key;
     String ans1_key, ans2_key, ans3_key, ans4_key;
     char bomb_cnt;
-    TextView roomname, gamers, question;
+    TextView timer, gamers, question;
     ImageButton imageButtonScript;
     Button imageButtonCheck;
     String user_answer;
@@ -35,12 +37,14 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
     int count = 2;
     Fragment showScriptFragment;
 
+    int second = 120;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solvebombchoice);
 
-        roomname = (TextView) findViewById(R.id.timer);
+        timer = (TextView) findViewById(R.id.timer);
         gamers = (TextView) findViewById(R.id.gamers);
         question = (TextView) findViewById(R.id.question);
         imageButtonScript = (ImageButton) findViewById(R.id.script);
@@ -50,6 +54,8 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
         textViewAns2 = (TextView) findViewById(R.id.ans2);
         textViewAns3 = (TextView) findViewById(R.id.ans3);
         textViewAns4 = (TextView) findViewById(R.id.ans4);
+
+        mHandler.sendEmptyMessage(0);
 
         intent = getIntent();
         timestamp_key = intent.getStringExtra("timestamp");
@@ -71,7 +77,6 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
         bomb_cnt = state_key.charAt(6);
         mPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key).child("quiz_list");
 
-        roomname.setText(roomname_key);
         gamers.setText(user1_key + " vs " + user2_key);
         question.setText(question_key);
 
@@ -239,7 +244,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
             public void onClick(View v) {
                 showScriptFragment = new ShowScriptFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
+                transaction.replace(R.id.contents, showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", script_key);
                 bundle.putString("type", "ox");
@@ -249,6 +254,28 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
             }
         });
     }
+
+    Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            second--;
+            timer.setText(second);
+            mHandler.sendEmptyMessageDelayed(0,1000);
+
+            if (second == 0){
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                WrongBombFragment fragment = new WrongBombFragment();
+                Bundle bundle = new Bundle(4);
+                bundle.putString("id", id_key);
+                bundle.putString("nickname", nickname_key);
+                bundle.putString("user1", user1_key);
+                bundle.putString("user2", user2_key);
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.contents, fragment);
+                transaction.commit();
+            }
+        }
+    };
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 

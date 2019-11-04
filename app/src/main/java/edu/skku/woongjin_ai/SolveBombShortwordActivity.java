@@ -3,6 +3,8 @@ package edu.skku.woongjin_ai;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -33,6 +35,8 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
     String user_answer;
     Fragment showScriptFragment;
 
+    int second = 120;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +48,8 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
         answer_edit = (EditText) findViewById(R.id.answer_edit);
         imageButtonScript = (ImageButton) findViewById(R.id.script);
         imageButtonCheck = (Button)findViewById(R.id.check);
+
+        mHandler.sendEmptyMessage(0);
 
         intent = getIntent();
         timestamp_key = intent.getStringExtra("timestamp");
@@ -142,7 +148,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
             public void onClick(View v) {
                 showScriptFragment = new ShowScriptFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
+                transaction.replace(R.id.contents, showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", script_key);
                 bundle.putString("type", "ox");
@@ -152,6 +158,28 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
             }
         });
     }
+
+    Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            second--;
+            timer.setText(second);
+            mHandler.sendEmptyMessageDelayed(0,1000);
+
+            if (second == 0){
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                WrongBombFragment fragment = new WrongBombFragment();
+                Bundle bundle = new Bundle(4);
+                bundle.putString("id", id_key);
+                bundle.putString("nickname", nickname_key);
+                bundle.putString("user1", user1_key);
+                bundle.putString("user2", user2_key);
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.contents, fragment);
+                transaction.commit();
+            }
+        }
+    };
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 
