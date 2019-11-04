@@ -1,12 +1,16 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,7 +21,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ShowFriendListAdapter extends BaseAdapter {
+public class ShowFriendListAdapter extends BaseAdapter{
 
     FirebaseStorage storage;
     private StorageReference storageReference, dataReference;
@@ -52,6 +56,8 @@ public class ShowFriendListAdapter extends BaseAdapter {
         TextView textViewName = (TextView) convertView.findViewById(R.id.friendName);
         TextView textViewGrade = (TextView) convertView.findViewById(R.id.friendGrade);
         TextView textViewSchool = (TextView) convertView.findViewById(R.id.friendSchool);
+        ImageButton addFriend = (ImageButton) convertView.findViewById(R.id.addFriendButton);
+
 
         ShowFriendListItem showFriendListItem = getItem(position);
 
@@ -73,7 +79,9 @@ public class ShowFriendListAdapter extends BaseAdapter {
         textViewGrade.setText(showFriendListItem.getGradeFriend()+"학년");
         textViewSchool.setText(showFriendListItem.getSchoolFriend());
 
+
         return convertView;
+
     }
 
     public void addItem(String faceFriend, String nameFriend, String gradeFriend, String schoolFriend) {

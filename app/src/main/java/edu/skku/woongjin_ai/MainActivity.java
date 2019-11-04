@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -25,7 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity implements MainQuizTypeFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements NewHoonjangFragment.OnFragmentInteractionListener, MainQuizTypeFragment.OnFragmentInteractionListener{
 
     public DatabaseReference mPostReference;
     Intent intent, intentBook, intentChatlist, intentMyPage;
@@ -35,11 +36,20 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
     TextView userNickname;
     MainQuizTypeFragment mainQuizTypeFragment;
     UserInfo me;
+    NewHoonjangFragment hoonjangFragment_attend, hoonjangFragment_read;
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
+    String nomore_atd, nomore_read;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        setting = getSharedPreferences("nomore", MODE_PRIVATE);
+        nomore_atd = setting.getString("main_attend", "keepgoing");
+        nomore_read = setting.getString("main_read", "keepgoing");
 
         bookButton = (LinearLayout) findViewById(R.id.ReadActivity);
         quizButton = (LinearLayout) findViewById(R.id.QuizActivity);
@@ -185,6 +195,93 @@ public class MainActivity extends AppCompatActivity implements MainQuizTypeFragm
                 me = dataSnapshot.child("user_list/" + id).getValue(UserInfo.class);
                 nickname = me.nickname;
                 userNickname.setText("안녕 " + nickname + "!\n여행하고 싶은 나라를 골라보자!");
+                int AttendCount=0;
+                long ReadCount=0;
+                ReadCount=dataSnapshot.child("user_list/"+id+"my_script_list").getChildrenCount();
+                DataSnapshot dataSnapshot1=dataSnapshot.child("user_list/"+id+"my_week_list");
+                for(DataSnapshot dataSnapshot2: dataSnapshot1.getChildren()){ //week 껍데기
+                    AttendCount+=dataSnapshot2.child("attend_list").getChildrenCount();
+                }
+                Calendar calendar = Calendar.getInstance();
+                Date dateS = calendar.getTime();
+                String MedalUpdate = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                hoonjangFragment_attend=new NewHoonjangFragment();
+                hoonjangFragment_read=new NewHoonjangFragment();
+                if(AttendCount==365 && nomore_atd.equals("stop2")) {
+                    mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev3##"+MedalUpdate);
+                    transaction.replace(R.id.Mainframe, hoonjangFragment_attend);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "attend");
+                    bundle.putString("from", "main_attend");
+                    bundle.putInt("level", 3);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("main_attend", "stop3");
+                    hoonjangFragment_attend.setArguments(bundle);
+                    transaction.commit();
+                }else if(AttendCount==100 && nomore_atd.equals("stop1")){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev2##"+MedalUpdate);
+                    transaction.replace(R.id.Mainframe, hoonjangFragment_attend);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "attend");
+                    bundle.putString("from", "main_attend");
+                    bundle.putInt("level", 2);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("main_attend", "stop2");
+                    hoonjangFragment_attend.setArguments(bundle);
+                    transaction.commit();
+                }else if(AttendCount==30 && nomore_atd.equals("keepgoing")){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev1##"+MedalUpdate);
+                    transaction.replace(R.id.Mainframe, hoonjangFragment_attend);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "attend");
+                    bundle.putString("from", "main_attend");
+                    bundle.putInt("level", 1);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("main_attend", "stop1");
+                    hoonjangFragment_attend.setArguments(bundle);
+                    transaction.commit();
+                }
+                if(ReadCount==150 && nomore_read.equals("stop2")) {
+                    mPostReference.child("user_list/" + id + "/my_medal_list/다독왕").setValue("Lev3##"+MedalUpdate);
+                    transaction.replace(R.id.Mainframe, hoonjangFragment_read);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "read");
+                    bundle.putString("from", "main_read");
+                    bundle.putInt("level", 3);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("main_read", "stop3");
+                    hoonjangFragment_read.setArguments(bundle);
+                    transaction.commit();
+                }else if(ReadCount==100 && nomore_read.equals("stop1")){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/다독왕").setValue("Lev2##"+MedalUpdate);
+                    transaction.replace(R.id.Mainframe, hoonjangFragment_read);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "attend");
+                    bundle.putString("from", "main_read");
+                    bundle.putInt("level", 2);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("main_read", "stop2");
+                    hoonjangFragment_read.setArguments(bundle);
+                    transaction.commit();
+                }else if(ReadCount==50 && nomore_read.equals("keepgoing")){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/다독왕").setValue("Lev1##"+MedalUpdate);
+                    transaction.replace(R.id.Mainframe, hoonjangFragment_read);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "attend");
+                    bundle.putString("from", "main_read");
+                    bundle.putInt("level", 1);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("main_read", "stop1");
+                    hoonjangFragment_read.setArguments(bundle);
+                    transaction.commit();
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }

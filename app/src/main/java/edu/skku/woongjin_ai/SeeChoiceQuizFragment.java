@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -40,7 +41,7 @@ public class SeeChoiceQuizFragment extends Fragment implements ShowWhoLikedFragm
     float starFloat;
     TextView Title, QuizContent;
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    ImageButton imageButtonScript, imageButtonHint;
+    Button imageButtonScript, imageButtonHint;
     Button imageButtonCheck, wholike;
     TextView textViewAns1, textViewAns2, textViewAns3, textViewAns4;
     ShowWhoLikedFragment showWhoLikedFragment;
@@ -105,7 +106,7 @@ public class SeeChoiceQuizFragment extends Fragment implements ShowWhoLikedFragm
         imageViewS3 = (ImageView) view.findViewById(R.id.star3);
         imageViewS4 = (ImageView) view.findViewById(R.id.star4);
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
-        imageButtonScript = (ImageButton) view.findViewById(R.id.see_script);
+        imageButtonScript = (Button) view.findViewById(R.id.see_script);
         textViewAns1 = (TextView) view.findViewById(R.id.first);
         textViewAns2 = (TextView) view.findViewById(R.id.second);
         textViewAns3 = (TextView) view.findViewById(R.id.third);
@@ -169,13 +170,13 @@ public class SeeChoiceQuizFragment extends Fragment implements ShowWhoLikedFragm
         });
 
         if(starFloat >= 1.5) {
-            imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+            imageViewS2.setImageResource(R.drawable.star_full);
             if(starFloat >= 2.5) {
-                imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                imageViewS3.setImageResource(R.drawable.star_full);
                 if(starFloat >= 3.5) {
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     if(starFloat >= 4.5) {
-                        imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                        imageViewS5.setImageResource(R.drawable.star_full);
                     }
                 }
             }
@@ -185,13 +186,13 @@ public class SeeChoiceQuizFragment extends Fragment implements ShowWhoLikedFragm
 
 
         if(answer.equals(answer1))
-            textViewAns1.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+            textViewAns1.setBackgroundColor(Color.rgb(255, 153, 0));
         else if(answer.equals(answer2))
-            textViewAns2.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+            textViewAns2.setBackgroundColor(Color.rgb(255, 153, 0));
         else if(answer.equals(answer3))
-            textViewAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+            textViewAns3.setBackgroundColor(Color.rgb(255, 153, 0));
         else
-            textViewAns4.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+            textViewAns4.setBackgroundColor(Color.rgb(255, 153, 0));
 
 
         return view;
