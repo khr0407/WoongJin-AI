@@ -1,9 +1,9 @@
 package edu.skku.woongjin_ai;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,29 +29,24 @@ import com.kakao.util.helper.log.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Random;
 
-public class NationGameActivity extends Activity {
-    private DatabaseReference mPostReference, mPostReference2, mPostReference3, cPostReference;
-    ListView friend_list, recommendfriend_list;
-    ArrayList<String> data, myFriendList, recommendListArrayList;
-    ArrayAdapter<String> arrayAdapter, recommendListArrayAdapter;
-    ArrayList<UserInfo> recommendList, recommendFinalList;
-    UserInfo me;
+public class NationGameActivity extends AppCompatActivity {
+    private DatabaseReference mPostReference, sPostReference, gPostReference;
+    ListView friend_list, script_list;
+    ArrayList<String> data, data1;
+    ArrayAdapter<String> arrayAdapter, arrayAdapter1;
 
-    String id_key, name_key, nickname_key;
-    String friend_nickname;
-    String newfriend_nickname, newfriend_name, newfriend_id;
-    Button invitefriend, addfriend;
+    String id_key, nickname_key;
+    String friend_nickname, script_name;
+    ImageButton invitefriend, imageButtonHome;
 
     String text_roomname;
     EditText editText_roomname;
     Button create;
 
     Intent intent;
-    int check_choose, check_recommend, flag;
+    int check_choose, check_script, flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,46 +54,42 @@ public class NationGameActivity extends Activity {
         setContentView(R.layout.activity_nationgame);
 
         check_choose = 0;
-        check_recommend = 0;
+        check_script = 0;
         flag = 0;
 
-        invitefriend = (Button) findViewById(R.id.invitefriend);
-        addfriend = (Button) findViewById(R.id.addfriend);
+        invitefriend = (ImageButton) findViewById(R.id.invitefriend);
+        imageButtonHome = (ImageButton) findViewById(R.id.home);
 
-        editText_roomname = (EditText) findViewById(R.id.roomname);
+        editText_roomname = (EditText) findViewById(R.id.timer);
         create = (Button) findViewById(R.id.create);
 
         friend_list = findViewById(R.id.friend_list);
+        script_list = findViewById(R.id.script_list);
         data = new ArrayList<String>();
-
-        myFriendList = new ArrayList<String>();
-        recommendListArrayList = new ArrayList<String>();
-        recommendfriend_list = findViewById(R.id.recommendfriend_list);
-        me = new UserInfo();
-        recommendList = new ArrayList<UserInfo>();
-        recommendFinalList = new ArrayList<UserInfo>();
+        data1 = new ArrayList<String>();
 
         intent = getIntent();
         id_key = intent.getStringExtra("id");
-        name_key = intent.getStringExtra("name");
         nickname_key = intent.getStringExtra("nickname");
 
-        cPostReference = FirebaseDatabase.getInstance().getReference().child("chatroom_list");
-
-        mPostReference2 = FirebaseDatabase.getInstance().getReference();
-        //mPostReference3 = FirebaseDatabase.getInstance().getReference();
         arrayAdapter = new ArrayAdapter<String>(NationGameActivity.this, android.R.layout.simple_list_item_1);
-        recommendListArrayAdapter = new ArrayAdapter<String>(NationGameActivity.this, android.R.layout.simple_list_item_1);
+        arrayAdapter1 = new ArrayAdapter<String>(NationGameActivity.this, android.R.layout.simple_list_item_1);
 
         friend_list.setAdapter(arrayAdapter);
-        recommendfriend_list.setAdapter(recommendListArrayAdapter);
+        script_list.setAdapter(arrayAdapter1);
 
-        if (onlyNumCheck(id_key) == true) {
-            mPostReference = FirebaseDatabase.getInstance().getReference().child("kakaouser_list").child(id_key).child("friend");
-        }
-        else if (onlyNumCheck(id_key) == false) {
-            mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("friend");
-        }
+        mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("my_friend_list");
+        sPostReference = FirebaseDatabase.getInstance().getReference().child("script_list");
+        gPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list");
+
+        imageButtonHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentHome = new Intent(NationGameActivity.this, MainActivity.class);
+                intentHome.putExtra("id", id_key);
+                startActivity(intentHome);
+            }
+        });
 
         invitefriend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,11 +123,19 @@ public class NationGameActivity extends Activity {
             }
         });
 
+        script_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
+                script_name = script_list.getItemAtPosition(position).toString();
+                check_script = 1;
+            }
+        });
+
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 text_roomname = editText_roomname.getText().toString();
-                if (check_choose == 1) {
+                if (check_choose == 1 && check_script == 1) {
                     if (friend_nickname.length() > 0 && spaceCheck(text_roomname) == false && text_roomname.length() > 0) { //create chat room
                         final ValueEventListener checkRoomRegister = new ValueEventListener() {
                             @Override
@@ -144,10 +143,12 @@ public class NationGameActivity extends Activity {
                                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                                     String user1 = postSnapshot.child("user1").getValue().toString();
                                     String user2 = postSnapshot.child("user2").getValue().toString();
-                                    //Log.d("_mynickname", mynickname);
+                                    String state = postSnapshot.child("state").getValue().toString();
                                     Log.d("_user1", user1);
                                     Log.d("_user2", user2);
-                                    if (editText_roomname.getText().toString().length() > 0 && ((user1.equals(nickname_key) && user2.equals(friend_nickname)) || (user2.equals(nickname_key) && user1.equals(friend_nickname)))) { //있으면
+                                    if (!(state.equals("win") || state.equals("win1") || state.equals("win2")) &&
+                                            editText_roomname.getText().toString().length() > 0 &&
+                                            ((user1.equals(nickname_key) && user2.equals(friend_nickname)) || (user2.equals(nickname_key) && user1.equals(friend_nickname)))) { //있으면
                                         Toast.makeText(getApplicationContext(), "이미 " + friend_nickname + " 와 게임에 참여중입니다.\n 진행중인 request를 먼저 완료해주세요", Toast.LENGTH_SHORT).show();
                                         flag = 1;
                                     }
@@ -163,7 +164,7 @@ public class NationGameActivity extends Activity {
                             @Override
                             public void onCancelled(DatabaseError databaseError) { }
                         };
-                        cPostReference.addValueEventListener(checkRoomRegister);
+                        gPostReference.addValueEventListener(checkRoomRegister);
                     }
                     else if (friend_nickname.length() == 0 || spaceCheck(text_roomname) == true || text_roomname.length() == 0) {
                         editText_roomname.setText("");
@@ -173,42 +174,11 @@ public class NationGameActivity extends Activity {
                 else if (check_choose == 0){
                     Toast.makeText(NationGameActivity.this, "채팅할 친구를 골라주세요", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        recommendfriend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
-                UserInfo temp = recommendFinalList.get(position);
-                newfriend_id = temp.id;
-                newfriend_nickname = temp.nickname;
-                newfriend_name = temp.name;
-                check_recommend = 1;
-            }
-        });
-
-        addfriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (check_recommend == 0) {
-                    Toast.makeText(NationGameActivity.this, "추가할 친구를 선택하세요.", Toast.LENGTH_SHORT).show();
+                else if (check_script == 0){
+                    Toast.makeText(NationGameActivity.this, "채팅할 지문을 골라주세요", Toast.LENGTH_SHORT).show();
                 }
-                else if (check_recommend == 1) {
-                    mPostReference.child(newfriend_id + "/name").setValue(newfriend_name);
-                    mPostReference.child(newfriend_id + "/nickname").setValue(newfriend_nickname);
-
-                    if (onlyNumCheck(newfriend_id) == true) {
-                        mPostReference3 = FirebaseDatabase.getInstance().getReference().child("kakaouser_list").child(newfriend_id).child("friend");
-                        mPostReference3.child(id_key + "/name").setValue(name_key);
-                        mPostReference3.child(id_key + "/nickname").setValue(nickname_key);
-                    }
-                    else if (onlyNumCheck(newfriend_id) == false) {
-                        mPostReference3 = FirebaseDatabase.getInstance().getReference().child("user_list").child(newfriend_id).child("friend");
-                        mPostReference3.child(id_key + "/name").setValue(name_key);
-                        mPostReference3.child(id_key + "/nickname").setValue(nickname_key);
-                    }
-                    Toast.makeText(NationGameActivity.this, newfriend_nickname + "이 친구리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
-                    check_recommend = 0;
+                else if (check_choose == 0 && check_script == 0){
+                    Toast.makeText(NationGameActivity.this, "채팅할 친구와 게임할 지문을 골라주세요", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -225,7 +195,7 @@ public class NationGameActivity extends Activity {
             }
         };
         getFirebaseDatabase();
-        getFirebaseDatabaseRecommendFriendList();
+        getFirebaseDatabaseScriptList();
     }
 
     private Map<String, String> getServerCallbackArgs() {
@@ -236,101 +206,17 @@ public class NationGameActivity extends Activity {
     private ResponseCallback<KakaoLinkResponse> callback;
     private Map<String, String> serverCallbackArgs = getServerCallbackArgs();
 
-    public void getFirebaseDatabaseRecommendFriendList() {
-        final ValueEventListener postListner = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                myFriendList.clear();
-                recommendList.clear();
-                recommendListArrayList.clear();
-                recommendFinalList.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key = snapshot.getKey();
-                    if(key.equals("user_list") || key.equals("kakaouser_list")) {
-                        for(DataSnapshot snapshot0 : snapshot.getChildren()) {
-                            String key1 = snapshot0.getKey();
-                            if(key1.equals(id_key)) {
-                                me = snapshot0.getValue(UserInfo.class);
-                                for(DataSnapshot snapshot1 : snapshot0.child("friend").getChildren()) {
-                                    String key2 = snapshot1.getKey();
-                                    myFriendList.add(key2);
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-                String myGrade = me.grade;
-                String mySchool = me.school;
-
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key0 = snapshot.getKey();
-                    if(key0.equals("user_list") || key0.equals("kakaouser_list")) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String key = snapshot1.getKey();
-                            if(!key.equals(id_key)) {
-                                int flag = 0;
-                                String uid = snapshot1.getKey();
-                                for(String friendID : myFriendList) {
-                                    if(uid.equals(friendID)) {
-                                        flag = 1;
-                                        break;
-                                    }
-                                }
-                                if(flag == 0) {
-                                    UserInfo friend = snapshot1.getValue(UserInfo.class);
-                                    String grade = friend.grade;
-                                    String school = friend.school;
-                                    if (grade.equals(myGrade) || school.equals(mySchool)) {
-                                        recommendList.add(friend);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                }
-                int cntAll = recommendList.size();
-                Random generator = new Random();
-                int[] randList = new int[cntAll];
-                for(int i = 0; i < cntAll; i++) {
-                    randList[i] = generator.nextInt(cntAll);
-                    for(int j = 0; j < i; j++) {
-                        if(randList[i] == randList[j]) {
-                            i--;
-                            break;
-                        }
-                    }
-                }
-                for(int i = 0; i < cntAll; i++) {
-                    UserInfo finalRecommend = recommendList.get(randList[i]);
-                    recommendFinalList.add(finalRecommend);
-                    String post = finalRecommend.nickname + "[" + finalRecommend.name + "]"+ "\n" + finalRecommend.grade + "\n" + finalRecommend.school;
-                    recommendListArrayList.add(post);
-                }
-                recommendListArrayAdapter.clear();
-                recommendListArrayAdapter.addAll(recommendListArrayList);
-                recommendListArrayAdapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {            }
-        };
-        mPostReference2.addValueEventListener(postListner);
-    }
-
     public void getFirebaseDatabase() {
         try {
             final ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String key = snapshot.getKey();
-                        Log.d("friend key", key);
-                        data.add(key);
+                        UserInfo friend = snapshot.getValue(UserInfo.class);
+                        showFriendListAdapter.addItem(friend.profile, friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
                     }
-                    arrayAdapter.clear();
-                    arrayAdapter.addAll(data);
-                    arrayAdapter.notifyDataSetChanged();
+                    friend_list.setAdapter(showFriendListAdapter);
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -343,29 +229,41 @@ public class NationGameActivity extends Activity {
         }
     }
 
+    public void getFirebaseDatabaseScriptList() {
+        try {
+            final ValueEventListener postListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String key = snapshot.getKey();
+                        Log.d("friend key", key);
+                        data1.add(key);
+                    }
+                    arrayAdapter1.clear();
+                    arrayAdapter1.addAll(data1);
+                    arrayAdapter1.notifyDataSetChanged();
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                }
+            };
+            sPostReference.addValueEventListener(postListener);
+
+        } catch (java.lang.NullPointerException e) {
+        }
+    }
+
     public void postListDatabase(boolean add) {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
+        Long time = System.currentTimeMillis() / 1000;
+        String ts = time.toString();
         if(add) {
-            FirebasePost_list post = new FirebasePost_list(editText_roomname.getText().toString(), nickname_key, friend_nickname);
+            FirebasePost_list post = new FirebasePost_list(editText_roomname.getText().toString(), nickname_key, friend_nickname, script_name,"gaming0" );
             postValues = post.toMap();
         }
-        childUpdates.put(nickname_key + "-" + friend_nickname + ":" + editText_roomname.getText().toString(), postValues);
-        cPostReference.updateChildren(childUpdates);
-    }
-
-
-    public boolean onlyNumCheck(String spaceCheck) {
-        for (int i = 0 ; i < spaceCheck.length() ; i++) {
-            if (spaceCheck.charAt(i) == '1' || spaceCheck.charAt(i) == '2' || spaceCheck.charAt(i) == '3' || spaceCheck.charAt(i) == '4' || spaceCheck.charAt(i) == '5'
-                    || spaceCheck.charAt(i) == '6' || spaceCheck.charAt(i) == '7' || spaceCheck.charAt(i) == '8' || spaceCheck.charAt(i) == '9' || spaceCheck.charAt(i) == '0') {
-                continue;
-            }
-            else {
-                return false;
-            }
-        }
-        return true;
+        childUpdates.put(ts, postValues);
+        gPostReference.updateChildren(childUpdates);
     }
 
     public boolean spaceCheck(String spaceCheck) {
@@ -378,5 +276,4 @@ public class NationGameActivity extends Activity {
         }
         return true;
     }
-
 }
