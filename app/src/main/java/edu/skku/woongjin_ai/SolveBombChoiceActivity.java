@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class SolveBombChoiceActivity extends AppCompatActivity implements ShowScriptFragment.OnFragmentInteractionListener  {
-    DatabaseReference mPostReference;
+    DatabaseReference mPostReference, wPostReference;
     Intent intent;
     String timestamp_key, id_key, nickname_key, user1_key, user2_key, roomname_key, script_key, state_key, question_key, answer_key;
     String ans1_key, ans2_key, ans3_key, ans4_key;
@@ -37,7 +37,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
     int count = 2;
     Fragment showScriptFragment;
 
-    int second = 120;
+    int second = 60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -45,6 +45,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
         setContentView(R.layout.activity_solvebombchoice);
 
         timer = (TextView) findViewById(R.id.timer);
+        mHandler.sendEmptyMessage(0);
         gamers = (TextView) findViewById(R.id.gamers);
         question = (TextView) findViewById(R.id.question);
         imageButtonScript = (ImageButton) findViewById(R.id.script);
@@ -54,8 +55,6 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
         textViewAns2 = (TextView) findViewById(R.id.ans2);
         textViewAns3 = (TextView) findViewById(R.id.ans3);
         textViewAns4 = (TextView) findViewById(R.id.ans4);
-
-        mHandler.sendEmptyMessage(0);
 
         intent = getIntent();
         timestamp_key = intent.getStringExtra("timestamp");
@@ -76,6 +75,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
 
         bomb_cnt = state_key.charAt(6);
         mPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key).child("quiz_list");
+        wPostReference  = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key);
 
         gamers.setText(user1_key + " vs " + user2_key);
         question.setText(question_key);
@@ -167,28 +167,29 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
         imageButtonCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ValueEventListener check = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            String quiznum = postSnapshot.getKey();
-                            if (quiznum.contains("quiz" + bomb_cnt)) {
-                                mPostReference.child(quiznum).child("state").setValue(nickname_key);
-                                break;
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) { }
-                };
-                mPostReference.addValueEventListener(check);
-
                 if (user_answer.equals("")) {
                     Toast.makeText(SolveBombChoiceActivity.this, "정답을 입력하세요.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     if (user_answer.equals(answer_key)) {
+                        final ValueEventListener check = new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                    String quiznum = postSnapshot.getKey();
+                                    if (quiznum.equals("quiz" + bomb_cnt)) {
+                                        mPostReference.child(quiznum).child("solve").setValue(nickname_key);
+                                        break;
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) { }
+                        };
+                        mPostReference.addValueEventListener(check);
+
                         if (bomb_cnt == '6') {
+                            wPostReference.child("state").setValue("win");
                             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                             EndBombFragment fragment = new EndBombFragment();
                             Bundle bundle = new Bundle(4);
@@ -223,6 +224,12 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
                             count = 1;
                         }
                         else if (count == 1) {
+                            if (nickname_key.equals(user1_key)) {
+                                wPostReference.child("state").setValue("win2");
+                            }
+                            else if (nickname_key.equals(user2_key)) {
+                                wPostReference.child("state").setValue("win1");
+                            }
                             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                             WrongBombFragment fragment = new WrongBombFragment();
                             Bundle bundle = new Bundle(4);
@@ -247,21 +254,28 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
                 transaction.replace(R.id.contents, showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", script_key);
-                bundle.putString("type", "ox");
+                bundle.putString("type", "solvebombchoice");
                 showScriptFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
     }
-
     Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             second--;
-            timer.setText(second);
+            timer.setText("00 :  " + second);
+
+            // 메세지를 처리하고 또다시 핸들러에 메세지 전달 (1000ms 지연)
             mHandler.sendEmptyMessageDelayed(0,1000);
 
-            if (second == 0){
+            if (second == 0) {
+                if (nickname_key.equals(user1_key)) {
+                    wPostReference.child("state").setValue("win2");
+                }
+                else if (nickname_key.equals(user2_key)) {
+                    wPostReference.child("state").setValue("win1");
+                }
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 WrongBombFragment fragment = new WrongBombFragment();
                 Bundle bundle = new Bundle(4);
@@ -275,6 +289,26 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
             }
         }
     };
+    /*Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            second--;
+            timer.setText(second);
+            mHandler.sendEmptyMessageDelayed(0, 1000);
+
+            if (second == 0) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                WrongBombFragment fragment = new WrongBombFragment();
+                Bundle bundle = new Bundle(4);
+                bundle.putString("id", id_key);
+                bundle.putString("nickname", nickname_key);
+                bundle.putString("user1", user1_key);
+                bundle.putString("user2", user2_key);
+                fragment.setArguments(bundle);
+                transaction.replace(R.id.contents, fragment);
+                transaction.commit();
+            }
+        }
+    };*/
 
     @Override
     public void onFragmentInteraction(Uri uri) {

@@ -27,7 +27,6 @@ public class MakeBombTypeActivity extends AppCompatActivity {
     ImageButton frameOX, frameChoice, frameShortword;
     ImageButton goHome;
     TextView script_title, textViewId;
-    Button showTemplate;
     private DatabaseReference mPostReference;
 
     @Override
@@ -41,7 +40,6 @@ public class MakeBombTypeActivity extends AppCompatActivity {
         frameShortword = (ImageButton) findViewById(R.id.quiz_shortword);
         script_title = (TextView) findViewById(R.id.title);
         textViewId = (TextView) findViewById(R.id.makeQuiz);
-        showTemplate = (Button) findViewById(R.id.template);
 
         intent = getIntent();
         id_key = intent.getStringExtra("id");
@@ -73,17 +71,6 @@ public class MakeBombTypeActivity extends AppCompatActivity {
 
         script_title.setText("지문 제목: " + scriptnm);
         textViewId.setText(nickname_key + "(이)가 직접 폭탄으로 보낼 문제를 만들어볼까?");
-
-        showTemplate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                intentTemplate = new Intent(MakeBombTypeActivity.this, TemplateActivity.class);
-                intentTemplate.putExtra("id", id_key);
-                intentTemplate.putExtra("scriptnm", scriptnm);
-                intentTemplate.putExtra("background", backgroundID);
-                startActivity(intentTemplate);
-            }
-        });
 
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override

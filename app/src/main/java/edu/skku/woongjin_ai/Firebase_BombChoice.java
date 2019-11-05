@@ -12,12 +12,13 @@ public class Firebase_BombChoice {
     public String answer4;
     public String type;
     public String solve;
+    public String last;
 
     public Firebase_BombChoice() {
 
     }
 
-    public Firebase_BombChoice(String question, String answer, String answer1, String answer2, String answer3, String answer4, String type, String solve) {
+    public Firebase_BombChoice(String question, String answer, String answer1, String answer2, String answer3, String answer4, String type, String solve, String last) {
         this.question = question;
         this.answer = answer;
         this.answer1 = answer1;
@@ -26,6 +27,7 @@ public class Firebase_BombChoice {
         this.answer4 = answer4;
         this.type = type;
         this.solve = solve;
+        this.last = last;
     }
 
     public Map<String, Object> toMap() {
@@ -38,6 +40,7 @@ public class Firebase_BombChoice {
         result.put("answer4", answer4);
         result.put("type", type);
         result.put("solve", solve);
+        result.put("last", last);
         return result;
     }
 }

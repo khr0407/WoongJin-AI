@@ -21,6 +21,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +41,7 @@ public class MakeBombChoiceActivity extends AppCompatActivity
     ImageButton checkButton, scriptButton;
     Fragment showScriptFragment;
     TextView title;
+    TextView num1, num2, num3, num4;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +72,11 @@ public class MakeBombChoiceActivity extends AppCompatActivity
         checkButton = (ImageButton) findViewById(R.id.check);
         scriptButton = (ImageButton) findViewById(R.id.script);
 
+        num1 = findViewById(R.id.num1);
+        num2 = findViewById(R.id.num2);
+        num3 = findViewById(R.id.num3);
+        num4 = findViewById(R.id.num4);
+
         title.setText("지문 제목: " + scriptnm);
         bomb_cnt = state_key.charAt(6);
 
@@ -82,7 +90,7 @@ public class MakeBombChoiceActivity extends AppCompatActivity
                 transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", scriptnm);
-                bundle.putString("type", "choice");
+                bundle.putString("type", "makebombchoice");
                 showScriptFragment.setArguments(bundle);
                 //transaction.addToBackStack(null);
                 transaction.commit();
@@ -108,6 +116,8 @@ public class MakeBombChoiceActivity extends AppCompatActivity
                     postFirebaseDatabaseQuizChoice();
                     Toast.makeText(MakeBombChoiceActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
                     intentGameList = new Intent(MakeBombChoiceActivity.this, GameListActivity.class);
+                    intentGameList.putExtra("id", id_key);
+                    intentGameList.putExtra("nickname", nickname_key);
                     startActivity(intentGameList);
                     finish();
                 }
@@ -124,31 +134,32 @@ public class MakeBombChoiceActivity extends AppCompatActivity
             }
         });
 
-        editAns1.setOnClickListener(new View.OnClickListener() {
+        num1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagA1 == 0 ) {
-                    if(flagA2==0 && flagA3==0 && flagA4==0 ){
-                        editAns1.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                if (flagA1 == 0 ) {
+                    if(flagA2 == 0 && flagA3 == 0 && flagA4 == 0 ){
+                        num1.setBackgroundResource(R.drawable.rounded_yellow);
                         flagA1 = 1;
                         ans = editAns1.getText().toString();
                     }
                     else{
                         Toast.makeText(MakeBombChoiceActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    editAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                }
+                else {
+                    num1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA1 = 0;
-                    ans="";
+                    ans = "";
                 }
             }
         });
-        editAns2.setOnClickListener(new View.OnClickListener() {
+        num2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagA2 == 0) {
-                    if( flagA1==0 && flagA3==0 && flagA4==0){
-                        editAns2.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                    if( flagA1 == 0 && flagA3 == 0 && flagA4 == 0){
+                        num2.setBackgroundResource(R.drawable.rounded_yellow);
                         flagA2 = 1;
                         ans = editAns2.getText().toString();
                     }
@@ -156,18 +167,18 @@ public class MakeBombChoiceActivity extends AppCompatActivity
                         Toast.makeText(MakeBombChoiceActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    editAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    num2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA2 = 0;
-                    ans="";
+                    ans = "";
                 }
             }
         });
-        editAns3.setOnClickListener(new View.OnClickListener() {
+        num3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagA3 == 0 ) {
-                    if(flagA2==0 && flagA4==0 && flagA1==0){
-                        editAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                    if(flagA2 == 0 && flagA4 == 0 && flagA1 == 0){
+                        num3.setBackgroundResource(R.drawable.rounded_yellow);
                         flagA3 = 1;
                         ans = editAns3.getText().toString();
                     }
@@ -175,18 +186,18 @@ public class MakeBombChoiceActivity extends AppCompatActivity
                         Toast.makeText(MakeBombChoiceActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    editAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    num3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA3 = 0;
                     ans = "";
                 }
             }
         });
-        editAns4.setOnClickListener(new View.OnClickListener() {
+        num4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagA4 == 0 ) {
-                    if(flagA2==0 && flagA3==0 && flagA1==0){
-                        editAns4.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                    if(flagA2 == 0 && flagA3 == 0 && flagA1 == 0){
+                        num4.setBackgroundResource(R.drawable.rounded_yellow);
                         flagA4 = 1;
                         ans = editAns4.getText().toString();
                     }
@@ -194,7 +205,7 @@ public class MakeBombChoiceActivity extends AppCompatActivity
                         Toast.makeText(MakeBombChoiceActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    editAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    num4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     flagA4 = 0;
                     ans = "";
                 }
@@ -205,10 +216,10 @@ public class MakeBombChoiceActivity extends AppCompatActivity
     private void postFirebaseDatabaseQuizChoice() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        Firebase_BombChoice post = new Firebase_BombChoice(quiz, ans, ans1, ans2, ans3, ans4, "choice", "");
+        Firebase_BombChoice post = new Firebase_BombChoice(quiz, ans, ans1, ans2, ans3, ans4, "choice", "none", nickname_key);
         postValues = post.toMap();
         int temp_cnt = bomb_cnt - '0' + 1;
-        childUpdates.put(nickname_key+"quiz"+temp_cnt, postValues);
+        childUpdates.put("quiz"+temp_cnt, postValues);
         mPostReference.child(timestamp_key).child("quiz_list").updateChildren(childUpdates);
         mPostReference.child(timestamp_key).child("state").setValue("gaming"+temp_cnt);
         editQuiz.setText("");
