@@ -51,7 +51,7 @@ public class ShowFriendActivity extends Activity {
     ArrayList<String> myFriendList;
     ArrayList<UserInfo> recommendList, recommendFinalList;
     UserInfo me;
-    String id_key, name_key, nickname_key;
+    String id_key, name_key, nickname_key, grade_key, school_key, profile_key, myGrade, mySchool;
     EditText findID;
 //    String friend_nickname;
     String newfriend_nickname, newfriend_name, newfriend_id, newfriend_grade, newfriend_school, newfriend_profile;
@@ -114,6 +114,10 @@ public class ShowFriendActivity extends Activity {
         id_key = intent.getStringExtra("id");
         name_key = intent.getStringExtra("name");
         nickname_key = intent.getStringExtra("nickname");
+//        grade_key=intent.getStringExtra("grade");
+//        school_key=intent.getStringExtra("school");
+//        profile_key=intent.getStringExtra("profile");
+
 
         mPostReference2 = FirebaseDatabase.getInstance().getReference();
         //mPostReference3 = FirebaseDatabase.getInstance().getReference();
@@ -152,7 +156,7 @@ public class ShowFriendActivity extends Activity {
                                 searchedFlag=1;
                                 searched = snapshot.getValue(UserInfo.class);
                                 searchedGrade.setText(searched.grade+"학년");
-                                searchedName.setText(searched.name);
+                                searchedName.setText(searched.nickname);
                                 searchedSchool.setText(searched.school);
                                 searchedAddfriend.setVisibility(View.VISIBLE);
                                 searchedAddfriend.setClickable(true);
@@ -162,7 +166,7 @@ public class ShowFriendActivity extends Activity {
                                 sfriend_name = searched.name;
                                 sfriend_grade = searched.grade;
                                 sfriend_school = searched.school;
-                                sfriend_profile=searched.profile;
+                                sfriend_profile = profileUri;
 
                                 if (profileUri.equals("noimage")){
                                     searchedFace.setVisibility(View.VISIBLE);
@@ -333,8 +337,8 @@ public class ShowFriendActivity extends Activity {
 
                 }*/
 
-                String myGrade = me.grade;
-                String mySchool = me.school;
+                myGrade = me.grade;
+                mySchool = me.school;
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key0 = snapshot.getKey();
@@ -398,7 +402,6 @@ public class ShowFriendActivity extends Activity {
 //                    mPostReference.child(newfriend_id + "/grade").setValue(newfriend_grade);
 //                    mPostReference.child(newfriend_id + "/school").setValue(newfriend_school);
 //                    mPostReference.child(newfriend_id + "/profile").setValue(newfriend_profile);
-//이제 이건 리스트 커스텀이라 거기서 할구야..
 
                     mPostReference.child(sfriend_id + "/name").setValue(sfriend_name);
                     mPostReference.child(sfriend_id + "/nickname").setValue(sfriend_nickname);
@@ -406,12 +409,35 @@ public class ShowFriendActivity extends Activity {
                     mPostReference.child(sfriend_id + "/school").setValue(sfriend_school);
                     mPostReference.child(sfriend_id + "/profile").setValue(sfriend_profile);
 
+                    //Log.d("myname", me.name);
+//                    for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                        String key = snapshot.getKey();
+//                        if(key.equals("user_list")) {
+//                            for(DataSnapshot snapshot0 : snapshot.getChildren()) {
+//                                String key1 = snapshot0.getKey();
+//                                if(key1.equals(id_key)) {
+//                                    me = snapshot0.getValue(UserInfo.class);
+//                                }
+//                                break;
+//                            }
+//                        }
+//                    }
+
+
                     ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         UserInfo friend = snapshot.getValue(UserInfo.class);
                         showFriendListAdapter.addItem(friend.profile, friend.nickname, friend.grade, friend.school);
                     }
                     friend_list.setAdapter(showFriendListAdapter);
+
+
+                    mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key+"/name").setValue(me.name);
+                    mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/nickname").setValue(me.nickname);
+                    mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/grade").setValue(me.grade);
+                    mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/school").setValue(me.school);
+                    mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/profile").setValue(me.profile);
+
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
