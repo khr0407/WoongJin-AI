@@ -131,7 +131,7 @@ public class CorrectFriendQuizFragment extends Fragment {
                     int oldCorrect = myThisWeekInfo.correct;
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + myWeekNum + "/correct").setValue(oldCorrect + 1);
 
-                    oldLevel = Integer.parseInt(star);
+                    oldLevel = Float.parseFloat(star);
                     newLevel = (oldLevel*cnt + starInt) / (cnt + 1);
                     mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/star").setValue(Float.toString(newLevel));
                     mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/cnt").setValue(cnt+1);
