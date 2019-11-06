@@ -102,7 +102,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
-                    android:text="OX 문제는 두 번의 기회가 주어집니다."
+                    android:text="OX 문제는 한 번의 기회가 주어집니다."
                     android:textColor="@color/white"
                     android:textSize="15dp" />
 
