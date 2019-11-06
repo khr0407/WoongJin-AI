@@ -5,6 +5,7 @@
     android:background="@drawable/nationbook_background">
 
     <LinearLayout
+        android:id="@+id/contents3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -12,19 +13,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="horizontal"
             android:layout_weight="1"
+            android:orientation="horizontal"
             android:weightSum="10">
 
             <ImageButton
                 android:id="@+id/home"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/go_home"
-                android:scaleType="centerCrop"
-                android:padding="40dp"
+                android:layout_weight="2"
                 android:background="#00ff0000"
-                android:layout_weight="2" />
+                android:padding="40dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/go_home" />
 
             <TextView
                 android:layout_width="0dp"
@@ -35,14 +36,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:orientation="horizontal"
             android:layout_weight="1.5"
+            android:orientation="horizontal"
             android:weightSum="11">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="2"/>
+                android:layout_weight="2" />
 
             <FrameLayout
                 android:layout_width="0dp"
@@ -52,31 +53,31 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/nationbook_board"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/nationbook_board" />
 
                 <TextView
                     android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/nationbook_board"
-                    android:textSize="40dp"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/bmjua_ttf"
                     android:layout_gravity="center"
-                    android:gravity="center"/>
+                    android:background="@drawable/nationbook_board"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="40dp" />
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_weight="2"/>
+                android:layout_weight="2" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.2"/>
+            android:layout_weight="0.2" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -107,9 +108,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/selectbook_board"
                         android:layout_marginLeft="50dp"
                         android:layout_marginRight="50dp"
+                        android:background="@drawable/selectbook_board"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -129,8 +130,8 @@
                                 android:layout_height="0dp"
                                 android:layout_gravity="center"
                                 android:layout_weight="7"
-                                android:src="@drawable/bot"
-                                android:gravity="right|center"/>
+                                android:gravity="right|center"
+                                android:src="@drawable/bot" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -175,16 +176,16 @@
                                     android:id="@+id/ans"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:layout_marginTop="20dp"
+                                    android:layout_marginRight="10dp"
+                                    android:layout_marginBottom="20dp"
                                     android:background="@color/white"
                                     android:fontFamily="@font/bmjua_ttf"
                                     android:gravity="center"
                                     android:hint="정답 입력하기"
                                     android:padding="10dp"
-                                    android:textSize="30dp"
-                                    android:layout_marginTop="20dp"
-                                    android:layout_marginBottom="20dp"
-                                    android:layout_marginLeft="10dp"
-                                    android:layout_marginRight="10dp"/>
+                                    android:textSize="30dp" />
 
                             </LinearLayout>
 

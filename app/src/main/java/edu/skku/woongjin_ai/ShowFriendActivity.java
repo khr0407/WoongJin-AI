@@ -53,7 +53,7 @@ public class ShowFriendActivity extends Activity {
     UserInfo me;
     String id_key, name_key, nickname_key, grade_key, school_key, profile_key, myGrade, mySchool;
     EditText findID;
-//    String friend_nickname;
+    //    String friend_nickname;
     String newfriend_nickname, newfriend_name, newfriend_id, newfriend_grade, newfriend_school, newfriend_profile;
     String sfriend_nickname, sfriend_name, sfriend_id, sfriend_grade, sfriend_school, sfriend_profile;
     ImageButton invitefriend, addfriend, imageButtonHome;
@@ -61,7 +61,7 @@ public class ShowFriendActivity extends Activity {
     TextView searchName, searchGrade, searchSchool;
     ImageView searchFace;
     Intent intent, intentHome;
-//    int check_choose;
+    //    int check_choose;
     int check_recommend;
     UserInfo searched;
     ArrayList<UserInfo> searchList;
@@ -331,10 +331,8 @@ public class ShowFriendActivity extends Activity {
                                     break;
                                     }
                                 }
-
                         }
                     }
-
                 }*/
 
                 myGrade = me.grade;

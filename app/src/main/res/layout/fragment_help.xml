@@ -9,7 +9,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="58dp">
+        android:padding="30dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.05"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="9"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/buttonClose"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right|center"
+                    android:padding="5dp"
+                    android:src="@drawable/ic_icons_white_x" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,12 +53,12 @@
                 android:id="@+id/textView10"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.3"
                 android:fontFamily="@font/bmjua_ttf"
                 android:gravity="right|center"
                 android:text="시한폭탄 퀴즈"
                 android:textColor="#FF0000"
-                android:textSize="20dp" />
+                android:textSize="22dp" />
 
             <TextView
                 android:id="@+id/textView11"
@@ -34,10 +66,10 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.3"
                 android:fontFamily="@font/bmjua_ttf"
-                android:gravity="center"
-                android:text="란, 제한 시간 내로 정답을 맞추지 못하면 펑! 터지고,"
+                android:gravity="left|center"
+                android:text=" 란, 제한 시간 내로 정답을 맞추지 못하면 펑! 터지고,"
                 android:textColor="@color/white"
-                android:textSize="20dp" />
+                android:textSize="22dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -55,7 +87,7 @@
                 android:gravity="right|center"
                 android:text="맞추게 되면"
                 android:textColor="@color/white"
-                android:textSize="20dp" />
+                android:textSize="22dp" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -66,7 +98,7 @@
                 android:gravity="center"
                 android:text="웅머니"
                 android:textColor="@color/blue"
-                android:textSize="20dp" />
+                android:textSize="22dp" />
 
             <TextView
                 android:layout_width="0dp"
@@ -76,7 +108,7 @@
                 android:gravity="left|center"
                 android:text="를 얻을 수 있는 특별한 퀴즈야!"
                 android:textColor="@color/white"
-                android:textSize="20dp" />
+                android:textSize="22dp" />
         </LinearLayout>
 
         <TextView
@@ -85,7 +117,7 @@
             android:layout_weight="0.1"
             android:fontFamily="@font/bmjua_ttf"
             android:textColor="@color/white"
-            android:textSize="20dp"
+            android:textSize="22dp"
             android:gravity="center"
             android:text="웅진이가 친구들에게 직접 시한폭탄 퀴즈를 만들어서 보내거나,"/>
 
@@ -95,7 +127,7 @@
             android:layout_weight="0.1"
             android:fontFamily="@font/bmjua_ttf"
             android:textColor="@color/white"
-            android:textSize="20dp"
+            android:textSize="22dp"
             android:gravity="center"
             android:text="친구들이 웅진이에게 보낸 시한폭탄 퀴즈를 풀어볼 수 있어~"/>
 
@@ -105,7 +137,7 @@
             android:layout_weight="0.1"
             android:fontFamily="@font/bmjua_ttf"
             android:textColor="@color/yellow"
-            android:textSize="20dp"
+            android:textSize="22dp"
             android:gravity="center"
             android:text="행운을 빌어~!"/>
 

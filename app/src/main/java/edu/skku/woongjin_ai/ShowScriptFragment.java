@@ -93,14 +93,14 @@ public class ShowScriptFragment extends Fragment {
                     fragmentTransaction.remove(((MyQuizActivity)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
                 } else if(type.equals("likequiz")) {
-                   fragmentTransaction.remove(((LikeQuizActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.remove(((LikeQuizActivity)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
                 }
                 else if(type.equals("solvebombchoice")) {
                     fragmentTransaction.remove(((SolveBombChoiceActivity)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
                 }
-                else if(type.equals("solvebombbox")) {
+                else if(type.equals("solvebombox")) {
                     fragmentTransaction.remove(((SolveBombOXActivity)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
                 }

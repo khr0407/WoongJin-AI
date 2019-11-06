@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class CorrectBombFragment extends Fragment {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final ValueEventListener findgamers = new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -72,7 +74,9 @@ public class CorrectBombFragment extends Fragment {
                 };
                 mPostReference.addListenerForSingleValueEvent(findgamers);
 
-                FragmentManager manager = getActivity().getSupportFragmentManager();
+
+
+                /*FragmentManager manager = getActivity().getSupportFragmentManager();
                 manager.beginTransaction().remove(CorrectBombFragment.this).commit();
                 manager.popBackStack();
                 Intent intent_makebombtype = new Intent(getActivity(), MakeBombTypeActivity.class);
@@ -84,7 +88,15 @@ public class CorrectBombFragment extends Fragment {
                 intent_makebombtype.putExtra("roomname", roomname_key);
                 intent_makebombtype.putExtra("scriptnm", script_key);
                 intent_makebombtype.putExtra("state", state_key);
-                startActivity(intent_makebombtype);
+                startActivity(intent_makebombtype);*/
+
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+                manager.beginTransaction().remove(CorrectBombFragment.this).commit();
+                manager.popBackStack();
+                Intent intent_gamelist = new Intent(getActivity(), GameListActivity.class);
+                intent_gamelist.putExtra("id", id_key);
+                intent_gamelist.putExtra("nickname", nickname_key);
+                startActivity(intent_gamelist);
             }
         });
         return view;

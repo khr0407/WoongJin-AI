@@ -183,7 +183,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                 bundle.putString("user2", user2_key);
                 fragment.setArguments(bundle);
                 transaction.replace(R.id.contents, fragment);
-                transaction.commit();
+                transaction.commitAllowingStateLoss();
             }
         }
     };

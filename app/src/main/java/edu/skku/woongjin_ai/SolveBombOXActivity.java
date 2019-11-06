@@ -1,5 +1,6 @@
 package edu.skku.woongjin_ai;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -131,7 +133,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                             @Override
                             public void onCancelled(DatabaseError databaseError) { }
                         };
-                        mPostReference.addValueEventListener(check);
+                        mPostReference.addListenerForSingleValueEvent(check);
 
                         if (bomb_cnt == '6') {
                             wPostReference.child("state").setValue("win");
@@ -180,7 +182,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                         fragment.setArguments(bundle);
                         transaction.replace(R.id.contents, fragment);
                         transaction.commit();
-                    }
+                }
                 }
             }
         });
@@ -188,15 +190,15 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
         imageButtonScript.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    showScriptFragment = new ShowScriptFragment();
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.contents, showScriptFragment);
-                    Bundle bundle = new Bundle(2);
-                    bundle.putString("scriptnm", script_key);
-                    bundle.putString("type", "solvebombox");
-                    showScriptFragment.setArguments(bundle);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                showScriptFragment = new ShowScriptFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contents, showScriptFragment);
+                Bundle bundle = new Bundle(2);
+                bundle.putString("scriptnm", script_key);
+                bundle.putString("type", "solvebombox");
+                showScriptFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
     }
@@ -233,7 +235,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
     public void onFragmentInteraction(Uri uri) {
 
     }
-    
+
     @Override
     public void onBackPressed() {
         //super.onBackPressed();

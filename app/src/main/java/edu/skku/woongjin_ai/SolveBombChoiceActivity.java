@@ -289,26 +289,6 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
             }
         }
     };
-    /*Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            second--;
-            timer.setText(second);
-            mHandler.sendEmptyMessageDelayed(0, 1000);
-
-            if (second == 0) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                WrongBombFragment fragment = new WrongBombFragment();
-                Bundle bundle = new Bundle(4);
-                bundle.putString("id", id_key);
-                bundle.putString("nickname", nickname_key);
-                bundle.putString("user1", user1_key);
-                bundle.putString("user2", user2_key);
-                fragment.setArguments(bundle);
-                transaction.replace(R.id.contents, fragment);
-                transaction.commit();
-            }
-        }
-    };*/
 
     @Override
     public void onFragmentInteraction(Uri uri) {
