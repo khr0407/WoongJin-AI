@@ -3,15 +3,16 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/BiggestFrame"
-    >
+   >
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="7.2"
+        android:weightSum="7"
         android:background="@drawable/mypage_background"
+        android:padding="@dimen/activity_horizontal_margin"
         >
 
         <LinearLayout
@@ -20,16 +21,18 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:padding="10dp"
-            android:weightSum="10">
+            android:padding="5dp"
+            android:weightSum="10.5">
 
             <ImageButton
                 android:id="@+id/home"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:background="#00ff0000"
-                android:src="@drawable/ic_icons_go_to_home"/>
+                android:scaleType="centerCrop"
+                android:layout_margin="5dp"
+                android:src="@drawable/go_home"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -42,10 +45,11 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:text="훈장 기준이 궁금해요!"
-                android:background="@drawable/rounded_orange_transparent"
+                android:background="@drawable/ic_empty_frame"
                 android:layout_margin="5dp"
-                android:fontFamily="@font/typo_sherlock_b"
-                android:textSize="20dp"
+                android:fontFamily="@font/bmjua_ttf"
+                android:textColor="@color/white"
+                android:textSize="15dp"
                 android:id="@+id/showHoonjang"
                 />
 
@@ -54,7 +58,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:orientation="horizontal"
-                android:background="@drawable/rounded_white_transparent"
+                android:background="@drawable/ic_empty_frame"
                 android:layout_margin="5dp"
                 android:padding="8dp"
                 android:weightSum="6">
@@ -67,7 +71,8 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="test"
-                    android:fontFamily="@font/typo_sherlock_b"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:textColor="@color/white"
                     android:textSize="35dp"
                     />
 
@@ -79,7 +84,8 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="test"
-                    android:fontFamily="@font/typo_sherlock_b"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:textColor="@color/white"
                     android:textSize="35dp"
                     />
 
@@ -94,31 +100,34 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:id="@+id/userCoin"
-                    android:fontFamily="@font/typo_sherlock_b"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:textColor="@color/white"
                     android:textSize="35dp"
                     android:layout_weight="1.5"
+                    android:layout_gravity="center"
                     android:gravity="center"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
+        <!--LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"/>
+            android:layout_weight="0.5"/-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5.2"
+            android:layout_weight="6"
             android:orientation="horizontal"
-            android:weightSum="13"
+            android:padding="5dp"
+            android:weightSum="10.9"
             >
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="0.3"/>
 
             //4. record
             <LinearLayout
@@ -128,8 +137,10 @@
                 android:layout_weight="4"
                 android:orientation="vertical"
                 android:weightSum="7"
-                android:background="@drawable/record_frame"
-                >
+                android:padding="5dp"
+                android:background="@drawable/record_frame">
+                //android:background="@color/white"
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -137,8 +148,8 @@
                     />
 
                 <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/attendCalendar"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="6"
@@ -157,11 +168,10 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="0.3"/>
 
             //6. graph
             <LinearLayout
-                android:id="@+id/hoonjang"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="6"
@@ -169,22 +179,6 @@
                 android:weightSum="10"
                 >
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="8.5"
-                    android:background="@drawable/record_frame"
-                    android:padding="20dp"
-                    >
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/chart"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -204,8 +198,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="출석일수"
-                        android:fontFamily="@font/typo_sherlock_l"
-                        android:background="@drawable/rounded_white_transparent"
+                        android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:background="@color/lightred"
+                        android:textColor="@color/white"
                         android:id="@+id/graph_attend"
                         />
 
@@ -219,8 +215,11 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="만든 문제 수"
-                        android:fontFamily="@font/typo_sherlock_l"
-                        android:background="@drawable/rounded_white_transparent"
+
+                        android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:background="@color/lightred"
+                        android:textColor="@color/white"
                         android:id="@+id/graph_made"
                         />
 
@@ -234,8 +233,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="맞춘 문제\n개수"
-                        android:fontFamily="@font/typo_sherlock_l"
-                        android:background="@drawable/rounded_white_transparent"
+                        android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:background="@color/lightred"
+                        android:textColor="@color/white"
                         android:id="@+id/graph_correct"
                         />
 
@@ -249,8 +250,10 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="내 문제\n평균 레벨"
-                        android:fontFamily="@font/typo_sherlock_l"
-                        android:background="@drawable/rounded_white_transparent"
+                        android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:background="@color/lightred"
+                        android:textColor="@color/white"
                         android:id="@+id/graph_level"
                         />
 
@@ -264,9 +267,27 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="받은 좋아요"
-                        android:fontFamily="@font/typo_sherlock_l"
-                        android:background="@drawable/rounded_white_transparent"
+                        android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:background="@color/lightred"
+                        android:textColor="@color/white"
                         android:id="@+id/graph_like"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="8.5"
+                    android:background="@color/white"
+                    android:padding="20dp"
+                    >
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         />
 
                 </LinearLayout>
@@ -277,7 +298,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="0.3"/>
 
 
         </LinearLayout>

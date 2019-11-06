@@ -40,7 +40,7 @@ public class SeeShortQuizFragment extends Fragment implements  ShowWhoLikedFragm
     float starFloat;
     TextView Title, QuizContent, Answer;
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    ImageButton imageButtonScript, imageButtonHint;
+    Button imageButtonScript, imageButtonHint;
     Button wholike;
     ShowWhoLikedFragment showWhoLikedFragment;
 
@@ -101,7 +101,7 @@ public class SeeShortQuizFragment extends Fragment implements  ShowWhoLikedFragm
         imageViewS3 = (ImageView) view.findViewById(R.id.star3);
         imageViewS4 = (ImageView) view.findViewById(R.id.star4);
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
-        imageButtonScript = (ImageButton) view.findViewById(R.id.see_script);
+        imageButtonScript = (Button) view.findViewById(R.id.see_script);
 
         starFloat = Float.parseFloat(star);
 

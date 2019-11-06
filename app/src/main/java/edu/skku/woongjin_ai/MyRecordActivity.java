@@ -8,7 +8,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.style.ForegroundColorSpan;
@@ -20,12 +19,12 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,6 +54,9 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
     Button graph_attend, graph_made, graph_correct, graph_level, graph_like;
     int total_week;
     LineChart lineChart;
+    XAxis xAxis;
+    YAxis left, right;
+
     int MAX_SIZE=100;
     int f1=0, f2=0, f3=0, f4=0, f5=0;
     ShowHoonjangCriteriaFragment showHoonjang;
@@ -90,6 +92,9 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
         graph_like=(Button)findViewById(R.id.graph_like);
         Hoonjang=(Button)findViewById(R.id.showHoonjang);
         lineChart=(LineChart)findViewById(R.id.chart);
+        xAxis=lineChart.getXAxis();
+        left=lineChart.getAxisLeft();
+        right=lineChart.getAxisRight();
 
         materialCalendarView = (MaterialCalendarView) findViewById(R.id.attendCalendar);
         attendedDatesList = new ArrayList<String>();
@@ -160,109 +165,149 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
         graph_attend.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                graph_attend.setBackgroundResource(R.drawable.rounded_yellow);
+                graph_attend.setBackgroundColor(getResources().getColor(R.color.blue));
                 f1=1;
                 if(f2==1||f3==1||f4==1||f5==1){
-                    graph_made.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_correct.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_level.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_like.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
                     entries.add(new Entry(j, Float.parseFloat(week_attend.get(j))));
                 }
                 LineDataSet dataset = new LineDataSet(entries, "주간 출석일 수");
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(15);
+                xAxis.setDrawGridLines(false);
+                left.setDrawGridLines(false);
+                right.setEnabled(false);
+                right.setDrawGridLines(false);
+                dataset.setValueTextSize(30);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
-                lineChart.animateY(5000);
+                lineChart.setDescription(null);
+                lineChart.animateY(1000);
             }
         });
 
         graph_made.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                graph_made.setBackgroundResource(R.drawable.rounded_yellow);
+                graph_made.setBackgroundColor(getResources().getColor(R.color.blue));
                 f2=1;
                 if(f1==1||f3==1||f4==1||f5==1){
-                    graph_attend.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_correct.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_level.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_like.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
                     entries.add(new Entry(j, Float.parseFloat(week_made.get(j))));
                 }
                 LineDataSet dataset = new LineDataSet(entries, "주간 만든 문제 수");
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(15);
+                xAxis.setDrawGridLines(false);
+                left.setDrawGridLines(false);
+                right.setEnabled(false);
+                right.setDrawGridLines(false);
+                dataset.setValueTextSize(30);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
-                lineChart.animateY(5000);
+                lineChart.setDescription(null);
+                lineChart.animateY(1000);
             }
         });
 
         graph_correct.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                graph_correct.setBackgroundResource(R.drawable.rounded_yellow);
+                graph_correct.setBackgroundColor(getResources().getColor(R.color.blue));
                 f3=1;
                 if(f2==1||f1==1||f4==1||f5==1){
-                    graph_made.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_attend.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_level.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_like.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
                     entries.add(new Entry(j, Float.parseFloat(week_correct.get(j))));
                 }
                 LineDataSet dataset = new LineDataSet(entries, "주간 맞춘 문제 수");
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(15);
+                xAxis.setDrawGridLines(false);
+                left.setDrawGridLines(false);
+                right.setDrawGridLines(false);
+                right.setEnabled(false);
+                dataset.setValueTextSize(30);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
-                lineChart.animateY(5000);
+                lineChart.setDescription(null);
+                lineChart.animateY(1000);
             }
         });
 
         graph_level.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                graph_level.setBackgroundResource(R.drawable.rounded_yellow);
+                graph_level.setBackgroundColor(getResources().getColor(R.color.blue));
                 f4=1;
                 if(f2==1||f3==1||f1==1||f5==1){
-                    graph_made.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_correct.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_attend.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_like.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
                     entries.add(new Entry(j, Float.parseFloat(week_level.get(j))));
                 }
                 LineDataSet dataset = new LineDataSet(entries, "주간 평균 레벨");
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(15);
+                xAxis.setDrawGridLines(false);
+                left.setDrawGridLines(false);
+                right.setDrawGridLines(false);
+                right.setEnabled(false);
+                dataset.setValueTextSize(30);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
-                lineChart.animateY(5000);
+                lineChart.setDescription(null);
+                lineChart.animateY(1000);
             }
         });
 
         graph_like.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                graph_like.setBackgroundResource(R.drawable.rounded_yellow);
+                graph_like.setBackgroundColor(getResources().getColor(R.color.blue));
                 f5=1;
                 if(f2==1||f3==1||f4==1||f1==1){
-                    graph_made.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_correct.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_level.setBackgroundResource(R.drawable.rounded_white_transparent);
-                    graph_attend.setBackgroundResource(R.drawable.rounded_white_transparent);
+                    graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
                     entries.add(new Entry(j,Float.parseFloat(week_like.get(j))));
                 }
                 LineDataSet dataset = new LineDataSet(entries, "주간 좋아요 수");
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(15);
+                xAxis.setDrawGridLines(false);
+                left.setDrawGridLines(false);
+                right.setDrawGridLines(false);
+                right.setEnabled(false);
+                dataset.setValueTextSize(30);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
+                lineChart.setDescription(null);
                 lineChart.animateY(1000);
             }
         });

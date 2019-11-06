@@ -9,6 +9,7 @@
         android:orientation="vertical"
         android:weightSum="7"
         android:background="@drawable/mypage_background"
+        android:padding="@dimen/activity_horizontal_margin"
         >
 
         <LinearLayout
@@ -18,15 +19,17 @@
             android:layout_weight="1"
             android:orientation="horizontal"
             android:padding="5dp"
-            android:weightSum="10">
+            android:weightSum="10.5">
 
             <ImageButton
                 android:id="@+id/home"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:background="#00ff0000"
-                android:src="@drawable/ic_icons_go_to_home"/>
+                android:scaleType="centerCrop"
+                android:layout_margin="5dp"
+                android:src="@drawable/go_home"/>
 
 
 
@@ -58,8 +61,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="5"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="horizontal"
-                android:background="@drawable/rounded_white_transparent"
+                android:background="@drawable/ic_empty_frame"
                 android:layout_margin="5dp"
                 android:padding="8dp"
                 android:weightSum="6">
@@ -72,8 +77,9 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="test"
-                    android:fontFamily="@font/typo_sherlock_b"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:textSize="35dp"
+                    android:textColor="@color/white"
                     />
 
                 <TextView
@@ -84,8 +90,9 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="test"
-                    android:fontFamily="@font/typo_sherlock_b"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:textSize="35dp"
+                    android:textColor="@color/white"
                     />
 
                 <ImageView
@@ -99,10 +106,12 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:id="@+id/userCoin"
-                    android:fontFamily="@font/typo_sherlock_b"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:textSize="35dp"
                     android:layout_weight="1.5"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    />
 
             </LinearLayout>
 
@@ -184,7 +193,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:orientation="vertical"
-                    android:weightSum="4">
+                    android:weightSum="3">
 
                     <TextView
                         android:id="@+id/userName"
@@ -193,7 +202,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textSize="30dp"
-                        android:fontFamily="@font/typo_sherlock_b"/>
+                        android:fontFamily="@font/bmjua_ttf"/>
 
                     <TextView
                         android:id="@+id/userSchool"
@@ -202,7 +211,8 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textSize="30dp"
-                        android:fontFamily="@font/typo_sherlock_b"/>
+                        android:fontFamily="@font/bmjua_ttf"
+                        />
 
                     <TextView
                         android:id="@+id/userGrade"
@@ -211,18 +221,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textSize="30dp"
-                        android:fontFamily="@font/typo_sherlock_b"/>
-
-                    <Button
-                        android:id="@+id/logout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:background="#00ff0000"
-                        android:textSize="20dp"
-                        android:text="로그아웃"
-                        android:fontFamily="@font/typo_sherlock_b"/>
+                        android:fontFamily="@font/bmjua_ttf"/>
 
                 </LinearLayout>
 
@@ -234,12 +233,12 @@
                 android:layout_weight="4"
                 android:orientation="vertical"
                 android:padding="5dp"
-                android:weightSum="2.1">
+                android:weightSum="3.1">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:padding="10dp"
                     android:background="@drawable/hoonjang_frame"
                     android:orientation="vertical"
@@ -297,7 +296,7 @@
                             android:layout_weight="1"
                             android:id="@+id/attend_wang_date"
                             android:text="\?"
-                            android:fontFamily="@font/typo_sherlock_l"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textSize="25dp"
                             />
@@ -308,7 +307,7 @@
                             android:layout_weight="1"
                             android:id="@+id/read_lot_wang_date"
                             android:text="\?"
-                            android:fontFamily="@font/typo_sherlock_l"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textSize="25dp"
                             />
@@ -319,7 +318,7 @@
                             android:layout_weight="1"
                             android:id="@+id/quiz_wang_date"
                             android:text="\?"
-                            android:fontFamily="@font/typo_sherlock_l"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textSize="25dp"
                             />
@@ -372,7 +371,7 @@
                             android:layout_weight="1"
                             android:id="@+id/quiz_hunter_date"
                             android:text="\?"
-                            android:fontFamily="@font/typo_sherlock_l"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textSize="25dp"
                             />
@@ -383,7 +382,7 @@
                             android:layout_weight="1"
                             android:id="@+id/bomb_master_date"
                             android:text="\?"
-                            android:fontFamily="@font/typo_sherlock_l"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textSize="25dp"
                             />
@@ -394,7 +393,7 @@
                             android:layout_weight="1"
                             android:id="@+id/bucket_wang_date"
                             android:text="\?"
-                            android:fontFamily="@font/typo_sherlock_l"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textSize="25dp"
                             />
@@ -412,7 +411,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:weightSum="6.1"
                     android:padding="10dp"
                     android:background="@drawable/record_frame"
@@ -426,9 +425,9 @@
                             android:text="나의 성과"
                             android:textColor="@color/black"
                             android:scrollbarSize="30dp"
-                            android:fontFamily="@font/typo_sherlock_b"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
-                            android:textSize="30dp" />
+                            android:textSize="25dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -447,19 +446,19 @@
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:text="저번 주"
-                                android:fontFamily="@font/typo_sherlock_b"
+                                android:fontFamily="@font/bmjua_ttf"
                                 android:gravity="center"
-                                android:textSize="35dp"/>
+                                android:textSize="25dp"/>
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:text="이번 주"
-                                android:fontFamily="@font/typo_sherlock_b"
+                                android:fontFamily="@font/bmjua_ttf"
                                 android:gravity="center"
                                 android:textColor="@color/orange"
-                                android:textSize="35dp"/>
+                                android:textSize="25dp"/>
 
                         </LinearLayout>
 
@@ -475,7 +474,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1.4"
                             android:text="맞춘 문제 수"
-                            android:fontFamily="@font/typo_sherlock_b"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:textSize="20dp"
@@ -488,8 +487,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:fontFamily="@font/typo_sherlock_b"
-                            android:textSize="35dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:textSize="30dp"
                             android:text="데이터 없음"
                             />
 
@@ -499,8 +498,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:fontFamily="@font/typo_sherlock_b"
-                            android:textSize="35dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:textSize="30dp"
                             android:textColor="@color/orange"
                             android:text="데이터 없음"
                             />
@@ -519,8 +518,8 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1.4"
-                            android:text="내가 받은 좋아요 수"
-                            android:fontFamily="@font/typo_sherlock_b"
+                            android:text="받은 좋아요 수"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:textSize="20dp"
@@ -533,8 +532,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:fontFamily="@font/typo_sherlock_b"
-                            android:textSize="35dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:textSize="30dp"
                             android:text="데이터 없음"/>
 
                         <TextView
@@ -543,8 +542,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:fontFamily="@font/typo_sherlock_b"
-                            android:textSize="35dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:textSize="30dp"
                             android:textColor="@color/orange"
                             android:text="데이터 없음"/>
 
@@ -562,8 +561,8 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1.4"
-                            android:text="내 문제 평균 레벨"
-                            android:fontFamily="@font/typo_sherlock_b"
+                            android:text="문제 평균 레벨"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textColor="@color/black"
                             android:textSize="20dp"
@@ -575,8 +574,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:fontFamily="@font/typo_sherlock_b"
-                            android:textSize="35dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:textSize="30dp"
                             android:text="데이터 없음"/>
 
                         <TextView
@@ -585,8 +584,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:fontFamily="@font/typo_sherlock_b"
-                            android:textSize="35dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:textSize="30dp"
                             android:textColor="@color/orange"
                             android:text="데이터 없음"/>
 
@@ -605,20 +604,20 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:padding="10dp"
-                android:weightSum="2"
+                android:weightSum="2.5"
                 android:orientation="vertical"
                 >
-                    <ImageButton
-                        android:src="@drawable/quiz_made"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:padding="2dp"
-                        android:id="@+id/QList"
-                        android:layout_gravity="center"
-                        android:scaleType="fitCenter"
-                        android:background="#00FFFFFF"
-                        />
+                <ImageButton
+                    android:src="@drawable/quiz_made"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:padding="2dp"
+                    android:id="@+id/QList"
+                    android:layout_gravity="center"
+                    android:scaleType="fitCenter"
+                    android:background="#00FFFFFF"
+                    />
 
                 <ImageButton
                     android:id="@+id/LikeList"
@@ -631,6 +630,16 @@
                     android:background="#00FFFFFF"
                     />
 
+                <ImageButton
+                    android:id="@+id/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_logout"
+                    android:scaleType="fitCenter"
+                    android:background="#00FFFFFF"
+                    />
 
             </LinearLayout>
         </LinearLayout>

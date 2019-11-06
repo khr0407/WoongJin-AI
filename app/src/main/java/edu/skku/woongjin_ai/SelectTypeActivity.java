@@ -1,9 +1,12 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -14,26 +17,44 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-public class SelectTypeActivity extends AppCompatActivity {
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+public class SelectTypeActivity extends AppCompatActivity implements NewHoonjangFragment.OnFragmentInteractionListener{
 
     Intent intent, intentHome, intentOX, intentChoice, intentShortword, intentTemplate;
-    String id, scriptnm, backgroundID;
+    String id, scriptnm, backgroundID, thisWeek;
     ImageButton frameOX, frameChoice, frameShortword;
     ImageButton goHome;
+    NewHoonjangFragment hoonjangFragment;
+    DatabaseReference mPostReference;
 //    ImageView backgroundImage;
 //    FirebaseStorage storage;
 //    private StorageReference storageReference, dataReference;
+
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
+    String nomore;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selecttype);
+
+
+        setting = getSharedPreferences("nomore", MODE_PRIVATE);
+        nomore = setting.getString("quiz", "keepgoing");
 
         goHome = (ImageButton) findViewById(R.id.home);
         frameOX = (ImageButton) findViewById(R.id.quiz_ox);
@@ -48,6 +69,7 @@ public class SelectTypeActivity extends AppCompatActivity {
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        thisWeek = intent.getStringExtra("thisWeek");
 
         textViewTitle.setText("지문 제목: " + scriptnm);
         textViewId.setText(id + "(이)가 직접 문제를 만들어볼까?\n퀴즈를 내고 이 달의 출제왕이 되어보자!");
@@ -94,6 +116,7 @@ public class SelectTypeActivity extends AppCompatActivity {
                 intentOX.putExtra("id", id);
                 intentOX.putExtra("scriptnm", scriptnm);
                 intentOX.putExtra("background", backgroundID);
+                intentOX.putExtra("thisWeek", thisWeek);
                 startActivity(intentOX);
             }
         });
@@ -105,6 +128,7 @@ public class SelectTypeActivity extends AppCompatActivity {
                 intentChoice.putExtra("id", id);
                 intentChoice.putExtra("scriptnm", scriptnm);
                 intentChoice.putExtra("background", backgroundID);
+                intentChoice.putExtra("thisWeek", thisWeek);
                 startActivity(intentChoice);
             }
         });
@@ -116,8 +140,72 @@ public class SelectTypeActivity extends AppCompatActivity {
                 intentShortword.putExtra("id", id);
                 intentShortword.putExtra("scriptnm", scriptnm);
                 intentShortword.putExtra("background", backgroundID);
+                intentShortword.putExtra("thisWeek", thisWeek);
                 startActivity(intentShortword);
             }
         });
+    }
+
+
+    private void getFirebaseDatabaseMedalInfo() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int MadeCount=0;
+                DataSnapshot dataSnapshot1=dataSnapshot.child("user_list/"+id+"my_week_list");
+                for(DataSnapshot dataSnapshot2: dataSnapshot1.getChildren()){ //week 껍데기
+                    MadeCount+=Integer.parseInt(dataSnapshot2.child("made").getValue().toString());
+                }
+                Calendar calendar = Calendar.getInstance();
+                Date dateS = calendar.getTime();
+                String MedalUpdate = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                hoonjangFragment=new NewHoonjangFragment();
+                if(MadeCount==100 && nomore.equals("stop2")) {
+                    mPostReference.child("user_list/" + id + "/my_medal_list/출제왕").setValue("Lev3##"+MedalUpdate);
+                    transaction.replace(R.id.selectMainFrame, hoonjangFragment);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "quiz");
+                    bundle.putString("from", "quiz");
+                    bundle.putInt("level", 3);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("quiz", "stop3");
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }else if(MadeCount==60 && nomore.equals("stop1")){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/출제왕").setValue("Lev2##"+MedalUpdate);
+                    transaction.replace(R.id.selectMainFrame, hoonjangFragment);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "quiz");
+                    bundle.putString("from", "quiz");
+                    bundle.putInt("level", 2);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("quiz", "stop2");
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }else if(MadeCount==30 && nomore.equals("keepgoing")){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/출제왕").setValue("Lev1##"+MedalUpdate);
+                    transaction.replace(R.id.selectMainFrame, hoonjangFragment);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "quiz");
+                    bundle.putString("from", "quiz");
+                    bundle.putInt("level", 1);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("quiz", "stop1");
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

@@ -40,9 +40,9 @@ public class OXTypeActivity extends AppCompatActivity
     ImageView imageO, imageX;
     EditText editQuiz;
     Intent intent, intentHome, intentType;
-    String id, scriptnm, backgroundID;
+    String id, scriptnm, backgroundID, thisWeek;
     String quiz = "", ans = "", desc = "";
-    int star = 0 , starInt = 0;
+    int star = 0 , starInt = 0, oldMadeCnt;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
     ImageView backgroundImage;
@@ -61,6 +61,7 @@ public class OXTypeActivity extends AppCompatActivity
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        thisWeek = intent.getStringExtra("thisWeek");
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageO = (ImageView) findViewById(R.id.o);
@@ -82,6 +83,8 @@ public class OXTypeActivity extends AppCompatActivity
         title.setText("지문 제목: " + scriptnm);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        getFirebaseDatabaseUserInfo();
 
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
@@ -147,7 +150,7 @@ public class OXTypeActivity extends AppCompatActivity
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showScriptFragment = new ShowScriptFragment(); // TODO: 얘네들 밖으로 빼도 되나?
+                showScriptFragment = new ShowScriptFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
                 Bundle bundle = new Bundle(2);
@@ -179,6 +182,9 @@ public class OXTypeActivity extends AppCompatActivity
                         postFirebaseDatabaseQuizOX();
                         if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
                         Toast.makeText(OXTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
+
+                        oldMadeCnt++;
+                        mPostReference.child("user_list/" + id + "/my_week_list/week" + thisWeek + "/made").setValue(oldMadeCnt);
 
                         intentType = new Intent(OXTypeActivity.this, SelectTypeActivity.class);
                         intentType.putExtra("id", id);
@@ -370,6 +376,18 @@ public class OXTypeActivity extends AppCompatActivity
                     flagAX = 0;
                 }
             }
+        });
+    }
+
+    private void getFirebaseDatabaseUserInfo() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                WeekInfo weekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + thisWeek).getValue(WeekInfo.class);
+                oldMadeCnt = weekInfo.made;
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
     }
 

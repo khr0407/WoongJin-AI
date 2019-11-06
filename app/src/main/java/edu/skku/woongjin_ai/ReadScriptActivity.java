@@ -23,8 +23,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class ReadScriptActivity extends AppCompatActivity
-        implements SelectStudyTypeFragment.OnFragmentInteractionListener {
+        implements SelectStudyTypeFragment.OnFragmentInteractionListener, NewHoonjangFragment.OnFragmentInteractionListener {
     public DatabaseReference mPostReference;
     Intent intent, intentHome, intentMakeQuiz;
     String id, scriptnm, backgroundID, script, studyType = "";
@@ -35,6 +39,7 @@ public class ReadScriptActivity extends AppCompatActivity
 //    FirebaseStorage storage;
 //    private StorageReference storageReference, dataReference;
     Fragment selectStudyTypeFragment;
+    NewHoonjangFragment hoonjangFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +137,7 @@ public class ReadScriptActivity extends AppCompatActivity
 
     public void onStudyTypeInfoSet(String type) {
         studyType = type;
-        //TODO 받아온 type value로 소리내어 읽기/표시하며 읽기 나누어 구현
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,7 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 public class ShowFriendQuizActivity extends AppCompatActivity
@@ -51,6 +55,10 @@ public class ShowFriendQuizActivity extends AppCompatActivity
     UserInfo me;
     Button friendQuizButton, likeQuizButton;
     boolean isFriendQuiz = true;
+    NewHoonjangFragment hoonjangFragment;
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
+    String nomore;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,9 +106,13 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         myFriendQuizListAdapter = new MyFriendQuizListAdapter();
         likeQuizListAdapter = new LikeQuizListAdapter();
 
+        setting = getSharedPreferences("nomore", MODE_PRIVATE);
+        nomore = setting.getString("showfriendquiz", "keepgoing");
+
         getFirebaseDatabaseUserInfo();
         getFirebaseDatabaseMyFriendQuiz();
         getFirebaseDatabaseLikeQuiz();
+        getFirebaseDatabaseHoonjangInfo();
 
         intentUpdate = new Intent(ShowFriendQuizActivity.this, ShowFriendQuizActivity.class);
         intentUpdate.putExtra("id", id);
@@ -113,6 +125,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 if (!isFriendQuiz) {
                     isFriendQuiz = true;
                     quizListView.setAdapter(myFriendQuizListAdapter);
+                    textView.setText(me.nickname + "의 친구가 낸 문제야!");
 
                     if(flag == 1) {
                         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -141,6 +154,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 if (isFriendQuiz) {
                     isFriendQuiz = false;
                     quizListView.setAdapter(likeQuizListAdapter);
+                    textView.setText("추천수가 높은 문제야!");
 
                     if(flag == 1) {
                         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -279,6 +293,8 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //TODO 디자인
+
                 myFriendList.clear();
                 myFriendOXQuizList.clear();
                 myFriendChoiceQuizList.clear();
@@ -404,7 +420,6 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                             break;
                         }
                     }
-
                     if(!isSolved) {
                         String type = snapshot.child("type").getValue().toString();
                         if (type.equals("1")) {
@@ -468,6 +483,63 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                         likeQuizListAdapter.addItem(likeShortQuizList.get(i).like, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), bookName, scriptnm, likeShortQuizList.get(i).question);
 
                     likeShortQuizListR.add(likeShortQuizList.get(i));
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+    }
+
+    private void getFirebaseDatabaseHoonjangInfo() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int SolvedCount=0;
+                DataSnapshot dataSnapshot1=dataSnapshot.child("user_list/"+id+"my_week_list");
+                for(DataSnapshot dataSnapshot2: dataSnapshot1.getChildren()){ //week 껍데기
+                    SolvedCount+=Integer.parseInt(dataSnapshot2.child("correct").getValue().toString());
+                }
+                Calendar calendar = Calendar.getInstance();
+                Date dateS = calendar.getTime();
+                String MedalUpdate = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                hoonjangFragment=new NewHoonjangFragment();
+                if(SolvedCount==150 && nomore.equals("stop3")) {
+                    mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev3##"+MedalUpdate);
+                    transaction.replace(R.id.friendquizFrame, hoonjangFragment);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "quizhunter");
+                    bundle.putString("from", "showfriendquiz");
+                    bundle.putInt("level", 3);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("showfriendquiz", "stop3");
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }else if(SolvedCount==100 && nomore.equals("stop2")){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev2##"+MedalUpdate);
+                    transaction.replace(R.id.friendquizFrame, hoonjangFragment);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "quizhunter");
+                    bundle.putString("from", "showfriendquiz");
+                    bundle.putInt("level", 2);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("showfriendquiz", "stop2");
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
+                }else if(SolvedCount==50 && nomore.equals("stop1")){
+                    mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev1##"+MedalUpdate);
+                    transaction.replace(R.id.friendquizFrame, hoonjangFragment);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "quizhunter");
+                    bundle.putString("from", "showfriendquiz");
+                    bundle.putInt("level", 1);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("showfriendquiz", "stop1");
+                    hoonjangFragment.setArguments(bundle);
+                    transaction.commit();
                 }
             }
             @Override

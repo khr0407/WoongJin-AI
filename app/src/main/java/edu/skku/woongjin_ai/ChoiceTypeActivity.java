@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,8 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -34,9 +38,9 @@ public class ChoiceTypeActivity extends AppCompatActivity
     ImageView imageScript, imageCheck,imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     EditText editQuiz, editAns, editAns1, editAns2, editAns3, editAns4;
     Intent intent, intentHome, intentType;
-    String id, scriptnm, backgroundID;
+    String id, scriptnm, backgroundID, thisWeek;
     String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "", desc = "";
-    int star = 0, starInt = 0;
+    int star = 0, starInt = 0, oldMadeCnt;
     int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
     int flagA1 =0, flagA2=0, flagA3=0,flagA4 =0;
     ImageView backgroundImage;
@@ -55,6 +59,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        thisWeek = intent.getStringExtra("thisWeek");
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageScript = (ImageView) findViewById(R.id.script);
@@ -82,6 +87,8 @@ public class ChoiceTypeActivity extends AppCompatActivity
         title.setText("지문 제목: " + scriptnm);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        getFirebaseDatabaseMadeInfo();
 
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
@@ -185,6 +192,9 @@ public class ChoiceTypeActivity extends AppCompatActivity
                         postFirebaseDatabaseQuizChoice();
                         if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
                         Toast.makeText(ChoiceTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
+
+                        oldMadeCnt++;
+                        mPostReference.child("user_list/" + id + "/my_week_list/week" + thisWeek + "/made").setValue(oldMadeCnt);
 
                         intentType = new Intent(ChoiceTypeActivity.this, SelectTypeActivity.class);
                         intentType.putExtra("id", id);
@@ -425,6 +435,18 @@ public class ChoiceTypeActivity extends AppCompatActivity
                     ans = "";
                 }
             }
+        });
+    }
+
+    private void getFirebaseDatabaseMadeInfo() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                WeekInfo weekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + thisWeek).getValue(WeekInfo.class);
+                oldMadeCnt = weekInfo.made;
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
     }
 

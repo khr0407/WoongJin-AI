@@ -65,10 +65,9 @@
         <activity android:name=".MyPageActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".ShowFriendActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".AddFriendActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".ChatListActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".WebViewActivity"
             android:screenOrientation="landscape"/>
@@ -80,11 +79,6 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".LikeQuizActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".ChatroomActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
-        <activity android:name=".NationGameActivity"
-            android:screenOrientation="landscape"/>
         <activity android:name=".NationBookActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".NationQuizActivity"
@@ -94,6 +88,24 @@
         <activity android:name=".ShowFriendQuizActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".MyRecordActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".NationGameActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".GameListActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".MakeBombTypeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".MakeBombOXActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".MakeBombChoiceActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".MakeBombShortwordActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SolveBombOXActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SolveBombChoiceActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SolveBombShortwordActivity"
             android:screenOrientation="landscape"/>
     </application>
 </manifest>

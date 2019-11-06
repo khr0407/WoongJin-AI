@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class NationQuizActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentMakeQuiz, intentFriendQuiz;
-    String id, quizType, nickname;
+    String id, quizType, nickname, thisWeek;
     TextView textView;
     ImageButton homeButton;
     public DatabaseReference mPostReference;
@@ -41,6 +41,7 @@ public class NationQuizActivity extends AppCompatActivity {
         id = intent.getStringExtra("id");
         quizType = intent.getStringExtra("quizType");
         nickname = intent.getStringExtra("nickname");
+        thisWeek = intent.getStringExtra("thisWeek");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -68,6 +69,7 @@ public class NationQuizActivity extends AppCompatActivity {
                     intentMakeQuiz.putExtra("id", id);
                     intentMakeQuiz.putExtra("scriptnm", studiedBookArrayList.get(position));
                     intentMakeQuiz.putExtra("background", backgroundArrayList.get(position));
+                    intentMakeQuiz.putExtra("thisWeek", thisWeek);
                     startActivity(intentMakeQuiz);
                     finish();
                 } else if(quizType.equals("friend")) {
