@@ -36,6 +36,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
     Fragment showScriptFragment;
 
     int second = 60;
+    int correct_end = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,9 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                             public void onCancelled(DatabaseError databaseError) { }
                         };
                         mPostReference.addValueEventListener(check);
+                        
+                        correct_end = 1;
+                        
                         if (bomb_cnt == '6') {
                             wPostReference.child("state").setValue("win");
                             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -167,7 +171,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
             // 메세지를 처리하고 또다시 핸들러에 메세지 전달 (1000ms 지연)
             mHandler.sendEmptyMessageDelayed(0,1000);
 
-            if (second == 0) {
+            if (second == 0 && correct_end == 0) {
                 if (nickname_key.equals(user1_key)) {
                     wPostReference.child("state").setValue("win2");
                 }
@@ -186,6 +190,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                 transaction.commitAllowingStateLoss();
             }
         }
+        if (correct_end == 1) {} //답을 맞췄을 때
     };
 
     @Override
