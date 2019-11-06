@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -61,6 +62,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
     ArrayList<Entry> entries;
 
     MaterialCalendarView materialCalendarView;
+    ArrayList<String> attendedDatesList;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
         lineChart=(LineChart)findViewById(R.id.chart);
 
         materialCalendarView = (MaterialCalendarView) findViewById(R.id.attendCalendar);
+        attendedDatesList = new ArrayList<String>();
 
         materialCalendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
@@ -100,9 +103,27 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 new SaturdayDecorator(),
                 new OnDayDecorator());
 
-        String[] result = {"2019,10,01","2019,09,18","2019,10,18","2017,10,09"};
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int weekNum = 0;
+                attendedDatesList.clear();
 
-        new CheckAttendedDay(result).executeOnExecutor(Executors.newSingleThreadExecutor());
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_week_list/").getChildren()) {
+                    weekNum++;
+                    for(DataSnapshot snapshot1 : snapshot.child("attend_list").getChildren()) {
+                        String time = snapshot1.getValue().toString();
+                        String[] date = time.split(" ");
+                        attendedDatesList.add(date[0]);
+                    }
+                }
+
+                new CheckAttendedDay(attendedDatesList).executeOnExecutor(Executors.newSingleThreadExecutor());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+
 
         entries=new ArrayList<Entry>();
 
@@ -314,27 +335,36 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
 
     private class CheckAttendedDay extends AsyncTask<Void, Void, List<CalendarDay>> {
 
-        String[] Time_Result;
+        ArrayList<String> attendedDatesList;
 
-        CheckAttendedDay(String[] Time_Result) {
-            this.Time_Result = Time_Result;
+        CheckAttendedDay(ArrayList<String> attendedDatesList) {
+            this.attendedDatesList = attendedDatesList;
         }
 
         @Override
         protected List<CalendarDay> doInBackground(Void... voids) {
             Calendar calendar = Calendar.getInstance();
-            ArrayList<CalendarDay> dates = new ArrayList<>();
+            List<CalendarDay> dates = new ArrayList<>();
 
-            for(int i = 0 ; i < Time_Result.length ; i ++) {
-                CalendarDay day = CalendarDay.from(calendar);
-                String[] time = Time_Result[i].split(",");
+            for(String date : attendedDatesList) {
+                CalendarDay calendarDay = CalendarDay.from(calendar);
+                String[] time = date.split("-");
                 int year = Integer.parseInt(time[0]);
                 int month = Integer.parseInt(time[1]);
-                int dayy = Integer.parseInt(time[2]);
-
-                dates.add(day);
-                calendar.set(year, month - 1, dayy);
+                int day = Integer.parseInt(time[2]);
+                dates.add(calendarDay);
+                calendar.set(year, month-1, day);
             }
+
+            int size = attendedDatesList.size();
+            String date = attendedDatesList.get(size-1);
+            CalendarDay calendarDay = CalendarDay.from(calendar);
+            String[] time = date.split("-");
+            int year = Integer.parseInt(time[0]);
+            int month = Integer.parseInt(time[1]);
+            int day = Integer.parseInt(time[2]);
+            dates.add(calendarDay);
+            calendar.set(year, month-1, day);
 
             return dates;
         }

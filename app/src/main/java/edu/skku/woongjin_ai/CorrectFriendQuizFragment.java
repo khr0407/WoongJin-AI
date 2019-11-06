@@ -131,7 +131,7 @@ public class CorrectFriendQuizFragment extends Fragment {
                     int oldCorrect = myThisWeekInfo.correct;
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + myWeekNum + "/correct").setValue(oldCorrect + 1);
 
-                    oldLevel = Integer.parseInt(star);
+                    oldLevel = Float.parseFloat(star);
                     newLevel = (oldLevel*cnt + starInt) / (cnt + 1);
                     mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/star").setValue(Float.toString(newLevel));
                     mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/cnt").setValue(cnt+1);
@@ -178,15 +178,15 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagS1 == 0) {
                     starInt = 1;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -201,17 +201,17 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagS2 == 0) {
                     starInt = 2;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -226,19 +226,19 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagS3 == 0) {
                     starInt = 3;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
+                    imageViewS3.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                     flagS3 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -253,21 +253,21 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagS4 == 0) {
                     starInt = 4;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
+                    imageViewS3.setImageResource(R.drawable.star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                     flagS3 = 1;
                     flagS4 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -282,11 +282,11 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagS5 == 0) {
                     starInt = 5;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
+                    imageViewS3.setImageResource(R.drawable.star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
+                    imageViewS5.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                     flagS3 = 1;
@@ -294,11 +294,11 @@ public class CorrectFriendQuizFragment extends Fragment {
                     flagS5 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;

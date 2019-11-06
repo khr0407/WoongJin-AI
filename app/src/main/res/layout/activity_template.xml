@@ -2,57 +2,100 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightorange"
+    android:background="@color/darkgreen"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="7">
+        android:weightSum="9">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:orientation="horizontal"
             android:layout_weight="1"
-            android:weightSum="7"
-            android:orientation="horizontal">
+            android:weightSum="10">
 
             <ImageButton
                 android:id="@+id/home"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_icons_go_to_home"
-                android:background="#00ff0000">
-            </ImageButton>
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2">
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/scriptnm"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="@font/typo_sherlock_b"
-                android:textSize="40dp">
-            </TextView>
+                android:src="@drawable/go_home"
+                android:scaleType="centerCrop"
+                android:padding="40dp"
+                android:background="#00ff0000"
+                android:layout_weight="2" />
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2">
-            </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_weight="6.5"/>
+
+            <Button
+                android:id="@+id/goBack"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:text="문제 만들기"
+                android:background="@color/lightred"
+                android:fontFamily="@font/bmjua_ttf"
+                android:textSize="30dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"/>
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"
+            android:orientation="horizontal"
+            android:layout_weight="1.5"
+            android:weightSum="11">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/nationbook_board"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/nationbook_board"
+                    android:textSize="40dp"
+                    android:text="문제 만들기 예시를 보여줄게!"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5.5"
             android:weightSum="3"
             android:orientation="horizontal">
 
@@ -60,19 +103,18 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_white"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:weightSum="5">
 
                 <TextView
                     android:text="OX 퀴즈 예시"
                     android:gravity="center"
-                    android:fontFamily="@font/typo_sherlock_b"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:textSize="40dp"
+                    android:textColor="@color/orange"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1">
@@ -83,7 +125,7 @@
                     android:layout_width="match_parent"
                     android:layout_weight="4"
                     android:layout_height="0dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:textSize="30dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginLeft="20dp">
@@ -95,18 +137,17 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_white"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:weightSum="5">
                 <TextView
                     android:text="객관식 퀴즈 예시"
                     android:gravity="center"
-                    android:fontFamily="@font/typo_sherlock_b"
                     android:textSize="40dp"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:textColor="@color/orange"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1">
@@ -120,8 +161,7 @@
                     android:textSize="30dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginLeft="20dp"
-                    android:fontFamily="@font/typo_sherlock_l">
-                </TextView>
+                    android:fontFamily="@font/bmjua_ttf"/>
 
             </LinearLayout>
 
@@ -129,23 +169,21 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/rounded_white"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:weightSum="5">
 
                 <TextView
                     android:text="단답형 퀴즈 예시"
                     android:gravity="center"
-                    android:fontFamily="@font/typo_sherlock_b"
                     android:textSize="40dp"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:textColor="@color/orange"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1">
-                </TextView>
+                    android:layout_weight="1"/>
 
                 <TextView
                     android:id="@+id/quiz_shortword_template"
@@ -155,13 +193,17 @@
                     android:textSize="30dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginLeft="20dp"
-                    android:fontFamily="@font/typo_sherlock_l">
-                </TextView>
+                    android:fontFamily="@font/bmjua_ttf"/>
 
             </LinearLayout>
 
-
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

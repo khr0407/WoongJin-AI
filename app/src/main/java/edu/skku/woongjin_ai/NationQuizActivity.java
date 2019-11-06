@@ -101,8 +101,9 @@ public class NationQuizActivity extends AppCompatActivity {
 
                 for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_script_list").getChildren()) {
                     String key = snapshot.getKey();
+                    String bookname = dataSnapshot.child("script_list/" + key + "/book_name").getValue().toString();
                     studiedBookArrayList.add(key);
-                    selectBookListAdapter.addItem(key);
+                    selectBookListAdapter.addItem(key, bookname);
                 }
                 studiedBookListView.setAdapter(selectBookListAdapter);
 

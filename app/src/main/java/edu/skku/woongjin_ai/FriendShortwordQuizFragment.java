@@ -39,8 +39,7 @@ public class FriendShortwordQuizFragment extends Fragment {
     int cnt, flagAO = 0, flagAX = 0;
     float starFloat;
     ImageView imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    ImageButton imageButtonScript, imageButtonHint;
-    Button imageButtonCheck;
+    Button imageButtonScript, imageButtonHint, imageButtonCheck;
     EditText editTextAns;
 
     public FriendShortwordQuizFragment() {
@@ -90,8 +89,8 @@ public class FriendShortwordQuizFragment extends Fragment {
         imageViewS3 = (ImageView) view.findViewById(R.id.star3);
         imageViewS4 = (ImageView) view.findViewById(R.id.star4);
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
-        imageButtonScript = (ImageButton) view.findViewById(R.id.scriptFriendShortword);
-        imageButtonHint = (ImageButton) view.findViewById(R.id.hintFriendShortword);
+        imageButtonScript = (Button) view.findViewById(R.id.scriptFriendShortword);
+        imageButtonHint = (Button) view.findViewById(R.id.hintFriendShortword);
         imageButtonCheck = (Button) view.findViewById(R.id.checkFriendShortword);
 
         starFloat = Float.parseFloat(star);
@@ -166,13 +165,13 @@ public class FriendShortwordQuizFragment extends Fragment {
         });
 
         if(starFloat >= 1.5) {
-            imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+            imageViewS2.setImageResource(R.drawable.star_full);
             if(starFloat >= 2.5) {
-                imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                imageViewS3.setImageResource(R.drawable.star_full);
                 if(starFloat >= 3.5) {
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     if(starFloat >= 4.5) {
-                        imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                        imageViewS5.setImageResource(R.drawable.star_full);
                     }
                 }
             }

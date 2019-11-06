@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -57,7 +58,7 @@ public class ShowHintFragment extends Fragment {
         hint = getArguments().getString("hint");
 
         TextView textViewHint = (TextView) view.findViewById(R.id.hintShowHint);
-        ImageButton buttonClose = (ImageButton) view.findViewById(R.id.close);
+        Button buttonClose = (Button) view.findViewById(R.id.close);
 
         textViewHint.setText(hint);
 

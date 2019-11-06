@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ public class WrongFriendQuizFragment extends Fragment {
     private WrongFriendQuizFragment.OnFragmentInteractionListener mListener;
 
     String id;
-    ImageButton imageButtonClose;
+    Button imageButtonClose;
 
     public WrongFriendQuizFragment() {
 
@@ -58,7 +59,7 @@ public class WrongFriendQuizFragment extends Fragment {
         id = getArguments().getString("id");
 
         TextView textViewWrong = (TextView) view.findViewById(R.id.textWrong);
-        imageButtonClose = (ImageButton) view.findViewById(R.id.close);
+        imageButtonClose = (Button) view.findViewById(R.id.close);
 
         textViewWrong.setText("다시 한 번 생각해보자~\n" + id + ", 할 수 있어!");
 

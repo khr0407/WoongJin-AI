@@ -48,8 +48,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_icons_speech_bubble2"
-                android:textSize="@dimen/activity_vertical_margin"
-                android:fontFamily="@font/typo_sherlock_b"
+                android:textSize="40dp"
+                android:fontFamily="@font/bmjua_ttf"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_weight="16"
@@ -103,7 +103,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="독서 나라"
-                    android:fontFamily="@font/typo_sherlock_b"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:textSize="50dp"
                     android:background="#00ff0000"/>
 
@@ -141,7 +141,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="퀴즈 나라"
-                        android:fontFamily="@font/typo_sherlock_b"
+                        android:fontFamily="@font/bmjua_ttf"
                         android:textSize="50dp"
                         android:background="#00ff0000"/>
 
@@ -176,7 +176,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="게임 나라"
-                    android:fontFamily="@font/typo_sherlock_b"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:textSize="50dp"
                     android:background="#00ff0000"/>
 
@@ -213,7 +213,7 @@
                 android:layout_weight="3"
                 android:textSize="30dp"
                 android:text="마이페이지"
-                android:fontFamily="@font/typo_sherlock_b"
+                android:fontFamily="@font/bmjua_ttf"
                 android:background="@drawable/rounded_yellow"/>
 
             <LinearLayout

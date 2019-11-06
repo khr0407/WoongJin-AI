@@ -15,38 +15,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "155029413465-n7rht6u8vesh6hvr3qr4jpm1h8rr1onu.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "edu.skku.woongjin_ai",
-            "certificate_hash": "d03b58b75a79407c98ff321e25e6b20a8ba34442"
-          }
-        },
-        {
-          "client_id": "155029413465-spmo37ab9gfhfd7uke7pmgu3kti7j6ar.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "edu.skku.woongjin_ai",
-            "certificate_hash": "8c7cc01e962c7a3a29bbce89cc1acf0171d0c4b7"
-          }
-        },
-        {
-          "client_id": "155029413465-ilk391ovkl0qf3ff33nbbhrulbr4kpeg.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "edu.skku.woongjin_ai",
-            "certificate_hash": "416338eaa35cb8da8cfeba8ced95eb9cc803f5de"
-          }
-        },
-        {
-          "client_id": "155029413465-auje8ddnan1qjv67b8k0vh6d92eia9ri.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "edu.skku.woongjin_ai",
-            "certificate_hash": "bfb238685c70e68f177336c90b53ec1d89aba428"
-          }
-        },
-        {
           "client_id": "155029413465-0nhatmbt4qp2lelb5irbnm8f6gk90j37.apps.googleusercontent.com",
           "client_type": 3
         }

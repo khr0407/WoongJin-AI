@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -65,14 +66,11 @@ public class ShowScriptFragment extends Fragment {
         scriptnm = getArguments().getString("scriptnm");
         type = getArguments().getString("type");
 
-        TextView textViewTitle = (TextView) view.findViewById(R.id.title);
         textViewScript1 = (TextView) view.findViewById(R.id.script1);
         textViewScript2 = (TextView) view.findViewById(R.id.script2);
-        ImageButton buttonClose = (ImageButton) view.findViewById(R.id.close);
+        Button buttonClose = (Button) view.findViewById(R.id.close);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
-
-        textViewTitle.setText(scriptnm);
 
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override
