@@ -40,7 +40,7 @@ public class SeeOXQuizFragment extends Fragment implements ShowWhoLikedFragment.
     float starFloat;
     TextView Title, QuizContent;
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    ImageButton imageButtonScript, imageButtonHint;
+    Button imageButtonScript, imageButtonHint;
     Button wholike;
     ShowWhoLikedFragment showWhoLikedFragment;
 
@@ -100,7 +100,7 @@ public class SeeOXQuizFragment extends Fragment implements ShowWhoLikedFragment.
         imageViewS3 = (ImageView) view.findViewById(R.id.star3);
         imageViewS4 = (ImageView) view.findViewById(R.id.star4);
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
-        imageButtonScript = (ImageButton) view.findViewById(R.id.see_script);
+        imageButtonScript = (Button) view.findViewById(R.id.see_script);
 
         starFloat = Float.parseFloat(star);
 
@@ -153,13 +153,13 @@ public class SeeOXQuizFragment extends Fragment implements ShowWhoLikedFragment.
         });
 
         if(starFloat >= 1.5) {
-            imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+            imageViewS2.setImageResource(R.drawable.star_full);
             if(starFloat >= 2.5) {
-                imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                imageViewS3.setImageResource(R.drawable.star_full);
                 if(starFloat >= 3.5) {
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     if(starFloat >= 4.5) {
-                        imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                        imageViewS5.setImageResource(R.drawable.star_full);
                     }
                 }
             }
