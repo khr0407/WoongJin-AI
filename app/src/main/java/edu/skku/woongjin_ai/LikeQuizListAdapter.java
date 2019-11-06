@@ -41,6 +41,7 @@ public class LikeQuizListAdapter extends BaseAdapter {
         }
 
         TextView likeCnt = (TextView) convertView.findViewById(R.id.like);
+        TextView uid = (TextView) convertView.findViewById(R.id.uid);
         ImageView star2 = (ImageView) convertView.findViewById(R.id.star2);
         ImageView star3 = (ImageView) convertView.findViewById(R.id.star3);
         ImageView star4 = (ImageView) convertView.findViewById(R.id.star4);
@@ -52,6 +53,7 @@ public class LikeQuizListAdapter extends BaseAdapter {
         LikeQuizListItem likeQuizListItem = getItem(position);
 
         likeCnt.setText(likeQuizListItem.getLikeCnt());
+        uid.setText(likeQuizListItem.getUid());
         star2.setImageDrawable(likeQuizListItem.getStar2());
         star3.setImageDrawable(likeQuizListItem.getStar3());
         star4.setImageDrawable(likeQuizListItem.getStar4());
@@ -63,9 +65,10 @@ public class LikeQuizListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void addItem(String likeCnt, Drawable star2, Drawable star3, Drawable star4, Drawable star5, String bookName, String scriptName, String question) {
+    public void addItem(String likeCnt, String uid, Drawable star2, Drawable star3, Drawable star4, Drawable star5, String bookName, String scriptName, String question) {
         LikeQuizListItem likeQuizListItem = new LikeQuizListItem();
         likeQuizListItem.setLikeCnt(likeCnt);
+        likeQuizListItem.setUid(uid);
         likeQuizListItem.setStar2(star2);
         likeQuizListItem.setStar3(star3);
         likeQuizListItem.setStar4(star4);

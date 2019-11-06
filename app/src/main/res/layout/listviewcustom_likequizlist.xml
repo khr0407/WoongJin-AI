@@ -38,12 +38,12 @@
             android:weightSum="2">
 
             <TextView
+                android:id="@+id/uid"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="좋아요를 받았어요"
                 android:fontFamily="@font/bmjua_ttf"
-                android:gravity="center_vertical"
+                android:gravity="center"
                 android:textSize="15dp"
                 android:focusable="false"
                 android:focusableInTouchMode="false"/>
