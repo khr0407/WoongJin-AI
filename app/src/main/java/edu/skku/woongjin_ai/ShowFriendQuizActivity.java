@@ -308,6 +308,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 //TODO 디자인
+                bookName = dataSnapshot.child("script_list/" + scriptnm + "/book_name").getValue().toString();
 
                 myFriendList.clear();
                 myFriendOXQuizList.clear();
@@ -371,7 +372,21 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     }
                 }
                 for(int i=0; i<cnt; i++) {
-                    myFriendQuizListAdapter.addItem(myFriendOXQuizList.get(randList[i]).question, myFriendOXQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myFriendOXQuizList.get(randList[i]).like);
+                    float star = Float.parseFloat(myFriendOXQuizList.get(i).star);
+                    UserInfo userInfo = dataSnapshot.child("user_list/" + myFriendOXQuizList.get(i).uid).getValue(UserInfo.class);
+                    String user = userInfo.nickname + "\n" + userInfo.grade + "학년\n" + userInfo.school;
+
+                    if(star < 1.5)
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), bookName, scriptnm, myFriendOXQuizList.get(i).question);
+                    else if (star >= 1.5 && star < 2.5)
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), bookName, scriptnm, myFriendOXQuizList.get(i).question);
+                    else if (star >= 2.5 && star < 3.5)
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), bookName, scriptnm, myFriendOXQuizList.get(i).question);
+                    else if (star >= 3.5 && star < 4.5)
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), bookName, scriptnm, myFriendOXQuizList.get(i).question);
+                    else
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), bookName, scriptnm, myFriendOXQuizList.get(i).question);
+
                     myFriendOXQuizListR.add(myFriendOXQuizList.get(randList[i]));
                 }
 
@@ -387,7 +402,21 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     }
                 }
                 for(int i=0; i<cnt; i++) {
-                    myFriendQuizListAdapter.addItem(myFriendChoiceQuizList.get(randList[i]).question, myFriendChoiceQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myFriendChoiceQuizList.get(randList[i]).like);
+                    float star = Float.parseFloat(myFriendChoiceQuizList.get(i).star);
+                    UserInfo userInfo = dataSnapshot.child("user_list/" + myFriendChoiceQuizList.get(i).uid).getValue(UserInfo.class);
+                    String user = userInfo.nickname + "\n" + userInfo.grade + "학년\n" + userInfo.school;
+
+                    if(star < 1.5)
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), bookName, scriptnm, myFriendChoiceQuizList.get(i).question);
+                    else if (star >= 1.5 && star < 2.5)
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), bookName, scriptnm, myFriendChoiceQuizList.get(i).question);
+                    else if (star >= 2.5 && star < 3.5)
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), bookName, scriptnm, myFriendChoiceQuizList.get(i).question);
+                    else if (star >= 3.5 && star < 4.5)
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), bookName, scriptnm, myFriendChoiceQuizList.get(i).question);
+                    else
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), bookName, scriptnm, myFriendChoiceQuizList.get(i).question);
+
                     myFriendChoiceQuizListR.add(myFriendChoiceQuizList.get(randList[i]));
                 }
 
@@ -403,7 +432,21 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     }
                 }
                 for(int i=0; i<cnt; i++) {
-                    myFriendQuizListAdapter.addItem(myFriendShortQuizList.get(randList[i]).question, myFriendShortQuizList.get(randList[i]).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myFriendShortQuizList.get(randList[i]).like);
+                    float star = Float.parseFloat(myFriendShortQuizList.get(i).star);
+                    UserInfo userInfo = dataSnapshot.child("user_list/" + myFriendShortQuizList.get(i).uid).getValue(UserInfo.class);
+                    String user = userInfo.nickname + "\n" + userInfo.grade + "학년\n" + userInfo.school;
+
+                    if(star < 1.5)
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), bookName, scriptnm, myFriendShortQuizList.get(i).question);
+                    else if (star >= 1.5 && star < 2.5)
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), bookName, scriptnm, myFriendShortQuizList.get(i).question);
+                    else if (star >= 2.5 && star < 3.5)
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), bookName, scriptnm, myFriendShortQuizList.get(i).question);
+                    else if (star >= 3.5 && star < 4.5)
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), bookName, scriptnm, myFriendShortQuizList.get(i).question);
+                    else
+                        myFriendQuizListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), user, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), bookName, scriptnm, myFriendShortQuizList.get(i).question);
+
                     myFriendShortQuizListR.add(myFriendShortQuizList.get(randList[i]));
                 }
 
