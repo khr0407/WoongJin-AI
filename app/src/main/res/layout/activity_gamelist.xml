@@ -152,6 +152,7 @@
                         android:fontFamily="@font/bmjua_ttf"
                         android:gravity="center"
                         android:text="게임방 만들기"
+                        android:textSize="25dp"
                         android:textColor="@color/white" />
 
                     <LinearLayout
@@ -185,23 +186,26 @@
                     <FrameLayout
                         android:id="@+id/comment"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="20dp">
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/ic_icons_speech_bubble2"
-                            android:text="폭탄퀴즈를 통해\n\n웅머니를 모아보자~!"
-                            android:textSize="25dp"
-                            android:fontFamily="@font/bmjua_ttf"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:padding="40dp"
-                            android:layout_marginTop="15dp"
-                            android:layout_marginBottom="15dp"
-                            android:layout_marginLeft="15dp"
-                            android:layout_marginRight="15dp"/>
-                        </FrameLayout>
+                            <TextView
+                                android:id="@+id/textview"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="15dp"
+                                android:layout_marginTop="15dp"
+                                android:layout_marginRight="15dp"
+                                android:layout_marginBottom="15dp"
+                                android:background="@drawable/ic_icons_speech_bubble2"
+                                android:fontFamily="@font/bmjua_ttf"
+                                android:gravity="center"
+                                android:padding="40dp"
+                                android:text="폭탄퀴즈를 통해\n\n웅머니를 모아보자~!"
+                                android:textSize="25dp" />
+
+                    </FrameLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -215,6 +219,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
+                    android:layout_marginRight="20dp"
                     android:orientation="horizontal">
 
                     <LinearLayout

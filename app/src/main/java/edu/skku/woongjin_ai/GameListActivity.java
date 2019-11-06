@@ -121,7 +121,7 @@ public class GameListActivity extends AppCompatActivity {
                 final ValueEventListener checkRoom = new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                             String temp_timestamp = postSnapshot.getKey();
                             String temp_roomname = postSnapshot.child("roomname").getValue().toString();
                             String temp_user1 = postSnapshot.child("user1").getValue().toString();
@@ -133,7 +133,21 @@ public class GameListActivity extends AppCompatActivity {
                                     Toast.makeText(GameListActivity.this, "이미 끝난 게임입니다.", Toast.LENGTH_SHORT).show();
                                     find = 0;
                                     break;
-                                } else if (temp_state.equals("gaming0") || temp_state.equals("gaming1") || temp_state.equals("gaming2") || temp_state.equals("gaming3") || temp_state.equals("gaming4")
+                                }
+                                else if (temp_state.equals("gaming0")) {
+                                    timestamp_key = temp_timestamp;
+                                    user1_key = temp_user1;
+                                    user2_key = temp_user2;
+                                    roomname_key = temp_roomname;
+                                    script_key = temp_script;
+                                    state_key = temp_state;
+                                    last = "none";
+                                    solve = "none";
+                                    bomb_cnt = state_key.charAt(6);
+                                    find = 1;
+                                    break;
+                                }
+                                else if (temp_state.equals("gaming1") || temp_state.equals("gaming2") || temp_state.equals("gaming3") || temp_state.equals("gaming4")
                                         || temp_state.equals("gaming5") || temp_state.equals("gaming6")) {
                                     timestamp_key = temp_timestamp;
                                     user1_key = temp_user1;
@@ -142,7 +156,34 @@ public class GameListActivity extends AppCompatActivity {
                                     script_key = temp_script;
                                     state_key = temp_state;
                                     bomb_cnt = state_key.charAt(6);
+                                    Log.d("GameListActivityError", roomname_key+script_key+state_key);
+                                    last = postSnapshot.child("quiz_list").child("quiz"+bomb_cnt).child("last").getValue().toString();
+                                    solve = postSnapshot.child("quiz_list").child("quiz"+bomb_cnt).child("solve").getValue().toString();
+                                    Log.d("GameListActivityError", last+" / "+solve);
                                     find = 1;
+                                    //Toast.makeText(GameListActivity.this, timestamp_key+user1_key+user2_key+roomname_key+script_key+state_key+bomb_cnt, Toast.LENGTH_SHORT).show();
+
+                                    /*
+                                    lsPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key);
+                                    final ValueEventListener checklast = new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot postSnapshot : dataSnapshot.child("quiz_list").getChildren()) {
+                                                String quiznum = postSnapshot.getKey();
+                                                last = quiznum.split("quiz")[0];
+                                                solve = postSnapshot.child("solve").getValue().toString();
+                                                if (quiznum.contains("quiz" + bomb_cnt)) {
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                        }
+                                    };
+                                    lsPostReference.addValueEventListener(checklast);
+                                    */
                                     break;
                                 }
                             }
@@ -151,7 +192,21 @@ public class GameListActivity extends AppCompatActivity {
                                     Toast.makeText(GameListActivity.this, "이미 끝난 게임입니다.", Toast.LENGTH_SHORT).show();
                                     find = 0;
                                     break;
-                                } else if (temp_state.equals("gaming0") || temp_state.equals("gaming1") || temp_state.equals("gaming2") || temp_state.equals("gaming3") || temp_state.equals("gaming4")
+                                }
+                                else if (temp_state.equals("gaming0")) {
+                                    timestamp_key = temp_timestamp;
+                                    user1_key = temp_user1;
+                                    user2_key = temp_user2;
+                                    roomname_key = temp_roomname;
+                                    script_key = temp_script;
+                                    state_key = temp_state;
+                                    last = "none";
+                                    solve = "none";
+                                    bomb_cnt = state_key.charAt(6);
+                                    find = 1;
+                                    break;
+                                }
+                                else if (temp_state.equals("gaming1") || temp_state.equals("gaming2") || temp_state.equals("gaming3") || temp_state.equals("gaming4")
                                         || temp_state.equals("gaming5") || temp_state.equals("gaming6")) {
                                     timestamp_key = temp_timestamp;
                                     user1_key = temp_user1;
@@ -160,34 +215,23 @@ public class GameListActivity extends AppCompatActivity {
                                     script_key = temp_script;
                                     state_key = temp_state;
                                     bomb_cnt = state_key.charAt(6);
+                                    Log.d("GameListActivityError", roomname_key+script_key+state_key);
+                                    last = postSnapshot.child("quiz_list").child("quiz"+bomb_cnt).child("last").getValue().toString();
+                                    solve = postSnapshot.child("quiz_list").child("quiz"+bomb_cnt).child("solve").getValue().toString();
+                                    Log.d("GameListActivityError", last+" / "+solve);
                                     find = 1;
+                                    //Toast.makeText(GameListActivity.this, timestamp_key+user1_key+user2_key+roomname_key+script_key+state_key+bomb_cnt, Toast.LENGTH_SHORT).show();
                                     break;
                                 }
                             }
                         }
                     }
+
                     @Override
-                    public void onCancelled(DatabaseError databaseError) { }
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
                 };
                 mPostReference.addValueEventListener(checkRoom);
-
-                lsPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key).child("quiz_list");
-                final ValueEventListener checklast = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            String quiznum = postSnapshot.getKey();
-                            last = quiznum.split("quiz")[0];
-                            solve = postSnapshot.child("solve").getValue().toString();
-                            if (quiznum.contains("quiz" + bomb_cnt)) {
-                                break;
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) { }
-                };
-                lsPostReference.addValueEventListener(checklast);
             }
         });
 
@@ -201,10 +245,22 @@ public class GameListActivity extends AppCompatActivity {
                     else if (find == 1 && last.equals(nickname_key) && bomb_cnt-'0' == 6) {
                         Toast.makeText(GameListActivity.this, "문제를 더 이상 만들 수 없습니다!", Toast.LENGTH_SHORT).show();
                     }
-                    else if (find == 1 && last.equals(nickname_key) && solve.equals("")) {
+                    else if (find == 1 && last.equals(nickname_key) && solve.equals("none")) {
                         Toast.makeText(GameListActivity.this, "상대방이 아직 문제를 풀지 않았습니다.", Toast.LENGTH_SHORT).show();
                     }
-                    else if (find == 1 && !last.equals(nickname_key) && !solve.equals("") && bomb_cnt-'0' != 6) {
+                    else if (find == 1 && last.equals("none") && solve.equals("none")) {
+                        intent_makebombtype = new Intent(GameListActivity.this, MakeBombTypeActivity.class);
+                        intent_makebombtype.putExtra("timestamp", timestamp_key);
+                        intent_makebombtype.putExtra("id", id_key);
+                        intent_makebombtype.putExtra("nickname", nickname_key);
+                        intent_makebombtype.putExtra("scriptnm", script_key);
+                        intent_makebombtype.putExtra("user1", user1_key);
+                        intent_makebombtype.putExtra("user2", user2_key);
+                        intent_makebombtype.putExtra("roomname", roomname_key);
+                        intent_makebombtype.putExtra("state", state_key);
+                        startActivity(intent_makebombtype);
+                    }
+                    else if (find == 1 && !last.equals(nickname_key) && !solve.equals("none") && bomb_cnt-'0' != 6) {
                         intent_makebombtype = new Intent(GameListActivity.this, MakeBombTypeActivity.class);
                         intent_makebombtype.putExtra("timestamp", timestamp_key);
                         intent_makebombtype.putExtra("id", id_key);
@@ -232,7 +288,11 @@ public class GameListActivity extends AppCompatActivity {
                     else if (find == 1 && last.equals(nickname_key)) {
                         Toast.makeText(GameListActivity.this, "상대방이 아직 문제를 제출하지 않았습니다.", Toast.LENGTH_SHORT).show();
                     }
-                    else if (find == 1 && !last.equals(nickname_key) && solve.equals("")) {
+                    else if (find == 1 && last.equals("none") && solve.equals("none")){
+                        Toast.makeText(GameListActivity.this, "문제를 먼저 만들어주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                    else if (find == 1 && !last.equals(nickname_key) && solve.equals("none")) {
+                        Log.d("GameListActivityError", "correct else if");
                         qaPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key).child("quiz_list");
                         final ValueEventListener findQna = new ValueEventListener() {
                             @Override
@@ -241,9 +301,11 @@ public class GameListActivity extends AppCompatActivity {
                                     String key = postSnapshot.getKey();
                                     type_key = postSnapshot.child("type").getValue().toString();
                                     question_key = postSnapshot.child("question").getValue().toString();
-                                    if (key.contains("quiz" + bomb_cnt)) {
+                                    Log.d("GameListActivityError", key+type_key+question_key);
+                                    if (key.equals("quiz" + bomb_cnt)) {
                                         if (type_key.equals("ox")) {
                                             answer_key = postSnapshot.child("answer").getValue().toString();
+                                            Log.d("GameListActivityError", key+type_key+question_key+answer_key);
                                             ans1_key = "";
                                             ans2_key = "";
                                             ans3_key = "";
@@ -265,6 +327,7 @@ public class GameListActivity extends AppCompatActivity {
                                         }
                                         else if (type_key.equals("shortword")) {
                                             answer_key = postSnapshot.child("answer").getValue().toString();
+                                            Log.d("GameListActivityError", key+type_key+question_key+answer_key);
                                             ans1_key = "";
                                             ans2_key = "";
                                             ans3_key = "";
@@ -290,6 +353,7 @@ public class GameListActivity extends AppCompatActivity {
                                             ans2_key = postSnapshot.child("answer2").getValue().toString();
                                             ans3_key = postSnapshot.child("answer3").getValue().toString();
                                             ans4_key = postSnapshot.child("answer4").getValue().toString();
+                                            Log.d("GameListActivityError", key+type_key+question_key+answer_key);
                                             Intent intent_solvebombchoice = new Intent(GameListActivity.this, SolveBombChoiceActivity.class);
                                             intent_solvebombchoice.putExtra("timestamp", timestamp_key);
                                             intent_solvebombchoice.putExtra("id", id_key);

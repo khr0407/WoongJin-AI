@@ -23,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class SolveBombOXActivity extends AppCompatActivity implements ShowScriptFragment.OnFragmentInteractionListener {
-    DatabaseReference mPostReference;
+    DatabaseReference mPostReference, wPostReference;
     Intent intent;
     String timestamp_key, id_key, nickname_key, user1_key, user2_key, roomname_key, script_key, state_key, question_key, answer_key;
     char bomb_cnt;
@@ -35,7 +35,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
     int flagAO = 0, flagAX = 0;
     Fragment showScriptFragment;
 
-    int second = 120;
+    int second = 60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -43,14 +43,13 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
         setContentView(R.layout.activity_solvebombox);
 
         timer = (TextView) findViewById(R.id.timer);
+        mHandler.sendEmptyMessage(0);
         gamers = (TextView) findViewById(R.id.gamers);
         question = (TextView) findViewById(R.id.question);
         imageO = (ImageView) findViewById(R.id.otype);
         imageX = (ImageView) findViewById(R.id.xtype);
         imageButtonScript = (ImageButton) findViewById(R.id.script);
         imageButtonCheck = (Button)findViewById(R.id.check);
-
-        mHandler.sendEmptyMessage(0);
 
         intent = getIntent();
         timestamp_key = intent.getStringExtra("timestamp");
@@ -66,6 +65,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
 
         bomb_cnt = state_key.charAt(6);
         mPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key).child("quiz_list");
+        wPostReference  = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key);
 
         timer.setText(roomname_key);
         gamers.setText(user1_key + " vs " + user2_key);
@@ -112,28 +112,29 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
         imageButtonCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ValueEventListener check = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            String quiznum = postSnapshot.getKey();
-                            if (quiznum.contains("quiz" + bomb_cnt)) {
-                                mPostReference.child(quiznum).child("state").setValue(nickname_key);
-                                break;
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) { }
-                };
-                mPostReference.addValueEventListener(check);
-
                 if (user_answer.equals("")) {
                     Toast.makeText(SolveBombOXActivity.this, "정답을 입력하세요.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     if (user_answer.equals(answer_key)) {
+                        final ValueEventListener check = new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                                    String quiznum = postSnapshot.getKey();
+                                    if (quiznum.equals("quiz" + bomb_cnt)) {
+                                        mPostReference.child(quiznum).child("solve").setValue(nickname_key);
+                                        break;
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) { }
+                        };
+                        mPostReference.addValueEventListener(check);
+
                         if (bomb_cnt == '6') {
+                            wPostReference.child("state").setValue("win");
                             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                             EndBombFragment fragment = new EndBombFragment();
                             Bundle bundle = new Bundle(4);
@@ -163,6 +164,12 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                         }
                     }
                     else if (!user_answer.equals(answer_key)) {
+                        if (nickname_key.equals(user1_key)) {
+                            wPostReference.child("state").setValue("win2");
+                        }
+                        else if (nickname_key.equals(user2_key)) {
+                            wPostReference.child("state").setValue("win1");
+                        }
                         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                         WrongBombFragment fragment = new WrongBombFragment();
                         Bundle bundle = new Bundle(4);
@@ -186,21 +193,28 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                     transaction.replace(R.id.contents, showScriptFragment);
                     Bundle bundle = new Bundle(2);
                     bundle.putString("scriptnm", script_key);
-                    bundle.putString("type", "ox");
+                    bundle.putString("type", "solvebombox");
                     showScriptFragment.setArguments(bundle);
                     transaction.addToBackStack(null);
                     transaction.commit();
             }
         });
     }
-
     Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             second--;
-            timer.setText(second);
+            timer.setText("00 :  " + second);
+
+            // 메세지를 처리하고 또다시 핸들러에 메세지 전달 (1000ms 지연)
             mHandler.sendEmptyMessageDelayed(0,1000);
 
-            if (second == 0){
+            if (second == 0) {
+                if (nickname_key.equals(user1_key)) {
+                    wPostReference.child("state").setValue("win2");
+                }
+                else if (nickname_key.equals(user2_key)) {
+                    wPostReference.child("state").setValue("win1");
+                }
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 WrongBombFragment fragment = new WrongBombFragment();
                 Bundle bundle = new Bundle(4);

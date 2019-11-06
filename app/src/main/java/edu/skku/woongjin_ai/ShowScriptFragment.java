@@ -95,7 +95,32 @@ public class ShowScriptFragment extends Fragment {
                 } else if(type.equals("likequiz")) {
                    fragmentTransaction.remove(((LikeQuizActivity)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
-                 }
+                }
+                else if(type.equals("solvebombchoice")) {
+                    fragmentTransaction.remove(((SolveBombChoiceActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
+                else if(type.equals("solvebombbox")) {
+                    fragmentTransaction.remove(((SolveBombOXActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
+                else if(type.equals("solvebombshortword")) {
+                    fragmentTransaction.remove(((SolveBombShortwordActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
+                else if(type.equals("makebombchoice")) {
+                    fragmentTransaction.remove(((MakeBombChoiceActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
+                else if(type.equals("makebombox")) {
+                    fragmentTransaction.remove(((MakeBombOXActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
+                else if(type.equals("makebombshortword")) {
+                    fragmentTransaction.remove(((MakeBombShortwordActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
+
             }
         });
 

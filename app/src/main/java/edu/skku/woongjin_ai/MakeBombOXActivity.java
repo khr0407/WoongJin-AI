@@ -79,12 +79,13 @@ public class MakeBombOXActivity extends AppCompatActivity
                 transaction.replace(R.id.contentShowScriptOX, showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", scriptnm);
-                bundle.putString("type", "ox");
+                bundle.putString("type", "makebombox");
                 showScriptFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
+
 
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +98,8 @@ public class MakeBombOXActivity extends AppCompatActivity
                     postFirebaseDatabaseQuizOX();
                     Toast.makeText(MakeBombOXActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
                     intentGameList = new Intent(MakeBombOXActivity.this, GameListActivity.class);
+                    intentGameList.putExtra("id", id_key);
+                    intentGameList.putExtra("nickname", nickname_key);
                     startActivity(intentGameList);
                     finish();
                 }
@@ -156,10 +159,10 @@ public class MakeBombOXActivity extends AppCompatActivity
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
 
-        Firebase_BombOXShortword post = new Firebase_BombOXShortword(quiz, ans, "ox","");
+        Firebase_BombOXShortword post = new Firebase_BombOXShortword(quiz, ans, "ox","none", nickname_key);
         postValues = post.toMap();
         int temp_cnt = bomb_cnt - '0' + 1;
-        childUpdates.put(nickname_key+"quiz"+temp_cnt, postValues);
+        childUpdates.put("quiz"+temp_cnt, postValues);
         mPostReference.child(timestamp_key).child("quiz_list").updateChildren(childUpdates);
         mPostReference.child(timestamp_key).child("state").setValue("gaming"+temp_cnt);
         editQuiz.setText("");
