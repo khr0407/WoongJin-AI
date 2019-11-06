@@ -51,7 +51,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
     CorrectFriendQuizFragment correctFriendQuizFragment;
     WrongFriendQuizFragment wrongFriendQuizFragment;
     TextView textView;
-    int cntOX, cntChoice, cntShort, flag = 0;
+    int cntOX, cntChoice, cntShort, cntOXL, cntChoiceL, cntShortL, flag = 0;
     UserInfo me;
     Button friendQuizButton, likeQuizButton;
     boolean isFriendQuiz = true;
@@ -216,14 +216,22 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 }
 
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                if(position < cntOX) {
+                int cnt1, cnt2;
+                if(isFriendQuiz) {
+                    cnt1 = cntOX;
+                    cnt2 = cntChoice;
+                } else {
+                    cnt1 = cntOXL;
+                    cnt2 = cntChoiceL;
+                }
+                if(position < cnt1) {
                     flag = 1;
                     QuizOXShortwordTypeInfo quiz;
                     if(isFriendQuiz) quiz = myFriendOXQuizListR.get(position);
                     else quiz = likeOXQuizListR.get(position);
 
                     transaction.replace(R.id.contentShowFriendQuiz, friendOXQuizFragment);
-                    Bundle bundle = new Bundle(10);
+                    Bundle bundle = new Bundle(11);
                     bundle.putString("id", id);
                     bundle.putString("scriptnm", scriptnm);
                     bundle.putString("question", quiz.question);
@@ -234,18 +242,20 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     bundle.putString("desc", quiz.desc);
                     bundle.putString("key", quiz.key);
                     bundle.putInt("cnt", quiz.cnt);
+                    if(isFriendQuiz) bundle.putString("background", "blue");
+                    else bundle.putString("background", "red");
                     friendOXQuizFragment.setArguments(bundle);
                     transaction.commit();
                 } else {
-                    position -= cntOX;
-                    if(position < cntChoice) {
+                    position -= cnt1;
+                    if(position < cnt2) {
                         flag = 2;
                         QuizChoiceTypeInfo quiz;
                         if(isFriendQuiz) quiz = myFriendChoiceQuizListR.get(position);
                         else quiz = likeChoiceQuizListR.get(position);
 
                         transaction.replace(R.id.contentShowFriendQuiz, friendChoiceQuizFragment);
-                        Bundle bundle = new Bundle(14);
+                        Bundle bundle = new Bundle(15);
                         bundle.putString("id", id);
                         bundle.putString("scriptnm", scriptnm);
                         bundle.putString("question", quiz.question);
@@ -260,17 +270,19 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                         bundle.putString("desc", quiz.desc);
                         bundle.putString("key", quiz.key);
                         bundle.putInt("cnt", quiz.cnt);
+                        if(isFriendQuiz) bundle.putString("background", "blue");
+                        else bundle.putString("background", "red");
                         friendChoiceQuizFragment.setArguments(bundle);
                         transaction.commit();
                     } else {
-                        position -= cntChoice;
+                        position -= cnt2;
                         flag = 3;
                         QuizOXShortwordTypeInfo quiz;
                         if(isFriendQuiz) quiz = myFriendShortQuizListR.get(position);
                         else quiz = likeShortQuizListR.get(position);
 
                         transaction.replace(R.id.contentShowFriendQuiz, friendShortwordQuizFragment);
-                        Bundle bundle = new Bundle(10);
+                        Bundle bundle = new Bundle(11);
                         bundle.putString("id", id);
                         bundle.putString("scriptnm", scriptnm);
                         bundle.putString("question", quiz.question);
@@ -281,6 +293,8 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                         bundle.putString("desc", quiz.desc);
                         bundle.putString("key", quiz.key);
                         bundle.putInt("cnt", quiz.cnt);
+                        if(isFriendQuiz) bundle.putString("background", "blue");
+                        else bundle.putString("background", "red");
                         friendShortwordQuizFragment.setArguments(bundle);
                         transaction.commit();
                     }
@@ -338,6 +352,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     }
                 }
 
+                //TODO ListR.size()가 아닌가?
                 Random generator = new Random();
                 cntOX = myFriendOXQuizList.size();
                 cntChoice = myFriendChoiceQuizList.size();
@@ -436,6 +451,11 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 }
 
                 //TODO 퀴즈 순서 랜덤으로 섞기, 좋아요 개수 순으로 상위 몇개 뽑기
+
+                //TODO ListR.size()가 아닌가?
+                cntOXL = likeOXQuizList.size();
+                cntChoiceL = likeChoiceQuizList.size();
+                cntShortL = likeShortQuizList.size();
 
                 for(int i=0; i<likeOXQuizList.size(); i++) {
                     float star = Float.parseFloat(likeOXQuizList.get(i).star);

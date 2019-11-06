@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -35,7 +36,7 @@ public class FriendChoiceQuizFragment extends Fragment {
 
     private FriendChoiceQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, question, answer, answer1, answer2, answer3, answer4, uid, star, like, hint, key, ans = "";
+    String id, scriptnm, question, answer, answer1, answer2, answer3, answer4, uid, star, like, hint, key, ans = "", background;
     int cnt, flagA1 = 0, flagA2 = 0, flagA3 = 0, flagA4 = 0;
     float starFloat;
     ImageView imageViewS2, imageViewS3, imageViewS4, imageViewS5;
@@ -84,6 +85,7 @@ public class FriendChoiceQuizFragment extends Fragment {
         hint = getArguments().getString("desc");
         key = getArguments().getString("key");
         cnt = getArguments().getInt("cnt");
+        background = getArguments().getString("background");
 
         TextView textViewUid = (TextView) view.findViewById(R.id.uidFriendChoice);
         TextView textViewName = (TextView) view.findViewById(R.id.nameFriendChoice);
@@ -99,6 +101,7 @@ public class FriendChoiceQuizFragment extends Fragment {
         textViewAns2 = (TextView) view.findViewById(R.id.ans2);
         textViewAns3 = (TextView) view.findViewById(R.id.ans3);
         textViewAns4 = (TextView) view.findViewById(R.id.ans4);
+        ConstraintLayout backgroundLayout = (ConstraintLayout) view.findViewById(R.id.backgroundchoice);
 
         starFloat = Float.parseFloat(star);
 
@@ -109,6 +112,9 @@ public class FriendChoiceQuizFragment extends Fragment {
         textViewAns2.setText(answer2);
         textViewAns3.setText(answer3);
         textViewAns4.setText(answer4);
+
+        if(background.equals("blue")) backgroundLayout.setBackgroundColor(Color.rgb(51, 153, 204));
+        else if(background.equals("red")) backgroundLayout.setBackgroundColor(Color.rgb(255, 102, 102));
 
         textViewAns1.setOnClickListener(new View.OnClickListener() {
             @Override
