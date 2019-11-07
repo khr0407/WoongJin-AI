@@ -108,5 +108,9 @@
             android:screenOrientation="landscape" />
         <activity android:name=".CorrectBombFragment"
             android:screenOrientation="landscape" />
+        <activity android:name=".WrongBombFragment"
+            android:screenOrientation="landscape" />
+        <activity android:name=".EndBombFragment"
+            android:screenOrientation="landscape" />
     </application>
 </manifest>

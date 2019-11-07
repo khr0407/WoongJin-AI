@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SolveBombShortwordActivity extends AppCompatActivity implements ShowScriptFragment.OnFragmentInteractionListener {
     DatabaseReference mPostReference, wPostReference;
-    Intent intent, intent_correct;
+    Intent intent, intent_correct, intent_wrong, intent_end;
     String timestamp_key, id_key, nickname_key, user1_key, user2_key, roomname_key, script_key, state_key, question_key, answer_key;
     char bomb_cnt;
     TextView timer, gamers, question;
@@ -52,6 +52,8 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
         imageButtonCheck = (Button)findViewById(R.id.check);
 
         intent = getIntent();
+        intent_wrong = new Intent(SolveBombShortwordActivity.this, WrongBombFragment.class);
+        intent_end = new Intent(SolveBombShortwordActivity.this, EndBombFragment.class);
         intent_correct = new Intent(SolveBombShortwordActivity.this, CorrectBombFragment.class);
         timestamp_key = intent.getStringExtra("timestamp");
         id_key = intent.getStringExtra("id");
@@ -103,16 +105,12 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
 
                         if (bomb_cnt == '6') {
                             wPostReference.child("state").setValue("win");
-                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                            EndBombFragment fragment = new EndBombFragment();
-                            Bundle bundle = new Bundle(4);
-                            bundle.putString("id", id_key);
-                            bundle.putString("nickname", nickname_key);
-                            bundle.putString("user1", user1_key);
-                            bundle.putString("user2", user2_key);
-                            fragment.setArguments(bundle);
-                            transaction.replace(R.id.contents, fragment);
-                            transaction.commit();
+                            intent_end.putExtra("id", id_key);
+                            intent_end.putExtra("nickname", nickname_key);
+                            intent_end.putExtra("user1", user1_key);
+                            intent_end.putExtra("user2", user2_key);
+                            startActivity(intent_end);
+                            finish();
                         }
                         else if (bomb_cnt != '6') {
                             intent_correct.putExtra("timestamp", timestamp_key);
@@ -125,34 +123,10 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                             intent_correct.putExtra("state", state_key);
                             startActivity(intent_correct);
                             finish();
-                            /*FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                            CorrectBombFragment fragment = new CorrectBombFragment();
-                            Bundle bundle = new Bundle(8);
-                            bundle.putString("timestamp", timestamp_key);
-                            bundle.putString("id", id_key);
-                            bundle.putString("nickname", nickname_key);
-                            bundle.putString("user1", user1_key);
-                            bundle.putString("user2", user2_key);
-                            bundle.putString("roomname", roomname_key);
-                            bundle.putString("scriptnm", script_key);
-                            bundle.putString("state", state_key);
-                            fragment.setArguments(bundle);
-                            transaction.replace(R.id.contents, fragment);
-                            transaction.commit();*/
                         }
                     }
                     else if (!user_answer.equals(answer_key)) {
                         Toast.makeText(SolveBombShortwordActivity.this, "다시 시도해보세요.", Toast.LENGTH_SHORT).show();
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        WrongBombFragment fragment = new WrongBombFragment();
-                        Bundle bundle = new Bundle(4);
-                        bundle.putString("id", id_key);
-                        bundle.putString("nickname", nickname_key);
-                        bundle.putString("user1", user1_key);
-                        bundle.putString("user2", user2_key);
-                        fragment.setArguments(bundle);
-                        transaction.replace(R.id.contents, fragment);
-                        transaction.commit();
                     }
                 }
             }
@@ -189,16 +163,12 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                 else if (nickname_key.equals(user2_key)) {
                     wPostReference.child("state").setValue("win1");
                 }
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                WrongBombFragment fragment = new WrongBombFragment();
-                Bundle bundle = new Bundle(4);
-                bundle.putString("id", id_key);
-                bundle.putString("nickname", nickname_key);
-                bundle.putString("user1", user1_key);
-                bundle.putString("user2", user2_key);
-                fragment.setArguments(bundle);
-                transaction.replace(R.id.contents, fragment);
-                transaction.commitAllowingStateLoss();
+                intent_wrong.putExtra("id", id_key);
+                intent_wrong.putExtra("nickname", nickname_key);
+                intent_wrong.putExtra("user1", user1_key);
+                intent_wrong.putExtra("user2", user2_key);
+                startActivity(intent_wrong);
+                finish();
             }
             if (correct_end == 1) {} //답을 맞췄을 때
         }

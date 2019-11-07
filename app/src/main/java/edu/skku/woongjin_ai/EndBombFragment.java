@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,25 +18,25 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class EndBombFragment extends Fragment {
-    private Context context;
+public class EndBombFragment extends AppCompatActivity {
+    Intent intent, intent_gamelist;
     private DatabaseReference mPostReference;
     Button end;
     String id_key, nickname_key, user1_key, user2_key;
     int check1, check2;
-    public EndBombFragment() {}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_bombend, container, false);
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_bombend);
 
-        context = container.getContext();
+        intent = getIntent();
+        intent_gamelist = new Intent(EndBombFragment.this, GameListActivity.class);
         mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list");
-        end = (Button) view.findViewById(R.id.end);
-        id_key = getArguments().getString("id");
-        nickname_key = getArguments().getString("nickname");
-        user1_key = getArguments().getString("user1");
-        user2_key = getArguments().getString("user2");
+        end = (Button) findViewById(R.id.end);
+        id_key = intent.getStringExtra("id");
+        nickname_key = intent.getStringExtra("nickname");
+        user1_key = intent.getStringExtra("user1");
+        user2_key = intent.getStringExtra("user2");
         check1 = 0;
         check2 = 0;
 
@@ -72,15 +73,11 @@ public class EndBombFragment extends Fragment {
                 };
                 mPostReference.addListenerForSingleValueEvent(findgamers);
 
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                manager.beginTransaction().remove(EndBombFragment.this).commit();
-                manager.popBackStack();
-                Intent intent_gamelist = new Intent(getActivity(), GameListActivity.class);
                 intent_gamelist.putExtra("id", id_key);
                 intent_gamelist.putExtra("nickname", nickname_key);
                 startActivity(intent_gamelist);
+                finish();
             }
         });
-        return view;
     }
 }
