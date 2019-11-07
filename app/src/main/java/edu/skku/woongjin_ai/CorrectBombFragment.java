@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 public class CorrectBombFragment extends AppCompatActivity {
-    Intent intent, intent_makebombtype;
+    Intent intent, intent_makebombtype, intent_gamelist;
     private DatabaseReference mPostReference;
     ImageButton send;
     TextView textCheckCorrect;
@@ -37,6 +37,7 @@ public class CorrectBombFragment extends AppCompatActivity {
 
         intent = getIntent();
         intent_makebombtype = new Intent(CorrectBombFragment.this, MakeBombTypeActivity.class);
+        intent_gamelist = new Intent(CorrectBombFragment.this, GameListActivity.class);
 
         send = (ImageButton) findViewById(R.id.send);
         textCheckCorrect = (TextView) findViewById(R.id.textCheck);
@@ -77,7 +78,12 @@ public class CorrectBombFragment extends AppCompatActivity {
                 };
                 mPostReference.addListenerForSingleValueEvent(findgamers);
 
-                intent_makebombtype.putExtra("timestamp", timestamp_key);
+                intent_gamelist.putExtra("id", id_key);
+                intent_gamelist.putExtra("nickname", nickname_key);
+                startActivity(intent_gamelist);
+                finish();
+
+                /*intent_makebombtype.putExtra("timestamp", timestamp_key);
                 intent_makebombtype.putExtra("id", id_key);
                 intent_makebombtype.putExtra("nickname", nickname_key);
                 intent_makebombtype.putExtra("user1", user1_key);
@@ -86,7 +92,7 @@ public class CorrectBombFragment extends AppCompatActivity {
                 intent_makebombtype.putExtra("scriptnm", script_key);
                 intent_makebombtype.putExtra("state", state_key);
                 startActivity(intent_makebombtype);
-                finish();
+                finish();*/
             }
         });
     }

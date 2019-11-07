@@ -199,7 +199,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                         fragment.setArguments(bundle);
                         transaction.replace(R.id.contents, fragment);
                         transaction.commit();
-                }
+                    }
                 }
             }
         });
