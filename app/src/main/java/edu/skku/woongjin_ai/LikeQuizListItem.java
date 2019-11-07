@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 
 public class LikeQuizListItem {
     private String likeCnt;
+    private String uid;
     private Drawable star2;
     private Drawable star3;
     private Drawable star4;
@@ -18,6 +19,14 @@ public class LikeQuizListItem {
 
     public void setLikeCnt(String likeCnt) {
         this.likeCnt = likeCnt;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public Drawable getStar2() {

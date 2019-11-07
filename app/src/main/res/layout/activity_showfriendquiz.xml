@@ -80,7 +80,6 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/nationbook_board"
                         android:text="많은 문제를 풀수록 실력이 쑥쑥~"
                         android:textSize="40dp"
                         android:textColor="@color/white"

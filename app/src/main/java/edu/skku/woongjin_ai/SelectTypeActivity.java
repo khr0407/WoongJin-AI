@@ -10,20 +10,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,16 +25,7 @@ import java.util.Date;
 public class SelectTypeActivity extends AppCompatActivity implements NewHoonjangFragment.OnFragmentInteractionListener{
 
     Intent intent, intentHome, intentOX, intentChoice, intentShortword, intentTemplate;
-    String id, scriptnm, backgroundID;
-
-    FrameLayout frameOX, frameChoice, frameShortword;
-    ImageButton goHome, tmpSave;
-    ImageView backgroundImage;
-    FirebaseStorage storage;
-    private StorageReference storageReference, dataReference;
-    DatabaseReference mPostReference;
-    NewHoonjangFragment hoonjangFragment;
-
+    String id, scriptnm, backgroundID, thisWeek;
     ImageButton frameOX, frameChoice, frameShortword;
     ImageButton goHome;
     NewHoonjangFragment hoonjangFragment;
@@ -77,28 +61,10 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        thisWeek = intent.getStringExtra("thisWeek");
 
         textViewTitle.setText("지문 제목: " + scriptnm);
         textViewId.setText(id + "(이)가 직접 문제를 만들어볼까?\n퀴즈를 내고 이 달의 출제왕이 되어보자!");
-
-        mPostReference = FirebaseDatabase.getInstance().getReference();
-
-        getFirebaseDatabaseMedalInfo();
-
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getInstance().getReference();
-        dataReference = storageReference.child("/scripts_background/" + backgroundID);
-        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.with(SelectTypeActivity.this)
-                        .load(uri)
-                        .placeholder(R.drawable.bot)
-                        .error(R.drawable.btn_x)
-                        .into(backgroundImage);
-                backgroundImage.setAlpha(0.5f);
-            }
-        });
 
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
@@ -142,6 +108,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 intentOX.putExtra("id", id);
                 intentOX.putExtra("scriptnm", scriptnm);
                 intentOX.putExtra("background", backgroundID);
+                intentOX.putExtra("thisWeek", thisWeek);
                 startActivity(intentOX);
             }
         });
@@ -153,6 +120,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 intentChoice.putExtra("id", id);
                 intentChoice.putExtra("scriptnm", scriptnm);
                 intentChoice.putExtra("background", backgroundID);
+                intentChoice.putExtra("thisWeek", thisWeek);
                 startActivity(intentChoice);
             }
         });
@@ -164,6 +132,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 intentShortword.putExtra("id", id);
                 intentShortword.putExtra("scriptnm", scriptnm);
                 intentShortword.putExtra("background", backgroundID);
+                intentShortword.putExtra("thisWeek", thisWeek);
                 startActivity(intentShortword);
             }
         });

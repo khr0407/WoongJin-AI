@@ -65,7 +65,8 @@
         <activity android:name=".MyPageActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".ShowFriendActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".AddFriendActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".WebViewActivity"

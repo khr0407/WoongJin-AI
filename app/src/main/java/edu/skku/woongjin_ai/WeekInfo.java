@@ -8,16 +8,18 @@ public class WeekInfo {
     public float level;
     public int like;
     public int cnt;
+    public int made;
 
     public WeekInfo() {
 
     }
 
-    public WeekInfo(int correct, float level, int like, int cnt) {
+    public WeekInfo(int correct, float level, int like, int cnt, int made) {
         this.correct = correct;
         this.level = level;
         this.like = like;
         this.cnt = cnt;
+        this.made = made;
     }
 
     public Map<String, Object> toMap() {
@@ -26,6 +28,7 @@ public class WeekInfo {
         result.put("level", level);
         result.put("like", like);
         result.put("cnt", cnt);
+        result.put("made", made);
         return result;
     }
 }

@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
     SharedPreferences setting;
     SharedPreferences.Editor editor;
     String nomore_atd, nomore_read;
+    int thisWeek;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +82,10 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             public void onClick(View v) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.mainQuizSelect, mainQuizTypeFragment);
-                Bundle bundle = new Bundle(2);
+                Bundle bundle = new Bundle(3);
                 bundle.putString("id", id);
                 bundle.putString("nickname", nickname);
+                bundle.putString("thisWeek", Integer.toString(thisWeek));
                 mainQuizTypeFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
@@ -182,6 +184,8 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                         mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).setValue(today);
                     }
                 }
+
+                thisWeek = weekNum;
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
@@ -232,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                     editor.putString("main_attend", "stop2");
                     hoonjangFragment_attend.setArguments(bundle);
                     transaction.commit();
-                }else if(AttendCount==30 && nomore_atd.equals("keepgoing")){
+                }else if(AttendCount==1 && nomore_atd.equals("keepgoing")){
                     mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev1##"+MedalUpdate);
                     transaction.replace(R.id.Mainframe, hoonjangFragment_attend);
                     Bundle bundle = new Bundle(3);

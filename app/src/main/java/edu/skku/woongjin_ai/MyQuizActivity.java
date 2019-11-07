@@ -295,14 +295,14 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                         cntChoice = myChoiceList.size();
                         cntShort = myShortList.size();
 
-                        for(int i=0; i<myOXList.size(); i++)
-                            myQuizListAdapter.addItem(myOXList.get(i).question, myOXList.get(i).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myOXList.get(i).like);
-                        for(int i=0; i<myChoiceList.size(); i++)
-                            myQuizListAdapter.addItem(myChoiceList.get(i).question, myChoiceList.get(i).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myChoiceList.get(i).like);
-                        for(int i=0; i<myShortList.size(); i++)
-                            myQuizListAdapter.addItem(myShortList.get(i).question, myShortList.get(i).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myShortList.get(i).like);
-
-                        quizlist.setAdapter(myQuizListAdapter);
+//                        for(int i=0; i<myOXList.size(); i++)
+//                            myQuizListAdapter.addItem(myOXList.get(i).question, myOXList.get(i).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myOXList.get(i).like);
+//                        for(int i=0; i<myChoiceList.size(); i++)
+//                            myQuizListAdapter.addItem(myChoiceList.get(i).question, myChoiceList.get(i).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myChoiceList.get(i).like);
+//                        for(int i=0; i<myShortList.size(); i++)
+//                            myQuizListAdapter.addItem(myShortList.get(i).question, myShortList.get(i).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_bigthumb), myShortList.get(i).like);
+//
+//                        quizlist.setAdapter(myQuizListAdapter);
                     }
                     //final ValueEventListener quiz_list = mPostReference.child("quiz_list").addValueEventListener(postListener);
                 }

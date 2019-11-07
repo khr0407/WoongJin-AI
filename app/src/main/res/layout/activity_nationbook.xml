@@ -64,7 +64,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/nationbook_board"
                     android:text="어떤 종류의 책을 읽어볼까?"
                     android:textSize="40dp"
                     android:textColor="@color/white"
