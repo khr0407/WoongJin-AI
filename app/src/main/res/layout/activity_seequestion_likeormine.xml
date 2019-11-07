@@ -77,7 +77,6 @@
                         android:id="@+id/instruction"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/nationbook_board"
                         android:text="내가 만든 질문 목록이야!"
                         android:textSize="40dp"
                         android:textColor="@color/white"

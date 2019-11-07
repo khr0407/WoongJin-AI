@@ -73,6 +73,10 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
         textViewTitle.setText("지문 제목: " + scriptnm);
         textViewId.setText(id + "(이)가 직접 문제를 만들어볼까?\n퀴즈를 내고 이 달의 출제왕이 되어보자!");
 
+
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+        getFirebaseDatabaseMedalInfo();
+
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
 //        dataReference = storageReference.child("/scripts_background/" + backgroundID);

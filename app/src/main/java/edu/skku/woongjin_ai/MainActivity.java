@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
     MainQuizTypeFragment mainQuizTypeFragment;
     UserInfo me;
     NewHoonjangFragment hoonjangFragment_attend, hoonjangFragment_read;
+
     SharedPreferences setting;
     SharedPreferences.Editor editor;
     String nomore_atd, nomore_read;
@@ -232,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                     editor.putString("main_attend", "stop2");
                     hoonjangFragment_attend.setArguments(bundle);
                     transaction.commit();
-                }else if(AttendCount==30 && nomore_atd.equals("keepgoing")){
+                }else if(AttendCount==10 && nomore_atd.equals("keepgoing")){
                     mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev1##"+MedalUpdate);
                     transaction.replace(R.id.Mainframe, hoonjangFragment_attend);
                     Bundle bundle = new Bundle(3);
