@@ -274,6 +274,9 @@ public class GameListActivity extends AppCompatActivity
                     else if (find == 1 && last.equals(nickname_key) && solve.equals("none")) {
                         Toast.makeText(GameListActivity.this, "상대방이 아직 문제를 풀지 않았습니다.", Toast.LENGTH_SHORT).show();
                     }
+                    else if (find == 1 && !last.equals(nickname_key) && solve.equals("none")) {
+                        Toast.makeText(GameListActivity.this, "문제를 먼저 풀어주세요.", Toast.LENGTH_SHORT).show();
+                    }
                     else if (find == 1 && last.equals("none") && solve.equals("none")) {
                         intent_makebombtype = new Intent(GameListActivity.this, MakeBombTypeActivity.class);
                         intent_makebombtype.putExtra("timestamp", timestamp_key);
