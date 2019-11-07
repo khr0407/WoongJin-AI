@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -37,6 +38,8 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
     Fragment showScriptFragment;
 
     int second = 60;
+    int correct_end = 0;
+    int wrong = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -132,8 +135,10 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                             @Override
                             public void onCancelled(DatabaseError databaseError) { }
                         };
-                        mPostReference.addValueEventListener(check);
+                        mPostReference.addListenerForSingleValueEvent(check);
 
+                        correct_end = 1;
+                        
                         if (bomb_cnt == '6') {
                             wPostReference.child("state").setValue("win");
                             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -165,6 +170,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                         }
                     }
                     else if (!user_answer.equals(answer_key)) {
+                        wrong = 1;
                         if (nickname_key.equals(user1_key)) {
                             wPostReference.child("state").setValue("win2");
                         }
@@ -181,7 +187,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                         fragment.setArguments(bundle);
                         transaction.replace(R.id.contents, fragment);
                         transaction.commit();
-                    }
+                }
                 }
             }
         });
@@ -189,15 +195,15 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
         imageButtonScript.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    showScriptFragment = new ShowScriptFragment();
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.contents, showScriptFragment);
-                    Bundle bundle = new Bundle(2);
-                    bundle.putString("scriptnm", script_key);
-                    bundle.putString("type", "solvebombox");
-                    showScriptFragment.setArguments(bundle);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                showScriptFragment = new ShowScriptFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.contents, showScriptFragment);
+                Bundle bundle = new Bundle(2);
+                bundle.putString("scriptnm", script_key);
+                bundle.putString("type", "solvebombox");
+                showScriptFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
             }
         });
     }
@@ -209,7 +215,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
             // 메세지를 처리하고 또다시 핸들러에 메세지 전달 (1000ms 지연)
             mHandler.sendEmptyMessageDelayed(0,1000);
 
-            if (second == 0) {
+            if (second == 0 && correct_end == 0 && wrong == 0) { //correct_end 정답일 때 1로 바뀜
                 if (nickname_key.equals(user1_key)) {
                     wPostReference.child("state").setValue("win2");
                 }
@@ -227,6 +233,8 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                 transaction.replace(R.id.contents, fragment);
                 transaction.commit();
             }
+            if (correct_end == 1) {} //답을 맞췄을 때
+            if (wrong == 1) {} //답을 틀렸을 때
         }
     };
 
@@ -234,7 +242,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
     public void onFragmentInteraction(Uri uri) {
 
     }
-    
+
     @Override
     public void onBackPressed() {
         //super.onBackPressed();

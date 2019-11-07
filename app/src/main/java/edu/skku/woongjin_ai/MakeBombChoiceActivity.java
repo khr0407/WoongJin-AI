@@ -87,7 +87,7 @@ public class MakeBombChoiceActivity extends AppCompatActivity
             public void onClick(View v) {
                 showScriptFragment = new ShowScriptFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptChoice, showScriptFragment);
+                transaction.replace(R.id.contents1, showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", scriptnm);
                 bundle.putString("type", "makebombchoice");

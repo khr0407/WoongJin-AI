@@ -78,6 +78,7 @@ public class MakeBombTypeActivity extends AppCompatActivity {
                 intentHome = new Intent(MakeBombTypeActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id_key);
                 startActivity(intentHome);
+                finish();
             }
         });
 
