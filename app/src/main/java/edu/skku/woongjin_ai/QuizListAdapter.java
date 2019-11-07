@@ -46,10 +46,10 @@ public class QuizListAdapter extends BaseAdapter {
 
         MyFriendQuizListItem QuizListItems = getItem(position);
 
-        textViewQuiz.setText(QuizListItems.getQuiz());
-        textViewTitle.setText(QuizListItems.getUid());
-        imageButtonIconLike.setImageDrawable(QuizListItems.getIconLikr());
-        textViewLike.setText(QuizListItems.getLike());
+//        textViewQuiz.setText(QuizListItems.getQuiz());
+//        textViewTitle.setText(QuizListItems.getUid());
+//        imageButtonIconLike.setImageDrawable(QuizListItems.getIconLikr());
+//        textViewLike.setText(QuizListItems.getLike());
 
         return convertView;
     }
@@ -57,10 +57,10 @@ public class QuizListAdapter extends BaseAdapter {
 
     public void addItem(String quiz, String uid, Drawable iconLike, String like) {
         MyFriendQuizListItem quizListItems = new MyFriendQuizListItem();
-        quizListItems.setQuiz(quiz);
-        quizListItems.setUid(uid);
-        quizListItems.setIconLikr(iconLike);
-        quizListItems.setLike(like);
+//        quizListItems.setQuiz(quiz);
+//        quizListItems.setUid(uid);
+//        quizListItems.setIconLikr(iconLike);
+//        quizListItems.setLike(like);
         QuizListItems.add(quizListItems);
     }
 }

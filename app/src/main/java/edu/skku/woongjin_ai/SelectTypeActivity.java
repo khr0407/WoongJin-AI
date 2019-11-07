@@ -33,7 +33,7 @@ import java.util.Date;
 public class SelectTypeActivity extends AppCompatActivity implements NewHoonjangFragment.OnFragmentInteractionListener{
 
     Intent intent, intentHome, intentOX, intentChoice, intentShortword, intentTemplate;
-    String id, scriptnm, backgroundID;
+    String id, scriptnm, backgroundID, thisWeek;
     ImageButton frameOX, frameChoice, frameShortword;
     ImageButton goHome;
     NewHoonjangFragment hoonjangFragment;
@@ -69,6 +69,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        thisWeek = intent.getStringExtra("thisWeek");
 
         textViewTitle.setText("지문 제목: " + scriptnm);
         textViewId.setText(id + "(이)가 직접 문제를 만들어볼까?\n퀴즈를 내고 이 달의 출제왕이 되어보자!");
@@ -119,6 +120,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 intentOX.putExtra("id", id);
                 intentOX.putExtra("scriptnm", scriptnm);
                 intentOX.putExtra("background", backgroundID);
+                intentOX.putExtra("thisWeek", thisWeek);
                 startActivity(intentOX);
             }
         });
@@ -130,6 +132,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 intentChoice.putExtra("id", id);
                 intentChoice.putExtra("scriptnm", scriptnm);
                 intentChoice.putExtra("background", backgroundID);
+                intentChoice.putExtra("thisWeek", thisWeek);
                 startActivity(intentChoice);
             }
         });
@@ -141,6 +144,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 intentShortword.putExtra("id", id);
                 intentShortword.putExtra("scriptnm", scriptnm);
                 intentShortword.putExtra("background", backgroundID);
+                intentShortword.putExtra("thisWeek", thisWeek);
                 startActivity(intentShortword);
             }
         });
@@ -163,38 +167,41 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 hoonjangFragment=new NewHoonjangFragment();
                 if(MadeCount==100 && nomore.equals("stop2")) {
                     mPostReference.child("user_list/" + id + "/my_medal_list/출제왕").setValue("Lev3##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("quiz", "stop3");
+                    editor.commit();
                     transaction.replace(R.id.selectMainFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quiz");
                     bundle.putString("from", "quiz");
                     bundle.putInt("level", 3);
-                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
-                    editor=sf.edit();
-                    editor.putString("quiz", "stop3");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }else if(MadeCount==60 && nomore.equals("stop1")){
                     mPostReference.child("user_list/" + id + "/my_medal_list/출제왕").setValue("Lev2##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("quiz", "stop2");
+                    editor.commit();
                     transaction.replace(R.id.selectMainFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quiz");
                     bundle.putString("from", "quiz");
                     bundle.putInt("level", 2);
-                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
-                    editor=sf.edit();
-                    editor.putString("quiz", "stop2");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }else if(MadeCount==30 && nomore.equals("keepgoing")){
                     mPostReference.child("user_list/" + id + "/my_medal_list/출제왕").setValue("Lev1##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("quiz", "stop1");
+                    editor.commit();
                     transaction.replace(R.id.selectMainFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quiz");
                     bundle.putString("from", "quiz");
                     bundle.putInt("level", 1);
-                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
-                    editor=sf.edit();
-                    editor.putString("quiz", "stop1");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }

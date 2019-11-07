@@ -41,9 +41,9 @@ public class ShortwordTypeActivity extends AppCompatActivity
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     EditText editQuiz, editAns;
     Intent intent, intentHome, intentType;
-    String id, scriptnm, backgroundID;
+    String id, scriptnm, backgroundID, thisWeek;
     String quiz = "", ans = "", desc = "";
-    int star = 0, starInt = 0;
+    int star = 0, starInt = 0, oldMadeCnt;
     int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton;
@@ -61,6 +61,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        thisWeek = intent.getStringExtra("thisWeek");
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageViewS1 = (ImageView) findViewById(R.id.star1);
@@ -81,6 +82,8 @@ public class ShortwordTypeActivity extends AppCompatActivity
         title.setText("지문 제목: " + scriptnm);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        getFirebaseDatabaseMadeInfo();
 
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
@@ -180,6 +183,9 @@ public class ShortwordTypeActivity extends AppCompatActivity
                         postFirebaseDatabaseQuizShortword();
                         if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
                         Toast.makeText(ShortwordTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
+
+                        oldMadeCnt++;
+                        mPostReference.child("user_list/" + id + "/my_week_list/week" + thisWeek + "/made").setValue(oldMadeCnt);
 
                         intentType = new Intent(ShortwordTypeActivity.this, SelectTypeActivity.class);
                         intentType.putExtra("id", id);
@@ -333,6 +339,18 @@ public class ShortwordTypeActivity extends AppCompatActivity
                     flagS5 = 0;
                 }
             }
+        });
+    }
+
+    private void getFirebaseDatabaseMadeInfo() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                WeekInfo weekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + thisWeek).getValue(WeekInfo.class);
+                oldMadeCnt = weekInfo.made;
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
     }
 

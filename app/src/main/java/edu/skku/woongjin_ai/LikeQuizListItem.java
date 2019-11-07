@@ -2,9 +2,9 @@ package edu.skku.woongjin_ai;
 
 import android.graphics.drawable.Drawable;
 
-public class MyFriendQuizListItem {
-    private Drawable profile;
-    private String user;
+public class LikeQuizListItem {
+    private String likeCnt;
+    private String uid;
     private Drawable star2;
     private Drawable star3;
     private Drawable star4;
@@ -13,20 +13,20 @@ public class MyFriendQuizListItem {
     private String scriptName;
     private String question;
 
-    public Drawable getProfile() {
-        return profile;
+    public String getLikeCnt() {
+        return likeCnt;
     }
 
-    public void setProfile(Drawable profile) {
-        this.profile = profile;
+    public void setLikeCnt(String likeCnt) {
+        this.likeCnt = likeCnt;
     }
 
-    public String getUser() {
-        return user;
+    public String getUid() {
+        return uid;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public Drawable getStar2() {

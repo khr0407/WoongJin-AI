@@ -1,10 +1,12 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -35,7 +37,7 @@ public class FriendShortwordQuizFragment extends Fragment {
 
     private FriendShortwordQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "";
+    String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "", background;
     int cnt, flagAO = 0, flagAX = 0;
     float starFloat;
     ImageView imageViewS2, imageViewS3, imageViewS4, imageViewS5;
@@ -80,6 +82,7 @@ public class FriendShortwordQuizFragment extends Fragment {
         hint = getArguments().getString("desc");
         key = getArguments().getString("key");
         cnt = getArguments().getInt("cnt");
+        background = getArguments().getString("background");
 
         TextView textViewUid = view.findViewById(R.id.uidFriendShortword);
         TextView textViewName = view.findViewById(R.id.nameFriendShortword);
@@ -92,12 +95,16 @@ public class FriendShortwordQuizFragment extends Fragment {
         imageButtonScript = (Button) view.findViewById(R.id.scriptFriendShortword);
         imageButtonHint = (Button) view.findViewById(R.id.hintFriendShortword);
         imageButtonCheck = (Button) view.findViewById(R.id.checkFriendShortword);
+        ConstraintLayout backgroundLayout = (ConstraintLayout) view.findViewById(R.id.backgroundshortword);
 
         starFloat = Float.parseFloat(star);
 
         textViewUid.setText(uid + " 친구가 낸 질문");
         textViewName.setText(scriptnm);
         textViewQuestion.setText(question);
+
+        if(background.equals("blue")) backgroundLayout.setBackgroundColor(Color.rgb(51, 153, 204));
+        else if(background.equals("red")) backgroundLayout.setBackgroundColor(Color.rgb(255, 102, 102));
 
         imageButtonCheck.setOnClickListener(new View.OnClickListener() {
             @Override

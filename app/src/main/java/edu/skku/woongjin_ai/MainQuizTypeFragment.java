@@ -27,7 +27,7 @@ public class MainQuizTypeFragment extends Fragment {
 
     Button meButton, friendButton;
     Intent intent;
-    String id, nickname;
+    String id, nickname, thisWeek;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
@@ -63,10 +63,12 @@ public class MainQuizTypeFragment extends Fragment {
 
         id = getArguments().getString("id");
         nickname = getArguments().getString("nickname");
+        thisWeek = getArguments().getString("thisWeek");
 
         intent = new Intent(getActivity(), NationQuizActivity.class);
         intent.putExtra("id", id);
         intent.putExtra("nickname", nickname);
+        intent.putExtra("thisWeek", thisWeek);
 
         meButton = (Button) view.findViewById(R.id.me);
         friendButton = (Button) view.findViewById(R.id.friend);

@@ -65,7 +65,6 @@
                     android:id="@+id/nationQuiz"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/nationbook_board"
                     android:textSize="30dp"
                     android:textColor="@color/white"
                     android:fontFamily="@font/bmjua_ttf"
