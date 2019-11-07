@@ -101,10 +101,12 @@
         <activity android:name=".MakeBombShortwordActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".SolveBombOXActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
         <activity android:name=".SolveBombChoiceActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".SolveBombShortwordActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape" />
+        <activity android:name=".CorrectBombFragment"
+            android:screenOrientation="landscape" />
     </application>
 </manifest>

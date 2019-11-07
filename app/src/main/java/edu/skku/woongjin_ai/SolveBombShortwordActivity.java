@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SolveBombShortwordActivity extends AppCompatActivity implements ShowScriptFragment.OnFragmentInteractionListener {
     DatabaseReference mPostReference, wPostReference;
-    Intent intent;
+    Intent intent, intent_correct;
     String timestamp_key, id_key, nickname_key, user1_key, user2_key, roomname_key, script_key, state_key, question_key, answer_key;
     char bomb_cnt;
     TextView timer, gamers, question;
@@ -36,6 +36,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
     Fragment showScriptFragment;
 
     int second = 60;
+    int correct_end = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
         imageButtonCheck = (Button)findViewById(R.id.check);
 
         intent = getIntent();
+        intent_correct = new Intent(SolveBombShortwordActivity.this, CorrectBombFragment.class);
         timestamp_key = intent.getStringExtra("timestamp");
         id_key = intent.getStringExtra("id");
         nickname_key = intent.getStringExtra("nickname");
@@ -96,6 +98,9 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                             public void onCancelled(DatabaseError databaseError) { }
                         };
                         mPostReference.addValueEventListener(check);
+
+                        correct_end = 1;
+
                         if (bomb_cnt == '6') {
                             wPostReference.child("state").setValue("win");
                             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -110,7 +115,17 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                             transaction.commit();
                         }
                         else if (bomb_cnt != '6') {
-                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                            intent_correct.putExtra("timestamp", timestamp_key);
+                            intent_correct.putExtra("id", id_key);
+                            intent_correct.putExtra("nickname", nickname_key);
+                            intent_correct.putExtra("user1", user1_key);
+                            intent_correct.putExtra("user2", user2_key);
+                            intent_correct.putExtra("roomname", roomname_key);
+                            intent_correct.putExtra("scriptnm", script_key);
+                            intent_correct.putExtra("state", state_key);
+                            startActivity(intent_correct);
+                            finish();
+                            /*FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                             CorrectBombFragment fragment = new CorrectBombFragment();
                             Bundle bundle = new Bundle(8);
                             bundle.putString("timestamp", timestamp_key);
@@ -123,7 +138,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                             bundle.putString("state", state_key);
                             fragment.setArguments(bundle);
                             transaction.replace(R.id.contents, fragment);
-                            transaction.commit();
+                            transaction.commit();*/
                         }
                     }
                     else if (!user_answer.equals(answer_key)) {
@@ -167,7 +182,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
             // 메세지를 처리하고 또다시 핸들러에 메세지 전달 (1000ms 지연)
             mHandler.sendEmptyMessageDelayed(0,1000);
 
-            if (second == 0) {
+            if (second == 0 && correct_end == 0) {
                 if (nickname_key.equals(user1_key)) {
                     wPostReference.child("state").setValue("win2");
                 }
@@ -185,6 +200,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                 transaction.replace(R.id.contents, fragment);
                 transaction.commitAllowingStateLoss();
             }
+            if (correct_end == 1) {} //답을 맞췄을 때
         }
     };
 
