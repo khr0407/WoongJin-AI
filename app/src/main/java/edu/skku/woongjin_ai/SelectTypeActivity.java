@@ -66,6 +66,10 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
         textViewTitle.setText("지문 제목: " + scriptnm);
         textViewId.setText(id + "(이)가 직접 문제를 만들어볼까?\n퀴즈를 내고 이 달의 출제왕이 되어보자!");
 
+
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+        getFirebaseDatabaseMedalInfo();
+
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
 //        dataReference = storageReference.child("/scripts_background/" + backgroundID);
@@ -155,38 +159,41 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 hoonjangFragment=new NewHoonjangFragment();
                 if(MadeCount==100 && nomore.equals("stop2")) {
                     mPostReference.child("user_list/" + id + "/my_medal_list/출제왕").setValue("Lev3##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("quiz", "stop3");
+                    editor.commit();
                     transaction.replace(R.id.selectMainFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quiz");
                     bundle.putString("from", "quiz");
                     bundle.putInt("level", 3);
-                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
-                    editor=sf.edit();
-                    editor.putString("quiz", "stop3");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }else if(MadeCount==60 && nomore.equals("stop1")){
                     mPostReference.child("user_list/" + id + "/my_medal_list/출제왕").setValue("Lev2##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("quiz", "stop2");
+                    editor.commit();
                     transaction.replace(R.id.selectMainFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quiz");
                     bundle.putString("from", "quiz");
                     bundle.putInt("level", 2);
-                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
-                    editor=sf.edit();
-                    editor.putString("quiz", "stop2");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }else if(MadeCount==30 && nomore.equals("keepgoing")){
                     mPostReference.child("user_list/" + id + "/my_medal_list/출제왕").setValue("Lev1##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("quiz", "stop1");
+                    editor.commit();
                     transaction.replace(R.id.selectMainFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quiz");
                     bundle.putString("from", "quiz");
                     bundle.putInt("level", 1);
-                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
-                    editor=sf.edit();
-                    editor.putString("quiz", "stop1");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }

@@ -569,38 +569,41 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 hoonjangFragment=new NewHoonjangFragment();
                 if(SolvedCount==150 && nomore.equals("stop3")) {
                     mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev3##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("showfriendquiz", "stop3");
+                    editor.commit();
                     transaction.replace(R.id.friendquizFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quizhunter");
                     bundle.putString("from", "showfriendquiz");
                     bundle.putInt("level", 3);
-                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
-                    editor=sf.edit();
-                    editor.putString("showfriendquiz", "stop3");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }else if(SolvedCount==100 && nomore.equals("stop2")){
                     mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev2##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("showfriendquiz", "stop2");
+                    editor.commit();
                     transaction.replace(R.id.friendquizFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quizhunter");
                     bundle.putString("from", "showfriendquiz");
                     bundle.putInt("level", 2);
-                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
-                    editor=sf.edit();
-                    editor.putString("showfriendquiz", "stop2");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }else if(SolvedCount==50 && nomore.equals("stop1")){
                     mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev1##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("showfriendquiz", "stop1");
+                    editor.commit();
                     transaction.replace(R.id.friendquizFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
                     bundle.putString("what", "quizhunter");
                     bundle.putString("from", "showfriendquiz");
                     bundle.putInt("level", 1);
-                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
-                    editor=sf.edit();
-                    editor.putString("showfriendquiz", "stop1");
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }

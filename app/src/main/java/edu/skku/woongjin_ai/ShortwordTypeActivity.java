@@ -366,6 +366,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
         editAns.setText("");
+        //TODO - 파베에 코인 기록 찍기
     }
 
 
