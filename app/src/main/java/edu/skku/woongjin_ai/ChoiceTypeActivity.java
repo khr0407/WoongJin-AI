@@ -465,6 +465,11 @@ public class ChoiceTypeActivity extends AppCompatActivity
         editAns2.setText("");
         editAns3.setText("");
         editAns4.setText("");
+        String coin=mPostReference.child("user_list/" + id + "/coin").getKey();
+        int coins=Integer.parseInt(coin);
+        coins+=10;
+        coin=Integer.toString(coins);
+        mPostReference.child("user_list/"+id+"/coin").setValue(coin);
     }
 
     @Override

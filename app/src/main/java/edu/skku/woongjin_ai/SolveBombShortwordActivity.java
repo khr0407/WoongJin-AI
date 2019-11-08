@@ -189,8 +189,9 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                 transaction.replace(R.id.contents, fragment);
                 transaction.commitAllowingStateLoss();
             }
+            if(correct_end == 1){}
         }
-        if (correct_end == 1) {} //답을 맞췄을 때
+         //답을 맞췄을 때
     };
 
     @Override

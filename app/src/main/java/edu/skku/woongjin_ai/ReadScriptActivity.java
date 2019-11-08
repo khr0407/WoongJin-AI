@@ -72,6 +72,13 @@ public class ReadScriptActivity extends AppCompatActivity
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/ex").setValue("test3Ex");
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/meaning").setValue("test3Meaning");
 
+        String coin=mPostReference.child("user_list/" + id + "/coin").getKey();
+        int coins=Integer.parseInt(coin);
+        coins+=10;
+        coin=Integer.toString(coins);
+        mPostReference.child("user_list/"+id+"/coin").setValue(coin);
+
+
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
 //        dataReference = storageReference.child("/scripts_background/" + backgroundID);

@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="7"
+        android:weightSum="10"
         android:background="@drawable/mypage_background"
         android:padding="@dimen/activity_horizontal_margin"
         >
@@ -78,7 +78,7 @@
                     android:gravity="center"
                     android:text="test"
                     android:fontFamily="@font/bmjua_ttf"
-                    android:textSize="35dp"
+                    android:textSize="25dp"
                     android:textColor="@color/white"
                     />
 
@@ -91,7 +91,7 @@
                     android:gravity="center"
                     android:text="test"
                     android:fontFamily="@font/bmjua_ttf"
-                    android:textSize="35dp"
+                    android:textSize="25dp"
                     android:textColor="@color/white"
                     />
 
@@ -107,7 +107,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/userCoin"
                     android:fontFamily="@font/bmjua_ttf"
-                    android:textSize="35dp"
+                    android:textSize="25dp"
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:textColor="@color/white"
@@ -121,7 +121,7 @@
             android:id="@+id/LinearLayout2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="6"
+            android:layout_weight="9"
             android:orientation="horizontal"
             android:padding="5dp"
             android:weightSum="9">
