@@ -4,7 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/battle_class">>
+    android:background="@drawable/battle_class">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/gamelist_main">
 
     <LinearLayout
         android:id="@+id/linearLayout12"
@@ -267,5 +272,6 @@
         </LinearLayout>
 
     </LinearLayout>
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

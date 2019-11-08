@@ -6,12 +6,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.TestLooperManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,9 +27,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static edu.skku.woongjin_ai.R.anim.wave;
+
 public class SolveBombOXActivity extends AppCompatActivity implements ShowScriptFragment.OnFragmentInteractionListener {
     DatabaseReference mPostReference, wPostReference;
-    Intent intent;
+    Intent intent, intent_correct, intent_wrong, intent_end;
     String timestamp_key, id_key, nickname_key, user1_key, user2_key, roomname_key, script_key, state_key, question_key, answer_key;
     char bomb_cnt;
     TextView timer, gamers, question;
@@ -36,6 +41,8 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
     String user_answer;
     int flagAO = 0, flagAX = 0;
     Fragment showScriptFragment;
+
+    ImageView bomb_animate;
 
     int second = 60;
     int correct_end = 0;
@@ -55,7 +62,14 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
         imageButtonScript = (ImageButton) findViewById(R.id.script);
         imageButtonCheck = (Button)findViewById(R.id.check);
 
+        bomb_animate = findViewById(R.id.bomb_animate);
+        final Animation wave = AnimationUtils.loadAnimation(this, R.anim.wave);
+        bomb_animate.startAnimation(wave);
+
         intent = getIntent();
+        intent_correct = new Intent(SolveBombOXActivity.this, CorrectBombFragment.class);
+        intent_wrong = new Intent(SolveBombOXActivity.this, WrongBombFragment.class);
+        intent_end = new Intent(SolveBombOXActivity.this, EndBombFragment.class);
         timestamp_key = intent.getStringExtra("timestamp");
         id_key = intent.getStringExtra("id");
         nickname_key = intent.getStringExtra("nickname");
@@ -138,35 +152,27 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                         mPostReference.addListenerForSingleValueEvent(check);
 
                         correct_end = 1;
-                        
+
                         if (bomb_cnt == '6') {
                             wPostReference.child("state").setValue("win");
-                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                            EndBombFragment fragment = new EndBombFragment();
-                            Bundle bundle = new Bundle(4);
-                            bundle.putString("id", id_key);
-                            bundle.putString("nickname", nickname_key);
-                            bundle.putString("user1", user1_key);
-                            bundle.putString("user2", user2_key);
-                            fragment.setArguments(bundle);
-                            transaction.replace(R.id.contents, fragment);
-                            transaction.commit();
+                            intent_end.putExtra("id", id_key);
+                            intent_end.putExtra("nickname", nickname_key);
+                            intent_end.putExtra("user1", user1_key);
+                            intent_end.putExtra("user2", user2_key);
+                            startActivity(intent_end);
+                            finish();
                         }
                         else if (bomb_cnt != '6') {
-                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                            CorrectBombFragment fragment = new CorrectBombFragment();
-                            Bundle bundle = new Bundle(8);
-                            bundle.putString("timestamp", timestamp_key);
-                            bundle.putString("id", id_key);
-                            bundle.putString("nickname", nickname_key);
-                            bundle.putString("user1", user1_key);
-                            bundle.putString("user2", user2_key);
-                            bundle.putString("roomname", roomname_key);
-                            bundle.putString("scriptnm", script_key);
-                            bundle.putString("state", state_key);
-                            fragment.setArguments(bundle);
-                            transaction.replace(R.id.contents, fragment);
-                            transaction.commit();
+                            intent_correct.putExtra("timestamp", timestamp_key);
+                            intent_correct.putExtra("id", id_key);
+                            intent_correct.putExtra("nickname", nickname_key);
+                            intent_correct.putExtra("user1", user1_key);
+                            intent_correct.putExtra("user2", user2_key);
+                            intent_correct.putExtra("roomname", roomname_key);
+                            intent_correct.putExtra("scriptnm", script_key);
+                            intent_correct.putExtra("state", state_key);
+                            startActivity(intent_correct);
+                            finish();
                         }
                     }
                     else if (!user_answer.equals(answer_key)) {
@@ -177,17 +183,13 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                         else if (nickname_key.equals(user2_key)) {
                             wPostReference.child("state").setValue("win1");
                         }
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        WrongBombFragment fragment = new WrongBombFragment();
-                        Bundle bundle = new Bundle(4);
-                        bundle.putString("id", id_key);
-                        bundle.putString("nickname", nickname_key);
-                        bundle.putString("user1", user1_key);
-                        bundle.putString("user2", user2_key);
-                        fragment.setArguments(bundle);
-                        transaction.replace(R.id.contents, fragment);
-                        transaction.commit();
-                }
+                        intent_wrong.putExtra("id", id_key);
+                        intent_wrong.putExtra("nickname", nickname_key);
+                        intent_wrong.putExtra("user1", user1_key);
+                        intent_wrong.putExtra("user2", user2_key);
+                        startActivity(intent_wrong);
+                        finish();
+                    }
                 }
             }
         });
@@ -222,16 +224,12 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                 else if (nickname_key.equals(user2_key)) {
                     wPostReference.child("state").setValue("win1");
                 }
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                WrongBombFragment fragment = new WrongBombFragment();
-                Bundle bundle = new Bundle(4);
-                bundle.putString("id", id_key);
-                bundle.putString("nickname", nickname_key);
-                bundle.putString("user1", user1_key);
-                bundle.putString("user2", user2_key);
-                fragment.setArguments(bundle);
-                transaction.replace(R.id.contents, fragment);
-                transaction.commit();
+                intent_wrong.putExtra("id", id_key);
+                intent_wrong.putExtra("nickname", nickname_key);
+                intent_wrong.putExtra("user1", user1_key);
+                intent_wrong.putExtra("user2", user2_key);
+                startActivity(intent_wrong);
+                finish();
             }
             if (correct_end == 1) {} //답을 맞췄을 때
             if (wrong == 1) {} //답을 틀렸을 때

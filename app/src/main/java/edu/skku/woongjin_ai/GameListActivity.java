@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,14 +29,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class GameListActivity extends AppCompatActivity
-        implements Fragment_help.OnFragmentInteractionListener {
-    private DatabaseReference mPostReference, qaPostReference;
+        implements Fragment_help.OnFragmentInteractionListener, NewHoonjangFragment.OnFragmentInteractionListener {
+    private DatabaseReference mPostReference, qaPostReference, nPostReference;
     public DatabaseReference m2PostReference;
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
+
+    long Solved;
 
     String id_key, nickname_key;
     String roomname_key, friend_nickname;
@@ -55,11 +61,22 @@ public class GameListActivity extends AppCompatActivity
     Intent intent, intent_makebombtype;
     Fragment Fragment_help;
 
+    NewHoonjangFragment hoonjangFragment_bombmaster;
+
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
+    String nomore;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gamelist);
+
+        setting = getSharedPreferences("nomore", MODE_PRIVATE);
+        nomore=setting.getString("bombmaster", "keepgoing");
+
 
         gamelist = findViewById(R.id.gamelist);
         create = findViewById(R.id.create);
@@ -75,6 +92,7 @@ public class GameListActivity extends AppCompatActivity
 
         data = new ArrayList<String>();
         mPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list");
+        nPostReference=FirebaseDatabase.getInstance().getReference();
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
 
         find = 0;
@@ -274,7 +292,11 @@ public class GameListActivity extends AppCompatActivity
                     else if (find == 1 && last.equals(nickname_key) && solve.equals("none")) {
                         Toast.makeText(GameListActivity.this, "상대방이 아직 문제를 풀지 않았습니다.", Toast.LENGTH_SHORT).show();
                     }
+                    else if (find == 1 && !last.equals(nickname_key) && solve.equals("none")) {
+                        Toast.makeText(GameListActivity.this, "문제를 먼저 풀어주세요.", Toast.LENGTH_SHORT).show();
+                    }
                     else if (find == 1 && last.equals("none") && solve.equals("none")) {
+                        Toast.makeText(GameListActivity.this, "상대방에게 먼저 문제를 내러 가보자!", Toast.LENGTH_SHORT).show();
                         intent_makebombtype = new Intent(GameListActivity.this, MakeBombTypeActivity.class);
                         intent_makebombtype.putExtra("timestamp", timestamp_key);
                         intent_makebombtype.putExtra("id", id_key);
@@ -287,6 +309,7 @@ public class GameListActivity extends AppCompatActivity
                         startActivity(intent_makebombtype);
                     }
                     else if (find == 1 && !last.equals(nickname_key) && (!solve.equals("none") || solve.equals(nickname_key)) && bomb_cnt-'0' != 6) {
+                        Toast.makeText(GameListActivity.this, "상대방에게 다시 폭탄을 돌려주자!", Toast.LENGTH_SHORT).show();
                         intent_makebombtype = new Intent(GameListActivity.this, MakeBombTypeActivity.class);
                         intent_makebombtype.putExtra("timestamp", timestamp_key);
                         intent_makebombtype.putExtra("id", id_key);
@@ -321,6 +344,7 @@ public class GameListActivity extends AppCompatActivity
                         Toast.makeText(GameListActivity.this, "문제를 낼 차례입니다.", Toast.LENGTH_SHORT).show();
                     }
                     else if (find == 1 && !last.equals(nickname_key) && solve.equals("none")) {
+                        Toast.makeText(GameListActivity.this, "상대방이 보낸 폭탄이 도착했어!", Toast.LENGTH_SHORT).show();
                         qaPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key).child("quiz_list");
                         final ValueEventListener findQna = new ValueEventListener() {
                             @Override
@@ -452,6 +476,60 @@ public class GameListActivity extends AppCompatActivity
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Solved=0;
+                DataSnapshot dataSnapshot1=dataSnapshot.child("user_list/"+id_key+"/my_week_list");
+                for(DataSnapshot dataSnapshot2: dataSnapshot1.getChildren()){ //week 껍데기
+                    Solved+=Long.parseLong(dataSnapshot2.child("solvedbomb").getValue().toString());
+                }
+                Calendar calendar = Calendar.getInstance();
+                Date dateS = calendar.getTime();
+                String MedalUpdate = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                hoonjangFragment_bombmaster=new NewHoonjangFragment();
+
+                if(Solved==365 && nomore.equals("stop2")) {
+                    uploadFirebaseUserCoinInfo_H("폭탄마스터", 3);
+                    nPostReference.child("user_list/" + id_key + "/my_medal_list/폭탄마스터").setValue("Lev3##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("bombmaster", "stop3");
+                    editor.commit();
+                    transaction.replace(R.id.gamelist_main, hoonjangFragment_bombmaster);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "bombmaster");
+                    bundle.putString("from", "gamelist");
+                    bundle.putInt("level", 3);
+                    hoonjangFragment_bombmaster.setArguments(bundle);
+                    transaction.commit();
+                }else if(Solved==100 && nomore.equals("stop1")){
+                    uploadFirebaseUserCoinInfo_H("폭탄마스터", 2);
+                    nPostReference.child("user_list/" + id_key + "/my_medal_list/출석왕").setValue("Lev2##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("bombmaster", "stop2");
+                    editor.commit();
+                    transaction.replace(R.id.gamelist_main, hoonjangFragment_bombmaster);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "bombmaster");
+                    bundle.putString("from", "gamelist");
+                    bundle.putInt("level", 2);
+                    hoonjangFragment_bombmaster.setArguments(bundle);
+                    transaction.commit();
+                }else if(Solved==30 && nomore.equals("keepgoing")){
+                    uploadFirebaseUserCoinInfo_H("폭탄마스터", 1);
+                    nPostReference.child("user_list/" + id_key + "/my_medal_list/출석왕").setValue("Lev1##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("bombmaster", "stop1");
+                    editor.commit();
+                    transaction.replace(R.id.gamelist_main, hoonjangFragment_bombmaster);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "bombmaster");
+                    bundle.putString("from", "gamelist");
+                    bundle.putInt("level", 1);
+                    hoonjangFragment_bombmaster.setArguments(bundle);
+                    transaction.commit();
+                }
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
                     if (key.equals("user_list")) {
@@ -472,6 +550,33 @@ public class GameListActivity extends AppCompatActivity
             }
         };
         m2PostReference.addValueEventListener(postListener);
+    }
+
+    private void uploadFirebaseUserCoinInfo_H(String hoonjangname, int level){
+        nPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                nPostReference.child("user_list/" + id_key + "/my_coin_list/" + today + "/get").setValue(Integer.toString(level*100));
+                nPostReference.child("user_list/" + id_key + "/my_coin_list/" + today + "/why").setValue(hoonjangname+" 레벨 "+Integer.toString(level)+"달성!");
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String key=dataSnapshot1.getKey();
+                    if(key.equals("user_list")){
+                        String mycoin=dataSnapshot1.child(id_key).child("coin").getValue().toString();
+                        int coin = Integer.parseInt(mycoin) + level*100;
+                        String coin_convert = Integer.toString(coin);
+                        nPostReference.child("user_list/" + id_key).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     @Override

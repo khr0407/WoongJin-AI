@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -22,65 +24,79 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
-public class CorrectBombFragment extends Fragment {
-    private Context context;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class CorrectBombFragment extends AppCompatActivity {
+    Intent intent, intent_makebombtype, intent_gamelist;
     private DatabaseReference mPostReference;
     ImageButton send;
-    String timestamp_key, id_key, nickname_key, user1_key, user2_key, roomname_key, script_key, state_key;
     TextView textCheckCorrect;
+    String timestamp_key, id_key, nickname_key, user1_key, user2_key, roomname_key, script_key, state_key;
 
-    public CorrectBombFragment() {}
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_bombcorrect);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View view = inflater.inflate(R.layout.fragment_bombcorrect, container, false);
+        intent = getIntent();
+        intent_makebombtype = new Intent(CorrectBombFragment.this, MakeBombTypeActivity.class);
+        intent_gamelist = new Intent(CorrectBombFragment.this, GameListActivity.class);
 
-        context = container.getContext();
+        send = (ImageButton) findViewById(R.id.send);
+        textCheckCorrect = (TextView) findViewById(R.id.textCheck);
+
+        timestamp_key = intent.getStringExtra("timestamp");
+        id_key = intent.getStringExtra("id");
+        nickname_key = intent.getStringExtra("nickname");
+        user1_key = intent.getStringExtra("user1");
+        user2_key = intent.getStringExtra("user2");
+        roomname_key = intent.getStringExtra("roomname");
+        script_key = intent.getStringExtra("scriptnm");
+        state_key = intent.getStringExtra("state");
+
+        textCheckCorrect.setText("우와!!! " + id_key + "이(가) 정답을 맞췄어!!!");
         mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list");
-        send = (ImageButton) view.findViewById(R.id.send);
-        textCheckCorrect = (TextView) view.findViewById(R.id.textCheckCorrect);
-        timestamp_key = getArguments().getString("timestamp");
-        id_key = getArguments().getString("id");
-        nickname_key = getArguments().getString("nickname");
-        user1_key = getArguments().getString("user1");
-        user2_key = getArguments().getString("user2");
-        roomname_key = getArguments().getString("roomname");
-        script_key = getArguments().getString("scriptnm");
-        state_key = getArguments().getString("state");
 
-        textCheckCorrect.setText("우와!!! " + nickname_key + "이(가) 정답을 맞췄어!!!");
+        final ValueEventListener findgamers = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    String gamer_coin = postSnapshot.child("coin").getValue().toString();
+                    if (key.equals(id_key)) {
+                        long now = System.currentTimeMillis();
+                        Date date = new Date(now);
+                        String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                        mPostReference.child(key + "/my_coin_list/" + today + "/get").setValue("20");
+                        mPostReference.child(key + "/my_coin_list/" + today + "/why").setValue("폭탄 퀴즈를 안전하게 해체했어요!");
+                        long weeknum=postSnapshot.child("my_week_list").getChildrenCount();
+                        String gamer_count=postSnapshot.child("my_week_list/week"+weeknum+"/solvebomb").getValue().toString();
+
+                        int solvedbomb=Integer.parseInt(gamer_count)+1;
+                        int coin = Integer.parseInt(gamer_coin) + 20;
+                        String coin_convert = Integer.toString(coin);
+                        String solved_convert=Integer.toString(solvedbomb);
+                        mPostReference.child(key).child("coin").setValue(coin_convert);
+                        mPostReference.child(key).child("my_week_list/week"+weeknum+"/solvebomb").setValue(solved_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+        mPostReference.addListenerForSingleValueEvent(findgamers);
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intent_gamelist.putExtra("id", id_key);
+                intent_gamelist.putExtra("nickname", nickname_key);
+                startActivity(intent_gamelist);
+                finish();
 
-                final ValueEventListener findgamers = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            String key = postSnapshot.getKey();
-                            String gamer_coin = postSnapshot.child("coin").getValue().toString();
-                            if (key.equals(id_key)) {
-                                int coin = Integer.parseInt(gamer_coin) + 50;
-                                String coin_convert = Integer.toString(coin);
-                                mPostReference.child(key).child("coin").setValue(coin_convert);
-                                break;
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                };
-                mPostReference.addListenerForSingleValueEvent(findgamers);
-
-
-
-                /*FragmentManager manager = getActivity().getSupportFragmentManager();
-                manager.beginTransaction().remove(CorrectBombFragment.this).commit();
-                manager.popBackStack();
-                Intent intent_makebombtype = new Intent(getActivity(), MakeBombTypeActivity.class);
-                intent_makebombtype.putExtra("timestamp", timestamp_key);
+                /*intent_makebombtype.putExtra("timestamp", timestamp_key);
                 intent_makebombtype.putExtra("id", id_key);
                 intent_makebombtype.putExtra("nickname", nickname_key);
                 intent_makebombtype.putExtra("user1", user1_key);
@@ -88,17 +104,9 @@ public class CorrectBombFragment extends Fragment {
                 intent_makebombtype.putExtra("roomname", roomname_key);
                 intent_makebombtype.putExtra("scriptnm", script_key);
                 intent_makebombtype.putExtra("state", state_key);
-                startActivity(intent_makebombtype);*/
-
-                FragmentManager manager = getActivity().getSupportFragmentManager();
-                manager.beginTransaction().remove(CorrectBombFragment.this).commit();
-                manager.popBackStack();
-                Intent intent_gamelist = new Intent(getActivity(), GameListActivity.class);
-                intent_gamelist.putExtra("id", id_key);
-                intent_gamelist.putExtra("nickname", nickname_key);
-                startActivity(intent_gamelist);
+                startActivity(intent_makebombtype);
+                finish();*/
             }
         });
-        return view;
     }
 }

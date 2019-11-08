@@ -568,6 +568,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 hoonjangFragment=new NewHoonjangFragment();
                 if(SolvedCount==150 && nomore.equals("stop3")) {
+                    uploadFirebaseUserCoinInfo_H("문제사냥꾼", 3);
                     mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev3##"+MedalUpdate);
                     SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
                     editor=sf.edit();
@@ -581,6 +582,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }else if(SolvedCount==100 && nomore.equals("stop2")){
+                    uploadFirebaseUserCoinInfo_H("문제사냥꾼", 2);
                     mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev2##"+MedalUpdate);
                     SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
                     editor=sf.edit();
@@ -594,6 +596,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
                 }else if(SolvedCount==50 && nomore.equals("stop1")){
+                    uploadFirebaseUserCoinInfo_H("문제사냥꾼", 1);
                     mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev1##"+MedalUpdate);
                     SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
                     editor=sf.edit();
@@ -610,6 +613,33 @@ public class ShowFriendQuizActivity extends AppCompatActivity
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+    }
+
+    private void uploadFirebaseUserCoinInfo_H(String hoonjangname, int level){
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/get").setValue(Integer.toString(level*100));
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/why").setValue(hoonjangname+" 레벨 "+Integer.toString(level)+"달성!");
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String key=dataSnapshot1.getKey();
+                    if(key.equals("user_list")){
+                        String mycoin=dataSnapshot1.child(id).child("coin").getValue().toString();
+                        int coin = Integer.parseInt(mycoin) + level*100;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child("user_list/" + id).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
         });
     }
 

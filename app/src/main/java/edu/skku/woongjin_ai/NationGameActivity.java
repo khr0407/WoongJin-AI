@@ -1,8 +1,11 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -27,7 +30,10 @@ import com.kakao.network.ErrorResult;
 import com.kakao.network.callback.ResponseCallback;
 import com.kakao.util.helper.log.Logger;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +49,7 @@ public class NationGameActivity extends AppCompatActivity {
     String friend_nickname, script_name;
     ImageButton invitefriend, imageButtonHome;
 
+    long Solved;
     String text_roomname;
     EditText editText_roomname;
     Button create;
@@ -54,6 +61,7 @@ public class NationGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nationgame);
+
 
         check_choose = 0;
         check_script = 0;
@@ -306,4 +314,5 @@ public class NationGameActivity extends AppCompatActivity {
         }
         return true;
     }
+
 }
