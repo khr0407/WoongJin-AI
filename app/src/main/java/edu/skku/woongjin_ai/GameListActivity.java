@@ -278,6 +278,7 @@ public class GameListActivity extends AppCompatActivity
                         Toast.makeText(GameListActivity.this, "문제를 먼저 풀어주세요.", Toast.LENGTH_SHORT).show();
                     }
                     else if (find == 1 && last.equals("none") && solve.equals("none")) {
+                        Toast.makeText(GameListActivity.this, "상대방에게 먼저 문제를 내러 가보자!", Toast.LENGTH_SHORT).show();
                         intent_makebombtype = new Intent(GameListActivity.this, MakeBombTypeActivity.class);
                         intent_makebombtype.putExtra("timestamp", timestamp_key);
                         intent_makebombtype.putExtra("id", id_key);
@@ -290,6 +291,7 @@ public class GameListActivity extends AppCompatActivity
                         startActivity(intent_makebombtype);
                     }
                     else if (find == 1 && !last.equals(nickname_key) && (!solve.equals("none") || solve.equals(nickname_key)) && bomb_cnt-'0' != 6) {
+                        Toast.makeText(GameListActivity.this, "상대방에게 다시 폭탄을 돌려주자!", Toast.LENGTH_SHORT).show();
                         intent_makebombtype = new Intent(GameListActivity.this, MakeBombTypeActivity.class);
                         intent_makebombtype.putExtra("timestamp", timestamp_key);
                         intent_makebombtype.putExtra("id", id_key);
@@ -324,6 +326,7 @@ public class GameListActivity extends AppCompatActivity
                         Toast.makeText(GameListActivity.this, "문제를 낼 차례입니다.", Toast.LENGTH_SHORT).show();
                     }
                     else if (find == 1 && !last.equals(nickname_key) && solve.equals("none")) {
+                        Toast.makeText(GameListActivity.this, "상대방이 보낸 폭탄이 도착했어!", Toast.LENGTH_SHORT).show();
                         qaPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key).child("quiz_list");
                         final ValueEventListener findQna = new ValueEventListener() {
                             @Override
