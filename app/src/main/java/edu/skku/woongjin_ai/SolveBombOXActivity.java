@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -24,6 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import static edu.skku.woongjin_ai.R.anim.wave;
 
 public class SolveBombOXActivity extends AppCompatActivity implements ShowScriptFragment.OnFragmentInteractionListener {
     DatabaseReference mPostReference, wPostReference;
@@ -37,6 +41,8 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
     String user_answer;
     int flagAO = 0, flagAX = 0;
     Fragment showScriptFragment;
+
+    ImageView bomb_animate;
 
     int second = 60;
     int correct_end = 0;
@@ -55,6 +61,10 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
         imageX = (ImageView) findViewById(R.id.xtype);
         imageButtonScript = (ImageButton) findViewById(R.id.script);
         imageButtonCheck = (Button)findViewById(R.id.check);
+
+        bomb_animate = findViewById(R.id.bomb_animate);
+        final Animation wave = AnimationUtils.loadAnimation(this, R.anim.wave);
+        bomb_animate.startAnimation(wave);
 
         intent = getIntent();
         intent_correct = new Intent(SolveBombOXActivity.this, CorrectBombFragment.class);

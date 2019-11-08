@@ -40,39 +40,39 @@ public class EndBombFragment extends AppCompatActivity {
         check1 = 0;
         check2 = 0;
 
+        final ValueEventListener findgamers = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    String gamer_nickname = postSnapshot.child("nickname").getValue().toString();
+                    String gamer_coin = postSnapshot.child("coin").getValue().toString();
+                    if (check1 == 0 && gamer_nickname.equals(user1_key)) {
+                        int coin = Integer.parseInt(gamer_coin) + 150;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child(key).child("coin").setValue(coin_convert);
+                        check1 = 1;
+                    }
+                    if (check2 == 0 && gamer_nickname.equals(user2_key)) {
+                        int coin = Integer.parseInt(gamer_coin) + 150;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child(key).child("coin").setValue(coin_convert);
+                        check2 = 1;
+                    }
+                    if (check1 == 1 && check2 == 1) {
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+        mPostReference.addListenerForSingleValueEvent(findgamers);
+
         end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ValueEventListener findgamers = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            String key = postSnapshot.getKey();
-                            String gamer_nickname = postSnapshot.child("nickname").getValue().toString();
-                            String gamer_coin = postSnapshot.child("coin").getValue().toString();
-                            if (check1 == 0 && gamer_nickname.equals(user1_key)) {
-                                int coin = Integer.parseInt(gamer_coin) + 150;
-                                String coin_convert = Integer.toString(coin);
-                                mPostReference.child(key).child("coin").setValue(coin_convert);
-                                check1 = 1;
-                            }
-                            if (check2 == 0 && gamer_nickname.equals(user2_key)) {
-                                int coin = Integer.parseInt(gamer_coin) + 150;
-                                String coin_convert = Integer.toString(coin);
-                                mPostReference.child(key).child("coin").setValue(coin_convert);
-                                check2 = 1;
-                            }
-                            if (check1 == 1 && check2 == 1) {
-                                break;
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                };
-                mPostReference.addListenerForSingleValueEvent(findgamers);
-
                 intent_gamelist.putExtra("id", id_key);
                 intent_gamelist.putExtra("nickname", nickname_key);
                 startActivity(intent_gamelist);

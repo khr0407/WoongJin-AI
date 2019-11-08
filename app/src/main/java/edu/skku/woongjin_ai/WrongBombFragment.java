@@ -67,44 +67,44 @@ public class WrongBombFragment extends AppCompatActivity {
         };
         mPostReference.addValueEventListener(findloser);
 
+        final ValueEventListener providecoin = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    String gnickname = postSnapshot.child("nickname").getValue().toString();
+                    String gcoin = postSnapshot.child("coin").getValue().toString();
+                    if (check1 == 0 && gnickname.equals(loser_nickname)) { //본인이 진 상태
+                        int coin = Integer.parseInt(gcoin);
+                        if (coin >= 30) {
+                            coin = coin - 30;
+                            String coin_convert = Integer.toString(coin);
+                            mPostReference.child(key).child("coin").setValue(coin_convert);
+                        } else if (coin < 30) {
+                            mPostReference.child(key).child("coin").setValue("0");
+                        }
+                        check1 = 1;
+                    }
+                    else if (check2 == 0 && gnickname.equals(winner_nickname)) { //본인이 진 상태
+                        int coin = Integer.parseInt(gcoin) + 30;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child(key).child("coin").setValue(coin_convert);
+                        check2 = 1;
+                    }
+                    if (check1 == 1 && check2 == 1) {
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+        mPostReference.addListenerForSingleValueEvent(providecoin);
+
         quit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ValueEventListener providecoin = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            String key = postSnapshot.getKey();
-                            String gnickname = postSnapshot.child("nickname").getValue().toString();
-                            String gcoin = postSnapshot.child("coin").getValue().toString();
-                            if (check1 == 0 && gnickname.equals(loser_nickname)) { //본인이 진 상태
-                                int coin = Integer.parseInt(gcoin);
-                                if (coin >= 30) {
-                                    coin = coin - 30;
-                                    String coin_convert = Integer.toString(coin);
-                                    mPostReference.child(key).child("coin").setValue(coin_convert);
-                                } else if (coin < 30) {
-                                    mPostReference.child(key).child("coin").setValue("0");
-                                }
-                                check1 = 1;
-                            }
-                            else if (check2 == 0 && gnickname.equals(winner_nickname)) { //본인이 진 상태
-                                int coin = Integer.parseInt(gcoin) + 30;
-                                String coin_convert = Integer.toString(coin);
-                                mPostReference.child(key).child("coin").setValue(coin_convert);
-                                check2 = 1;
-                            }
-                            if (check1 == 1 && check2 == 1) {
-                                break;
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                };
-                mPostReference.addListenerForSingleValueEvent(providecoin);
-
                 intent_gamelist.putExtra("id", id_key);
                 intent_gamelist.putExtra("nickname", nickname_key);
                 startActivity(intent_gamelist);

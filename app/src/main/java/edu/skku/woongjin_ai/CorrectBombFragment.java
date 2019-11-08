@@ -54,30 +54,29 @@ public class CorrectBombFragment extends AppCompatActivity {
         textCheckCorrect.setText("우와!!! " + id_key + "이(가) 정답을 맞췄어!!!");
         mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list");
 
+        final ValueEventListener findgamers = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    String key = postSnapshot.getKey();
+                    String gamer_coin = postSnapshot.child("coin").getValue().toString();
+                    if (key.equals(id_key)) {
+                        int coin = Integer.parseInt(gamer_coin) + 50;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child(key).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        };
+        mPostReference.addListenerForSingleValueEvent(findgamers);
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ValueEventListener findgamers = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                            String key = postSnapshot.getKey();
-                            String gamer_coin = postSnapshot.child("coin").getValue().toString();
-                            if (key.equals(id_key)) {
-                                int coin = Integer.parseInt(gamer_coin) + 50;
-                                String coin_convert = Integer.toString(coin);
-                                mPostReference.child(key).child("coin").setValue(coin_convert);
-                                break;
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                };
-                mPostReference.addListenerForSingleValueEvent(findgamers);
-
                 intent_gamelist.putExtra("id", id_key);
                 intent_gamelist.putExtra("nickname", nickname_key);
                 startActivity(intent_gamelist);

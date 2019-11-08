@@ -11,8 +11,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +40,8 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
     int count = 2;
     Fragment showScriptFragment;
 
+    ImageView bomb_animate;
+
     int second = 60;
     int correct_end = 0;
     int wrong = 0;
@@ -57,6 +62,10 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
         textViewAns2 = (TextView) findViewById(R.id.ans2);
         textViewAns3 = (TextView) findViewById(R.id.ans3);
         textViewAns4 = (TextView) findViewById(R.id.ans4);
+
+        bomb_animate = findViewById(R.id.bomb_animate);
+        final Animation wave = AnimationUtils.loadAnimation(this, R.anim.wave);
+        bomb_animate.startAnimation(wave);
 
         intent = getIntent();
         intent_wrong = new Intent(SolveBombChoiceActivity.this, WrongBombFragment.class);

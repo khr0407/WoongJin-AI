@@ -11,9 +11,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +38,8 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
     String user_answer;
     Fragment showScriptFragment;
 
+    ImageView bomb_animate;
+
     int second = 60;
     int correct_end = 0;
 
@@ -50,6 +55,10 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
         answer_edit = (EditText) findViewById(R.id.answer_edit);
         imageButtonScript = (ImageButton) findViewById(R.id.script);
         imageButtonCheck = (Button)findViewById(R.id.check);
+
+        bomb_animate = findViewById(R.id.bomb_animate);
+        final Animation wave = AnimationUtils.loadAnimation(this, R.anim.wave);
+        bomb_animate.startAnimation(wave);
 
         intent = getIntent();
         intent_wrong = new Intent(SolveBombShortwordActivity.this, WrongBombFragment.class);
