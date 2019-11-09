@@ -40,6 +40,7 @@ public class GameListActivity extends AppCompatActivity
     public DatabaseReference m2PostReference;
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
+    ArrayList<GameRoomInfo> gameRoomInfos=new ArrayList<GameRoomInfo>();
 
     long Solved;
 
@@ -66,7 +67,6 @@ public class GameListActivity extends AppCompatActivity
     SharedPreferences setting;
     SharedPreferences.Editor editor;
     String nomore;
-
 
 
     @Override
@@ -140,8 +140,11 @@ public class GameListActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 check_gamelist = 1;
-                roomname_key = gamelist.getItemAtPosition(position).toString().split("-")[0];
-                friend_nickname = gamelist.getItemAtPosition(position).toString().split("-")[1];
+                GameRoomInfo listItem=gameRoomInfos.get(position);
+                roomname_key=listItem.Roomname;
+                friend_nickname=listItem.WithWhom;
+                //roomname_key = gamelist.getItemAtPosition(position).toString().split("-")[0];
+                //friend_nickname = gamelist.getItemAtPosition(position).toString().split("-")[1];
                 final ValueEventListener checkRoom = new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -435,8 +438,7 @@ public class GameListActivity extends AppCompatActivity
                 }
             }
         });
-
-        gamelist.setAdapter(arrayAdapter);
+        gameRoomInfos.clear();
         getFirebaseDatabase();
     }
 
@@ -445,22 +447,84 @@ public class GameListActivity extends AppCompatActivity
             ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    data.clear();
+                    GameListAdapter gameListAdapter=new GameListAdapter();
+                    //String roomname, String withwhom, String status
+                    String roomname="", withwhom="", status="";
+                    String lastperson="", solveperson="";
+                    gameRoomInfos.clear();
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         String user1 = postSnapshot.child("user1").getValue().toString();
                         String user2 = postSnapshot.child("user2").getValue().toString();
-                        if (user1.equals(nickname_key)) {
-                            FirebasePost_list get = postSnapshot.getValue(FirebasePost_list.class);
-                            data.add(get.roomname + "-" + get.user2);
+                        String temp_status = postSnapshot.child("state").getValue().toString();
+                        char bombcount;
+                        if(!temp_status.equals("win") && !temp_status.equals("win1") && !temp_status.equals("win2")){
+                            bombcount = temp_status.charAt(6);
+                        }else{
+                            bombcount='x';
                         }
-                        else if (user2.equals(nickname_key)) {
+                        if(bombcount=='0'){
+                            lastperson="none";
+                            solveperson="none";
+                        }
+                        else if(bombcount!='x'){
+                            lastperson = postSnapshot.child("quiz_list").child("quiz" + bombcount).child("last").getValue().toString();
+                            solveperson = postSnapshot.child("quiz_list").child("quiz" + bombcount).child("solve").getValue().toString();
+                        }
+
+                        if (user1.equals(nickname_key)) { //내가 user1
                             FirebasePost_list get = postSnapshot.getValue(FirebasePost_list.class);
-                            data.add(get.roomname + "-" + get.user1);
+                            //data.add(get.roomname + "-" + get.user2);
+                            withwhom=get.user2;
+                            roomname=get.roomname;
+
+                            if (bombcount=='x'){ //ok
+                                status="end";
+                            }
+                            else if (bombcount=='0'||(bombcount-'0')%2==0 && solveperson.equals(nickname_key)) {
+                                status="myturn";
+                            }
+                            else if ((bombcount-'0')%2==0 && solveperson.equals("none")) { //ok
+                                status="newbomb";
+                            }
+                            else if ((bombcount-'0')%2==1) { //ok
+                                status="elseturn";
+                            }
+                            else{
+                                Log.d("폭탄에러났슈user1", "에러유");
+                            }
+                            GameRoomInfo roomInfo=new GameRoomInfo(roomname, withwhom, status);
+                            gameRoomInfos.add(roomInfo);
+                            gameListAdapter.addItem(roomname, withwhom, status);
+                        }
+                        else if (user2.equals(nickname_key)) { //내가 user2
+                            FirebasePost_list get = postSnapshot.getValue(FirebasePost_list.class);
+                            //data.add(get.roomname + "-" + get.user1);
+                            withwhom=get.user1;
+                            roomname=get.roomname;
+
+                            if (bombcount=='x'){ //ok
+                                status="end";
+                            }
+                            else if ((bombcount-'0')%2==1 && solveperson.equals(nickname_key)) {
+                                status="myturn";
+                            }
+                            else if ((bombcount-'0')%2==1 && solveperson.equals("none")) { //ok
+                                status="newbomb";
+                            }
+                            else if ((bombcount-'0')%2==0) { //ok
+                                status="elseturn";
+                            }
+                            else{
+                                Log.d("폭탄에러났슈user2", "에러유");
+                            }
+                            GameRoomInfo roomInfo=new GameRoomInfo(roomname, withwhom, status);
+                            gameRoomInfos.add(roomInfo);
+                            gameListAdapter.addItem(roomname, withwhom, status);
                         }
                     }
-                    arrayAdapter.clear();
-                    arrayAdapter.addAll(data);
-                    arrayAdapter.notifyDataSetChanged();
+                    gamelist.setAdapter(gameListAdapter);
+                    gamelist.clearChoices();
+                    gameListAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -479,7 +543,7 @@ public class GameListActivity extends AppCompatActivity
                 Solved=0;
                 DataSnapshot dataSnapshot1=dataSnapshot.child("user_list/"+id_key+"/my_week_list");
                 for(DataSnapshot dataSnapshot2: dataSnapshot1.getChildren()){ //week 껍데기
-                    Solved+=Long.parseLong(dataSnapshot2.child("solvedbomb").getValue().toString());
+                    Solved+=Long.parseLong(dataSnapshot2.child("solvebomb").getValue().toString());
                 }
                 Calendar calendar = Calendar.getInstance();
                 Date dateS = calendar.getTime();

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:weightSum="6">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:orientation="vertical"
+            android:weightSum="3">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/withwhom"
+                android:fontFamily="@font/bmjua_ttf"
+                android:textSize="20dp"
+                android:textColor="@color/dimgray"
+                android:layout_gravity="center"
+                android:gravity="center|left"
+                android:text="누구랑"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:id="@+id/gameroomname"
+                android:layout_gravity="center"
+                android:gravity="center|left"
+                android:fontFamily="@font/bmjua_ttf"
+                android:textSize="25dp"
+                android:text="게임방이름"
+                android:textColor="@color/black"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:id="@+id/game_status"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="@font/bmjua_ttf"
+            android:textSize="20dp"
+            android:text="게임상황"
+            android:textColor="@color/black"
+        />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
