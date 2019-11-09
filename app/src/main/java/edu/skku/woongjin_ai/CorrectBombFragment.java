@@ -40,7 +40,6 @@ public class CorrectBombFragment extends AppCompatActivity {
 
         intent = getIntent();
         intent_makebombtype = new Intent(CorrectBombFragment.this, MakeBombTypeActivity.class);
-        intent_gamelist = new Intent(CorrectBombFragment.this, GameListActivity.class);
 
         send = (ImageButton) findViewById(R.id.send);
         textCheckCorrect = (TextView) findViewById(R.id.textCheck);
@@ -91,6 +90,7 @@ public class CorrectBombFragment extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intent_gamelist = new Intent(CorrectBombFragment.this, GameListActivity.class);
                 intent_gamelist.putExtra("id", id_key);
                 intent_gamelist.putExtra("nickname", nickname_key);
                 startActivity(intent_gamelist);

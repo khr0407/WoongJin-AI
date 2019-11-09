@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:weightSum="10">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="90dp"
+            android:src="@drawable/ic_coin"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="@font/bmjua_ttf"
+            android:textSize="30dp"
+            android:layout_weight="1"
+            android:text="+0"
+            android:textColor="@color/blue"
+            android:id="@+id/HOWMANY"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:orientation="vertical"
+            android:weightSum="4">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/DATE"
+                android:fontFamily="@font/bmjua_ttf"
+                android:textSize="15dp"
+                android:textColor="@color/dimgray"
+                android:layout_gravity="center"
+                android:gravity="center|left"
+                android:text="코인을 받은 날짜"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:id="@+id/WHY"
+                android:layout_gravity="center"
+                android:gravity="center|left"
+                android:fontFamily="@font/bmjua_ttf"
+                android:textSize="25dp"
+                android:text="코인을 받은 경로"
+                android:textColor="@color/black"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

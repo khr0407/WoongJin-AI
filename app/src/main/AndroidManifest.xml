@@ -113,5 +113,7 @@
             android:screenOrientation="landscape" />
         <activity android:name=".EndBombFragment"
             android:screenOrientation="landscape" />
+        <activity android:name=".MyCoinRecordActivity"
+            android:screenOrientation="landscape"/>
     </application>
 </manifest>
