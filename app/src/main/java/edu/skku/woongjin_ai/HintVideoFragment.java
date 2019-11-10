@@ -1,3 +1,4 @@
+/*
 package edu.skku.woongjin_ai;
 
 import android.Manifest;
@@ -134,3 +135,4 @@ public class HintVideoFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 }
+*/

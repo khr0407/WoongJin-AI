@@ -10,227 +10,231 @@
         android:id="@+id/friendquizFrame"
         >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="9">
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:weightSum="10">
-
-            <ImageButton
-                android:id="@+id/home"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/go_home"
-                android:scaleType="centerCrop"
-                android:padding="40dp"
-                android:background="#00ff0000"
-                android:layout_weight="2" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="9">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="6"/>
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:weightSum="10">
 
-            <ImageButton
-                android:id="@+id/myPage"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"
-                android:padding="35dp"
-                android:src="@drawable/go_mypage"
-                android:scaleType="centerCrop"
-                android:background="#00ff0000"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:weightSum="11">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"/>
-
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="7">
-
-                <ImageView
-                    android:layout_width="match_parent"
+                <ImageButton
+                    android:id="@+id/home"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/nationbook_board"
-                    android:scaleType="centerCrop"/>
+                    android:src="@drawable/go_home"
+                    android:scaleType="centerCrop"
+                    android:padding="40dp"
+                    android:background="#00ff0000"
+                    android:layout_weight="2" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="6"/>
 
-                    <TextView
+                <ImageButton
+                    android:id="@+id/myPage"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:padding="35dp"
+                    android:src="@drawable/go_mypage"
+                    android:scaleType="centerCrop"
+                    android:background="#00ff0000"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:weightSum="11">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"/>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7">
+
+                    <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="많은 문제를 풀수록 실력이 쑥쑥~"
-                        android:textSize="40dp"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/bmjua_ttf"
-                        android:layout_gravity="center"
-                        android:gravity="center"/>
-
-                </LinearLayout>
-
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.3"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.7"
-            android:weightSum="12"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2.5"
-                android:text="내 친구가 낸 문제"
-                android:layout_marginEnd="6dp"
-                android:fontFamily="@font/bmjua_ttf"
-                android:background="@color/blue"
-                android:textColor="@color/white"
-                android:textSize="30dp"/>
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="2.5"
-                android:text="추천수가 많은 문제"
-                android:fontFamily="@font/bmjua_ttf"
-                android:layout_marginStart="6dp"
-                android:textColor="@color/white"
-                android:textSize="30dp"
-                android:background="@color/lightred"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5.5"
-            android:orientation="horizontal"
-            android:weightSum="12">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
-
-            <FrameLayout
-                android:id="@+id/contentShowScript"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="10">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:weightSum="10"
-                    android:orientation="horizontal">
+                        android:src="@drawable/nationbook_board"
+                        android:scaleType="centerCrop"/>
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="5.5"
-                        android:orientation="vertical"
-                        android:background="@color/white"
-                        android:weightSum="6">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
                         <TextView
-                            android:id="@+id/textShowFriendQuiz"
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/bmjua_ttf"
+                            android:layout_height="match_parent"
+                            android:text="많은 문제를 풀수록 실력이 쑥쑥~"
                             android:textSize="40dp"
-                            android:paddingTop="10dp"
-                            android:textColor="@color/black"
+                            android:textColor="@color/white"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:layout_gravity="center"
                             android:gravity="center"/>
-
-                        <ListView
-                            android:id="@+id/myFriendQuizList"
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="5"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:padding="20dp"/>
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.2"/>
+                </FrameLayout>
 
-                    <FrameLayout
-                        android:id="@+id/contentShowHint"
-                        android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.7"
+                android:weightSum="12"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/friendQuiz"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:text="내 친구가 낸 문제"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginRight="6dp"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:background="@color/blue"
+                    android:textColor="@color/white"
+                    android:textSize="30dp"/>
+
+                <Button
+                    android:id="@+id/likeQuiz"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:text="추천수가 많은 문제"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginLeft="6dp"
+                    android:textColor="@color/white"
+                    android:textSize="30dp"
+                    android:background="@color/lightred"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5.5"
+                android:orientation="horizontal"
+                android:weightSum="12">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+                <FrameLayout
+                    android:id="@+id/contentShowScript"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="10">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="4.3">
+                        android:weightSum="10"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="5.5"
+                            android:orientation="vertical"
+                            android:background="@color/white"
+                            android:weightSum="6">
+
+                            <TextView
+                                android:id="@+id/textShowFriendQuiz"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/bmjua_ttf"
+                                android:textSize="40dp"
+                                android:paddingTop="10dp"
+                                android:textColor="@color/black"
+                                android:gravity="center"/>
+
+                            <ListView
+                                android:id="@+id/quizList"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="5"
+                                android:clickable="true"
+                                android:focusable="true"
+                                android:padding="20dp"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.2"/>
 
                         <FrameLayout
-                            android:id="@+id/contentShowFriendQuiz"
-                            android:layout_width="match_parent"
+                            android:id="@+id/contentShowHint"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:background="@color/white">
+                            android:layout_weight="4.3">
+
+                            <FrameLayout
+                                android:id="@+id/contentShowFriendQuiz"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/white">
+
+                            </FrameLayout>
 
                         </FrameLayout>
 
-                    </FrameLayout>
+                    </LinearLayout>
 
-                </LinearLayout>
+                </FrameLayout>
 
-            </FrameLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5" />
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5" />
-
-    </LinearLayout>
     </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>
