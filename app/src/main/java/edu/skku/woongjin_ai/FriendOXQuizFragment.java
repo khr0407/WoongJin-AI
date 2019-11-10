@@ -36,7 +36,7 @@ public class FriendOXQuizFragment extends Fragment {
 
     private FriendOXQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "", background;
+    String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "", background, nickname;
     int cnt, flagAO = 0, flagAX = 0;
     float starFloat;
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
@@ -81,6 +81,7 @@ public class FriendOXQuizFragment extends Fragment {
         key = getArguments().getString("key");
         cnt = getArguments().getInt("cnt");
         background = getArguments().getString("background");
+        nickname = getArguments().getString("nickname");
 
         TextView textViewUid = view.findViewById(R.id.uidFriendOX);
         TextView textViewName = view.findViewById(R.id.nameFriendOX);
@@ -98,7 +99,7 @@ public class FriendOXQuizFragment extends Fragment {
 
         starFloat = Float.parseFloat(star);
 
-        textViewUid.setText(uid + " 친구가 낸 질문");
+        textViewUid.setText(nickname + " 친구가 낸 질문");
         textViewName.setText(scriptnm);
         textViewQuestion.setText(question);
 
@@ -115,7 +116,7 @@ public class FriendOXQuizFragment extends Fragment {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
-                        Bundle bundle = new Bundle(7);
+                        Bundle bundle = new Bundle(8);
                         bundle.putString("id", id);
                         bundle.putString("scriptnm", scriptnm);
                         bundle.putString("uid", uid);
@@ -123,6 +124,7 @@ public class FriendOXQuizFragment extends Fragment {
                         bundle.putString("like", like);
                         bundle.putString("key", key);
                         bundle.putInt("cnt", cnt);
+                        bundle.putString("nickname", nickname);
                         ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment.setArguments(bundle);
 //                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
@@ -131,7 +133,7 @@ public class FriendOXQuizFragment extends Fragment {
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment);
                         Bundle bundle = new Bundle(1);
-                        bundle.putString("id", id);
+                        bundle.putString("nickname", nickname);
                         ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment.setArguments(bundle);
 //                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();

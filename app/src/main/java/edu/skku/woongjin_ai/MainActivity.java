@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                 intentBook = new Intent(MainActivity.this, NationBookActivity.class);
                 intentBook.putExtra("id", id);
                 intentBook.putExtra("nickname", nickname);
+                intentBook.putExtra("thisWeek", Integer.toString(thisWeek));
                 startActivity(intentBook);
             }
         });
@@ -152,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/level").setValue(0);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/like").setValue(0);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/made").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/solvebomb").setValue(0);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/firstDateOfWeek").setValue(startDate2);
                 } else startDate = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + weekNum + "/firstDateOfWeek").getValue().toString();
 

@@ -19,12 +19,13 @@ public class QuizChoiceTypeInfo {
     public String url;
     public int type;
     public String scriptnm;
+    public String book_name;
 
     public QuizChoiceTypeInfo() {
 
     }
 
-    public QuizChoiceTypeInfo(String uid, String question, String answer, String answer1, String answer2, String answer3, String answer4, String star, String desc, String like, String key, int cnt, String url, int type) {
+    public QuizChoiceTypeInfo(String uid, String question, String answer, String answer1, String answer2, String answer3, String answer4, String star, String desc, String like, String key, int cnt, String url, int type, String scriptnm, String book_name) {
         this.uid = uid;
         this.question = question;
         this.answer = answer;
@@ -39,6 +40,8 @@ public class QuizChoiceTypeInfo {
         this.cnt = cnt;
         this.url = url;
         this.type = type;
+        this.scriptnm = scriptnm;
+        this.book_name = book_name;
     }
 
     public Map<String, Object> toMap() {
@@ -58,6 +61,7 @@ public class QuizChoiceTypeInfo {
         result.put("url", url);
         result.put("type", type);
         result.put("scriptnm", scriptnm);
+        result.put("book_name", book_name);
         return result;
     }
 }

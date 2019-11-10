@@ -25,7 +25,7 @@ public class WrongFriendQuizFragment extends Fragment {
 
     private WrongFriendQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id;
+    String nickname;
     Button imageButtonClose;
 
     public WrongFriendQuizFragment() {
@@ -56,12 +56,12 @@ public class WrongFriendQuizFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_wrongfriendquiz, container, false);
         final Context context = container.getContext();
 
-        id = getArguments().getString("id");
+        nickname = getArguments().getString("nickname");
 
         TextView textViewWrong = (TextView) view.findViewById(R.id.textWrong);
         imageButtonClose = (Button) view.findViewById(R.id.close);
 
-        textViewWrong.setText("다시 한 번 생각해보자~\n" + id + ", 할 수 있어!");
+        textViewWrong.setText("다시 한 번 생각해보자~\n" + nickname + ", 할 수 있어!");
 
         imageButtonClose.setOnClickListener(new View.OnClickListener() {
             @Override

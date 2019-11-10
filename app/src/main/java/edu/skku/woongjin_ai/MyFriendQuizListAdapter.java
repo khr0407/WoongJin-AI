@@ -11,11 +11,19 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 public class MyFriendQuizListAdapter extends BaseAdapter {
 
     private ArrayList<MyFriendQuizListItem> myFriendQuizListItems = new ArrayList<MyFriendQuizListItem>();
+
+    FirebaseStorage storage;
+    private StorageReference storageReference, dataReference;
 
     @Override
     public int getCount() {
@@ -53,7 +61,21 @@ public class MyFriendQuizListAdapter extends BaseAdapter {
 
         MyFriendQuizListItem myFriendQuizListItem = getItem(position);
 
-        profile.setImageDrawable(myFriendQuizListItem.getProfile());
+        if(!myFriendQuizListItem.getProfile().equals("noimage")) {
+            storage = FirebaseStorage.getInstance();
+            storageReference = storage.getReference();
+            dataReference = storageReference.child("/profile/" + myFriendQuizListItem.getProfile());
+            dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.with(context)
+                            .load(uri)
+                            .error(R.drawable.btn_x)
+                            .into(profile);
+                }
+            });
+        }
+
         user.setText(myFriendQuizListItem.getUser());
         star2.setImageDrawable(myFriendQuizListItem.getStar2());
         star3.setImageDrawable(myFriendQuizListItem.getStar3());
@@ -66,7 +88,7 @@ public class MyFriendQuizListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void addItem(Drawable profile, String user, Drawable star2, Drawable star3, Drawable star4, Drawable star5, String bookName, String scriptName, String question) {
+    public void addItem(String profile, String user, Drawable star2, Drawable star3, Drawable star4, Drawable star5, String bookName, String scriptName, String question) {
         MyFriendQuizListItem myFriendQuizListItem = new MyFriendQuizListItem();
         myFriendQuizListItem.setProfile(profile);
         myFriendQuizListItem.setUser(user);

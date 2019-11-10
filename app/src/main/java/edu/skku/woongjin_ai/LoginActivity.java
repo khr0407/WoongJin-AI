@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                 pw = editTextPW.getText().toString();
 
                 if(id.length() == 0 || pw.length() == 0) {
-                    Toast.makeText(LoginActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "빈칸을 모두 채우세요", Toast.LENGTH_SHORT).show();
                 } else {
                     final ValueEventListener postListener = new ValueEventListener() {
                         @Override

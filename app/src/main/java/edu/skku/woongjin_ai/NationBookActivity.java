@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 public class NationBookActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentSelectBook;
-    String id;
+    String id, nickname, thisWeek;
     ImageButton homeButton;
     ImageButton scienceButton, historyButton, newsButton, moralityButton, misteryButton, comicsButton, oldstoryButton, greatmanButton;
 
@@ -22,8 +22,13 @@ public class NationBookActivity extends AppCompatActivity {
 
         intent = getIntent();
         id = intent.getStringExtra("id");
+        nickname = intent.getStringExtra("nickname");
+        thisWeek = intent.getStringExtra("thisWeek");
+
         intentSelectBook = new Intent(NationBookActivity.this, SelectBookActivity.class);
         intentSelectBook.putExtra("id", id);
+        intentSelectBook.putExtra("nickname", nickname);
+        intentSelectBook.putExtra("thisWeek", thisWeek);
 
         homeButton = (ImageButton) findViewById(R.id.home);
         scienceButton = (ImageButton) findViewById(R.id.science);

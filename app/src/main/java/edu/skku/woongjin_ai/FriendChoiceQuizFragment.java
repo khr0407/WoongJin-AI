@@ -36,7 +36,7 @@ public class FriendChoiceQuizFragment extends Fragment {
 
     private FriendChoiceQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, question, answer, answer1, answer2, answer3, answer4, uid, star, like, hint, key, ans = "", background;
+    String id, scriptnm, question, answer, answer1, answer2, answer3, answer4, uid, star, like, hint, key, ans = "", background, nickname;
     int cnt, flagA1 = 0, flagA2 = 0, flagA3 = 0, flagA4 = 0;
     float starFloat;
     ImageView imageViewS2, imageViewS3, imageViewS4, imageViewS5;
@@ -86,6 +86,7 @@ public class FriendChoiceQuizFragment extends Fragment {
         key = getArguments().getString("key");
         cnt = getArguments().getInt("cnt");
         background = getArguments().getString("background");
+        nickname = getArguments().getString("nickname");
 
         TextView textViewUid = (TextView) view.findViewById(R.id.uidFriendChoice);
         TextView textViewName = (TextView) view.findViewById(R.id.nameFriendChoice);
@@ -105,7 +106,7 @@ public class FriendChoiceQuizFragment extends Fragment {
 
         starFloat = Float.parseFloat(star);
 
-        textViewUid.setText(uid + " 친구가 낸 질문");
+        textViewUid.setText(nickname + " 친구가 낸 질문");
         textViewName.setText(scriptnm);
         textViewQuestion.setText(question);
         textViewAns1.setText(answer1);
@@ -202,7 +203,7 @@ public class FriendChoiceQuizFragment extends Fragment {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
-                        Bundle bundle = new Bundle(7);
+                        Bundle bundle = new Bundle(8);
                         bundle.putString("id", id);
                         bundle.putString("scriptnm", scriptnm);
                         bundle.putString("uid", uid);
@@ -210,6 +211,7 @@ public class FriendChoiceQuizFragment extends Fragment {
                         bundle.putString("like", like);
                         bundle.putString("key", key);
                         bundle.putInt("cnt", cnt);
+                        bundle.putString("nickname", nickname);
                         ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment.setArguments(bundle);
 //                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
@@ -218,7 +220,7 @@ public class FriendChoiceQuizFragment extends Fragment {
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment);
                         Bundle bundle = new Bundle(1);
-                        bundle.putString("id", id);
+                        bundle.putString("nickname", nickname);
                         ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment.setArguments(bundle);
 //                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();

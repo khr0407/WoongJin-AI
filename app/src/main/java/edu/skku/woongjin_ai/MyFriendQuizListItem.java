@@ -3,7 +3,7 @@ package edu.skku.woongjin_ai;
 import android.graphics.drawable.Drawable;
 
 public class MyFriendQuizListItem {
-    private Drawable profile;
+    private String profile;
     private String user;
     private Drawable star2;
     private Drawable star3;
@@ -13,11 +13,11 @@ public class MyFriendQuizListItem {
     private String scriptName;
     private String question;
 
-    public Drawable getProfile() {
+    public String getProfile() {
         return profile;
     }
 
-    public void setProfile(Drawable profile) {
+    public void setProfile(String profile) {
         this.profile = profile;
     }
 

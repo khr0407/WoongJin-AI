@@ -36,7 +36,7 @@ public class CorrectFriendQuizFragment extends Fragment {
 
     private CorrectFriendQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, uid, star, like, key, today;
+    String id, scriptnm, uid, star, like, key, today, nickname;
     Button buttonSubmit;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5, imageViewThumb;
     int cnt, starInt = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagT = 0;
@@ -80,6 +80,7 @@ public class CorrectFriendQuizFragment extends Fragment {
         like = getArguments().getString("like");
         key = getArguments().getString("key");
         cnt = getArguments().getInt("cnt");
+        nickname = getArguments().getString("nickname");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -94,7 +95,7 @@ public class CorrectFriendQuizFragment extends Fragment {
 
         oldLevel = Float.parseFloat(star);
 
-        textViewID.setText("정답이야 " + id + "! 수고했어^^");
+        textViewID.setText("정답이야 " + nickname + "! 수고했어^^");
         uploadFirebaseUserCoinInfo_correct();
 
         long now = System.currentTimeMillis();

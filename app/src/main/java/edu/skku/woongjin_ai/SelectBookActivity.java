@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 public class SelectBookActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentReadScript;
-    String id, bookType;
+    String id, bookType, nickname, thisWeek;
     ImageButton homeButton;
     TextView textView;
     public DatabaseReference mPostReference;
@@ -39,9 +40,14 @@ public class SelectBookActivity extends AppCompatActivity {
         intent = getIntent();
         id = intent.getStringExtra("id");
         bookType = intent.getStringExtra("bookType");
+        nickname = intent.getStringExtra("nickname");
+        thisWeek = intent.getStringExtra("thisWeek");
+
         intentReadScript = new Intent(SelectBookActivity.this, ReadScriptActivity.class);
         intentReadScript.putExtra("id", id);
         intentReadScript.putExtra("bookType", bookType);
+        intentReadScript.putExtra("nickname", nickname);
+        intentReadScript.putExtra("thisWeek", thisWeek);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 

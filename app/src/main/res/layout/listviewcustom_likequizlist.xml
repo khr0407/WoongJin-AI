@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="100dp"
     android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
@@ -113,12 +113,13 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="5.5"
-            android:weightSum="3">
+            android:layout_marginStart="20dp"
+            android:weightSum="2">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:orientation="horizontal">
 
                 <TextView
@@ -126,19 +127,19 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
-                    android:textSize="25dp"
-                    android:fontFamily="@font/bmjua_ttf"
                     android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center_vertical"
                     android:textColor="@color/orange"
-                    android:focusableInTouchMode="false"/>
+                    android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/scriptName"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3.5"
-                    android:textSize="25dp"
+                    android:textSize="20dp"
                     android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center_vertical"
                     android:textColor="@color/black"
@@ -153,7 +154,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/bmjua_ttf"
-                android:textSize="15dp"
+                android:textSize="18dp"
                 android:gravity="center_vertical"/>
 
         </LinearLayout>

@@ -42,7 +42,7 @@ public class OXTypeActivity extends AppCompatActivity
     ImageView imageO, imageX;
     EditText editQuiz;
     Intent intent, intentHome, intentType;
-    String id, scriptnm, backgroundID, thisWeek;
+    String id, scriptnm, backgroundID, thisWeek, nickname, bookname;
     String quiz = "", ans = "", desc = "";
     int star = 0 , starInt = 0, oldMadeCnt;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
@@ -62,6 +62,7 @@ public class OXTypeActivity extends AppCompatActivity
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        nickname = intent.getStringExtra("nickname");
         thisWeek = intent.getStringExtra("thisWeek");
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
@@ -188,6 +189,7 @@ public class OXTypeActivity extends AppCompatActivity
                         intentType.putExtra("id", id);
                         intentType.putExtra("scriptnm", scriptnm);
                         intentType.putExtra("background", backgroundID);
+                        intentType.putExtra("nickname", nickname);
                         intentType.putExtra("thisWeek", thisWeek);
                         startActivity(intentType);
                     }
@@ -384,6 +386,8 @@ public class OXTypeActivity extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 WeekInfo weekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + thisWeek).getValue(WeekInfo.class);
                 oldMadeCnt = weekInfo.made;
+
+                bookname = dataSnapshot.child("script_list/" + scriptnm + "/book_name").getValue().toString();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
@@ -396,7 +400,7 @@ public class OXTypeActivity extends AppCompatActivity
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, "없음", 1);
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, "없음", 1, scriptnm, bookname);
         postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
