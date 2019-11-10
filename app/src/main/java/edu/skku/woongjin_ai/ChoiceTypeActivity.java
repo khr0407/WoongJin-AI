@@ -46,8 +46,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
     int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
     int flagA1 =0, flagA2=0, flagA3=0,flagA4 =0;
     ImageView backgroundImage;
-    ImageButton checkButton, scriptButton;
-    Button hintWritingButton, hintVideoButton, noHintButton;
+    ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
 //    FirebaseStorage storage;
 //    private StorageReference storageReference, dataReference;
     Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
@@ -82,9 +81,9 @@ public class ChoiceTypeActivity extends AppCompatActivity
         checkButton = (ImageButton) findViewById(R.id.check);
         scriptButton = (ImageButton) findViewById(R.id.script);
         backgroundImage = (ImageView) findViewById(R.id.background);
-        hintWritingButton = (Button) findViewById(R.id.hintWriting);
-        hintVideoButton = (Button) findViewById(R.id.hintVideo);
-        noHintButton = (Button) findViewById(R.id.noHint);
+        hintWritingButton = (ImageButton) findViewById(R.id.hintWriting);
+        hintVideoButton = (ImageButton) findViewById(R.id.hintVideo);
+        noHintButton = (ImageButton) findViewById(R.id.noHint);
 
         title.setText("지문 제목: " + scriptnm);
 
@@ -141,14 +140,10 @@ public class ChoiceTypeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(flagD != 2) {
-//                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
-//                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                    noHintButton.setBackgroundColor(Color.rgb(255, 153, 0));
+                    noHintButton.setImageResource(R.drawable.hint_no_selected);
                     flagD = 2;
                 } else {
-//                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
-//                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
-                    noHintButton.setBackgroundColor(Color.rgb(255, 255, 255));
+                    noHintButton.setImageResource(R.drawable.hint_no);
                     flagD = 0;
                 }
             }
@@ -203,6 +198,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
                         intentType.putExtra("id", id);
                         intentType.putExtra("scriptnm", scriptnm);
                         intentType.putExtra("background", backgroundID);
+                        intentType.putExtra("thisWeek", thisWeek);
                         startActivity(intentType);
                     }
                 }

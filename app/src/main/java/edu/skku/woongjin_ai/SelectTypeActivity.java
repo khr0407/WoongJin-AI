@@ -100,6 +100,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 intentTemplate.putExtra("id", id);
                 intentTemplate.putExtra("scriptnm", scriptnm);
                 intentTemplate.putExtra("background", backgroundID);
+                intentTemplate.putExtra("thisWeek", thisWeek);
                 startActivity(intentTemplate);
             }
         });

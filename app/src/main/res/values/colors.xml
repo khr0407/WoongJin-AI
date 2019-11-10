@@ -15,4 +15,5 @@
     <color name="lightgreen">#B8CE30</color>
     <color name="red">#EB0000</color>
     <color name="dimgray">#696969</color>
+    <color name="gray">#808080</color>
 </resources>

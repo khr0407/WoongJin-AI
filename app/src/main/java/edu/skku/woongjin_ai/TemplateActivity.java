@@ -24,7 +24,7 @@ import java.util.Random;
 public class TemplateActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentSelectType;
-    String id, scriptnm, backgroundID;
+    String id, scriptnm, backgroundID, thisWeek;
     TextView oxT, choiceT, shortwordT;
     ImageView imageHome;
     Button buttonGoBack;
@@ -58,6 +58,7 @@ public class TemplateActivity extends AppCompatActivity {
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        thisWeek = intent.getStringExtra("thisWeek");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -70,6 +71,7 @@ public class TemplateActivity extends AppCompatActivity {
                 intentSelectType.putExtra("id", id);
                 intentSelectType.putExtra("scriptnm", scriptnm);
                 intentSelectType.putExtra("background", backgroundID);
+                intentSelectType.putExtra("thisWeek", thisWeek);
                 startActivity(intentSelectType);
             }
         });

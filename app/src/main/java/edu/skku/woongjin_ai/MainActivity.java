@@ -186,6 +186,8 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                         mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).setValue(today);
                     }
                 }
+
+                thisWeek = weekNum;
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
