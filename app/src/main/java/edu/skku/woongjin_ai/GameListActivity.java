@@ -1,9 +1,11 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -27,13 +29,20 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
-public class GameListActivity extends AppCompatActivity {
-    private DatabaseReference mPostReference, lsPostReference, qaPostReference;
+public class GameListActivity extends AppCompatActivity
+        implements Fragment_help.OnFragmentInteractionListener, NewHoonjangFragment.OnFragmentInteractionListener {
+    private DatabaseReference mPostReference, qaPostReference, nPostReference;
     public DatabaseReference m2PostReference;
     ArrayList<String> data;
     ArrayAdapter<String> arrayAdapter;
+    ArrayList<GameRoomInfo> gameRoomInfos=new ArrayList<GameRoomInfo>();
+
+    long Solved;
 
     String id_key, nickname_key;
     String roomname_key, friend_nickname;
@@ -51,11 +60,23 @@ public class GameListActivity extends AppCompatActivity {
     TextView userName1, userGrade1, userCoin;
 
     Intent intent, intent_makebombtype;
+    Fragment Fragment_help;
+
+    NewHoonjangFragment hoonjangFragment_bombmaster;
+
+    SharedPreferences setting;
+    SharedPreferences.Editor editor;
+    String nomore;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gamelist);
+
+        setting = getSharedPreferences("nomore", MODE_PRIVATE);
+        nomore=setting.getString("bombmaster", "keepgoing");
+
 
         gamelist = findViewById(R.id.gamelist);
         create = findViewById(R.id.create);
@@ -71,6 +92,7 @@ public class GameListActivity extends AppCompatActivity {
 
         data = new ArrayList<String>();
         mPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list");
+        nPostReference=FirebaseDatabase.getInstance().getReference();
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
 
         find = 0;
@@ -79,7 +101,6 @@ public class GameListActivity extends AppCompatActivity {
         intent = getIntent();
         id_key = intent.getExtras().getString("id");
         nickname_key = intent.getExtras().getString("nickname");
-
 
         getFirebaseDatabaseUserInfo();
 
@@ -105,9 +126,12 @@ public class GameListActivity extends AppCompatActivity {
         help.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Fragment_help = new Fragment_help();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                Fragment_help fragment = new Fragment_help();
-                transaction.replace(R.id.comment, fragment);
+                transaction.replace(R.id.comment, Fragment_help);
+                Bundle bundle = new Bundle(1);
+                bundle.putString("gamelist", "gamelist");
+                Fragment_help.setArguments(bundle);
                 transaction.commit();
             }
         });
@@ -116,8 +140,11 @@ public class GameListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 check_gamelist = 1;
-                roomname_key = gamelist.getItemAtPosition(position).toString().split("-")[0];
-                friend_nickname = gamelist.getItemAtPosition(position).toString().split("-")[1];
+                GameRoomInfo listItem=gameRoomInfos.get(position);
+                roomname_key=listItem.Roomname;
+                friend_nickname=listItem.WithWhom;
+                //roomname_key = gamelist.getItemAtPosition(position).toString().split("-")[0];
+                //friend_nickname = gamelist.getItemAtPosition(position).toString().split("-")[1];
                 final ValueEventListener checkRoom = new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -129,10 +156,34 @@ public class GameListActivity extends AppCompatActivity {
                             String temp_script = postSnapshot.child("script").getValue().toString();
                             String temp_state = postSnapshot.child("state").getValue().toString();
                             if ((temp_roomname.equals(roomname_key) && temp_user1.equals(nickname_key) && temp_user2.equals(friend_nickname))) {
-                                if (temp_state.equals("win") || temp_state.equals("win1") || temp_state.equals("win2")) {
-                                    Toast.makeText(GameListActivity.this, "이미 끝난 게임입니다.", Toast.LENGTH_SHORT).show();
+                                if (temp_state.equals("win")) {
+                                    Toast.makeText(GameListActivity.this, "Both win!", Toast.LENGTH_SHORT).show();
                                     find = 0;
                                     break;
+                                }
+                                else if (temp_state.equals("win1")) {
+                                    if (temp_user1.equals(nickname_key)) { //user1이 이겼고, user1이 본인일 때
+                                        Toast.makeText(GameListActivity.this, "You win!", Toast.LENGTH_SHORT).show();
+                                        find = 0;
+                                        break;
+                                    }
+                                    else if (!temp_user1.equals(nickname_key)) { //user1이 이겼는데, user1이 본인이 아니라 상대방일 때
+                                        Toast.makeText(GameListActivity.this, "You lose...", Toast.LENGTH_SHORT).show();
+                                        find = 0;
+                                        break;
+                                    }
+                                }
+                                else if (temp_state.equals("win2")) {
+                                    if (temp_user2.equals(nickname_key)) { //user2이 이겼고, user2이 본인일 때
+                                        Toast.makeText(GameListActivity.this, "You win!", Toast.LENGTH_SHORT).show();
+                                        find = 0;
+                                        break;
+                                    }
+                                    else if (!temp_user2.equals(nickname_key)) { //user2이 이겼는데, user2이 본인이 아니라 상대방일 때
+                                        Toast.makeText(GameListActivity.this, "You lose...", Toast.LENGTH_SHORT).show();
+                                        find = 0;
+                                        break;
+                                    }
                                 }
                                 else if (temp_state.equals("gaming0")) {
                                     timestamp_key = temp_timestamp;
@@ -156,42 +207,41 @@ public class GameListActivity extends AppCompatActivity {
                                     script_key = temp_script;
                                     state_key = temp_state;
                                     bomb_cnt = state_key.charAt(6);
-                                    Log.d("GameListActivityError", roomname_key+script_key+state_key);
                                     last = postSnapshot.child("quiz_list").child("quiz"+bomb_cnt).child("last").getValue().toString();
                                     solve = postSnapshot.child("quiz_list").child("quiz"+bomb_cnt).child("solve").getValue().toString();
-                                    Log.d("GameListActivityError", last+" / "+solve);
                                     find = 1;
-                                    //Toast.makeText(GameListActivity.this, timestamp_key+user1_key+user2_key+roomname_key+script_key+state_key+bomb_cnt, Toast.LENGTH_SHORT).show();
-
-                                    /*
-                                    lsPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key);
-                                    final ValueEventListener checklast = new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            for (DataSnapshot postSnapshot : dataSnapshot.child("quiz_list").getChildren()) {
-                                                String quiznum = postSnapshot.getKey();
-                                                last = quiznum.split("quiz")[0];
-                                                solve = postSnapshot.child("solve").getValue().toString();
-                                                if (quiznum.contains("quiz" + bomb_cnt)) {
-                                                    break;
-                                                }
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                        }
-                                    };
-                                    lsPostReference.addValueEventListener(checklast);
-                                    */
                                     break;
                                 }
                             }
                             else if (temp_roomname.equals(roomname_key) && temp_user1.equals(friend_nickname) && temp_user2.equals(nickname_key)) {
-                                if (temp_state.equals("win") || temp_state.equals("win1") || temp_state.equals("win2")) {
-                                    Toast.makeText(GameListActivity.this, "이미 끝난 게임입니다.", Toast.LENGTH_SHORT).show();
+                                if (temp_state.equals("win")) {
+                                    Toast.makeText(GameListActivity.this, "Both win!", Toast.LENGTH_SHORT).show();
                                     find = 0;
                                     break;
+                                }
+                                else if (temp_state.equals("win1")) {
+                                    if (temp_user1.equals(nickname_key)) { //user1이 이겼고, user1이 본인일 때
+                                        Toast.makeText(GameListActivity.this, "You win!", Toast.LENGTH_SHORT).show();
+                                        find = 0;
+                                        break;
+                                    }
+                                    else if (!temp_user1.equals(nickname_key)) { //user1이 이겼는데, user1이 본인이 아니라 상대방일 때
+                                        Toast.makeText(GameListActivity.this, "You lose...", Toast.LENGTH_SHORT).show();
+                                        find = 0;
+                                        break;
+                                    }
+                                }
+                                else if (temp_state.equals("win2")) {
+                                    if (temp_user2.equals(nickname_key)) { //user2이 이겼고, user2이 본인일 때
+                                        Toast.makeText(GameListActivity.this, "You win!", Toast.LENGTH_SHORT).show();
+                                        find = 0;
+                                        break;
+                                    }
+                                    else if (!temp_user2.equals(nickname_key)) { //user2이 이겼는데, user2이 본인이 아니라 상대방일 때
+                                        Toast.makeText(GameListActivity.this, "You lose...", Toast.LENGTH_SHORT).show();
+                                        find = 0;
+                                        break;
+                                    }
                                 }
                                 else if (temp_state.equals("gaming0")) {
                                     timestamp_key = temp_timestamp;
@@ -215,12 +265,9 @@ public class GameListActivity extends AppCompatActivity {
                                     script_key = temp_script;
                                     state_key = temp_state;
                                     bomb_cnt = state_key.charAt(6);
-                                    Log.d("GameListActivityError", roomname_key+script_key+state_key);
                                     last = postSnapshot.child("quiz_list").child("quiz"+bomb_cnt).child("last").getValue().toString();
                                     solve = postSnapshot.child("quiz_list").child("quiz"+bomb_cnt).child("solve").getValue().toString();
-                                    Log.d("GameListActivityError", last+" / "+solve);
                                     find = 1;
-                                    //Toast.makeText(GameListActivity.this, timestamp_key+user1_key+user2_key+roomname_key+script_key+state_key+bomb_cnt, Toast.LENGTH_SHORT).show();
                                     break;
                                 }
                             }
@@ -248,7 +295,11 @@ public class GameListActivity extends AppCompatActivity {
                     else if (find == 1 && last.equals(nickname_key) && solve.equals("none")) {
                         Toast.makeText(GameListActivity.this, "상대방이 아직 문제를 풀지 않았습니다.", Toast.LENGTH_SHORT).show();
                     }
+                    else if (find == 1 && !last.equals(nickname_key) && solve.equals("none") && !last.equals("none")) {
+                        Toast.makeText(GameListActivity.this, "문제를 먼저 풀어주세요.", Toast.LENGTH_SHORT).show();
+                    }
                     else if (find == 1 && last.equals("none") && solve.equals("none")) {
+                        Toast.makeText(GameListActivity.this, "상대방에게 문제를 내러 가보자!", Toast.LENGTH_SHORT).show();
                         intent_makebombtype = new Intent(GameListActivity.this, MakeBombTypeActivity.class);
                         intent_makebombtype.putExtra("timestamp", timestamp_key);
                         intent_makebombtype.putExtra("id", id_key);
@@ -260,7 +311,8 @@ public class GameListActivity extends AppCompatActivity {
                         intent_makebombtype.putExtra("state", state_key);
                         startActivity(intent_makebombtype);
                     }
-                    else if (find == 1 && !last.equals(nickname_key) && !solve.equals("none") && bomb_cnt-'0' != 6) {
+                    else if (find == 1 && !last.equals(nickname_key) && (!solve.equals("none") || solve.equals(nickname_key)) && bomb_cnt-'0' != 6) {
+                        Toast.makeText(GameListActivity.this, "상대방에게 다시 폭탄을 돌려주자!", Toast.LENGTH_SHORT).show();
                         intent_makebombtype = new Intent(GameListActivity.this, MakeBombTypeActivity.class);
                         intent_makebombtype.putExtra("timestamp", timestamp_key);
                         intent_makebombtype.putExtra("id", id_key);
@@ -288,11 +340,14 @@ public class GameListActivity extends AppCompatActivity {
                     else if (find == 1 && last.equals(nickname_key)) {
                         Toast.makeText(GameListActivity.this, "상대방이 아직 문제를 제출하지 않았습니다.", Toast.LENGTH_SHORT).show();
                     }
-                    else if (find == 1 && last.equals("none") && solve.equals("none")){
+                    else if (find == 1 && last.equals("none") && solve.equals("none")) {
                         Toast.makeText(GameListActivity.this, "문제를 먼저 만들어주세요.", Toast.LENGTH_SHORT).show();
                     }
+                    else if (find == 1 && !last.equals(nickname_key) && solve.equals(nickname_key)) { //마지막으로 상대방이 문제를 내고, 내가 풀었는데, 문제를 다시 toss 하지 않았을 때
+                        Toast.makeText(GameListActivity.this, "문제를 낼 차례입니다.", Toast.LENGTH_SHORT).show();
+                    }
                     else if (find == 1 && !last.equals(nickname_key) && solve.equals("none")) {
-                        Log.d("GameListActivityError", "correct else if");
+                        Toast.makeText(GameListActivity.this, "상대방이 보낸 폭탄이 도착했어!", Toast.LENGTH_SHORT).show();
                         qaPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list").child(timestamp_key).child("quiz_list");
                         final ValueEventListener findQna = new ValueEventListener() {
                             @Override
@@ -301,11 +356,9 @@ public class GameListActivity extends AppCompatActivity {
                                     String key = postSnapshot.getKey();
                                     type_key = postSnapshot.child("type").getValue().toString();
                                     question_key = postSnapshot.child("question").getValue().toString();
-                                    Log.d("GameListActivityError", key+type_key+question_key);
                                     if (key.equals("quiz" + bomb_cnt)) {
                                         if (type_key.equals("ox")) {
                                             answer_key = postSnapshot.child("answer").getValue().toString();
-                                            Log.d("GameListActivityError", key+type_key+question_key+answer_key);
                                             ans1_key = "";
                                             ans2_key = "";
                                             ans3_key = "";
@@ -327,7 +380,6 @@ public class GameListActivity extends AppCompatActivity {
                                         }
                                         else if (type_key.equals("shortword")) {
                                             answer_key = postSnapshot.child("answer").getValue().toString();
-                                            Log.d("GameListActivityError", key+type_key+question_key+answer_key);
                                             ans1_key = "";
                                             ans2_key = "";
                                             ans3_key = "";
@@ -353,7 +405,6 @@ public class GameListActivity extends AppCompatActivity {
                                             ans2_key = postSnapshot.child("answer2").getValue().toString();
                                             ans3_key = postSnapshot.child("answer3").getValue().toString();
                                             ans4_key = postSnapshot.child("answer4").getValue().toString();
-                                            Log.d("GameListActivityError", key+type_key+question_key+answer_key);
                                             Intent intent_solvebombchoice = new Intent(GameListActivity.this, SolveBombChoiceActivity.class);
                                             intent_solvebombchoice.putExtra("timestamp", timestamp_key);
                                             intent_solvebombchoice.putExtra("id", id_key);
@@ -387,8 +438,7 @@ public class GameListActivity extends AppCompatActivity {
                 }
             }
         });
-
-        gamelist.setAdapter(arrayAdapter);
+        gameRoomInfos.clear();
         getFirebaseDatabase();
     }
 
@@ -397,22 +447,84 @@ public class GameListActivity extends AppCompatActivity {
             ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    data.clear();
+                    GameListAdapter gameListAdapter=new GameListAdapter();
+                    //String roomname, String withwhom, String status
+                    String roomname="", withwhom="", status="";
+                    String lastperson="", solveperson="";
+                    gameRoomInfos.clear();
                     for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                         String user1 = postSnapshot.child("user1").getValue().toString();
                         String user2 = postSnapshot.child("user2").getValue().toString();
-                        if (user1.equals(nickname_key)) {
-                            FirebasePost_list get = postSnapshot.getValue(FirebasePost_list.class);
-                            data.add(get.roomname + "-" + get.user2);
+                        String temp_status = postSnapshot.child("state").getValue().toString();
+                        char bombcount;
+                        if(!temp_status.equals("win") && !temp_status.equals("win1") && !temp_status.equals("win2")){
+                            bombcount = temp_status.charAt(6);
+                        }else{
+                            bombcount='x';
                         }
-                        else if (user2.equals(nickname_key)) {
+                        if(bombcount=='0'){
+                            lastperson="none";
+                            solveperson="none";
+                        }
+                        else if(bombcount!='x'){
+                            lastperson = postSnapshot.child("quiz_list").child("quiz" + bombcount).child("last").getValue().toString();
+                            solveperson = postSnapshot.child("quiz_list").child("quiz" + bombcount).child("solve").getValue().toString();
+                        }
+
+                        if (user1.equals(nickname_key)) { //내가 user1
                             FirebasePost_list get = postSnapshot.getValue(FirebasePost_list.class);
-                            data.add(get.roomname + "-" + get.user1);
+                            //data.add(get.roomname + "-" + get.user2);
+                            withwhom=get.user2;
+                            roomname=get.roomname;
+
+                            if (bombcount=='x'){ //ok
+                                status="end";
+                            }
+                            else if (bombcount=='0'||(bombcount-'0')%2==0 && solveperson.equals(nickname_key)) {
+                                status="myturn";
+                            }
+                            else if ((bombcount-'0')%2==0 && solveperson.equals("none")) { //ok
+                                status="newbomb";
+                            }
+                            else if ((bombcount-'0')%2==1) { //ok
+                                status="elseturn";
+                            }
+                            else{
+                                Log.d("폭탄에러났슈user1", "에러유");
+                            }
+                            GameRoomInfo roomInfo=new GameRoomInfo(roomname, withwhom, status);
+                            gameRoomInfos.add(roomInfo);
+                            gameListAdapter.addItem(roomname, withwhom, status);
+                        }
+                        else if (user2.equals(nickname_key)) { //내가 user2
+                            FirebasePost_list get = postSnapshot.getValue(FirebasePost_list.class);
+                            //data.add(get.roomname + "-" + get.user1);
+                            withwhom=get.user1;
+                            roomname=get.roomname;
+
+                            if (bombcount=='x'){ //ok
+                                status="end";
+                            }
+                            else if ((bombcount-'0')%2==1 && solveperson.equals(nickname_key)) {
+                                status="myturn";
+                            }
+                            else if ((bombcount-'0')%2==1 && solveperson.equals("none")) { //ok
+                                status="newbomb";
+                            }
+                            else if ((bombcount-'0')%2==0) { //ok
+                                status="elseturn";
+                            }
+                            else{
+                                Log.d("폭탄에러났슈user2", "에러유");
+                            }
+                            GameRoomInfo roomInfo=new GameRoomInfo(roomname, withwhom, status);
+                            gameRoomInfos.add(roomInfo);
+                            gameListAdapter.addItem(roomname, withwhom, status);
                         }
                     }
-                    arrayAdapter.clear();
-                    arrayAdapter.addAll(data);
-                    arrayAdapter.notifyDataSetChanged();
+                    gamelist.setAdapter(gameListAdapter);
+                    gamelist.clearChoices();
+                    gameListAdapter.notifyDataSetChanged();
                 }
 
                 @Override
@@ -428,6 +540,60 @@ public class GameListActivity extends AppCompatActivity {
         final ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Solved=0;
+                DataSnapshot dataSnapshot1=dataSnapshot.child("user_list/"+id_key+"/my_week_list");
+                for(DataSnapshot dataSnapshot2: dataSnapshot1.getChildren()){ //week 껍데기
+                    Solved+=Long.parseLong(dataSnapshot2.child("solvebomb").getValue().toString());
+                }
+                Calendar calendar = Calendar.getInstance();
+                Date dateS = calendar.getTime();
+                String MedalUpdate = new SimpleDateFormat("yyyy-MM-dd").format(dateS);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                hoonjangFragment_bombmaster=new NewHoonjangFragment();
+
+                if(Solved==365 && nomore.equals("stop2")) {
+                    uploadFirebaseUserCoinInfo_H("폭탄마스터", 3);
+                    nPostReference.child("user_list/" + id_key + "/my_medal_list/폭탄마스터").setValue("Lev3##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("bombmaster", "stop3");
+                    editor.commit();
+                    transaction.replace(R.id.gamelist_main, hoonjangFragment_bombmaster);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "bombmaster");
+                    bundle.putString("from", "gamelist");
+                    bundle.putInt("level", 3);
+                    hoonjangFragment_bombmaster.setArguments(bundle);
+                    transaction.commit();
+                }else if(Solved==100 && nomore.equals("stop1")){
+                    uploadFirebaseUserCoinInfo_H("폭탄마스터", 2);
+                    nPostReference.child("user_list/" + id_key + "/my_medal_list/출석왕").setValue("Lev2##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("bombmaster", "stop2");
+                    editor.commit();
+                    transaction.replace(R.id.gamelist_main, hoonjangFragment_bombmaster);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "bombmaster");
+                    bundle.putString("from", "gamelist");
+                    bundle.putInt("level", 2);
+                    hoonjangFragment_bombmaster.setArguments(bundle);
+                    transaction.commit();
+                }else if(Solved==30 && nomore.equals("keepgoing")){
+                    uploadFirebaseUserCoinInfo_H("폭탄마스터", 1);
+                    nPostReference.child("user_list/" + id_key + "/my_medal_list/출석왕").setValue("Lev1##"+MedalUpdate);
+                    SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
+                    editor=sf.edit();
+                    editor.putString("bombmaster", "stop1");
+                    editor.commit();
+                    transaction.replace(R.id.gamelist_main, hoonjangFragment_bombmaster);
+                    Bundle bundle = new Bundle(3);
+                    bundle.putString("what", "bombmaster");
+                    bundle.putString("from", "gamelist");
+                    bundle.putInt("level", 1);
+                    hoonjangFragment_bombmaster.setArguments(bundle);
+                    transaction.commit();
+                }
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
                     if (key.equals("user_list")) {
@@ -448,5 +614,37 @@ public class GameListActivity extends AppCompatActivity {
             }
         };
         m2PostReference.addValueEventListener(postListener);
+    }
+
+    private void uploadFirebaseUserCoinInfo_H(String hoonjangname, int level){
+        nPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                nPostReference.child("user_list/" + id_key + "/my_coin_list/" + today + "/get").setValue(Integer.toString(level*100));
+                nPostReference.child("user_list/" + id_key + "/my_coin_list/" + today + "/why").setValue(hoonjangname+" 레벨 "+Integer.toString(level)+"달성!");
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String key=dataSnapshot1.getKey();
+                    if(key.equals("user_list")){
+                        String mycoin=dataSnapshot1.child(id_key).child("coin").getValue().toString();
+                        int coin = Integer.parseInt(mycoin) + level*100;
+                        String coin_convert = Integer.toString(coin);
+                        nPostReference.child("user_list/" + id_key).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

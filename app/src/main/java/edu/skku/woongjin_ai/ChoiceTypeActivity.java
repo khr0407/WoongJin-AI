@@ -23,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -192,6 +194,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
                         Toast.makeText(ChoiceTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                     } else {
                         postFirebaseDatabaseQuizChoice();
+                        uploadFirebaseUserCoinInfo();
                         if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
                         Toast.makeText(ChoiceTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
 
@@ -467,6 +470,33 @@ public class ChoiceTypeActivity extends AppCompatActivity
         editAns2.setText("");
         editAns3.setText("");
         editAns4.setText("");
+    }
+
+    private void uploadFirebaseUserCoinInfo(){
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/get").setValue("10");
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/why").setValue("지문 [" + scriptnm + "]에 대한 퀴즈를 냈어요.");
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String key=dataSnapshot1.getKey();
+                    if(key.equals("user_list")){
+                        String mycoin=dataSnapshot1.child(id).child("coin").getValue().toString();
+                        int coin = Integer.parseInt(mycoin) + 10;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child("user_list/" + id).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     @Override

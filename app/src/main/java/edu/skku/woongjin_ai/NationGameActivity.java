@@ -1,8 +1,11 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -27,20 +30,26 @@ import com.kakao.network.ErrorResult;
 import com.kakao.network.callback.ResponseCallback;
 import com.kakao.util.helper.log.Logger;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class NationGameActivity extends AppCompatActivity {
     private DatabaseReference mPostReference, sPostReference, gPostReference;
     ListView friend_list, script_list;
-    ArrayList<String> data, data1;
-    ArrayAdapter<String> arrayAdapter, arrayAdapter1;
+    ArrayList<ShowFriendListItem> data;
+    ArrayList<String> data1;
+    ShowFriendListAdapter arrayAdapter;
+    ArrayAdapter<String> arrayAdapter1;
 
     String id_key, nickname_key;
     String friend_nickname, script_name;
     ImageButton invitefriend, imageButtonHome;
 
+    long Solved;
     String text_roomname;
     EditText editText_roomname;
     Button create;
@@ -52,6 +61,7 @@ public class NationGameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nationgame);
+
 
         check_choose = 0;
         check_script = 0;
@@ -65,14 +75,14 @@ public class NationGameActivity extends AppCompatActivity {
 
         friend_list = findViewById(R.id.friend_list);
         script_list = findViewById(R.id.script_list);
-        data = new ArrayList<String>();
+        data = new ArrayList<>();
         data1 = new ArrayList<String>();
 
         intent = getIntent();
         id_key = intent.getStringExtra("id");
         nickname_key = intent.getStringExtra("nickname");
 
-        arrayAdapter = new ArrayAdapter<String>(NationGameActivity.this, android.R.layout.simple_list_item_1);
+        arrayAdapter = new ShowFriendListAdapter();
         arrayAdapter1 = new ArrayAdapter<String>(NationGameActivity.this, android.R.layout.simple_list_item_1);
 
         friend_list.setAdapter(arrayAdapter);
@@ -117,8 +127,9 @@ public class NationGameActivity extends AppCompatActivity {
 
         friend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                friend_nickname = friend_list.getItemAtPosition(position).toString();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //custom listview에서 data 받아오기
+                ShowFriendListItem temp_show = (ShowFriendListItem) parent.getItemAtPosition(position);
+                friend_nickname = temp_show.getNameFriend();
                 check_choose = 1;
             }
         });
@@ -206,7 +217,8 @@ public class NationGameActivity extends AppCompatActivity {
     private ResponseCallback<KakaoLinkResponse> callback;
     private Map<String, String> serverCallbackArgs = getServerCallbackArgs();
 
-    /*public void getFirebaseDatabase() {
+
+    public void getFirebaseDatabase() {
         try {
             final ValueEventListener postListener = new ValueEventListener() {
                 @Override
@@ -214,7 +226,7 @@ public class NationGameActivity extends AppCompatActivity {
                     ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         UserInfo friend = snapshot.getValue(UserInfo.class);
-                        showFriendListAdapter.addItem(friend.profile, friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
+                        showFriendListAdapter.addItem(friend.profile, friend.nickname, friend.grade, friend.school);
                     }
                     friend_list.setAdapter(showFriendListAdapter);
                 }
@@ -227,8 +239,10 @@ public class NationGameActivity extends AppCompatActivity {
         } catch (java.lang.NullPointerException e) {
 
         }
-    }*/
-    public void getFirebaseDatabase() {
+    }
+
+
+    /*public void getFirebaseDatabase() {
         try {
             final ValueEventListener postListener = new ValueEventListener() {
                 @Override
@@ -251,7 +265,7 @@ public class NationGameActivity extends AppCompatActivity {
         } catch (java.lang.NullPointerException e) {
 
         }
-    }
+    }*/
 
     public void getFirebaseDatabaseScriptList() {
         try {
@@ -300,4 +314,5 @@ public class NationGameActivity extends AppCompatActivity {
         }
         return true;
     }
+
 }

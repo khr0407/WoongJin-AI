@@ -9,6 +9,15 @@ public class ShowFriendListItem {
     private String gradeFriend;
     private String schoolFriend;
 
+    public ShowFriendListItem() {}
+
+    public ShowFriendListItem(String faceFriend, String nameFriend, String gradeFriend, String schoolFriend) {
+        this.faceFriend = faceFriend;
+        this.nameFriend = nameFriend;
+        this.gradeFriend = gradeFriend;
+        this.schoolFriend = schoolFriend;
+    }
+
     public String getFaceFriend() {
         return faceFriend;
     }

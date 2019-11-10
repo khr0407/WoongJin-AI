@@ -12,7 +12,7 @@
         android:padding="70dp">
 
         <TextView
-            android:id="@+id/textCheckCorrect"
+            android:id="@+id/textCheck"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.7"
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="0.1"
-                android:text="50 포인트"
+                android:text="20 포인트"
                 android:fontFamily="@font/bmjua_ttf"
                 android:textColor="#FF0000"
                 android:textSize="30dp"
@@ -103,6 +103,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5" />
+
 
             <ImageButton
                 android:id="@+id/send"

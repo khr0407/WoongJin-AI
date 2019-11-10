@@ -13,4 +13,6 @@
     <color name="lightred">#ff6666</color>
     <color name="yellow">#FFCC00</color>
     <color name="lightgreen">#B8CE30</color>
+    <color name="red">#EB0000</color>
+    <color name="dimgray">#696969</color>
 </resources>

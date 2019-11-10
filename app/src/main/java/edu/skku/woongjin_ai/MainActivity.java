@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/level").setValue(0);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/like").setValue(0);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/made").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/solvebomb").setValue(0);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/firstDateOfWeek").setValue(startDate2);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).setValue(today);
                 } else {
@@ -218,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                 //nomore_read = setting.getString("main_read", "keepgoing");
 
                 if(AttendCount==365 && nomore_atd.equals("stop2")) {
+                    uploadFirebaseUserCoinInfo_H("출석왕", 3);
                     mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev3##"+MedalUpdate);
                     SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
                     editor=sf.edit();
@@ -231,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                     hoonjangFragment_attend.setArguments(bundle);
                     transaction.commit();
                 }else if(AttendCount==100 && nomore_atd.equals("stop1")){
+                    uploadFirebaseUserCoinInfo_H("출석왕", 2);
                     mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev2##"+MedalUpdate);
                     SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
                     editor=sf.edit();
@@ -244,6 +247,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                     hoonjangFragment_attend.setArguments(bundle);
                     transaction.commit();
                 }else if(AttendCount==30 && nomore_atd.equals("keepgoing")){
+                    uploadFirebaseUserCoinInfo_H("출석왕", 1);
                     mPostReference.child("user_list/" + id + "/my_medal_list/출석왕").setValue("Lev1##"+MedalUpdate);
                     SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
                     editor=sf.edit();
@@ -258,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                     transaction.commit();
                 }
                 if(ReadCount==150 && nomore_read.equals("stop2")) {
+                    uploadFirebaseUserCoinInfo_H("다독왕", 3);
                     mPostReference.child("user_list/" + id + "/my_medal_list/다독왕").setValue("Lev3##"+MedalUpdate);
                     SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
                     editor=sf.edit();
@@ -271,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                     hoonjangFragment_read.setArguments(bundle);
                     transaction.commit();
                 }else if(ReadCount==100 && nomore_read.equals("stop1")){
+                    uploadFirebaseUserCoinInfo_H("다독왕", 2);
                     mPostReference.child("user_list/" + id + "/my_medal_list/다독왕").setValue("Lev2##"+MedalUpdate);
                     SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
                     editor=sf.edit();
@@ -284,6 +290,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                     hoonjangFragment_read.setArguments(bundle);
                     transaction.commit();
                 }else if(ReadCount==50 && nomore_read.equals("keepgoing")){
+                    uploadFirebaseUserCoinInfo_H("다독왕", 1);
                     mPostReference.child("user_list/" + id + "/my_medal_list/다독왕").setValue("Lev1##"+MedalUpdate);
                     SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
                     editor=sf.edit();
@@ -300,6 +307,33 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+    }
+
+    private void uploadFirebaseUserCoinInfo_H(String hoonjangname, int level){
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/get").setValue(Integer.toString(level*100));
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/why").setValue(hoonjangname+" 레벨 "+Integer.toString(level)+"달성!");
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String key=dataSnapshot1.getKey();
+                    if(key.equals("user_list")){
+                        String mycoin=dataSnapshot1.child(id).child("coin").getValue().toString();
+                        int coin = Integer.parseInt(mycoin) + level*100;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child("user_list/" + id).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
         });
     }
 

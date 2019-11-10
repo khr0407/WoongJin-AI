@@ -72,7 +72,7 @@ public class MakeBombShortwordActivity extends AppCompatActivity
             public void onClick(View v) {
                 showScriptFragment = new ShowScriptFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptShortword, showScriptFragment);
+                transaction.replace(R.id.contents3, showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", scriptnm);
                 bundle.putString("type", "makebombshortword");

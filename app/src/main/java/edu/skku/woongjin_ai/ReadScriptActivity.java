@@ -72,6 +72,7 @@ public class ReadScriptActivity extends AppCompatActivity
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/ex").setValue("test3Ex");
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/meaning").setValue("test3Meaning");
 
+
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
 //        dataReference = storageReference.child("/scripts_background/" + backgroundID);
@@ -115,6 +116,7 @@ public class ReadScriptActivity extends AppCompatActivity
         goMakeQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                uploadFirebaseUserCoinInfo();
                 intentMakeQuiz = new Intent(ReadScriptActivity.this, SelectTypeActivity.class);
                 intentMakeQuiz.putExtra("id", id);
                 intentMakeQuiz.putExtra("scriptnm", scriptnm);
@@ -122,6 +124,8 @@ public class ReadScriptActivity extends AppCompatActivity
                 startActivity(intentMakeQuiz);
             }
         });
+
+
 
 //        goStudyWord.setOnClickListener(new View.OnClickListener() {
 //        @Override
@@ -133,7 +137,34 @@ public class ReadScriptActivity extends AppCompatActivity
 //            startActivity(intentStudyWord);
 //        }
 //    });
-}
+    }
+
+    private void uploadFirebaseUserCoinInfo(){
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/get").setValue("20");
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/why").setValue("지문 [" + scriptnm + "]을(를) 읽었어요.");
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String key=dataSnapshot1.getKey();
+                    if(key.equals("user_list")){
+                        String mycoin=dataSnapshot1.child(id).child("coin").getValue().toString();
+                        int coin = Integer.parseInt(mycoin) + 10;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child("user_list/" + id).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
 
     public void onStudyTypeInfoSet(String type) {
         studyType = type;

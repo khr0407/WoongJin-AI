@@ -44,7 +44,7 @@
                 android:layout_weight="8"
                 android:fontFamily="@font/bmjua_ttf"
                 android:gravity="left|center"
-                android:text="아쉽게도 폭탄이 터져버렸어..."
+                android:text="            아쉽게도 폭탄이 터져버렸어..."
                 android:textColor="@color/white"
                 android:textSize="30dp" />
 

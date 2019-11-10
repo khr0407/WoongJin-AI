@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/typo_sherlock_b"
+                android:fontFamily="@font/bmjua_ttf"
                 android:textSize="30dp"
                 android:gravity="center|left"/>
 
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/typo_sherlock_l"
+                android:fontFamily="@font/bmjua_ttf"
                 android:textSize="20dp"
                 android:gravity="center|left"/>
 
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:fontFamily="@font/typo_sherlock_l"
+                android:fontFamily="@font/bmjua_ttf"
                 android:textSize="20dp"
                 android:gravity="center|left"/>
 

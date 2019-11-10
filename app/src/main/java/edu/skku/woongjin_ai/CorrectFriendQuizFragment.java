@@ -95,6 +95,7 @@ public class CorrectFriendQuizFragment extends Fragment {
         oldLevel = Float.parseFloat(star);
 
         textViewID.setText("정답이야 " + id + "! 수고했어^^");
+        uploadFirebaseUserCoinInfo_correct();
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
@@ -137,6 +138,7 @@ public class CorrectFriendQuizFragment extends Fragment {
                     mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/cnt").setValue(cnt+1);
 
                     Toast.makeText(context, "제출이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                    uploadFirebaseUserCoinInfo_rated();
 
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -309,6 +311,61 @@ public class CorrectFriendQuizFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void uploadFirebaseUserCoinInfo_correct(){
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/get").setValue("10");
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/why").setValue("["+scriptnm+"]에 대한 친구의 문제를 맞췄어요.");
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String key=dataSnapshot1.getKey();
+                    if(key.equals("user_list")){
+                        String mycoin=dataSnapshot1.child(id).child("coin").getValue().toString();
+                        int coin = Integer.parseInt(mycoin) + 10;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child("user_list/" + id).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+
+    private void uploadFirebaseUserCoinInfo_rated(){
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/get").setValue("10");
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/why").setValue("["+scriptnm+"]에 대한 친구의 문제를 평가했어요.");
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String key=dataSnapshot1.getKey();
+                    if(key.equals("user_list")){
+                        String mycoin=dataSnapshot1.child(id).child("coin").getValue().toString();
+                        int coin = Integer.parseInt(mycoin) + 10;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child("user_list/" + id).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     public void onButtonPressed(Uri uri) {

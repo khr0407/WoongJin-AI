@@ -27,12 +27,12 @@
                     android:id="@+id/textView7"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.1"
+                    android:layout_weight="0.65"
                     android:fontFamily="@font/bmjua_ttf"
                     android:gravity="right|center"
                     android:text="제한시간 "
                     android:textColor="@color/white"
-                    android:textSize="20dp" />
+                    android:textSize="40dp" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -50,13 +50,13 @@
                         android:id="@+id/timer"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.8"
+                        android:layout_weight="3"
                         android:fontFamily="@font/bmjua_ttf"
                         android:gravity="center"
                         android:padding="1dp"
                         android:text=" 1:00 "
-                        android:textColor="@color/white"
-                        android:textSize="20dp" />
+                        android:textColor="@color/red"
+                        android:textSize="40dp" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -68,12 +68,12 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="0.55"
                     android:fontFamily="@font/bmjua_ttf"
                     android:gravity="left|center"
                     android:text=" 초"
                     android:textColor="@color/white"
-                    android:textSize="20dp" />
+                    android:textSize="40dp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -87,13 +87,40 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.8"
-                android:orientation="horizontal"></LinearLayout>
+                android:layout_weight="1.4"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.0"
+                    android:orientation="vertical" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:id="@+id/bomb_animate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:background="#00FFFFFF"
+                        android:padding="20dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/bomb_animate" />
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="2.5"
                 android:orientation="vertical">
 
                 <TextView
@@ -104,7 +131,7 @@
                     android:gravity="center"
                     android:text="객관식 문제는 두 번의 기회가 주어집니다."
                     android:textColor="@color/white"
-                    android:textSize="15dp" />
+                    android:textSize="30dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -126,7 +153,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.8"
+                android:layout_weight="1.4"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -144,6 +171,7 @@
                         android:layout_marginBottom="5dp"
                         android:layout_weight="1"
                         android:background="#00FFFFFF"
+                        android:padding="15dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/battle_bubble" />
 
@@ -152,7 +180,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.18"
+                    android:layout_weight="0.5"
                     android:orientation="vertical" />
             </LinearLayout>
 
@@ -167,7 +195,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="3"
+                android:layout_weight="3.2"
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -207,10 +235,10 @@
                     android:layout_height="0dp"
                     android:layout_weight="3"
                     android:fontFamily="@font/bmjua_ttf"
-                    android:gravity="center_vertical"
+                    android:gravity="center"
                     android:padding="20dp"
                     android:textColor="@color/white"
-                    android:textSize="25dp" />
+                    android:textSize="35dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -309,7 +337,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.1"
                     android:orientation="horizontal"></LinearLayout>
 
                 <ImageButton
@@ -319,7 +347,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
-                    android:layout_weight="1.8"
+                    android:layout_weight="2.7"
                     android:background="#00FFFFFF"
                     android:padding="22dp"
                     android:scaleType="centerCrop"
@@ -341,19 +369,38 @@
                 android:layout_weight="0.5"
                 android:orientation="horizontal"></LinearLayout>
 
-            <ImageButton
-                android:id="@+id/script"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:padding="15dp"
                 android:layout_weight="1"
-                android:background="#00FFFFFF"
-                android:scaleType="centerCrop"
-                android:src="@drawable/readscript_battle" />
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.4"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/script"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="#00FFFFFF"
+                    android:padding="25dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/readscript_battle" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.3"
+                    android:orientation="horizontal"></LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -366,10 +413,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="5dp"
                 android:layout_weight="0.8"
                 android:background="@drawable/filet_white"
                 android:fontFamily="@font/bmjua_ttf"

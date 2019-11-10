@@ -59,9 +59,10 @@ import static com.kakao.usermgmt.StringSet.nickname;
 public class MyPageActivity extends AppCompatActivity{
 
     public DatabaseReference mPostReference;
-    Intent intent, intentGoHome, intentAddFriend, intent_LikeList, intent_QList, intentHome, intent_Record;
+    Intent intent, intentGoHome, intentAddFriend, intentCoinRecord, intent_LikeList, intent_QList, intentHome, intent_Record;
     String id, profileUri;
     ImageButton logout;
+    Button coin_record;
     ImageButton goHome, btnLikeList, btnQList, btnFriendList, btnChangePicture, btnUpload, btnRecord;
     ImageView attendw, readw, quizw, quizhunterw, bombmasterw, bucketw;
     TextView userGrade, userSchool, userName, userCoin, userName1, userGrade1;
@@ -126,6 +127,7 @@ public class MyPageActivity extends AppCompatActivity{
         quizhunterd = (TextView) findViewById(R.id.quiz_hunter_date);
         bombmasterd = (TextView) findViewById(R.id.bomb_master_date);
         bucketd = (TextView) findViewById(R.id.bucket_wang_date);
+        coin_record=(Button)findViewById(R.id.CoinRecord);
 
 
         weekInfos = new ArrayList<WeekInfo>();
@@ -161,6 +163,18 @@ public class MyPageActivity extends AppCompatActivity{
                 intentAddFriend = new Intent(MyPageActivity.this, ShowFriendActivity.class);
                 intentAddFriend.putExtra("id", id);
                 startActivity(intentAddFriend);
+            }
+        });
+
+        coin_record.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                intentCoinRecord=new Intent(MyPageActivity.this, MyCoinRecordActivity.class);
+                intentCoinRecord.putExtra("id", id);
+                intentCoinRecord.putExtra("grade", userGrade1.getText());
+                intentCoinRecord.putExtra("name", userName1.getText());
+                intentCoinRecord.putExtra("coin", userCoin.getText());
+                startActivity(intentCoinRecord);
             }
         });
 
@@ -315,7 +329,7 @@ public class MyPageActivity extends AppCompatActivity{
                                 userSchool.setText(me.school);
                                 userGrade.setText(me.grade + "학년");
                                 userGrade1.setText(me.grade + "학년");
-                                userCoin.setText(me.coin + " 코인");
+                                userCoin.setText(me.coin + "코인");
                                 profileUri = me.profile;
                                 if (!profileUri.equals("noimage")) {
                                     storage = FirebaseStorage.getInstance();
