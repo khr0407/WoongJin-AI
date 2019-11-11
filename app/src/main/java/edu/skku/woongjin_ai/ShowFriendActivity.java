@@ -93,11 +93,11 @@ public class ShowFriendActivity extends Activity {
 
 
 
-        searchedFace=(ImageView)findViewById(R.id.friendFace);
-        searchedName=(TextView)findViewById(R.id.friendName);
-        searchedGrade=(TextView)findViewById(R.id.friendGrade);
-        searchedSchool=(TextView)findViewById(R.id.friendSchool);
-        searchedAddfriend=(ImageButton)findViewById(R.id.addFriendButton);
+        //searchedFace=(ImageView)findViewById(R.id.friendFace);
+        //searchedName=(TextView)findViewById(R.id.friendName);
+        //searchedGrade=(TextView)findViewById(R.id.friendGrade);
+        //searchedSchool=(TextView)findViewById(R.id.friendSchool);
+        //searchedAddfriend=(ImageButton)findViewById(R.id.addFriendButton);
         goback=(Button)findViewById(R.id.goback);
 
 //        check_choose = 0;
@@ -113,6 +113,7 @@ public class ShowFriendActivity extends Activity {
 
         myFriendList = new ArrayList<String>();
         recommendfriend_list = findViewById(R.id.recommendfriend_list);
+        search_list=findViewById(R.id.searched_friend);
         me = new UserInfo();
         recommendList = new ArrayList<UserInfo>();
         recommendFinalList = new ArrayList<UserInfo>();
@@ -167,10 +168,11 @@ public class ShowFriendActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String UID=findID.getText().toString();
-                database.getReference().child("user_list").addValueEventListener(new ValueEventListener() {
+                database.getReference().addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                        DataSnapshot dataSnapshot1=dataSnapshot.child("user_list");
+                        for(DataSnapshot snapshot: dataSnapshot1.getChildren()){
                             if(snapshot.getKey().equals(UID)) {
                                 //수정필요.. 리스트 초기화하는거. 아님 아예 리스트를 하지 말고 친구추가 버튼을 따로 맹글든가
 //                                searchList.clear();
@@ -178,11 +180,11 @@ public class ShowFriendActivity extends Activity {
 //                                showFriendListAdapterS.notifyDataSetChanged();
                                 searchedFlag=1;
                                 searched = snapshot.getValue(UserInfo.class);
-                                searchedGrade.setText(searched.grade+"학년");
-                                searchedName.setText(searched.nickname);
-                                searchedSchool.setText(searched.school);
-                                searchedAddfriend.setVisibility(View.VISIBLE);
-                                searchedAddfriend.setClickable(true);
+                                //searchedGrade.setText(searched.grade+"학년");
+                                //searchedName.setText(searched.nickname);
+                                //searchedSchool.setText(searched.school);
+                                //searchedAddfriend.setVisibility(View.VISIBLE);
+                                //searchedAddfriend.setClickable(true);
                                 String profileUri = searched.profile;
                                 sfriend_id = searched.id;
                                 sfriend_nickname = searched.nickname;
@@ -190,7 +192,12 @@ public class ShowFriendActivity extends Activity {
                                 sfriend_grade = searched.grade;
                                 sfriend_school = searched.school;
                                 sfriend_profile = profileUri;
-
+                                ShowFriendListAdapter showFriendListAdapter=new ShowFriendListAdapter();
+                                showFriendListAdapter.addItem(sfriend_profile, sfriend_name, sfriend_grade, sfriend_school,  sfriend_id, sfriend_nickname, true);
+                                search_list.setAdapter(showFriendListAdapter);
+                                search_list.clearChoices();
+                                showFriendListAdapter.notifyDataSetChanged();
+                                /*
                                 if (profileUri.equals("noimage")){
                                     searchedFace.setVisibility(View.VISIBLE);
                                 }else{
@@ -206,7 +213,7 @@ public class ShowFriendActivity extends Activity {
                                                     .into(searchedFace);
                                         }
                                     });
-                                }
+                                }*/
 //                                searchList.add(searched);
 //                                showFriendListAdapterS.addItem(searched.profile, searched.nickname, searched.grade, searched.school);
 //                                search_list.setAdapter(showFriendListAdapterS);
@@ -214,7 +221,7 @@ public class ShowFriendActivity extends Activity {
                             }
                         }
                         if(searchedFlag==0){
-                            searchedName.setText("검색 결과 없음");
+                            Toast.makeText(ShowFriendActivity.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
                         }
                     }
                     @Override
@@ -231,7 +238,7 @@ public class ShowFriendActivity extends Activity {
 //                check_choose = 1;
 //            }
 //        });
-
+/*
         searchedAddfriend.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -243,9 +250,9 @@ public class ShowFriendActivity extends Activity {
                 }
             }
         });
+*/
 
-
-
+/*
         recommendfriend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
@@ -259,7 +266,7 @@ public class ShowFriendActivity extends Activity {
                 check_recommend = 1;
             }
         });
-
+*/
 //        search_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -313,8 +320,6 @@ public class ShowFriendActivity extends Activity {
 
     private ResponseCallback<KakaoLinkResponse> callback;
     private Map<String, String> serverCallbackArgs = getServerCallbackArgs();
-
-
 
 
     public void postFirebaseFriendInfo(){
