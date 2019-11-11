@@ -57,7 +57,7 @@ public class ShowFriendActivity extends Activity {
     String newfriend_nickname, newfriend_name, newfriend_id, newfriend_grade, newfriend_school, newfriend_profile;
     String sfriend_nickname, sfriend_name, sfriend_id, sfriend_grade, sfriend_school, sfriend_profile;
     ImageButton invitefriend, addfriend, imageButtonHome;
-    Button search;
+    Button search, goback;
     TextView searchName, searchGrade, searchSchool;
     ImageView searchFace;
     Intent intent, intentHome;
@@ -89,6 +89,7 @@ public class ShowFriendActivity extends Activity {
         searchedGrade=(TextView)findViewById(R.id.friendGrade);
         searchedSchool=(TextView)findViewById(R.id.friendSchool);
         searchedAddfriend=(ImageButton)findViewById(R.id.addFriendButton);
+        goback=(Button)findViewById(R.id.goback);
 
 //        check_choose = 0;
         check_recommend = 0;
@@ -128,7 +129,6 @@ public class ShowFriendActivity extends Activity {
 
 
         getFirebaseDatabase();
-        getFirebaseDatabaseRecommendFriendList();
 
 
         imageButtonHome.setOnClickListener(new View.OnClickListener() {
@@ -137,6 +137,13 @@ public class ShowFriendActivity extends Activity {
                 intentHome = new Intent(ShowFriendActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id_key);
                 startActivity(intentHome);
+            }
+        });
+
+        goback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 
@@ -213,9 +220,10 @@ public class ShowFriendActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if(searchedFlag==1){
-                    getFirebaseDatabase();
+                    postFirebaseFriendInfo();
                     Toast.makeText(ShowFriendActivity.this, newfriend_nickname + "(이)가 친구리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
                     searchedFlag=0;
+                    getFirebaseDatabase();
                 }
             }
         });
@@ -298,72 +306,36 @@ public class ShowFriendActivity extends Activity {
                 myFriendList.clear();
                 recommendList.clear();
                 recommendFinalList.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key = snapshot.getKey();
-                    if(key.equals("user_list")) {
-                        for(DataSnapshot snapshot0 : snapshot.getChildren()) {
-                            String key1 = snapshot0.getKey();
-                            if(key1.equals(id_key)) {
-                                me = snapshot0.getValue(UserInfo.class);
-                                for(DataSnapshot snapshot1 : snapshot0.child("my_friend_list").getChildren()) {
-                                    String key2 = snapshot1.getKey();
-                                    myFriendList.add(key2);
-                                    break;
-                                }
-
-                                break;
-                            }
-                        }
-                    }
+                DataSnapshot snapshot=dataSnapshot.child("user_list/"+id_key+"/my_friend_list");
+                for(DataSnapshot snapshot1 : snapshot.getChildren()) {
+                    String key2 = snapshot1.getKey();
+                    myFriendList.add(key2);
                 }
-                /*
-                ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key0 = snapshot.getKey();
-                    if(key0.equals("user_list")) {
-                        for(DataSnapshot snapshot1 : snapshot.child("my_friend_list").getChildren()) {
-                            String uid = snapshot1.getKey();
-                            for(String friendID : myFriendList) {
-                                if(uid.equals(friendID)) {
-                                    UserInfo friend=snapshot1.getValue(UserInfo.class);
-                                    showFriendListAdapter.addItem(friend.profile, friend.nickname, friend.grade, friend.school);
-                                    friend_list.setAdapter(showFriendListAdapter);
-                                    break;
-                                    }
-                                }
-                        }
-                    }
-                }*/
 
+                me=dataSnapshot.child("user_list/"+id_key).getValue(UserInfo.class);
                 myGrade = me.grade;
-                mySchool = me.school;
 
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String key0 = snapshot.getKey();
-                    if(key0.equals("user_list")) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String key = snapshot1.getKey();
-                            if(!key.equals(id_key)) {
-                                int flag = 0;
-                                String uid = snapshot1.getKey();
-                                for(String friendID : myFriendList) {
-                                    if(uid.equals(friendID)) {
-                                        flag = 1;
-                                        break;
-                                    }
-                                }
-                                if(flag == 0) {
-                                    UserInfo friend = snapshot1.getValue(UserInfo.class);
-                                    String grade = friend.grade;
-                                    if (grade.equals(myGrade)) {
-                                        recommendList.add(friend);
-                                    }
-                                }
-                            }
+                DataSnapshot snapshot1=dataSnapshot.child("user_list");
+                for(DataSnapshot snapshot2: snapshot1.getChildren()){
+                    String keys=snapshot2.getKey();
+                    int flag=0;
+                    for(String UID: myFriendList){
+                        if(UID.equals(keys)){
+                            flag=1; //이미 내 친구여
+                            break;
                         }
                     }
+                    if(flag==0) {//아직 내 친구 아님
+                        UserInfo friend=snapshot2.getValue(UserInfo.class);
+                        String grade=friend.grade;
+                        String uid=friend.id;
+                        if(grade.equals(myGrade) && !uid.equals(id_key)){
+                            recommendList.add(friend);
+                        }
 
+                    }
                 }
+
                 int cntAll = recommendList.size();
                 Random generator = new Random();
                 int[] randList = new int[cntAll];
@@ -390,52 +362,60 @@ public class ShowFriendActivity extends Activity {
         mPostReference2.addValueEventListener(postListner);
     }
 
+    public void postFirebaseFriendInfo(){
+        final ValueEventListener postListener=new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mPostReference.child(sfriend_id + "/name").setValue(sfriend_name);
+                mPostReference.child(sfriend_id + "/nickname").setValue(sfriend_nickname);
+                mPostReference.child(sfriend_id + "/grade").setValue(sfriend_grade);
+                mPostReference.child(sfriend_id + "/school").setValue(sfriend_school);
+                mPostReference.child(sfriend_id + "/profile").setValue(sfriend_profile);
+
+                me=dataSnapshot.child("user_list/"+id_key).getValue(UserInfo.class);
+
+                mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key+"/name").setValue(me.name);
+                mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/nickname").setValue(me.nickname);
+                mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/grade").setValue(me.grade);
+                mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/school").setValue(me.school);
+                mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/profile").setValue(me.profile);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        mPostReference.addValueEventListener(postListener);
+    }
+
+
     public void getFirebaseDatabase() {
         try {
             final ValueEventListener postListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    mPostReference.child(newfriend_id + "/name").setValue(newfriend_name);
-//                    mPostReference.child(newfriend_id + "/nickname").setValue(newfriend_nickname);
-//                    mPostReference.child(newfriend_id + "/grade").setValue(newfriend_grade);
-//                    mPostReference.child(newfriend_id + "/school").setValue(newfriend_school);
-//                    mPostReference.child(newfriend_id + "/profile").setValue(newfriend_profile);
+                    myFriendList.clear();
 
-                    mPostReference.child(sfriend_id + "/name").setValue(sfriend_name);
-                    mPostReference.child(sfriend_id + "/nickname").setValue(sfriend_nickname);
-                    mPostReference.child(sfriend_id + "/grade").setValue(sfriend_grade);
-                    mPostReference.child(sfriend_id + "/school").setValue(sfriend_school);
-                    mPostReference.child(sfriend_id + "/profile").setValue(sfriend_profile);
-
-                    //Log.d("myname", me.name);
-//                    for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                        String key = snapshot.getKey();
-//                        if(key.equals("user_list")) {
-//                            for(DataSnapshot snapshot0 : snapshot.getChildren()) {
-//                                String key1 = snapshot0.getKey();
-//                                if(key1.equals(id_key)) {
-//                                    me = snapshot0.getValue(UserInfo.class);
-//                                }
-//                                break;
-//                            }
-//                        }
-//                    }
-
+                    DataSnapshot snapshot=dataSnapshot.child("user_list/"+id_key+"/my_friend_list");
+                    for(DataSnapshot snapshot1 : snapshot.getChildren()) {
+                        String key2 = snapshot1.getKey();
+                        myFriendList.add(key2); //myFriendList 속에 내 친구들 id 저장
+                    }
 
                     ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        UserInfo friend = snapshot.getValue(UserInfo.class);
-                        showFriendListAdapter.addItem(friend.profile, friend.nickname, friend.grade, friend.school);
+                    DataSnapshot snapshot1=dataSnapshot.child("user_list");
+                    for(DataSnapshot snapshot2: snapshot1.getChildren()){
+                        String keys=snapshot2.getKey();
+                        for(String UID: myFriendList){
+                            if(UID.equals(keys)){
+                                UserInfo friend=snapshot2.getValue(UserInfo.class);
+                                showFriendListAdapter.addItem(friend.profile, friend.nickname, friend.grade, friend.school);
+                            }
+                        }
                     }
                     friend_list.setAdapter(showFriendListAdapter);
-
-
-                    mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key+"/name").setValue(me.name);
-                    mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/nickname").setValue(me.nickname);
-                    mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/grade").setValue(me.grade);
-                    mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/school").setValue(me.school);
-                    mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/profile").setValue(me.profile);
-
+                    getFirebaseDatabaseRecommendFriendList();
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {

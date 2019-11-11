@@ -48,22 +48,22 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
     Intent intent;
     String id;
     TextView userGrade, userSchool, userName, userCoin;
-    Button Hoonjang;
+    Button Hoonjang, goback;
     ImageButton goHome;
     UserInfo me;
-    Button graph_attend, graph_made, graph_correct, graph_level, graph_like;
+    Button graph_attend, graph_made, graph_correct, graph_level, graph_like, graph_bombcnt;
     int total_week;
     LineChart lineChart;
     XAxis xAxis;
     YAxis left, right;
 
     int MAX_SIZE=100;
-    int f1=0, f2=0, f3=0, f4=0, f5=0;
+    int f1=0, f2=0, f3=0, f4=0, f5=0, f6=0;
     ShowHoonjangCriteriaFragment showHoonjang;
 
     Intent intentGoHome;
 
-    ArrayList<String> week_made, week_correct, week_level, week_like, week_attend;
+    ArrayList<String> week_made, week_correct, week_level, week_like, week_attend, week_bombcnt;
     ArrayList<Entry> entries;
 
     MaterialCalendarView materialCalendarView;
@@ -90,8 +90,10 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
         graph_correct=(Button)findViewById(R.id.graph_correct);
         graph_level=(Button)findViewById(R.id.graph_level);
         graph_like=(Button)findViewById(R.id.graph_like);
+        graph_bombcnt=(Button)findViewById(R.id.graph_bombcnt);
         Hoonjang=(Button)findViewById(R.id.showHoonjang);
         lineChart=(LineChart)findViewById(R.id.chart);
+        goback=(Button)findViewById(R.id.goback);
         xAxis=lineChart.getXAxis();
         left=lineChart.getAxisLeft();
         right=lineChart.getAxisRight();
@@ -149,6 +151,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
         week_correct=new ArrayList<String>();
         week_level=new ArrayList<String>();
         week_like=new ArrayList<String>();
+        week_bombcnt=new ArrayList<String>();
 
         getFirebaseDatabaseWeekInfo();
         getFirebaseDatabaseUserInfo();
@@ -162,16 +165,26 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
             }
         });
 
+        goback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         graph_attend.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 graph_attend.setBackgroundColor(getResources().getColor(R.color.blue));
                 f1=1;
-                if(f2==1||f3==1||f4==1||f5==1){
+                if(f2==1||f3==1||f4==1||f5==1||f6==1){
                     graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_bombcnt.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    f1=f2=f3=f4=f5=f6=0;
+                    f1=1;
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
@@ -184,7 +197,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 left.setDrawGridLines(false);
                 right.setEnabled(false);
                 right.setDrawGridLines(false);
-                dataset.setValueTextSize(30);
+                dataset.setValueTextSize(20);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
@@ -197,11 +210,14 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
             public void onClick(View v) {
                 graph_made.setBackgroundColor(getResources().getColor(R.color.blue));
                 f2=1;
-                if(f1==1||f3==1||f4==1||f5==1){
+                if(f1==1||f3==1||f4==1||f5==1||f6==1){
                     graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_bombcnt.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    f1=f2=f3=f4=f5=f6=0;
+                    f2=1;
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
@@ -214,7 +230,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 left.setDrawGridLines(false);
                 right.setEnabled(false);
                 right.setDrawGridLines(false);
-                dataset.setValueTextSize(30);
+                dataset.setValueTextSize(20);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
@@ -227,11 +243,14 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
             public void onClick(View v) {
                 graph_correct.setBackgroundColor(getResources().getColor(R.color.blue));
                 f3=1;
-                if(f2==1||f1==1||f4==1||f5==1){
+                if(f2==1||f1==1||f4==1||f5==1||f6==1){
                     graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_bombcnt.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    f1=f2=f3=f4=f5=f6=0;
+                    f3=1;
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
@@ -244,7 +263,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 left.setDrawGridLines(false);
                 right.setDrawGridLines(false);
                 right.setEnabled(false);
-                dataset.setValueTextSize(30);
+                dataset.setValueTextSize(20);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
@@ -257,11 +276,14 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
             public void onClick(View v) {
                 graph_level.setBackgroundColor(getResources().getColor(R.color.blue));
                 f4=1;
-                if(f2==1||f3==1||f1==1||f5==1){
+                if(f2==1||f3==1||f1==1||f5==1||f6==1){
                     graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_bombcnt.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    f1=f2=f3=f4=f5=f6=0;
+                    f4=1;
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
@@ -274,7 +296,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 left.setDrawGridLines(false);
                 right.setDrawGridLines(false);
                 right.setEnabled(false);
-                dataset.setValueTextSize(30);
+                dataset.setValueTextSize(20);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
@@ -287,11 +309,14 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
             public void onClick(View v) {
                 graph_like.setBackgroundColor(getResources().getColor(R.color.blue));
                 f5=1;
-                if(f2==1||f3==1||f4==1||f1==1){
+                if(f2==1||f3==1||f4==1||f1==1||f6==1){
                     graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_bombcnt.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    f1=f2=f3=f4=f5=f6=0;
+                    f5=1;
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
@@ -304,7 +329,40 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 left.setDrawGridLines(false);
                 right.setDrawGridLines(false);
                 right.setEnabled(false);
-                dataset.setValueTextSize(30);
+                dataset.setValueTextSize(20);
+                LineData data = new LineData(dataset);
+                lineChart.setData(data);
+                lineChart.setDescription(null);
+                lineChart.animateY(1000);
+            }
+        });
+
+        graph_bombcnt.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                graph_bombcnt.setBackgroundColor(getResources().getColor(R.color.blue));
+                f6=1;
+                if(f2==1||f3==1||f4==1||f1==1||f5==1){
+                    graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_attend.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    graph_like.setBackgroundColor(getResources().getColor(R.color.lightred));
+                    f1=f2=f3=f4=f5=f6=0;
+                    f6=1;
+                }
+                entries.clear();
+                for(int j=0; j<total_week ; j++){
+                    entries.add(new Entry(j,Float.parseFloat(week_bombcnt.get(j))));
+                }
+                LineDataSet dataset = new LineDataSet(entries, "해체한 폭탄 수");
+                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+                xAxis.setTextSize(15);
+                xAxis.setDrawGridLines(false);
+                left.setDrawGridLines(false);
+                right.setDrawGridLines(false);
+                right.setEnabled(false);
+                dataset.setValueTextSize(20);
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
@@ -336,6 +394,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 week_correct.clear();
                 week_attend.clear();
                 week_made.clear();
+                week_bombcnt.clear();
                 total_week=0;
                 DataSnapshot snapshot=dataSnapshot.child("user_list").child(id).child("my_week_list");
                 for(DataSnapshot snapshot1:snapshot.getChildren()){ //week껍데기
@@ -345,6 +404,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                     week_correct.add(snapshot1.child("correct").getValue().toString());
                     week_level.add(snapshot1.child("level").getValue().toString());
                     week_like.add(snapshot1.child("like").getValue().toString());
+                    week_bombcnt.add(snapshot1.child("solvebomb").getValue().toString());
                     total_week++;
                 }
             }

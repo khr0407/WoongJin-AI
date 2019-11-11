@@ -28,7 +28,7 @@ public class ShowHoonjangCriteriaFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    ImageButton close;
+    Button close;
 
     private ShowHoonjangCriteriaFragment.OnFragmentInteractionListener mListener;
 
@@ -60,7 +60,7 @@ public class ShowHoonjangCriteriaFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_showhoonjangcriteria, container, false);
         final Context context = container.getContext();
 
-        close=(ImageButton)view.findViewById(R.id.close);
+        close=(Button)view.findViewById(R.id.close);
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -356,12 +356,22 @@ public class MyPageActivity extends AppCompatActivity{
 
                                             textViewCorrectT.setText(snapshot2.child(This).child("correct").getValue().toString());
                                             textViewLikeT.setText(snapshot2.child(This).child("like").getValue().toString());
-                                            textViewLevelT.setText(snapshot2.child(This).child("level").getValue().toString());
+                                            String level_tmp=snapshot2.child(This).child("level").getValue().toString();
+                                            if(level_tmp.length()>=6){
+                                                textViewLevelT.setText(level_tmp.substring(0, 5));
+                                            }else{
+                                            textViewLevelT.setText(level_tmp);
+                                            }
 
                                             if (idx >= 2) {
                                                 textViewCorrectL.setText(snapshot2.child(Last).child("correct").getValue().toString());
                                                 textViewLikeL.setText(snapshot2.child(Last).child("like").getValue().toString());
-                                                textViewLevelL.setText(snapshot2.child(Last).child("level").getValue().toString());
+                                                String level_tmpT=snapshot2.child(Last).child("level").getValue().toString();
+                                                if(level_tmpT.length()>=6){
+                                                    textViewLevelL.setText(level_tmpT.substring(0, 5));
+                                                }else{
+                                                    textViewLevelL.setText(level_tmpT);
+                                                }
                                             }
                                             break;
                                     } else if (key2.equals("my_medal_list")) {

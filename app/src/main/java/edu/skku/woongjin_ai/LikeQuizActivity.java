@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class LikeQuizActivity extends AppCompatActivity implements SeeOXQuizFrag
     String id;
     TextView instruction;
     ListView quizlist;
+    Button goback;
     ArrayList<QuizChoiceTypeInfo> myChoiceList;
     ArrayList<QuizOXShortwordTypeInfo> myOXList, myShortList;
     ArrayList<String> LikedKey;
@@ -52,6 +54,7 @@ public class LikeQuizActivity extends AppCompatActivity implements SeeOXQuizFrag
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         quizlist = (ListView) findViewById(R.id.quizlist);
         instruction=(TextView)findViewById(R.id.instruction);
+        goback=(Button)findViewById(R.id.goback);
 
 
         intent = getIntent();
@@ -88,6 +91,13 @@ public class LikeQuizActivity extends AppCompatActivity implements SeeOXQuizFrag
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
                 finish();
+            }
+        });
+
+        goback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 

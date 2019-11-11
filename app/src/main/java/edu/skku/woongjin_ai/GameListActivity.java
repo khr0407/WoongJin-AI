@@ -567,7 +567,7 @@ public class GameListActivity extends AppCompatActivity
                     transaction.commit();
                 }else if(Solved==100 && nomore.equals("stop1")){
                     uploadFirebaseUserCoinInfo_H("폭탄마스터", 2);
-                    nPostReference.child("user_list/" + id_key + "/my_medal_list/출석왕").setValue("Lev2##"+MedalUpdate);
+                    nPostReference.child("user_list/" + id_key + "/my_medal_list/폭탄마스터").setValue("Lev2##"+MedalUpdate);
                     SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
                     editor=sf.edit();
                     editor.putString("bombmaster", "stop2");
@@ -581,7 +581,7 @@ public class GameListActivity extends AppCompatActivity
                     transaction.commit();
                 }else if(Solved==30 && nomore.equals("keepgoing")){
                     uploadFirebaseUserCoinInfo_H("폭탄마스터", 1);
-                    nPostReference.child("user_list/" + id_key + "/my_medal_list/출석왕").setValue("Lev1##"+MedalUpdate);
+                    nPostReference.child("user_list/" + id_key + "/my_medal_list/폭탄마스터").setValue("Lev1##"+MedalUpdate);
                     SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
                     editor=sf.edit();
                     editor.putString("bombmaster", "stop1");

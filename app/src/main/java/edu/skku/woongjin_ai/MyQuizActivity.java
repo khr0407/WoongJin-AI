@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
 
     public DatabaseReference mPostReference, uPostReference;
     Intent intent, intentHome, intentUpdate;
+    Button goback;
     String id;
     TextView instruction;
     ListView quizlist, likefriends;
@@ -56,6 +58,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         quizlist = (ListView) findViewById(R.id.quizlist);
         likefriends=(ListView) findViewById(R.id.wholiked_list);
+        goback=(Button)findViewById(R.id.goback);
 
         instruction=(TextView)findViewById(R.id.instruction);
 
@@ -96,6 +99,13 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
                 finish();
+            }
+        });
+
+        goback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 
