@@ -532,9 +532,61 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     }
                 }
 
-                //TODO 퀴즈 순서 랜덤으로 섞기, 좋아요 개수 순으로 상위 몇개 뽑기
+                int j;
+                for(int i=1; i<likeOXQuizList.size(); i++) {
+                    QuizOXShortwordTypeInfo tmp = likeOXQuizList.get(i);
+                    for(j=i-1; j>=0; j--) {
+                        if(Integer.parseInt(tmp.like) < Integer.parseInt(likeOXQuizList.get(j).like))
+                            likeOXQuizList.set(j+1, likeOXQuizList.get(j));
+                        else break;
+                    }
+                    likeOXQuizList.set(j+1, tmp);
+                }
+                for(int i=1; i<likeChoiceQuizList.size(); i++) {
+                    QuizChoiceTypeInfo tmp = likeChoiceQuizList.get(i);
+                    for(j=i-1; j>=0; j--) {
+                        if(Integer.parseInt(tmp.like) < Integer.parseInt(likeChoiceQuizList.get(j).like))
+                            likeChoiceQuizList.set(j+1, likeChoiceQuizList.get(j));
+                        else break;
+                    }
+                    likeChoiceQuizList.set(j+1, tmp);
+                }
+                for(int i=1; i<likeShortQuizList.size(); i++) {
+                    QuizOXShortwordTypeInfo tmp = likeShortQuizList.get(i);
+                    for(j=i-1; j>=0; j--) {
+                        if(Integer.parseInt(tmp.like) < Integer.parseInt(likeShortQuizList.get(j).like))
+                            likeShortQuizList.set(j+1, likeShortQuizList.get(j));
+                        else break;
+                    }
+                    likeShortQuizList.set(j+1, tmp);
+                }
 
-                for(int i=0; i<likeOXQuizList.size(); i++) {
+                while(likeOXQuizList.size() > 3) likeOXQuizList.remove(0);
+                while(likeChoiceQuizList.size() > 3) likeChoiceQuizList.remove(0);
+                while(likeShortQuizList.size() > 3) likeShortQuizList.remove(0);
+
+
+                cntOXL = likeOXQuizList.size();
+                cntChoiceL = likeChoiceQuizList.size();
+                cntShortL = likeShortQuizList.size();
+
+                Random generator = new Random();
+                int[] randList = new int[2];
+
+                for(int i=0; i<2; i++) randList[i] = -1;
+                int cnt = 2;
+                if(cnt > cntOXL) cnt = cntOXL;
+                for(int i=0; i<cnt; i++) {
+                    randList[i] = generator.nextInt(cntOXL);
+                    for(j = 0; j < i; j++) {
+                        if(randList[i] == randList[j]) {
+                            i--;
+                            break;
+                        }
+                    }
+                }
+                for(int i : randList) {
+                    if(i == -1) break;
                     float star = Float.parseFloat(likeOXQuizList.get(i).star);
                     if(star < 1.5)
                         likeQuizListAdapter.addItem(likeOXQuizList.get(i).like, likeOXQuizList.get(i).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), likeOXQuizList.get(i).book_name, likeOXQuizList.get(i).scriptnm, likeOXQuizList.get(i).question);
@@ -550,7 +602,20 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     likeOXQuizListR.add(likeOXQuizList.get(i));
                 }
 
-                for(int i=0; i<likeChoiceQuizList.size(); i++) {
+                for(int i=0; i<2; i++) randList[i] = -1;
+                cnt = 2;
+                if(cnt > cntChoiceL) cnt = cntChoiceL;
+                for(int i=0; i<cnt; i++) {
+                    randList[i] = generator.nextInt(cntChoiceL);
+                    for(j = 0; j < i; j++) {
+                        if(randList[i] == randList[j]) {
+                            i--;
+                            break;
+                        }
+                    }
+                }
+                for(int i : randList) {
+                    if(i == -1) break;
                     float star = Float.parseFloat(likeChoiceQuizList.get(i).star);
                     if(star < 1.5)
                         likeQuizListAdapter.addItem(likeChoiceQuizList.get(i).like, likeChoiceQuizList.get(i).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), likeChoiceQuizList.get(i).book_name, likeChoiceQuizList.get(i).scriptnm, likeChoiceQuizList.get(i).question);
@@ -566,7 +631,20 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     likeChoiceQuizListR.add(likeChoiceQuizList.get(i));
                 }
 
-                for(int i=0; i<likeShortQuizList.size(); i++) {
+                for(int i=0; i<2; i++) randList[i] = -1;
+                cnt = 2;
+                if(cnt > cntShortL) cnt = cntShortL;
+                for(int i=0; i<cnt; i++) {
+                    randList[i] = generator.nextInt(cntShortL);
+                    for(j = 0; j < i; j++) {
+                        if(randList[i] == randList[j]) {
+                            i--;
+                            break;
+                        }
+                    }
+                }
+                for(int i : randList) {
+                    if(i == -1) break;
                     float star = Float.parseFloat(likeShortQuizList.get(i).star);
                     if(star < 1.5)
                         likeQuizListAdapter.addItem(likeShortQuizList.get(i).like, likeShortQuizList.get(i).uid, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), likeShortQuizList.get(i).book_name, likeShortQuizList.get(i).scriptnm, likeShortQuizList.get(i).question);

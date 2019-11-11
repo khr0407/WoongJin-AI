@@ -20,8 +20,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,6 +44,7 @@ public class FriendOXQuizFragment extends Fragment {
     float starFloat;
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     Button imageButtonScript, imageButtonHint, imageButtonCheck;
+    DatabaseReference mPostReference;
 
     public FriendOXQuizFragment() {
 
@@ -97,9 +101,20 @@ public class FriendOXQuizFragment extends Fragment {
         imageButtonCheck = (Button) view.findViewById(R.id.checkFriendOX);
         ConstraintLayout backgroundLayout = (ConstraintLayout) view.findViewById(R.id.backgroundox);
 
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+
         starFloat = Float.parseFloat(star);
 
-        textViewUid.setText(nickname + " 친구가 낸 질문");
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String unickname = dataSnapshot.child("user_list/" + uid + "/nickname").getValue().toString();
+                textViewUid.setText(unickname + " 친구가 낸 질문");
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+
         textViewName.setText(scriptnm);
         textViewQuestion.setText(question);
 
