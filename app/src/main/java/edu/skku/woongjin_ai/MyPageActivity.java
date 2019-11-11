@@ -60,7 +60,7 @@ public class MyPageActivity extends AppCompatActivity{
 
     public DatabaseReference mPostReference;
     Intent intent, intentGoHome, intentAddFriend, intentCoinRecord, intent_LikeList, intent_QList, intentHome, intent_Record;
-    String id, profileUri;
+    String id, profileUri, mynickname, mygrade, myschool, myname, myprofile;
     ImageButton logout;
     Button coin_record;
     ImageButton goHome, btnLikeList, btnQList, btnFriendList, btnChangePicture, btnUpload, btnRecord;
@@ -90,6 +90,11 @@ public class MyPageActivity extends AppCompatActivity{
 
         intent = getIntent();
         id = intent.getStringExtra("id");
+        myprofile = intent.getStringExtra("profile");
+        myschool = intent.getStringExtra("school");
+        mygrade = intent.getStringExtra("grade");
+        mynickname = intent.getStringExtra("nickname");
+        myname = intent.getStringExtra("name");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -162,6 +167,11 @@ public class MyPageActivity extends AppCompatActivity{
             public void onClick(View v) {
                 intentAddFriend = new Intent(MyPageActivity.this, ShowFriendActivity.class);
                 intentAddFriend.putExtra("id", id);
+                intentAddFriend.putExtra("nickname", mynickname);
+                intentAddFriend.putExtra("grade", mygrade);
+                intentAddFriend.putExtra("profile", profileUri);
+                intentAddFriend.putExtra("school", myschool);
+                intentAddFriend.putExtra("name", myname);
                 startActivity(intentAddFriend);
             }
         });
@@ -183,6 +193,7 @@ public class MyPageActivity extends AppCompatActivity{
             public void onClick(View view) {
                 intent_QList = new Intent(MyPageActivity.this, MyQuizActivity.class);
                 intent_QList.putExtra("id", id);
+                intent_QList.putExtra("profile", profileUri);
                 startActivity(intent_QList);
             }
         });

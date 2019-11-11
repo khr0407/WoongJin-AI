@@ -226,7 +226,7 @@ public class NationGameActivity extends AppCompatActivity {
                     ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         UserInfo friend = snapshot.getValue(UserInfo.class);
-                        showFriendListAdapter.addItem(friend.profile, friend.nickname, friend.grade, friend.school);
+                        showFriendListAdapter.addItem(friend.profile, friend.nickname, friend.grade, friend.school, friend.id, friend.nickname, false);
                     }
                     friend_list.setAdapter(showFriendListAdapter);
                 }

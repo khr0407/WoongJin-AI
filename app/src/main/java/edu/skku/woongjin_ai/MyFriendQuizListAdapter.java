@@ -76,7 +76,7 @@ public class MyFriendQuizListAdapter extends BaseAdapter {
             });
         }
 
-        user.setText(myFriendQuizListItem.getUser());
+        user.setText(myFriendQuizListItem.getUser()+"\n친구가 만들었어요!");
         star2.setImageDrawable(myFriendQuizListItem.getStar2());
         star3.setImageDrawable(myFriendQuizListItem.getStar3());
         star4.setImageDrawable(myFriendQuizListItem.getStar4());

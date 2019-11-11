@@ -53,7 +53,7 @@ public class LikeQuizListAdapter extends BaseAdapter {
         LikeQuizListItem likeQuizListItem = getItem(position);
 
         likeCnt.setText(likeQuizListItem.getLikeCnt());
-        uid.setText(likeQuizListItem.getUid());
+        uid.setText(likeQuizListItem.getUid()+"\n친구가 만들었어요!");
         star2.setImageDrawable(likeQuizListItem.getStar2());
         star3.setImageDrawable(likeQuizListItem.getStar3());
         star4.setImageDrawable(likeQuizListItem.getStar4());

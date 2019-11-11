@@ -90,7 +90,7 @@ public class SeeOXQuizFragment extends Fragment implements ShowWhoLikedFragment.
         if(mine_or_like.equals("0"))//내문제보기
             wholike.setText(like+"명이 좋아했어요!");
         else//좋아요한문제보기
-            wholike.setText(uid+"친구가 만든 문제!\n"+like+"명이 좋아했어요!");
+            wholike.setText(uid+"친구가 만든 문제!");
 
         Title = view.findViewById(R.id.title);
         QuizContent = view.findViewById(R.id.quizContent);

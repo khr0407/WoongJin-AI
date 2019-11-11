@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
 
     public DatabaseReference mPostReference;
     Intent intent, intentBook, intentGamelist, intentMyPage;
-    String id, nickname = "";
+    String id, nickname="";
+    String school, mygrade, profile, myname;
     LinearLayout bookButton, quizButton, gameButton;
     Button myPageButton;
     TextView userNickname;
@@ -110,6 +111,10 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                 intentMyPage = new Intent(MainActivity.this, MyPageActivity.class);
                 intentMyPage.putExtra("id", id);
                 intentMyPage.putExtra("nickname", nickname);
+                intentMyPage.putExtra("grade", mygrade);
+                intentMyPage.putExtra("profile", profile);
+                intentMyPage.putExtra("school", school);
+                intentMyPage.putExtra("name", myname );
                 startActivity(intentMyPage);
             }
         });
@@ -202,6 +207,10 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 me = dataSnapshot.child("user_list/" + id).getValue(UserInfo.class);
                 nickname = me.nickname;
+                mygrade=me.grade;
+                myname=me.name;
+                school=me.school;
+                profile=me.profile;
                 userNickname.setText("안녕 " + nickname + "!\n여행하고 싶은 나라를 골라보자!");
                 int AttendCount=0;
                 long ReadCount=0;

@@ -176,7 +176,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="왼쪽 리스트에서 자세히 보고 싶은 문제를 클릭해봐!"
-                            android:fontFamily="@font/typo_sherlock_b"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:id="@+id/default_beforeclick"
