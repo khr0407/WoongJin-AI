@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="10"
+        android:weightSum="11"
         android:background="@drawable/mypage_background"
         android:padding="@dimen/activity_horizontal_margin"
         >
@@ -18,7 +18,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:padding="5dp"
+            android:padding="7dp"
             android:weightSum="11">
 
             <ImageButton
@@ -70,7 +70,7 @@
                 android:background="@drawable/ic_menu_format"
                 android:fontFamily="@font/bmjua_ttf"
                 android:textColor="@color/white"
-                android:textSize="23dp"
+                android:textSize="27dp"
 
                 />
 
@@ -95,7 +95,7 @@
                     android:gravity="center"
                     android:text="test"
                     android:fontFamily="@font/bmjua_ttf"
-                    android:textSize="25dp"
+                    android:textSize="30dp"
                     android:textColor="@color/black"
                     />
 
@@ -108,7 +108,7 @@
                     android:gravity="center"
                     android:text="test"
                     android:fontFamily="@font/bmjua_ttf"
-                    android:textSize="25dp"
+                    android:textSize="30dp"
                     android:textColor="@color/black"
                     />
 
@@ -124,7 +124,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/userCoin"
                     android:fontFamily="@font/bmjua_ttf"
-                    android:textSize="25dp"
+                    android:textSize="30dp"
                     android:layout_weight="2"
                     android:gravity="center|left"
                     android:textColor="@color/black"
@@ -138,7 +138,7 @@
             android:id="@+id/LinearLayout2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="9"
+            android:layout_weight="10"
             android:orientation="horizontal"
             android:padding="5dp"
             android:weightSum="9">
@@ -429,7 +429,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1.5"
-                    android:weightSum="6.1"
+                    android:weightSum="7.3"
                     android:padding="10dp"
                     android:background="@drawable/record_frame"
                     android:orientation="vertical"
@@ -444,7 +444,7 @@
                             android:scrollbarSize="30dp"
                             android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
-                            android:textSize="25dp" />
+                            android:textSize="30dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -465,7 +465,7 @@
                                 android:text="저번 주"
                                 android:fontFamily="@font/bmjua_ttf"
                                 android:gravity="center"
-                                android:textSize="25dp"/>
+                                android:textSize="28dp"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -475,7 +475,7 @@
                                 android:fontFamily="@font/bmjua_ttf"
                                 android:gravity="center"
                                 android:textColor="@color/orange"
-                                android:textSize="25dp"/>
+                                android:textSize="28dp"/>
 
                         </LinearLayout>
 
@@ -494,7 +494,7 @@
                             android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textColor="@color/black"
-                            android:textSize="20dp"
+                            android:textSize="25dp"
                             />
 
 
@@ -539,7 +539,7 @@
                             android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textColor="@color/black"
-                            android:textSize="20dp"
+                            android:textSize="25dp"
                             />
 
 
@@ -582,7 +582,7 @@
                             android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textColor="@color/black"
-                            android:textSize="20dp"
+                            android:textSize="25dp"
                             />
 
                         <TextView
@@ -608,7 +608,49 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1.2"
+                        android:orientation="horizontal"
+                        android:weightSum="3.4"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.4"
+                            android:text="해체한 폭탄 수"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textSize="25dp"
+                            />
 
+
+                        <TextView
+                            android:id="@+id/lastSolveBombCnt"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:textSize="30dp"
+                            android:text="데이터 없음"
+                            />
+
+                        <TextView
+                            android:id="@+id/thisSolveBombCnt"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:textSize="30dp"
+                            android:textColor="@color/orange"
+                            android:text="데이터 없음"
+                            />
+
+                    </LinearLayout>
 
 
 
