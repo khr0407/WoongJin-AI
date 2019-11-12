@@ -67,11 +67,13 @@ public class GameListAdapter extends BaseAdapter {
         }else if(state.equals("myturn")){
             status.setTextColor(Color.parseColor("#3399CC")); //파란색
             status.setText("내가 폭탄\n만들 차례!");
-        }else if(state.equals("elseturn")){
+        }else if(state.equals("elsenotsolve")){
             status.setTextColor(Color.parseColor("#FF9900")); //주황색
-            status.setText("친구가 폭탄\n만드는 중!");
+            status.setText("친구가 폭탄\n푸는 중!"); //친구가 폭탄을 아직 풀지 않음
+        }else if(state.equals("elsenotmake")){
+            status.setTextColor(Color.parseColor("#504A17")); //갈색
+            status.setText("친구가 폭탄\n만드는 중!"); //친구가 폭탄을 아직 만들지 않음
         }
-
         return convertView;
     }
 

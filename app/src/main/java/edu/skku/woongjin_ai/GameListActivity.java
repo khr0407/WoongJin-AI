@@ -289,7 +289,7 @@ public class GameListActivity extends AppCompatActivity
                     if (find == 0) {
                         Toast.makeText(GameListActivity.this, "이미 끝난 게임입니다.", Toast.LENGTH_SHORT).show();
                     }
-                    else if (find == 1 && last.equals(nickname_key) && bomb_cnt-'0' == 6) {
+                    else if (find == 1 && bomb_cnt-'0' == 6) {
                         Toast.makeText(GameListActivity.this, "문제를 더 이상 만들 수 없습니다!", Toast.LENGTH_SHORT).show();
                     }
                     else if (find == 1 && last.equals(nickname_key) && solve.equals("none")) {
@@ -337,7 +337,7 @@ public class GameListActivity extends AppCompatActivity
                     if (find == 0) {
                         Toast.makeText(GameListActivity.this, "이미 끝난 게임입니다.", Toast.LENGTH_SHORT).show();
                     }
-                    else if (find == 1 && last.equals(nickname_key)) {
+                    else if (find == 1 && last.equals(nickname_key) && !solve.equals("none")) {
                         Toast.makeText(GameListActivity.this, "상대방이 아직 문제를 제출하지 않았습니다.", Toast.LENGTH_SHORT).show();
                     }
                     else if (find == 1 && last.equals("none") && solve.equals("none")) {
@@ -430,7 +430,7 @@ public class GameListActivity extends AppCompatActivity
                             public void onCancelled(DatabaseError databaseError) {
                             }
                         };
-                        qaPostReference.addValueEventListener(findQna);
+                        qaPostReference.addListenerForSingleValueEvent(findQna);
                     }
                 }
                 else if(check_gamelist == 0) {
@@ -494,10 +494,13 @@ public class GameListActivity extends AppCompatActivity
                                 status="myturn"; //내가 폭탄 만들 차례
                             }
                             else if (!lastperson.equals(nickname_key) && solveperson.equals("none")) { //ok
-                                status="newbomb"; //새 폭탄이 도착했어요
+                                status="newbomb"; //새 폭탄이 도착했어요 (내가 폭탄을 풀 차례)
                             }
-                            else if (lastperson.equals(nickname_key)) { //ok
-                                status="elseturn"; //친구가 폭탄 만드는 중
+                            else if (lastperson.equals(nickname_key) && solveperson.equals("none")) { //ok
+                                status="elsenotsolve"; //친구가 폭탄을 아직 풀지 않음
+                            }
+                            else if (lastperson.equals(nickname_key) && !solveperson.equals("none")) { //ok
+                                status = "elsenotmake"; //친구가 폭탄을 아직 만들지 않음
                             }
                             else{
                                 Log.d("폭탄에러났슈user1", "에러유");
@@ -528,10 +531,13 @@ public class GameListActivity extends AppCompatActivity
                                 status="myturn"; //내가 폭탄 만들 차례
                             }
                             else if (!lastperson.equals(nickname_key) && solveperson.equals("none")) { //ok
-                                status="newbomb"; //새 폭탄이 도착했어요
+                                status="newbomb"; //새 폭탄이 도착했어요 (내가 폭탄을 풀 차례)
                             }
-                            else if (lastperson.equals(nickname_key)) { //ok
-                                status="elseturn"; //친구가 폭탄 만드는 중
+                            else if (lastperson.equals(nickname_key) && solveperson.equals("none")) { //ok
+                                status="elsenotsolve"; //친구가 폭탄을 아직 풀지 않음
+                            }
+                            else if (lastperson.equals(nickname_key) && !solveperson.equals("none")) { //ok
+                                status="elsenotmake"; //친구가 폭탄을 아직 만들지 않음
                             }
                             else{
                                 Log.d("폭탄에러났슈user2", "에러유");
