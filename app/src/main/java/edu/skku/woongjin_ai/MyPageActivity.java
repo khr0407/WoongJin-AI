@@ -67,7 +67,7 @@ public class MyPageActivity extends AppCompatActivity{
     ImageView attendw, readw, quizw, quizhunterw, bombmasterw, bucketw;
     TextView userGrade, userSchool, userName, userCoin, userName1, userGrade1;
     TextView attendd, readd, quizd, quizhunterd, bombmasterd, bucketd;
-    TextView textViewCorrectL, textViewCorrectT, textViewLikeL, textViewLikeT, textViewLevelL, textViewLevelT;
+    TextView textViewCorrectL, textViewCorrectT, textViewLikeL, textViewLikeT, textViewLevelL, textViewLevelT, textViewSolveBombL, textViewSolveBombT;
     ImageView myFace;
     UserInfo me;
     ArrayList<WeekInfo> weekInfos;
@@ -133,6 +133,8 @@ public class MyPageActivity extends AppCompatActivity{
         bombmasterd = (TextView) findViewById(R.id.bomb_master_date);
         bucketd = (TextView) findViewById(R.id.bucket_wang_date);
         coin_record=(Button)findViewById(R.id.CoinRecord);
+        textViewSolveBombL =(TextView)findViewById(R.id.lastSolveBombCnt);
+        textViewSolveBombT=(TextView)findViewById(R.id.thisSolveBombCnt);
 
 
         weekInfos = new ArrayList<WeekInfo>();
@@ -367,6 +369,7 @@ public class MyPageActivity extends AppCompatActivity{
 
                                             textViewCorrectT.setText(snapshot2.child(This).child("correct").getValue().toString());
                                             textViewLikeT.setText(snapshot2.child(This).child("like").getValue().toString());
+                                            textViewSolveBombT.setText(snapshot2.child(This).child("solvebomb").getValue().toString());
                                             String level_tmp=snapshot2.child(This).child("level").getValue().toString();
                                             if(level_tmp.length()>=6){
                                                 textViewLevelT.setText(level_tmp.substring(0, 5));
@@ -377,6 +380,7 @@ public class MyPageActivity extends AppCompatActivity{
                                             if (idx >= 2) {
                                                 textViewCorrectL.setText(snapshot2.child(Last).child("correct").getValue().toString());
                                                 textViewLikeL.setText(snapshot2.child(Last).child("like").getValue().toString());
+                                                textViewSolveBombL.setText(snapshot2.child(Last).child("solvebomb").getValue().toString());
                                                 String level_tmpT=snapshot2.child(Last).child("level").getValue().toString();
                                                 if(level_tmpT.length()>=6){
                                                     textViewLevelL.setText(level_tmpT.substring(0, 5));
