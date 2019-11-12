@@ -278,7 +278,7 @@ public class GameListActivity extends AppCompatActivity
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 };
-                mPostReference.addListenerForSingleValueEvent(checkRoom);
+                mPostReference.addValueEventListener(checkRoom);
             }
         });
 
@@ -430,7 +430,7 @@ public class GameListActivity extends AppCompatActivity
                             public void onCancelled(DatabaseError databaseError) {
                             }
                         };
-                        qaPostReference.addListenerForSingleValueEvent(findQna);
+                        qaPostReference.addValueEventListener(findQna);
                     }
                 }
                 else if(check_gamelist == 0) {
@@ -550,7 +550,7 @@ public class GameListActivity extends AppCompatActivity
                 public void onCancelled(DatabaseError databaseError) {
                 }
             };
-            mPostReference.addListenerForSingleValueEvent(postListener);
+            mPostReference.addValueEventListener(postListener);
         } catch (java.lang.NullPointerException e) {
         }
     }
