@@ -108,7 +108,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                             @Override
                             public void onCancelled(DatabaseError databaseError) { }
                         };
-                        mPostReference.addValueEventListener(check);
+                        mPostReference.addListenerForSingleValueEvent(check);
                         correct_end = 1;
                         if (bomb_cnt == '6') {
                             wPostReference.child("state").setValue("win");

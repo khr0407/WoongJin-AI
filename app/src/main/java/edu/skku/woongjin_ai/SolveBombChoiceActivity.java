@@ -200,7 +200,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
                             @Override
                             public void onCancelled(DatabaseError databaseError) { }
                         };
-                        mPostReference.addValueEventListener(check);
+                        mPostReference.addListenerForSingleValueEvent(check);
                         
                         correct_end = 1;
 

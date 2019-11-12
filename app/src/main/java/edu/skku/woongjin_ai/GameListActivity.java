@@ -278,7 +278,7 @@ public class GameListActivity extends AppCompatActivity
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 };
-                mPostReference.addValueEventListener(checkRoom);
+                mPostReference.addListenerForSingleValueEvent(checkRoom);
             }
         });
 
@@ -430,7 +430,7 @@ public class GameListActivity extends AppCompatActivity
                             public void onCancelled(DatabaseError databaseError) {
                             }
                         };
-                        qaPostReference.addValueEventListener(findQna);
+                        qaPostReference.addListenerForSingleValueEvent(findQna);
                     }
                 }
                 else if(check_gamelist == 0) {
@@ -457,9 +457,10 @@ public class GameListActivity extends AppCompatActivity
                         String user2 = postSnapshot.child("user2").getValue().toString();
                         String temp_status = postSnapshot.child("state").getValue().toString();
                         char bombcount;
-                        if(!temp_status.equals("win") && !temp_status.equals("win1") && !temp_status.equals("win2")){
+                        if(!temp_status.equals("win") && !temp_status.equals("win1") && !temp_status.equals("win2")){ //gaming0~6
                             bombcount = temp_status.charAt(6);
-                        }else{
+                        }
+                        else { //win, win1, win2
                             bombcount='x';
                         }
                         if(bombcount=='0'){
@@ -477,17 +478,26 @@ public class GameListActivity extends AppCompatActivity
                             withwhom=get.user2;
                             roomname=get.roomname;
 
-                            if (bombcount=='x'){ //ok
+                            if (bombcount=='x' && temp_status.equals("win")){ //ok
                                 status="end";
                             }
-                            else if (bombcount=='0'||(bombcount-'0')%2==0 && solveperson.equals(nickname_key)) {
-                                status="myturn";
+                            else if (bombcount=='x' && temp_status.equals("win1")){ //ok
+                                status="iwin";
                             }
-                            else if ((bombcount-'0')%2==0 && solveperson.equals("none")) { //ok
-                                status="newbomb";
+                            else if (bombcount=='x' && temp_status.equals("win2")){ //ok
+                                status="youwin";
                             }
-                            else if ((bombcount-'0')%2==1) { //ok
-                                status="elseturn";
+                            else if (bombcount=='0') {
+                                status="makeplease";
+                            }
+                            else if (!lastperson.equals(nickname_key) && solveperson.equals(nickname_key)) {
+                                status="myturn"; //내가 폭탄 만들 차례
+                            }
+                            else if (!lastperson.equals(nickname_key) && solveperson.equals("none")) { //ok
+                                status="newbomb"; //새 폭탄이 도착했어요
+                            }
+                            else if (lastperson.equals(nickname_key)) { //ok
+                                status="elseturn"; //친구가 폭탄 만드는 중
                             }
                             else{
                                 Log.d("폭탄에러났슈user1", "에러유");
@@ -502,17 +512,26 @@ public class GameListActivity extends AppCompatActivity
                             withwhom=get.user1;
                             roomname=get.roomname;
 
-                            if (bombcount=='x'){ //ok
+                            if (bombcount=='x' && temp_status.equals("win")){ //ok
                                 status="end";
                             }
-                            else if ((bombcount-'0')%2==1 && solveperson.equals(nickname_key)) {
-                                status="myturn";
+                            else if (bombcount=='x' && temp_status.equals("win1")){ //ok
+                                status="youwin";
                             }
-                            else if ((bombcount-'0')%2==1 && solveperson.equals("none")) { //ok
-                                status="newbomb";
+                            else if (bombcount=='x' && temp_status.equals("win2")){ //ok
+                                status="iwin";
                             }
-                            else if ((bombcount-'0')%2==0) { //ok
-                                status="elseturn";
+                            else if (bombcount=='0') {
+                                status="makeplease";
+                            }
+                            else if (!lastperson.equals(nickname_key) && solveperson.equals(nickname_key)) {
+                                status="myturn"; //내가 폭탄 만들 차례
+                            }
+                            else if (!lastperson.equals(nickname_key) && solveperson.equals("none")) { //ok
+                                status="newbomb"; //새 폭탄이 도착했어요
+                            }
+                            else if (lastperson.equals(nickname_key)) { //ok
+                                status="elseturn"; //친구가 폭탄 만드는 중
                             }
                             else{
                                 Log.d("폭탄에러났슈user2", "에러유");
@@ -531,7 +550,7 @@ public class GameListActivity extends AppCompatActivity
                 public void onCancelled(DatabaseError databaseError) {
                 }
             };
-            mPostReference.addValueEventListener(postListener);
+            mPostReference.addListenerForSingleValueEvent(postListener);
         } catch (java.lang.NullPointerException e) {
         }
     }
