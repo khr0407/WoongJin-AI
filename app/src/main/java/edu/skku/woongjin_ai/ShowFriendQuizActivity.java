@@ -519,13 +519,13 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                                 String type = snapshot1.child("type").getValue().toString();
                                 if (type.equals("1")) {
                                     QuizOXShortwordTypeInfo quiz = snapshot1.getValue(QuizOXShortwordTypeInfo.class);
-                                    likeOXQuizList.add(quiz);
+                                    if(!quiz.uid.equals(id)) likeOXQuizList.add(quiz);
                                 } else if (type.equals("2")) {
                                     QuizChoiceTypeInfo quiz = snapshot1.getValue(QuizChoiceTypeInfo.class);
-                                    likeChoiceQuizList.add(quiz);
+                                    if(!quiz.uid.equals(id)) likeChoiceQuizList.add(quiz);
                                 } else if (type.equals("3")) {
                                     QuizOXShortwordTypeInfo quiz = snapshot1.getValue(QuizOXShortwordTypeInfo.class);
-                                    likeShortQuizList.add(quiz);
+                                    if(!quiz.uid.equals(id)) likeShortQuizList.add(quiz);
                                 }
                             }
                         }
