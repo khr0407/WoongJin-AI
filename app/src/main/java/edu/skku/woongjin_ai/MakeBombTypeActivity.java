@@ -67,7 +67,7 @@ public class MakeBombTypeActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         };
-        mPostReference.addValueEventListener(findBackgroundID);
+        mPostReference.addListenerForSingleValueEvent(findBackgroundID);
 
         script_title.setText("지문 제목: " + scriptnm);
         textViewId.setText(nickname_key + "(이)가 직접 폭탄으로 보낼 문제를 만들어볼까?");
@@ -96,6 +96,7 @@ public class MakeBombTypeActivity extends AppCompatActivity {
                 intentOX.putExtra("state", state_key);
                 intentOX.putExtra("roomname", roomname_key);
                 startActivity(intentOX);
+                finish();
             }
         });
 
@@ -113,6 +114,7 @@ public class MakeBombTypeActivity extends AppCompatActivity {
                 intentChoice.putExtra("state", state_key);
                 intentChoice.putExtra("roomname", roomname_key);
                 startActivity(intentChoice);
+                finish();
             }
         });
 
@@ -130,6 +132,7 @@ public class MakeBombTypeActivity extends AppCompatActivity {
                 intentShortword.putExtra("state", state_key);
                 intentShortword.putExtra("roomname", roomname_key);
                 startActivity(intentShortword);
+                finish();
             }
         });
     }

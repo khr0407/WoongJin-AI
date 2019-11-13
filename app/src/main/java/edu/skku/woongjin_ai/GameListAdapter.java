@@ -50,19 +50,30 @@ public class GameListAdapter extends BaseAdapter {
         roomname.setText(gameListItem.getRoomname());
         String state=gameListItem.getStatus();
         if(state.equals("end")){
-            status.setTextColor(Color.parseColor("#696969"));
-            status.setText("게임이\n끝났어요!");
-        }else if(state.equals("newbomb")){
-            status.setTextColor(Color.parseColor("#EB0000"));
+            status.setTextColor(Color.parseColor("#696969")); //회색
+            status.setText("6문제 모두\n다했어요!");
+        }else if(state.equals("iwin")){
+            status.setTextColor(Color.parseColor("#8A2BE2")); //보라색
+            status.setText("내가\n이겼어요!");
+        } else if(state.equals("youwin")){
+            status.setTextColor(Color.parseColor("#EE82EE")); //분홍색
+            status.setText("아쉽게도\n졌어요...");
+        } else if (state.equals("makeplease")) {
+            status.setTextColor(Color.parseColor("#00FA9A")); //민트색
+            status.setText("첫 문제를\n만들어보아요!");
+        } else if(state.equals("newbomb")){
+            status.setTextColor(Color.parseColor("#EB0000")); //빨간색
             status.setText("새 폭탄이\n도착했어요!");
         }else if(state.equals("myturn")){
-            status.setTextColor(Color.parseColor("#3399CC"));
+            status.setTextColor(Color.parseColor("#3399CC")); //파란색
             status.setText("내가 폭탄\n만들 차례!");
-        }else if(state.equals("elseturn")){
-            status.setTextColor(Color.parseColor("#FF9900"));
-            status.setText("친구가 폭탄\n만드는 중!");
+        }else if(state.equals("elsenotsolve")){
+            status.setTextColor(Color.parseColor("#FF9900")); //주황색
+            status.setText("친구가 폭탄\n푸는 중!"); //친구가 폭탄을 아직 풀지 않음
+        }else if(state.equals("elsenotmake")){
+            status.setTextColor(Color.parseColor("#504A17")); //갈색
+            status.setText("친구가 폭탄\n만드는 중!"); //친구가 폭탄을 아직 만들지 않음
         }
-
         return convertView;
     }
 
