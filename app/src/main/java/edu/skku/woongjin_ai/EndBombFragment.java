@@ -43,12 +43,17 @@ public class EndBombFragment extends AppCompatActivity {
         check1 = 0;
         check2 = 0;
 
-        uploadFirebaseUserCoinInfo(user1_key, user2_key);
+        //uploadFirebaseUserCoinInfo(user1_key, user2_key);
 
         final ValueEventListener findgamers = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+
+                    long now = System.currentTimeMillis();
+                    Date date = new Date(now);
+                    String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+
                     String key = postSnapshot.getKey();
                     String gamer_nickname = postSnapshot.child("nickname").getValue().toString();
                     String gamer_coin = postSnapshot.child("coin").getValue().toString();
@@ -61,11 +66,15 @@ public class EndBombFragment extends AppCompatActivity {
                         int coin = Integer.parseInt(gamer_coin) + 60;
                         String coin_convert = Integer.toString(coin);
                         mPostReference.child(key).child("coin").setValue(coin_convert);
+                        mPostReference.child("my_coin_list/" + today + "/get").setValue("60");
+                        mPostReference.child("my_coin_list/" + today + "/why").setValue(user2_key+"친구와의 폭탄 게임을 성공적으로 마쳤어요. ");
                         check1 = 1;
                     }
                     if (check2 == 0 && gamer_nickname.equals(user2_key)) {
                         int coin = Integer.parseInt(gamer_coin) + 60;
                         String coin_convert = Integer.toString(coin);
+                        mPostReference.child("my_coin_list/" + today + "/get").setValue("60");
+                        mPostReference.child("my_coin_list/" + today + "/why").setValue(user1_key+"친구와의 폭탄 게임을 성공적으로 마쳤어요. ");
                         mPostReference.child(key).child("coin").setValue(coin_convert);
                         check2 = 1;
                     }
@@ -91,18 +100,19 @@ public class EndBombFragment extends AppCompatActivity {
         });
     }
 
-    private void uploadFirebaseUserCoinInfo(String id1, String id2){
+    /*
+    private void uploadFirebaseUserCoinInfo(String nick1, String nick2){
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 long now = System.currentTimeMillis();
                 Date date = new Date(now);
                 String today = new SimpleDateFormat("yyMMddHHmm").format(date);
-                mPostReference.child(id1 + "/my_coin_list/" + today + "/get").setValue("60");
-                mPostReference.child(id1 + "/my_coin_list/" + today + "/why").setValue(id2+"친구와의 폭탄 게임을 성공적으로 마쳤어요. ");
+                mPostReference.child(nick1 + "/my_coin_list/" + today + "/get").setValue("60");
+                mPostReference.child(nick1 + "/my_coin_list/" + today + "/why").setValue(nick2+"친구와의 폭탄 게임을 성공적으로 마쳤어요. ");
 
-                mPostReference.child(id2 + "/my_coin_list/" + today + "/get").setValue("60");
-                mPostReference.child(id2 + "/my_coin_list/" + today + "/why").setValue(id1+"친구와의 폭탄 게임을 성공적으로 마쳤어요. ");
+                mPostReference.child(nick2 + "/my_coin_list/" + today + "/get").setValue("60");
+                mPostReference.child(nick2 + "/my_coin_list/" + today + "/why").setValue(nick1+"친구와의 폭탄 게임을 성공적으로 마쳤어요. ");
 
             }
             @Override
@@ -110,5 +120,7 @@ public class EndBombFragment extends AppCompatActivity {
             }
         });
     }
+
+     */
 
 }

@@ -137,7 +137,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="7"
                             android:id="@+id/searchID"
-                            android:hint="친구 ID를 입력하세요!"
+                            android:hint="친구 닉네임을 입력하세요!"
                             android:layout_margin="5dp"
                             android:padding="5dp"
                             />

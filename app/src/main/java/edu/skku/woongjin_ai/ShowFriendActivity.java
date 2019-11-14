@@ -3,16 +3,9 @@ package edu.skku.woongjin_ai;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,14 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kakao.kakaolink.v2.KakaoLinkResponse;
-import com.kakao.kakaolink.v2.KakaoLinkService;
-import com.kakao.message.template.LinkObject;
-import com.kakao.message.template.TextTemplate;
 import com.kakao.network.ErrorResult;
 import com.kakao.network.callback.ResponseCallback;
-import com.kakao.usermgmt.response.model.User;
-import com.kakao.util.helper.log.Logger;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,33 +33,30 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Random;
 
+import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
+
 public class ShowFriendActivity extends Activity {
-    private DatabaseReference mPostReference, mPostReference2, sReference;
+    private DatabaseReference mPostReference, mPostReference2;
     private FirebaseDatabase database;
     ListView friend_list, recommendfriend_list, search_list;
     ArrayList<String> myFriendList;
     ArrayList<UserInfo> recommendList, recommendFinalList;
     UserInfo me;
-    String id_key, name_key, nickname_key, grade_key, school_key, profile_key, myGrade, mySchool;
+    String id_key, nickname_key;
     EditText findID;
     //    String friend_nickname;
     String myprofile,myschool,mygrade,mynickname,myname;
-    String newfriend_nickname, newfriend_name, newfriend_id, newfriend_grade, newfriend_school, newfriend_profile;
+    String newfriend_nickname;
     String sfriend_nickname, sfriend_name, sfriend_id, sfriend_grade, sfriend_school, sfriend_profile;
     ImageButton invitefriend, addfriend, imageButtonHome;
-    Button search, goback, addrecommendfriend;
-    TextView searchName, searchGrade, searchSchool;
-    ImageView searchFace;
+    Button search, goback;
     Intent intent, intentHome;
-    //    int check_choose;
     int check_recommend;
     UserInfo searched;
     UserInfo ME;
     ArrayList<UserInfo> searchList;
     ShowFriendListAdapter showFriendListAdapterS;
 
-    ImageView searchedFace;
-    TextView searchedName, searchedGrade, searchedSchool;
     ImageButton searchedAddfriend;
 
     int searchedFlag=0;
@@ -81,7 +65,6 @@ public class ShowFriendActivity extends Activity {
     SharedPreferences.Editor editor;
 
     FirebaseStorage storage;
-    private StorageReference storageReference, dataReference;
 
     String FriendID;
 
@@ -168,137 +151,46 @@ public class ShowFriendActivity extends Activity {
             @Override
             public void onClick(View v) {
                 String UID=findID.getText().toString();
-                database.getReference().addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        DataSnapshot dataSnapshot1=dataSnapshot.child("user_list");
-                        for(DataSnapshot snapshot: dataSnapshot1.getChildren()){
-                            if(snapshot.getKey().equals(UID)) {
-                                //수정필요.. 리스트 초기화하는거. 아님 아예 리스트를 하지 말고 친구추가 버튼을 따로 맹글든가
-//                                searchList.clear();
-//                                search_list.clearChoices();
-//                                showFriendListAdapterS.notifyDataSetChanged();
-                                searchedFlag=1;
-                                searched = snapshot.getValue(UserInfo.class);
-                                //searchedGrade.setText(searched.grade+"학년");
-                                //searchedName.setText(searched.nickname);
-                                //searchedSchool.setText(searched.school);
-                                //searchedAddfriend.setVisibility(View.VISIBLE);
-                                //searchedAddfriend.setClickable(true);
-                                String profileUri = searched.profile;
-                                sfriend_id = searched.id;
-                                sfriend_nickname = searched.nickname;
-                                sfriend_name = searched.name;
-                                sfriend_grade = searched.grade;
-                                sfriend_school = searched.school;
-                                sfriend_profile = profileUri;
-                                ShowFriendListAdapter showFriendListAdapter=new ShowFriendListAdapter();
-                                showFriendListAdapter.addItem(sfriend_profile, sfriend_name, sfriend_grade, sfriend_school,  sfriend_id, sfriend_nickname, true);
-                                search_list.setAdapter(showFriendListAdapter);
-                                search_list.clearChoices();
-                                showFriendListAdapter.notifyDataSetChanged();
-                                /*
-                                if (profileUri.equals("noimage")){
-                                    searchedFace.setVisibility(View.VISIBLE);
-                                }else{
-                                    storage = FirebaseStorage.getInstance();
-                                    storageReference = storage.getInstance().getReference();
-                                    dataReference = storageReference.child("/profile/" + profileUri);
-                                    dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            Picasso.with(ShowFriendActivity.this)
-                                                    .load(uri)
-                                                    .error(R.drawable.btn_x)
-                                                    .into(searchedFace);
-                                        }
-                                    });
-                                }*/
-//                                searchList.add(searched);
-//                                showFriendListAdapterS.addItem(searched.profile, searched.nickname, searched.grade, searched.school);
-//                                search_list.setAdapter(showFriendListAdapterS);
-                                break;
+                if(UID==NULL){
+                    Toast.makeText(ShowFriendActivity.this, "검색할 닉네임을 입력하세요!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    database.getReference().addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            DataSnapshot dataSnapshot1=dataSnapshot.child("user_list");
+                            for(DataSnapshot snapshot: dataSnapshot1.getChildren()){
+                                if(snapshot.child("nickname").getValue().toString().equals(UID)) {
+                                    searchedFlag=1;
+                                    searched = snapshot.getValue(UserInfo.class);
+                                    String profileUri = searched.profile;
+                                    sfriend_id = searched.id;
+                                    sfriend_nickname = searched.nickname;
+                                    sfriend_name = searched.name;
+                                    sfriend_grade = searched.grade;
+                                    sfriend_school = searched.school;
+                                    sfriend_profile = profileUri;
+                                    ShowFriendListAdapter showFriendListAdapter=new ShowFriendListAdapter();
+                                    showFriendListAdapter.addItem(sfriend_profile, sfriend_name, sfriend_grade, sfriend_school,  sfriend_id, sfriend_nickname, true);
+                                    search_list.setAdapter(showFriendListAdapter);
+                                    search_list.clearChoices();
+                                    showFriendListAdapter.notifyDataSetChanged();
+                                    break;
+                                }
+                            }
+                            if(searchedFlag==0){
+                                Toast.makeText(ShowFriendActivity.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
                             }
                         }
-                        if(searchedFlag==0){
-                            Toast.makeText(ShowFriendActivity.this, "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                    }
-                });
-            }
-        });
-//        friend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                friend_nickname = friend_list.getItemAtPosition(position).toString();
-//                check_choose = 1;
-//            }
-//        });
-/*
-        searchedAddfriend.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                if(searchedFlag==1){
-                    postFirebaseFriendInfo();
-                    Toast.makeText(ShowFriendActivity.this, newfriend_nickname + "(이)가 친구리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
-                    searchedFlag=0;
-                    getFirebaseDatabase();
+                        }
+                    });
                 }
             }
         });
-*/
 
-/*
-        recommendfriend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
-                UserInfo temp = recommendFinalList.get(position);
-                newfriend_id = temp.id;
-                newfriend_nickname = temp.nickname;
-                newfriend_name = temp.name;
-                newfriend_grade = temp.grade;
-                newfriend_school = temp.school;
-                newfriend_profile=temp.profile;
-                check_recommend = 1;
-            }
-        });
-*/
-//        search_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                UserInfo temp = searchList.get(position);
-//                newfriend_id = temp.id;
-//                newfriend_nickname = temp.nickname;
-//                newfriend_name = temp.name;
-//                newfriend_grade = temp.grade;
-//                newfriend_school = temp.school;
-//                newfriend_profile=temp.profile;
-//                check_recommend = 1;
-//            }
-//        });
-
-//        addfriend.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if (check_recommend == 0) {
-//                    Toast.makeText(ShowFriendActivity.this, "추가할 친구를 선택하세요.", Toast.LENGTH_SHORT).show();
-//                }
-//                else if (check_recommend == 1) {
-//                    /*mPostReference.child(newfriend_id + "/name").setValue(newfriend_name);
-//                    mPostReference.child(newfriend_id + "/nickname").setValue(newfriend_nickname);
-//                    mPostReference.child(newfriend_id + "/grade").setValue(newfriend_grade);
-//                    mPostReference.child(newfriend_id + "/school").setValue(newfriend_school);
-//                    mPostReference.child(newfriend_id + "/profile").setValue(newfriend_profile);*/
-//                    getFirebaseDatabase();
-//                    Toast.makeText(ShowFriendActivity.this, newfriend_nickname + "(이)가 친구리스트에 추가되었습니다.", Toast.LENGTH_SHORT).show();
-//                    check_recommend = 0;
-//                }
-//            }
-//        });
 
         callback = new ResponseCallback<KakaoLinkResponse>() {
             @Override
@@ -320,34 +212,6 @@ public class ShowFriendActivity extends Activity {
 
     private ResponseCallback<KakaoLinkResponse> callback;
     private Map<String, String> serverCallbackArgs = getServerCallbackArgs();
-
-
-    public void postFirebaseFriendInfo(){
-        final ValueEventListener postListener=new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mPostReference.child(sfriend_id + "/name").setValue(sfriend_name);
-                mPostReference.child(sfriend_id + "/nickname").setValue(sfriend_nickname);
-                mPostReference.child(sfriend_id + "/grade").setValue(sfriend_grade);
-                mPostReference.child(sfriend_id + "/school").setValue(sfriend_school);
-                mPostReference.child(sfriend_id + "/profile").setValue(sfriend_profile);
-
-                me=dataSnapshot.child("user_list/"+id_key).getValue(UserInfo.class);
-
-                mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key+"/name").setValue(me.name);
-                mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/nickname").setValue(me.nickname);
-                mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/grade").setValue(me.grade);
-                mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/school").setValue(me.school);
-                mPostReference2.child("user_list").child(sfriend_id+"/my_friend_list/"+id_key + "/profile").setValue(me.profile);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        };
-        mPostReference.addValueEventListener(postListener);
-    }
 
 
     public void getFirebaseDatabase() {
@@ -445,9 +309,6 @@ public class ShowFriendActivity extends Activity {
                     recommendFinalList.add(finalRecommend);
                     showRecommendFriendListAdapter.addItem(finalRecommend.profile, finalRecommend.name, finalRecommend.grade, finalRecommend.school, finalRecommend.id, finalRecommend.nickname, true);
                 }
-                //addrecommendfriend=(Button) findViewById(R.id.addrecommendfriend);
-                //addrecommendfriend.setClickable(true);
-                //addrecommendfriend.setVisibility(View.VISIBLE);
                 recommendfriend_list.setAdapter(showRecommendFriendListAdapter);
             }
             @Override
