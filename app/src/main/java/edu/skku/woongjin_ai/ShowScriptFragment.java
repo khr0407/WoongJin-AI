@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -65,14 +66,11 @@ public class ShowScriptFragment extends Fragment {
         scriptnm = getArguments().getString("scriptnm");
         type = getArguments().getString("type");
 
-        TextView textViewTitle = (TextView) view.findViewById(R.id.title);
         textViewScript1 = (TextView) view.findViewById(R.id.script1);
         textViewScript2 = (TextView) view.findViewById(R.id.script2);
-        ImageButton buttonClose = (ImageButton) view.findViewById(R.id.close);
+        Button buttonClose = (Button) view.findViewById(R.id.close);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
-
-        textViewTitle.setText(scriptnm);
 
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,9 +93,34 @@ public class ShowScriptFragment extends Fragment {
                     fragmentTransaction.remove(((MyQuizActivity)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
                 } else if(type.equals("likequiz")) {
-                   fragmentTransaction.remove(((LikeQuizActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.remove(((LikeQuizActivity)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
-                 }
+                }
+                else if(type.equals("solvebombchoice")) {
+                    fragmentTransaction.remove(((SolveBombChoiceActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
+                else if(type.equals("solvebombox")) {
+                    fragmentTransaction.remove(((SolveBombOXActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
+                else if(type.equals("solvebombshortword")) {
+                    fragmentTransaction.remove(((SolveBombShortwordActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
+                else if(type.equals("makebombchoice")) {
+                    fragmentTransaction.remove(((MakeBombChoiceActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
+                else if(type.equals("makebombox")) {
+                    fragmentTransaction.remove(((MakeBombOXActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
+                else if(type.equals("makebombshortword")) {
+                    fragmentTransaction.remove(((MakeBombShortwordActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.commit();
+                }
+
             }
         });
 

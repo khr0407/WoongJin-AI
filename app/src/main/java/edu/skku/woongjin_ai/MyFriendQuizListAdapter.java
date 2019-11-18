@@ -8,13 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class MyFriendQuizListAdapter extends BaseAdapter {
 
     private ArrayList<MyFriendQuizListItem> myFriendQuizListItems = new ArrayList<MyFriendQuizListItem>();
+
+    FirebaseStorage storage;
+    private StorageReference storageReference, dataReference;
 
     @Override
     public int getCount() {
@@ -40,27 +49,56 @@ public class MyFriendQuizListAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.listviewcustom_myfriendquizlist, parent, false);
         }
 
-        TextView textViewQuiz = (TextView) convertView.findViewById(R.id.quizMyFriendQuizList);
-        TextView textViewUid = (TextView) convertView.findViewById(R.id.uidMyFriendQuizList);
-        ImageButton imageButtonIconLike = (ImageButton) convertView.findViewById(R.id.iconLikeMyFriendQuizList);
-        TextView textViewLike = (TextView) convertView.findViewById(R.id.likeMyFriendQuizList);
+        ImageView profile = (ImageView) convertView.findViewById(R.id.profile);
+        TextView user = (TextView) convertView.findViewById(R.id.user);
+        ImageView star2 = (ImageView) convertView.findViewById(R.id.star2);
+        ImageView star3 = (ImageView) convertView.findViewById(R.id.star3);
+        ImageView star4 = (ImageView) convertView.findViewById(R.id.star4);
+        ImageView star5 = (ImageView) convertView.findViewById(R.id.star5);
+        TextView bookName = (TextView) convertView.findViewById(R.id.bookName);
+        TextView scriptName = (TextView) convertView.findViewById(R.id.scriptName);
+        TextView question = (TextView) convertView.findViewById(R.id.question);
 
         MyFriendQuizListItem myFriendQuizListItem = getItem(position);
 
-        textViewQuiz.setText(myFriendQuizListItem.getQuiz());
-        textViewUid.setText(myFriendQuizListItem.getUid());
-        imageButtonIconLike.setImageDrawable(myFriendQuizListItem.getIconLikr());
-        textViewLike.setText(myFriendQuizListItem.getLike());
+        if(!myFriendQuizListItem.getProfile().equals("noimage")) {
+            storage = FirebaseStorage.getInstance();
+            storageReference = storage.getReference();
+            dataReference = storageReference.child("/profile/" + myFriendQuizListItem.getProfile());
+            dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.with(context)
+                            .load(uri)
+                            .error(R.drawable.btn_x)
+                            .into(profile);
+                }
+            });
+        }
+
+        user.setText(myFriendQuizListItem.getUser()+"\n친구가 만들었어요!");
+        star2.setImageDrawable(myFriendQuizListItem.getStar2());
+        star3.setImageDrawable(myFriendQuizListItem.getStar3());
+        star4.setImageDrawable(myFriendQuizListItem.getStar4());
+        star5.setImageDrawable(myFriendQuizListItem.getStar5());
+        bookName.setText(myFriendQuizListItem.getBookName());
+        scriptName.setText(myFriendQuizListItem.getScriptName());
+        question.setText(myFriendQuizListItem.getQuestion());
 
         return convertView;
     }
 
-    public void addItem(String quiz, String uid, Drawable iconLike, String like) {
+    public void addItem(String profile, String user, Drawable star2, Drawable star3, Drawable star4, Drawable star5, String bookName, String scriptName, String question) {
         MyFriendQuizListItem myFriendQuizListItem = new MyFriendQuizListItem();
-        myFriendQuizListItem.setQuiz(quiz);
-        myFriendQuizListItem.setUid(uid);
-        myFriendQuizListItem.setIconLikr(iconLike);
-        myFriendQuizListItem.setLike(like);
+        myFriendQuizListItem.setProfile(profile);
+        myFriendQuizListItem.setUser(user);
+        myFriendQuizListItem.setStar2(star2);
+        myFriendQuizListItem.setStar3(star3);
+        myFriendQuizListItem.setStar4(star4);
+        myFriendQuizListItem.setStar5(star5);
+        myFriendQuizListItem.setBookName(bookName);
+        myFriendQuizListItem.setScriptName(scriptName);
+        myFriendQuizListItem.setQuestion(question);
         myFriendQuizListItems.add(myFriendQuizListItem);
     }
 }

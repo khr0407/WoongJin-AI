@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightorange">
+    android:background="@drawable/bg_book_dark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,29 +14,27 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:weightSum="10">
 
             <ImageButton
                 android:id="@+id/home"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_icons_go_to_home"
+                android:src="@drawable/go_home"
+                android:scaleType="centerCrop"
+                android:padding="40dp"
                 android:background="#00ff0000"
-                android:layout_weight="1" />
-
-            <ImageButton
-                android:id="@+id/tempSave"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_icons_temp_storage"
-                android:background="#00ff0000"
-                android:layout_weight="1" />
+                android:layout_weight="2" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:src="@drawable/ic_icons_step1"/>
+                android:src="@drawable/steps"
+                android:scaleType="centerCrop"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"/>
 
         </LinearLayout>
 
@@ -44,31 +42,36 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            android:layout_weight="2"
-            android:weightSum="23">
+            android:layout_weight="1.5"
+            android:weightSum="11">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="2"></LinearLayout>
 
-            <ImageView
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/bot"
-                android:layout_weight="5"/>
+                android:layout_weight="7">
 
-            <TextView
-                android:id="@+id/selectBook"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_icons_speech_bubble2"
-                android:textSize="30dp"
-                android:fontFamily="@font/typo_sherlock_b"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="14"
-                android:padding="20dp" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/nationbook_board"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/selectBook"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textSize="30dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -80,12 +83,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"></LinearLayout>
+            android:layout_weight="0.2"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="5"
+            android:layout_weight="5.5"
             android:orientation="horizontal"
             android:weightSum="20">
 
@@ -98,13 +101,15 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="18"
-                android:background="@drawable/rounded_white">
+                android:background="@drawable/selectbook_board">
 
                 <ListView
                     android:id="@+id/bookList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="30dp"/>
+                    android:padding="50dp"
+                    android:dividerHeight="2dp"
+                    android:divider="@color/white"/>
 
             </LinearLayout>
 
@@ -112,14 +117,14 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="0.8"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"></LinearLayout>
+            android:layout_weight="0.8"/>
 
 
     </LinearLayout>

@@ -1,10 +1,12 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,8 +20,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,12 +39,12 @@ public class FriendOXQuizFragment extends Fragment {
 
     private FriendOXQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "";
+    String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "", background, nickname;
     int cnt, flagAO = 0, flagAX = 0;
     float starFloat;
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    ImageButton imageButtonScript, imageButtonHint;
-    Button imageButtonCheck;
+    Button imageButtonScript, imageButtonHint, imageButtonCheck;
+    DatabaseReference mPostReference;
 
     public FriendOXQuizFragment() {
 
@@ -79,6 +84,8 @@ public class FriendOXQuizFragment extends Fragment {
         hint = getArguments().getString("desc");
         key = getArguments().getString("key");
         cnt = getArguments().getInt("cnt");
+        background = getArguments().getString("background");
+        nickname = getArguments().getString("nickname");
 
         TextView textViewUid = view.findViewById(R.id.uidFriendOX);
         TextView textViewName = view.findViewById(R.id.nameFriendOX);
@@ -89,15 +96,30 @@ public class FriendOXQuizFragment extends Fragment {
         imageViewS3 = (ImageView) view.findViewById(R.id.star3);
         imageViewS4 = (ImageView) view.findViewById(R.id.star4);
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
-        imageButtonScript = (ImageButton) view.findViewById(R.id.scriptFriendOX);
-        imageButtonHint = (ImageButton) view.findViewById(R.id.hintFriendOX);
+        imageButtonScript = (Button) view.findViewById(R.id.scriptFriendOX);
+        imageButtonHint = (Button) view.findViewById(R.id.hintFriendOX);
         imageButtonCheck = (Button) view.findViewById(R.id.checkFriendOX);
+        ConstraintLayout backgroundLayout = (ConstraintLayout) view.findViewById(R.id.backgroundox);
+
+        mPostReference = FirebaseDatabase.getInstance().getReference();
 
         starFloat = Float.parseFloat(star);
 
-        textViewUid.setText(uid + " 친구가 낸 질문");
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String unickname = dataSnapshot.child("user_list/" + uid + "/nickname").getValue().toString();
+                textViewUid.setText(unickname + " 친구가 낸 질문");
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+
         textViewName.setText(scriptnm);
         textViewQuestion.setText(question);
+
+        if(background.equals("blue")) backgroundLayout.setBackgroundColor(Color.rgb(51, 153, 204));
+        else if(background.equals("red")) backgroundLayout.setBackgroundColor(Color.rgb(255, 102, 102));
 
         imageButtonCheck.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +131,7 @@ public class FriendOXQuizFragment extends Fragment {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
-                        Bundle bundle = new Bundle(7);
+                        Bundle bundle = new Bundle(8);
                         bundle.putString("id", id);
                         bundle.putString("scriptnm", scriptnm);
                         bundle.putString("uid", uid);
@@ -117,6 +139,7 @@ public class FriendOXQuizFragment extends Fragment {
                         bundle.putString("like", like);
                         bundle.putString("key", key);
                         bundle.putInt("cnt", cnt);
+                        bundle.putString("nickname", nickname);
                         ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment.setArguments(bundle);
 //                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
@@ -125,7 +148,7 @@ public class FriendOXQuizFragment extends Fragment {
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment);
                         Bundle bundle = new Bundle(1);
-                        bundle.putString("id", id);
+                        bundle.putString("nickname", nickname);
                         ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment.setArguments(bundle);
 //                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
@@ -164,13 +187,13 @@ public class FriendOXQuizFragment extends Fragment {
         });
 
         if(starFloat >= 1.5) {
-            imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+            imageViewS2.setImageResource(R.drawable.star_full);
             if(starFloat >= 2.5) {
-                imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                imageViewS3.setImageResource(R.drawable.star_full);
                 if(starFloat >= 3.5) {
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     if(starFloat >= 4.5) {
-                        imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                        imageViewS5.setImageResource(R.drawable.star_full);
                     }
                 }
             }

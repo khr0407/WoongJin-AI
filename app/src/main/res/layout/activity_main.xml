@@ -15,7 +15,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:weightSum="6.5"
-        android:background="@drawable/main_background"
+        android:background="@drawable/bg_main"
         >
 
         <LinearLayout

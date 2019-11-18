@@ -137,7 +137,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="7"
                             android:id="@+id/searchID"
-                            android:hint="친구 ID를 입력하세요!"
+                            android:hint="친구 닉네임을 입력하세요!"
                             android:layout_margin="5dp"
                             android:padding="5dp"
                             />
@@ -185,6 +185,9 @@
                             android:scaleType="fitCenter"
                             android:visibility="invisible"
                             />
+
+
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -193,6 +196,7 @@
                             android:orientation="vertical"
                             android:padding="10dp"
                             >
+
                             <TextView
                                 android:id="@+id/friendName"
                                 android:layout_width="match_parent"
@@ -201,6 +205,7 @@
                                 android:fontFamily="@font/typo_sherlock_b"
                                 android:textSize="30dp"
                                 android:gravity="center|left"/>
+
                             <TextView
                                 android:id="@+id/friendGrade"
                                 android:layout_width="match_parent"
@@ -209,6 +214,7 @@
                                 android:fontFamily="@font/typo_sherlock_l"
                                 android:textSize="20dp"
                                 android:gravity="center|left"/>
+
                             <TextView
                                 android:id="@+id/friendSchool"
                                 android:layout_width="match_parent"
@@ -217,7 +223,10 @@
                                 android:fontFamily="@font/typo_sherlock_l"
                                 android:textSize="20dp"
                                 android:gravity="center|left"/>
+
                         </LinearLayout>
+
+
                         <ImageButton
                             android:id="@+id/addFriendButton"
                             android:layout_width="0dp"
@@ -230,6 +239,7 @@
                             android:visibility="invisible"
                             android:clickable="false"
                             />
+
                     </LinearLayout>
                     -->
 
@@ -241,7 +251,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="0.3"
                     ></LinearLayout>
-                //5
+            //5
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -309,7 +319,7 @@
             android:layout_height="match_parent"
             android:text="뒤로가기"
             android:fontFamily="@font/bmjua_ttf"
-            android:background="@drawable/account"
+            android:background="@drawable/ic_menu_format"
             android:textColor="@color/white"
             android:textSize="20dp"
             android:scaleType="centerCrop"

@@ -104,6 +104,9 @@ public class NewHoonjangFragment extends Fragment {
                 }else if(from.equals("showfriendquiz")) {
                     fragmentTransaction.remove(((ShowFriendQuizActivity)getActivity()).hoonjangFragment);
                     fragmentTransaction.commit();
+                }else if(from.equals("gamelist")){
+                    fragmentTransaction.remove(((GameListActivity)getActivity()).hoonjangFragment_bombmaster);
+                    fragmentTransaction.commit();
                 }
             }
         });

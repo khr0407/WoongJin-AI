@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_book_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="10">
+
+            <ImageButton
+                android:id="@+id/home"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/go_home"
+                android:scaleType="centerCrop"
+                android:padding="40dp"
+                android:background="#00ff0000"
+                android:layout_weight="2" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="1.5"
+            android:weightSum="11">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="2"/>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="7">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/nationbook_board"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/nationbook_board"
+                    android:textSize="40dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="2"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5.5"
+        android:orientation="horizontal"
+        android:weightSum="20">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="18"
+            android:weightSum="2.5"
+            android:padding="40dp"
+            android:orientation="vertical"
+            android:background="@drawable/selectbook_board">
+
+            <TextView
+                android:id="@+id/makeQuiz"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:fontFamily="@font/bmjua_ttf"
+                android:gravity="center"
+                android:textSize="40dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.2"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <ImageButton
+                    android:id="@+id/quiz_ox"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:background="#00ff0000"
+                    android:src="@drawable/ox_quiz"
+                    android:scaleType="centerCrop"/>
+
+                <ImageButton
+                    android:id="@+id/quiz_choice"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:background="#00ff0000"
+                    android:src="@drawable/select_quiz"
+                    android:scaleType="centerCrop"/>
+
+                <ImageButton
+                    android:id="@+id/quiz_shortword"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:background="#00ff0000"
+                    android:src="@drawable/shortword_quiz"
+                    android:scaleType="centerCrop"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.8" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

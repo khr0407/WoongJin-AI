@@ -11,9 +11,9 @@ import android.widget.ImageButton;
 public class NationBookActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentSelectBook;
-    String id;
+    String id, nickname, thisWeek;
     ImageButton homeButton;
-    Button scienceButton, historyButton, newsButton, moralityButton, misteryButton, comicsButton, oldstoryButton, greatmanButton;
+    ImageButton scienceButton, historyButton, newsButton, moralityButton, misteryButton, comicsButton, oldstoryButton, greatmanButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -22,18 +22,23 @@ public class NationBookActivity extends AppCompatActivity {
 
         intent = getIntent();
         id = intent.getStringExtra("id");
+        nickname = intent.getStringExtra("nickname");
+        thisWeek = intent.getStringExtra("thisWeek");
+
         intentSelectBook = new Intent(NationBookActivity.this, SelectBookActivity.class);
         intentSelectBook.putExtra("id", id);
+        intentSelectBook.putExtra("nickname", nickname);
+        intentSelectBook.putExtra("thisWeek", thisWeek);
 
         homeButton = (ImageButton) findViewById(R.id.home);
-        scienceButton = (Button) findViewById(R.id.science);
-        historyButton = (Button) findViewById(R.id.history);
-        newsButton = (Button) findViewById(R.id.news);
-        moralityButton = (Button) findViewById(R.id.morality);
-        misteryButton = (Button) findViewById(R.id.mistery);
-        comicsButton = (Button) findViewById(R.id.comics);
-        oldstoryButton = (Button) findViewById(R.id.oldstory);
-        greatmanButton = (Button) findViewById(R.id.greatman);
+        scienceButton = (ImageButton) findViewById(R.id.science);
+        historyButton = (ImageButton) findViewById(R.id.history);
+        newsButton = (ImageButton) findViewById(R.id.news);
+        moralityButton = (ImageButton) findViewById(R.id.morality);
+        misteryButton = (ImageButton) findViewById(R.id.mistery);
+        comicsButton = (ImageButton) findViewById(R.id.comics);
+        oldstoryButton = (ImageButton) findViewById(R.id.oldstory);
+        greatmanButton = (ImageButton) findViewById(R.id.greatman);
 
         scienceButton.setOnClickListener(new View.OnClickListener() {
             @Override

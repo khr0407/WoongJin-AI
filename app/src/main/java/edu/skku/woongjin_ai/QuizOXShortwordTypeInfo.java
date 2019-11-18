@@ -15,12 +15,13 @@ public class QuizOXShortwordTypeInfo {
     public String url;
     public int type;
     public String scriptnm;
+    public String book_name;
 
     public QuizOXShortwordTypeInfo() {
 
     }
 
-    public QuizOXShortwordTypeInfo(String uid, String question, String answer, String star, String desc, String like, String key, int cnt, String url, int type) {
+    public QuizOXShortwordTypeInfo(String uid, String question, String answer, String star, String desc, String like, String key, int cnt, String url, int type, String scriptnm, String book_name) {
         this.uid = uid;
         this.question = question;
         this.answer = answer;
@@ -31,6 +32,8 @@ public class QuizOXShortwordTypeInfo {
         this.cnt = cnt;
         this.url = url;
         this.type = type;
+        this.scriptnm = scriptnm;
+        this.book_name = book_name;
     }
 
     public Map<String, Object> toMap() {
@@ -46,6 +49,7 @@ public class QuizOXShortwordTypeInfo {
         result.put("url", url);
         result.put("type", type);
         result.put("scriptnm", scriptnm);
+        result.put("book_name", book_name);
         return result;
     }
 }

@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SeeOXQuizFragment extends Fragment {
+public class SeeOXQuizFragment extends Fragment implements ShowWhoLikedFragment.OnFragmentInteractionListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -40,8 +40,9 @@ public class SeeOXQuizFragment extends Fragment {
     float starFloat;
     TextView Title, QuizContent;
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    ImageButton imageButtonScript, imageButtonHint;
+    Button imageButtonScript, imageButtonHint;
     Button wholike;
+    ShowWhoLikedFragment showWhoLikedFragment;
 
     public SeeOXQuizFragment() {
 
@@ -83,13 +84,13 @@ public class SeeOXQuizFragment extends Fragment {
         cnt = getArguments().getInt("cnt");
         mine_or_like = getArguments().getString("mine_or_like");
 
-
+        showWhoLikedFragment=new ShowWhoLikedFragment();
         wholike=view.findViewById(R.id.fakeBT_likecnt_or_friendname);
 
         if(mine_or_like.equals("0"))//내문제보기
             wholike.setText(like+"명이 좋아했어요!");
         else//좋아요한문제보기
-            wholike.setText(uid+"친구가 만든 문제!\n"+like+"명이 좋아했어요!");
+            wholike.setText(uid+"친구가 만든 문제!");
 
         Title = view.findViewById(R.id.title);
         QuizContent = view.findViewById(R.id.quizContent);
@@ -99,7 +100,7 @@ public class SeeOXQuizFragment extends Fragment {
         imageViewS3 = (ImageView) view.findViewById(R.id.star3);
         imageViewS4 = (ImageView) view.findViewById(R.id.star4);
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
-        imageButtonScript = (ImageButton) view.findViewById(R.id.see_script);
+        imageButtonScript = (Button) view.findViewById(R.id.see_script);
 
         starFloat = Float.parseFloat(star);
 
@@ -107,6 +108,22 @@ public class SeeOXQuizFragment extends Fragment {
         QuizContent.setText(question);
 
         //wholike눌렀을때 fragment..
+        wholike.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager=getFragmentManager();
+                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                if(mine_or_like.equals("0")){
+                    //activity.onFragmentChange(0, key, 3);
+                    fragmentTransaction.replace(R.id.seequiz_fragment, ((MyQuizActivity)getActivity()).showWhoLikedFragment);
+                    Bundle bundle=new Bundle(1);
+                    bundle.putString("quizKey", key);
+                    showWhoLikedFragment.setArguments(bundle);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            }
+        });
 
 
         imageButtonScript.setOnClickListener(new View.OnClickListener() {
@@ -136,13 +153,13 @@ public class SeeOXQuizFragment extends Fragment {
         });
 
         if(starFloat >= 1.5) {
-            imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+            imageViewS2.setImageResource(R.drawable.star_full);
             if(starFloat >= 2.5) {
-                imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                imageViewS3.setImageResource(R.drawable.star_full);
                 if(starFloat >= 3.5) {
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     if(starFloat >= 4.5) {
-                        imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                        imageViewS5.setImageResource(R.drawable.star_full);
                     }
                 }
             }
@@ -178,6 +195,11 @@ public class SeeOXQuizFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     public interface OnFragmentInteractionListener {

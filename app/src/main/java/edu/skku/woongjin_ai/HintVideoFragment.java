@@ -92,17 +92,17 @@ public class HintVideoFragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 if(type.equals("ox")) {
-                    ((OXTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+//                    ((OXTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     ((OXTypeActivity)getActivity()).flagD = 0;
                     fragmentTransaction.remove(((OXTypeActivity)getActivity()).hintVideoFragment);
                     fragmentTransaction.commit();
                 } else if(type.equals("choice")) {
-                    ((ChoiceTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+//                    ((ChoiceTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     ((ChoiceTypeActivity)getActivity()).flagD = 0;
                     fragmentTransaction.remove(((ChoiceTypeActivity)getActivity()).hintVideoFragment);
                     fragmentTransaction.commit();
                 } else if(type.equals("shortword")) {
-                    ((ShortwordTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+//                    ((ShortwordTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     ((ShortwordTypeActivity)getActivity()).flagD = 0;
                     fragmentTransaction.remove(((ShortwordTypeActivity)getActivity()).hintVideoFragment);
                     fragmentTransaction.commit();

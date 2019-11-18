@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class NationQuizActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentMakeQuiz, intentFriendQuiz;
-    String id, quizType, nickname;
+    String id, nickname, thisWeek;
     TextView textView;
     ImageButton homeButton;
     public DatabaseReference mPostReference;
@@ -39,8 +39,8 @@ public class NationQuizActivity extends AppCompatActivity {
 
         intent = getIntent();
         id = intent.getStringExtra("id");
-        quizType = intent.getStringExtra("quizType");
         nickname = intent.getStringExtra("nickname");
+        thisWeek = intent.getStringExtra("thisWeek");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -54,30 +54,19 @@ public class NationQuizActivity extends AppCompatActivity {
 
         getFirebaseDatabaseStudiedBookList();
 
-        if(quizType.equals("me")) {
-            textView.setText(nickname + "(이)가 읽은 책 목록이야~\n문제를 내고 싶은 책을 클릭하면 문제를 만들 수 있어!");
-        } else if(quizType.equals("friend")) {
-            textView.setText(nickname + "(이)가 읽은 책 목록이야~\n책을 클릭하면 다른 친구들이 낸 문제를 풀어보고 평가할 수 있어!");
-        }
+        textView.setText(nickname + "(이)가 읽은 책 목록이야~\n문제를 내고 싶은 책을 클릭하면 문제를 만들 수 있어!");
 
         studiedBookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
-                if(quizType.equals("me")) {
-                    intentMakeQuiz = new Intent(NationQuizActivity.this, SelectTypeActivity.class);
-                    intentMakeQuiz.putExtra("id", id);
-                    intentMakeQuiz.putExtra("scriptnm", studiedBookArrayList.get(position));
-                    intentMakeQuiz.putExtra("background", backgroundArrayList.get(position));
-                    startActivity(intentMakeQuiz);
-                    finish();
-                } else if(quizType.equals("friend")) {
-                    intentFriendQuiz = new Intent(NationQuizActivity.this, ShowFriendQuizActivity.class);
-                    intentFriendQuiz.putExtra("id", id);
-                    intentFriendQuiz.putExtra("scriptnm", studiedBookArrayList.get(position));
-                    intentFriendQuiz.putExtra("background", backgroundArrayList.get(position));
-                    startActivity(intentFriendQuiz);
-                    finish();
-                }
+                intentMakeQuiz = new Intent(NationQuizActivity.this, SelectTypeActivity.class);
+                intentMakeQuiz.putExtra("id", id);
+                intentMakeQuiz.putExtra("scriptnm", studiedBookArrayList.get(position));
+                intentMakeQuiz.putExtra("background", backgroundArrayList.get(position));
+                intentMakeQuiz.putExtra("nickname", nickname);
+                intentMakeQuiz.putExtra("thisWeek", thisWeek);
+                startActivity(intentMakeQuiz);
+                finish();
             }
         });
 
@@ -101,8 +90,9 @@ public class NationQuizActivity extends AppCompatActivity {
 
                 for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_script_list").getChildren()) {
                     String key = snapshot.getKey();
+                    String bookname = dataSnapshot.child("script_list/" + key + "/book_name").getValue().toString();
                     studiedBookArrayList.add(key);
-                    selectBookListAdapter.addItem(key);
+                    selectBookListAdapter.addItem(key, bookname);
                 }
                 studiedBookListView.setAdapter(selectBookListAdapter);
 

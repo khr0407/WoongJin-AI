@@ -25,7 +25,7 @@
                 android:id="@+id/withwhom"
                 android:fontFamily="@font/bmjua_ttf"
                 android:textSize="20dp"
-                android:textColor="@color/blue"
+                android:textColor="@color/dimgray"
                 android:layout_gravity="center"
                 android:gravity="center|left"
                 android:text="누구랑"
@@ -57,7 +57,7 @@
             android:textSize="20dp"
             android:text="게임상황"
             android:textColor="@color/black"
-            />
+        />
 
     </LinearLayout>
 

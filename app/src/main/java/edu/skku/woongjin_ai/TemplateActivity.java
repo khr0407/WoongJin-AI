@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,10 +23,11 @@ import java.util.Random;
 
 public class TemplateActivity extends AppCompatActivity {
 
-    Intent intent, intentHome;
-    String id, scriptnm;
-    TextView oxT, choiceT, shortwordT, scriptnmT;
+    Intent intent, intentHome, intentSelectType;
+    String id, scriptnm, backgroundID, thisWeek, nickname;
+    TextView oxT, choiceT, shortwordT;
     ImageView imageHome;
+    Button buttonGoBack;
     public DatabaseReference mPostReference;
     ArrayList<QuizOXShortwordTypeInfo> quizListOX, quizListShortword;
     ArrayList<QuizChoiceTypeInfo> quizListChoice;
@@ -36,13 +38,13 @@ public class TemplateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_template);
 
-        // TODO: 탭으로 테스트
+        //TODO 디자인
 
         imageHome = (ImageView) findViewById(R.id.home);
         oxT = (TextView) findViewById(R.id.quiz_ox_template);
         choiceT = (TextView) findViewById(R.id.quiz_choice_template);
         shortwordT = (TextView) findViewById(R.id.quiz_shortword_template);
-        scriptnmT = (TextView) findViewById(R.id.scriptnm);
+        buttonGoBack = (Button) findViewById(R.id.goBack);
 
         quizListOX = new ArrayList<QuizOXShortwordTypeInfo>();
         quizListChoice = new ArrayList<QuizChoiceTypeInfo>();
@@ -55,11 +57,26 @@ public class TemplateActivity extends AppCompatActivity {
         intent = getIntent();
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
-        scriptnmT.setText("제목:  " + scriptnm);
+        backgroundID = intent.getStringExtra("background");
+        thisWeek = intent.getStringExtra("thisWeek");
+        nickname = intent.getStringExtra("nickname");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         final Random generator = new Random();
+
+        buttonGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intentSelectType = new Intent(TemplateActivity.this, SelectTypeActivity.class);
+                intentSelectType.putExtra("id", id);
+                intentSelectType.putExtra("scriptnm", scriptnm);
+                intentSelectType.putExtra("background", backgroundID);
+                intentSelectType.putExtra("thisWeek", thisWeek);
+                intentSelectType.putExtra("nickname", nickname);
+                startActivity(intentSelectType);
+            }
+        });
 
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,101 +168,43 @@ public class TemplateActivity extends AppCompatActivity {
                     }
                 }
 
-//                for(DataSnapshot snapshot1 : dataSnapshot.getChildren()) {
-//                    for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
-//                        QuizOXShortwordTypeInfo getNew = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
-//
-//                        if(cnt1 < 3) {
-//                            quizListOX.add(getNew);
-//                            for(QuizOXShortwordTypeInfo findMinLike : quizListOX) {
-//                                int findMin = Integer.parseInt(findMinLike.like);
-//                                int minLike = Integer.parseInt(quizListOX.get(minLikeQuiz1).like);
-//                                if(findMin < minLike) minLikeQuiz1 = quizListOX.indexOf(findMinLike);
-//                            }
-//                            cnt1++;
-//                        } else {
-//                            String getLike = getNew.like;
-//                            int minLike = Integer.parseInt(quizListOX.get(minLikeQuiz1).like);
-//                            if(minLike < Integer.parseInt(getLike)) {
-//                                quizListOX.remove(minLikeQuiz1);
-//                                quizListOX.add(minLikeQuiz1, getNew);
-//                                for(QuizOXShortwordTypeInfo findMinLike : quizListOX) {
-//                                    int findMin = Integer.parseInt(findMinLike.like);
-//                                    int minLikeNew = Integer.parseInt(quizListOX.get(minLikeQuiz1).like);
-//                                    if(findMin < minLikeNew) minLikeQuiz1 = quizListOX.indexOf(findMinLike);
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
-//                        QuizChoiceTypeInfo getNew = snapshot2.getValue(QuizChoiceTypeInfo.class);
-//
-//                        if(cnt2 < 3) {
-//                            quizListChoice.add(getNew);
-//                            for(QuizChoiceTypeInfo findMinLike : quizListChoice) {
-//                                int findMin = Integer.parseInt(findMinLike.like);
-//                                int minLike = Integer.parseInt(quizListChoice.get(minLikeQuiz2).like);
-//                                if(findMin < minLike) minLikeQuiz2 = quizListChoice.indexOf(findMinLike);
-//                            }
-//                            cnt2++;
-//                        } else {
-//                            String getLike = getNew.like;
-//                            int minLike = Integer.parseInt(quizListChoice.get(minLikeQuiz2).like);
-//                            if(minLike < Integer.parseInt(getLike)) {
-//                                quizListChoice.remove(minLikeQuiz2);
-//                                quizListChoice.add(minLikeQuiz2, getNew);
-//                                for(QuizChoiceTypeInfo findMinLike : quizListChoice) {
-//                                    int findMin = Integer.parseInt(findMinLike.like);
-//                                    int minLikeNew = Integer.parseInt(quizListChoice.get(minLikeQuiz2).like);
-//                                    if(findMin < minLikeNew) minLikeQuiz2 = quizListChoice.indexOf(findMinLike);
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                    for(DataSnapshot snapshot2 : snapshot1.getChildren()) {
-//                        QuizOXShortwordTypeInfo getNew = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
-//
-//                        if(cnt3 < 3) {
-//                            quizListShortword.add(getNew);
-//                            for(QuizOXShortwordTypeInfo findMinLike : quizListShortword) {
-//                                int findMin = Integer.parseInt(findMinLike.like);
-//                                int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz3).like);
-//                                if(findMin < minLike) minLikeQuiz3 = quizListShortword.indexOf(findMinLike);
-//                            }
-//                            cnt3++;
-//                        } else {
-//                            String getLike = getNew.like;
-//                            int minLike = Integer.parseInt(quizListShortword.get(minLikeQuiz3).like);
-//                            if(minLike < Integer.parseInt(getLike)) {
-//                                quizListShortword.remove(minLikeQuiz3);
-//                                quizListShortword.add(minLikeQuiz3, getNew);
-//                                for(QuizOXShortwordTypeInfo findMinLike : quizListShortword) {
-//                                    int findMin = Integer.parseInt(findMinLike.like);
-//                                    int minLikeNew = Integer.parseInt(quizListShortword.get(minLikeQuiz3).like);
-//                                    if(findMin < minLikeNew) minLikeQuiz3 = quizListShortword.indexOf(findMinLike);
-//                                }
-//                            }
-//                        }
-//                    }
-//
-//                }
+                int bound, rand;
+                String post;
+                if(cnt1 == 0) {
+                    post = "데이터 없음";
+                    oxT.setText(post);
+                } else {
+                    bound = 3;
+                    if(cnt1 < 3) bound = cnt1;
+                    rand = generator.nextInt(bound);
+                    QuizOXShortwordTypeInfo post1 = quizListOX.get(rand);
+                    post = "Q. " + post1.question + "\nA. " + post1.answer + "\n힌트: " + post1.desc + "\n레벨: " + post1.star;
+                    oxT.setText(post);
+                }
 
-                int rand = generator.nextInt(3);
-                QuizOXShortwordTypeInfo post1 = quizListOX.get(rand);
-                String postS1 = " Q. " + post1.question + "\n A. " + post1.answer + "\n Desc: " + post1.desc + "\n Star: " + post1.star;
-                oxT.setText(postS1);
+                if(cnt2 == 0) {
+                    post = "데이터 없음";
+                    choiceT.setText(post);
+                } else {
+                    bound = 3;
+                    if(cnt2 < 3) bound = cnt2;
+                    rand = generator.nextInt(bound);
+                    QuizChoiceTypeInfo post2 = quizListChoice.get(rand);
+                    post = "Q. " + post2.question + "\nA1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\nA. " + post2.answer + "\n힌트: " + post2.desc + "\n레벨: " + post2.star;
+                    choiceT.setText(post);
+                }
 
-                rand = generator.nextInt(3);
-                QuizChoiceTypeInfo post2 = quizListChoice.get(rand);
-                String postS2 = " Q. " + post2.question + "\n A1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\n A. " + post2.answer + "\n Desc: " + post2.desc + "\n Star: " + post2.star;
-                choiceT.setText(postS2);
-
-                rand = generator.nextInt(3);
-                QuizOXShortwordTypeInfo post3 = quizListShortword.get(rand);
-                String postS3 = " Q. " + post3.question + "\n A. " + post3.answer + "\n Desc: " + post3.desc + "\n Star: " + post3.star;
-                shortwordT.setText(postS3);
+                if(cnt3 == 0) {
+                    post = "데이터 없음";
+                    shortwordT.setText(post);
+                } else {
+                    bound = 3;
+                    if(cnt3 < 3) bound = cnt3;
+                    rand = generator.nextInt(bound);
+                    QuizOXShortwordTypeInfo post3 = quizListShortword.get(rand);
+                    post = "Q. " + post3.question + "\nA. " + post3.answer + "\n힌트: " + post3.desc + "\n레벨: " + post3.star;
+                    shortwordT.setText(post);
+                }
             }
 
             @Override

@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SeeChoiceQuizFragment extends Fragment {
+public class SeeChoiceQuizFragment extends Fragment implements ShowWhoLikedFragment.OnFragmentInteractionListener{
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -40,9 +41,11 @@ public class SeeChoiceQuizFragment extends Fragment {
     float starFloat;
     TextView Title, QuizContent;
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    ImageButton imageButtonScript, imageButtonHint;
+    Button imageButtonScript, imageButtonHint;
     Button imageButtonCheck, wholike;
     TextView textViewAns1, textViewAns2, textViewAns3, textViewAns4;
+    ShowWhoLikedFragment showWhoLikedFragment;
+    //MyQuizActivity activity;
 
     public SeeChoiceQuizFragment() {
 
@@ -88,13 +91,14 @@ public class SeeChoiceQuizFragment extends Fragment {
         key = getArguments().getString("key");
         cnt = getArguments().getInt("cnt");
 
+        showWhoLikedFragment=new ShowWhoLikedFragment();
 
         wholike=view.findViewById(R.id.fakeBT_likecnt_or_friendname);
 
         if(mine_or_like.equals("0"))//내문제보기
             wholike.setText(like+"명이 좋아했어요!");
         else//좋아요한문제보기
-            wholike.setText(uid+"친구가 만든 문제!\n"+like+"명이 좋아했어요!");
+            wholike.setText(uid+"친구가 만든 문제!");
 
         Title = view.findViewById(R.id.title);
         QuizContent = view.findViewById(R.id.quizContent);
@@ -102,7 +106,7 @@ public class SeeChoiceQuizFragment extends Fragment {
         imageViewS3 = (ImageView) view.findViewById(R.id.star3);
         imageViewS4 = (ImageView) view.findViewById(R.id.star4);
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
-        imageButtonScript = (ImageButton) view.findViewById(R.id.see_script);
+        imageButtonScript = (Button) view.findViewById(R.id.see_script);
         textViewAns1 = (TextView) view.findViewById(R.id.first);
         textViewAns2 = (TextView) view.findViewById(R.id.second);
         textViewAns3 = (TextView) view.findViewById(R.id.third);
@@ -119,6 +123,24 @@ public class SeeChoiceQuizFragment extends Fragment {
         QuizContent.setText(question);
 
         //wholike눌렀을때 fragment..
+        wholike.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager=getFragmentManager();
+                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                if(mine_or_like.equals("0")) {
+                    //activity.onFragmentChange(0, key, 2);
+
+                    fragmentTransaction.replace(R.id.seequiz_fragment, ((MyQuizActivity) getActivity()).showWhoLikedFragment);
+                    Bundle bundle = new Bundle(1);
+                    bundle.putString("quizKey", key);
+                    showWhoLikedFragment.setArguments(bundle);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            }
+        });
+
 
 
         imageButtonScript.setOnClickListener(new View.OnClickListener() {
@@ -148,13 +170,13 @@ public class SeeChoiceQuizFragment extends Fragment {
         });
 
         if(starFloat >= 1.5) {
-            imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+            imageViewS2.setImageResource(R.drawable.star_full);
             if(starFloat >= 2.5) {
-                imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                imageViewS3.setImageResource(R.drawable.star_full);
                 if(starFloat >= 3.5) {
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     if(starFloat >= 4.5) {
-                        imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                        imageViewS5.setImageResource(R.drawable.star_full);
                     }
                 }
             }
@@ -164,13 +186,13 @@ public class SeeChoiceQuizFragment extends Fragment {
 
 
         if(answer.equals(answer1))
-            textViewAns1.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+            textViewAns1.setBackgroundColor(Color.rgb(255, 153, 0));
         else if(answer.equals(answer2))
-            textViewAns2.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+            textViewAns2.setBackgroundColor(Color.rgb(255, 153, 0));
         else if(answer.equals(answer3))
-            textViewAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+            textViewAns3.setBackgroundColor(Color.rgb(255, 153, 0));
         else
-            textViewAns4.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+            textViewAns4.setBackgroundColor(Color.rgb(255, 153, 0));
 
 
         return view;
@@ -185,6 +207,7 @@ public class SeeChoiceQuizFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        //activity=(MyQuizActivity)getActivity();
         if (context instanceof SeeChoiceQuizFragment.OnFragmentInteractionListener) {
             mListener = (SeeChoiceQuizFragment.OnFragmentInteractionListener) context;
         } else {
@@ -197,6 +220,11 @@ public class SeeChoiceQuizFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     public interface OnFragmentInteractionListener {

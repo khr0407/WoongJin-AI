@@ -2,12 +2,15 @@ package edu.skku.woongjin_ai;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -42,8 +45,10 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,18 +56,18 @@ import java.util.Iterator;
 
 import static com.kakao.usermgmt.StringSet.nickname;
 
-public class MyPageActivity extends AppCompatActivity {
+public class MyPageActivity extends AppCompatActivity{
 
     public DatabaseReference mPostReference;
-    Intent intent, intentGoHome, intentAddFriend, intent_LikeList, intent_QList, intentHome, intent_Record;
-    String id, profileUri;
-    Button btnFriendList, btnLikeList, btnQList, btnChangePicture, btnUpload, btnRecord;
-    Button logout;
-    ImageButton goHome;
+    Intent intent, intentGoHome, intentAddFriend, intentCoinRecord, intent_LikeList, intent_QList, intentHome, intent_Record;
+    String id, profileUri, mynickname, mygrade, myschool, myname, myprofile;
+    ImageButton logout;
+    Button coin_record;
+    ImageButton goHome, btnLikeList, btnQList, btnFriendList, btnChangePicture, btnUpload, btnRecord;
     ImageView attendw, readw, quizw, quizhunterw, bombmasterw, bucketw;
     TextView userGrade, userSchool, userName, userCoin, userName1, userGrade1;
     TextView attendd, readd, quizd, quizhunterd, bombmasterd, bucketd;
-    TextView textViewCorrectL, textViewCorrectT, textViewLikeL, textViewLikeT, textViewLevelL, textViewLevelT;
+    TextView textViewCorrectL, textViewCorrectT, textViewLikeL, textViewLikeT, textViewLevelL, textViewLevelT, textViewSolveBombL, textViewSolveBombT;
     ImageView myFace;
     UserInfo me;
     ArrayList<WeekInfo> weekInfos;
@@ -71,38 +76,49 @@ public class MyPageActivity extends AppCompatActivity {
     private static final int REQUEST_CODE = 0;
     private static final String TAG = "MyPageActivity";
     private Uri filePath;
+    //Context context;
+    //GradientDrawable drawable;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mypage);
 
+        //context=MyPageActivity.this;
+        //drawable=(GradientDrawable) context.getDrawable(R.drawable.background_rounding);
+
         intent = getIntent();
         id = intent.getStringExtra("id");
+        myprofile = intent.getStringExtra("profile");
+        myschool = intent.getStringExtra("school");
+        mygrade = intent.getStringExtra("grade");
+        mynickname = intent.getStringExtra("nickname");
+        myname = intent.getStringExtra("name");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         ImageButton homeButton = (ImageButton) findViewById(R.id.home);
-        btnFriendList = (Button) findViewById(R.id.FriendList);
-        btnQList = (Button) findViewById(R.id.QList);
-        btnLikeList = (Button) findViewById(R.id.LikeList);
+        btnFriendList = (ImageButton) findViewById(R.id.FriendList);
+        btnQList = (ImageButton) findViewById(R.id.QList);
+        btnLikeList = (ImageButton) findViewById(R.id.LikeList);
         userName = (TextView) findViewById(R.id.userName);
         userName1 = (TextView) findViewById(R.id.userName1);
         userSchool = (TextView) findViewById(R.id.userSchool);
         userGrade = (TextView) findViewById(R.id.userGrade);
         userGrade1 = (TextView) findViewById(R.id.userGrade1);
         userCoin = (TextView) findViewById(R.id.userCoin);
-        logout = (Button) findViewById(R.id.logout);
+        logout = (ImageButton) findViewById(R.id.logout);
         textViewCorrectL = (TextView) findViewById(R.id.lastCorrectCnt);
         textViewCorrectT = (TextView) findViewById(R.id.thisCorrectCnt);
         textViewLikeL = (TextView) findViewById(R.id.lastLikeCnt);
         textViewLikeT = (TextView) findViewById(R.id.thisLikeCnt);
         textViewLevelL = (TextView) findViewById(R.id.lastLevel);
         textViewLevelT = (TextView) findViewById(R.id.thisLevel);
-        btnChangePicture = (Button) findViewById(R.id.changePicture);
-        btnUpload = (Button) findViewById(R.id.upload);
+        btnChangePicture = (ImageButton) findViewById(R.id.changePicture);
+        btnUpload = (ImageButton) findViewById(R.id.upload);
         myFace = (ImageView) findViewById(R.id.myFace);
-        btnRecord = (Button) findViewById(R.id.record);
+        btnRecord = (ImageButton) findViewById(R.id.record);
         goHome = (ImageButton) findViewById(R.id.home);
         attendw = (ImageView) findViewById(R.id.attend_wang);
         quizw = (ImageView) findViewById(R.id.quiz_wang);
@@ -116,9 +132,16 @@ public class MyPageActivity extends AppCompatActivity {
         quizhunterd = (TextView) findViewById(R.id.quiz_hunter_date);
         bombmasterd = (TextView) findViewById(R.id.bomb_master_date);
         bucketd = (TextView) findViewById(R.id.bucket_wang_date);
+        coin_record=(Button)findViewById(R.id.CoinRecord);
+        textViewSolveBombL =(TextView)findViewById(R.id.lastSolveBombCnt);
+        textViewSolveBombT=(TextView)findViewById(R.id.thisSolveBombCnt);
 
 
         weekInfos = new ArrayList<WeekInfo>();
+
+
+        //myFace.setBackground(drawable);
+        //myFace.setClipToOutline(true);
 
         getFirebaseDatabaseUserInfo();
 
@@ -146,7 +169,24 @@ public class MyPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 intentAddFriend = new Intent(MyPageActivity.this, ShowFriendActivity.class);
                 intentAddFriend.putExtra("id", id);
+                intentAddFriend.putExtra("nickname", mynickname);
+                intentAddFriend.putExtra("grade", mygrade);
+                intentAddFriend.putExtra("profile", profileUri);
+                intentAddFriend.putExtra("school", myschool);
+                intentAddFriend.putExtra("name", myname);
                 startActivity(intentAddFriend);
+            }
+        });
+
+        coin_record.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                intentCoinRecord=new Intent(MyPageActivity.this, MyCoinRecordActivity.class);
+                intentCoinRecord.putExtra("id", id);
+                intentCoinRecord.putExtra("grade", userGrade1.getText());
+                intentCoinRecord.putExtra("name", userName1.getText());
+                intentCoinRecord.putExtra("coin", userCoin.getText());
+                startActivity(intentCoinRecord);
             }
         });
 
@@ -155,6 +195,7 @@ public class MyPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 intent_QList = new Intent(MyPageActivity.this, MyQuizActivity.class);
                 intent_QList.putExtra("id", id);
+                intent_QList.putExtra("profile", profileUri);
                 startActivity(intent_QList);
             }
         });
@@ -219,8 +260,11 @@ public class MyPageActivity extends AppCompatActivity {
             try {
                 InputStream in = getContentResolver().openInputStream(data.getData());
                 Bitmap img = BitmapFactory.decodeStream(in);
+                //Bitmap result=Bitmap.createBitmap(img, 시작위치x, 시작위치y, myFace.getWidth(), myFace.getHeight());
                 in.close();
                 myFace.setImageBitmap(img);
+                //myFace.setBackground(drawable);
+                //myFace.setClipToOutline(true);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -298,7 +342,7 @@ public class MyPageActivity extends AppCompatActivity {
                                 userSchool.setText(me.school);
                                 userGrade.setText(me.grade + "학년");
                                 userGrade1.setText(me.grade + "학년");
-                                userCoin.setText(me.coin + " 코인");
+                                userCoin.setText(me.coin + "코인");
                                 profileUri = me.profile;
                                 if (!profileUri.equals("noimage")) {
                                     storage = FirebaseStorage.getInstance();
@@ -311,6 +355,8 @@ public class MyPageActivity extends AppCompatActivity {
                                                     .load(uri)
                                                     .error(R.drawable.btn_x)
                                                     .into(myFace);
+                                            //myFace.setBackground(drawable);
+                                            //myFace.setClipToOutline(true);
                                         }
                                     });
                                 }
@@ -323,41 +369,85 @@ public class MyPageActivity extends AppCompatActivity {
 
                                             textViewCorrectT.setText(snapshot2.child(This).child("correct").getValue().toString());
                                             textViewLikeT.setText(snapshot2.child(This).child("like").getValue().toString());
-                                            textViewLevelT.setText(snapshot2.child(This).child("level").getValue().toString());
+                                            textViewSolveBombT.setText(snapshot2.child(This).child("solvebomb").getValue().toString());
+                                            String level_tmp=snapshot2.child(This).child("level").getValue().toString();
+                                            if(level_tmp.length()>=6){
+                                                textViewLevelT.setText(level_tmp.substring(0, 5));
+                                            }else{
+                                            textViewLevelT.setText(level_tmp);
+                                            }
 
                                             if (idx >= 2) {
                                                 textViewCorrectL.setText(snapshot2.child(Last).child("correct").getValue().toString());
                                                 textViewLikeL.setText(snapshot2.child(Last).child("like").getValue().toString());
-                                                textViewLevelL.setText(snapshot2.child(Last).child("level").getValue().toString());
+                                                textViewSolveBombL.setText(snapshot2.child(Last).child("solvebomb").getValue().toString());
+                                                String level_tmpT=snapshot2.child(Last).child("level").getValue().toString();
+                                                if(level_tmpT.length()>=6){
+                                                    textViewLevelL.setText(level_tmpT.substring(0, 5));
+                                                }else{
+                                                    textViewLevelL.setText(level_tmpT);
+                                                }
                                             }
                                             break;
                                     } else if (key2.equals("my_medal_list")) {
                                             for (DataSnapshot snapshot3 : snapshot2.getChildren()) {
                                                 String what_wang = snapshot3.getKey(); //출석왕? 무슨왕?
-                                                String date = snapshot3.getValue().toString();
+                                                String[] array=snapshot3.getValue().toString().split("##");
+                                                String level = array[0];
+                                                String date = array[1];
                                                 switch (what_wang) {
                                                     case "출석왕":
-                                                        attendw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        if(level.equals("Lev1"))
+                                                            attendw.setImageDrawable(getDrawable(R.drawable.attend_1));
+                                                        else if(level.equals("Lev2"))
+                                                            attendw.setImageDrawable(getDrawable(R.drawable.attend_2));
+                                                        else
+                                                            attendw.setImageDrawable(getDrawable(R.drawable.attend_3));
                                                         attendd.setText(date);
                                                         break;
                                                     case "다독왕":
-                                                        readw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        if(level.equals("Lev1"))
+                                                            readw.setImageDrawable(getDrawable(R.drawable.read_1));
+                                                        else if(level.equals("Lev2"))
+                                                            readw.setImageDrawable(getDrawable(R.drawable.read_2));
+                                                        else
+                                                            readw.setImageDrawable(getDrawable(R.drawable.read_3));
                                                         readd.setText(date);
                                                         break;
                                                     case "출제왕":
-                                                        quizw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        if(level.equals("Lev1"))
+                                                            quizw.setImageDrawable(getDrawable(R.drawable.quiz_1));
+                                                        else if(level.equals("Lev2"))
+                                                            quizw.setImageDrawable(getDrawable(R.drawable.quiz_2));
+                                                        else
+                                                            quizw.setImageDrawable(getDrawable(R.drawable.quiz_3));
                                                         quizd.setText(date);
                                                         break;
                                                     case "문제사냥꾼":
-                                                        quizhunterw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        if(level.equals("Lev1"))
+                                                            quizhunterw.setImageDrawable(getDrawable(R.drawable.quizhunter_1));
+                                                        else if(level.equals("Lev2"))
+                                                            quizhunterw.setImageDrawable(getDrawable(R.drawable.quizhunter_2));
+                                                        else
+                                                            quizhunterw.setImageDrawable(getDrawable(R.drawable.quizhunter_3));
                                                         quizhunterd.setText(date);
                                                         break;
                                                     case "폭탄마스터":
-                                                        bombmasterw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        if(level.equals("Lev1"))
+                                                            bombmasterw.setImageDrawable(getDrawable(R.drawable.bombmaster_1));
+                                                        else if(level.equals("Lev2"))
+                                                            bombmasterw.setImageDrawable(getDrawable(R.drawable.bombmaster_2));
+                                                        else
+                                                            bombmasterw.setImageDrawable(getDrawable(R.drawable.bombmaster_3));
                                                         bombmasterd.setText(date);
                                                         break;
                                                     case "협동왕":
-                                                        bucketw.setImageDrawable(getDrawable(R.drawable.ic_hunjang1));
+                                                        if(level.equals("Lev1"))
+                                                            bucketw.setImageDrawable(getDrawable(R.drawable.bucket_1));
+                                                        else if(level.equals("Lev2"))
+                                                            bucketw.setImageDrawable(getDrawable(R.drawable.bucket_2));
+                                                        else
+                                                            bucketw.setImageDrawable(getDrawable(R.drawable.bucket_3));
                                                         bucketd.setText(date);
                                                         break;
                                                     default:
@@ -378,4 +468,5 @@ public class MyPageActivity extends AppCompatActivity {
             };
             mPostReference.addValueEventListener(postListener);
     }
+
 }

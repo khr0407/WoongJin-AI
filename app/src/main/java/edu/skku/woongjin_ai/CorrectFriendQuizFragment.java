@@ -36,14 +36,14 @@ public class CorrectFriendQuizFragment extends Fragment {
 
     private CorrectFriendQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, uid, star, like, key, today;
+    String id, scriptnm, uid, star, like, key, today, nickname;
     Button buttonSubmit;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5, imageViewThumb;
     int cnt, starInt = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagT = 0;
     float oldLevel;
     public DatabaseReference mPostReference;
-    WeekInfo thisWeekInfo;
-    int weekNum = 0;
+    WeekInfo myThisWeekInfo, friendThisWeekInfo;
+    int myWeekNum = 0, friendWeekNum = 0;
 
     public CorrectFriendQuizFragment() {
 
@@ -80,6 +80,7 @@ public class CorrectFriendQuizFragment extends Fragment {
         like = getArguments().getString("like");
         key = getArguments().getString("key");
         cnt = getArguments().getInt("cnt");
+        nickname = getArguments().getString("nickname");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -94,7 +95,8 @@ public class CorrectFriendQuizFragment extends Fragment {
 
         oldLevel = Float.parseFloat(star);
 
-        textViewID.setText("정답이야 " + id + "! 수고했어^^");
+        textViewID.setText("정답이야 " + nickname + "! 수고했어^^");
+        uploadFirebaseUserCoinInfo_correct();
 
         long now = System.currentTimeMillis();
         Date date = new Date(now);
@@ -105,9 +107,11 @@ public class CorrectFriendQuizFragment extends Fragment {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_week_list").getChildren()) weekNum++;
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_week_list").getChildren()) myWeekNum++;
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + uid + "/my_week_list").getChildren()) friendWeekNum++;
 
-                thisWeekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + weekNum).getValue(WeekInfo.class);
+                myThisWeekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + myWeekNum).getValue(WeekInfo.class);
+                friendThisWeekInfo = dataSnapshot.child("user_list/" + uid + "/my_week_list/week" + friendWeekNum).getValue(WeekInfo.class);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {                        }
@@ -120,18 +124,22 @@ public class CorrectFriendQuizFragment extends Fragment {
                 if(starInt == 0) {
                     Toast.makeText(context, "난이도를 선택해주세요", Toast.LENGTH_SHORT).show();
                 } else {
-                    float oldLevel = thisWeekInfo.level;
-                    int oldCnt = thisWeekInfo.cnt;
+                    float oldLevel = friendThisWeekInfo.level;
+                    int oldCnt = friendThisWeekInfo.cnt;
                     float newLevel = (oldLevel * oldCnt + starInt) / (oldCnt + 1);
-                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + weekNum + "/level").setValue(newLevel);
-                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + weekNum + "/cnt").setValue(oldCnt + 1);
+                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + friendWeekNum + "/level").setValue(newLevel);
+                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + friendWeekNum + "/cnt").setValue(oldCnt + 1);
 
-                    oldLevel = Integer.parseInt(star);
+                    int oldCorrect = myThisWeekInfo.correct;
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + myWeekNum + "/correct").setValue(oldCorrect + 1);
+
+                    oldLevel = Float.parseFloat(star);
                     newLevel = (oldLevel*cnt + starInt) / (cnt + 1);
                     mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/star").setValue(Float.toString(newLevel));
                     mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/cnt").setValue(cnt+1);
 
                     Toast.makeText(context, "제출이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                    uploadFirebaseUserCoinInfo_rated();
 
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -152,13 +160,14 @@ public class CorrectFriendQuizFragment extends Fragment {
 
                     mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/liked_list/" + key).setValue(today);
 
-                    int oldLike = thisWeekInfo.like;
-                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + weekNum + "/like").setValue(oldLike+1);
+                    int oldLike = friendThisWeekInfo.like;
+                    mPostReference.child("user_list/" + uid + "/my_week_list/week" + friendWeekNum + "/like").setValue(oldLike + 1);
 
                     int newLike = Integer.parseInt(like);
                     newLike++;
                     like = Integer.toString(newLike);
-                    mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/liked_user/" + id).setValue(like);
+                    mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/liked_user/" + id).setValue(today);
+                    mPostReference.child("quiz_list/" + scriptnm + "/" + key + "/like/").setValue(like);
 
                     flagT = 1;
                 } else {
@@ -172,15 +181,15 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagS1 == 0) {
                     starInt = 1;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -195,17 +204,17 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagS2 == 0) {
                     starInt = 2;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -220,19 +229,19 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagS3 == 0) {
                     starInt = 3;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
+                    imageViewS3.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                     flagS3 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -247,21 +256,21 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagS4 == 0) {
                     starInt = 4;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
+                    imageViewS3.setImageResource(R.drawable.star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                     flagS3 = 1;
                     flagS4 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -276,11 +285,11 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagS5 == 0) {
                     starInt = 5;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
+                    imageViewS3.setImageResource(R.drawable.star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
+                    imageViewS5.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                     flagS3 = 1;
@@ -288,11 +297,11 @@ public class CorrectFriendQuizFragment extends Fragment {
                     flagS5 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -303,6 +312,61 @@ public class CorrectFriendQuizFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void uploadFirebaseUserCoinInfo_correct(){
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/get").setValue("10");
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/why").setValue("["+scriptnm+"]에 대한 친구의 문제를 맞췄어요.");
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String key=dataSnapshot1.getKey();
+                    if(key.equals("user_list")){
+                        String mycoin=dataSnapshot1.child(id).child("coin").getValue().toString();
+                        int coin = Integer.parseInt(mycoin) + 10;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child("user_list/" + id).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+
+    private void uploadFirebaseUserCoinInfo_rated(){
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/get").setValue("10");
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/why").setValue("["+scriptnm+"]에 대한 친구의 문제를 평가했어요.");
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String key=dataSnapshot1.getKey();
+                    if(key.equals("user_list")){
+                        String mycoin=dataSnapshot1.child(id).child("coin").getValue().toString();
+                        int coin = Integer.parseInt(mycoin) + 10;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child("user_list/" + id).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     public void onButtonPressed(Uri uri) {

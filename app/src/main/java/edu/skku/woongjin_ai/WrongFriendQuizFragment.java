@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -24,8 +25,8 @@ public class WrongFriendQuizFragment extends Fragment {
 
     private WrongFriendQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id;
-    ImageButton imageButtonClose;
+    String nickname;
+    Button imageButtonClose;
 
     public WrongFriendQuizFragment() {
 
@@ -55,12 +56,12 @@ public class WrongFriendQuizFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_wrongfriendquiz, container, false);
         final Context context = container.getContext();
 
-        id = getArguments().getString("id");
+        nickname = getArguments().getString("nickname");
 
         TextView textViewWrong = (TextView) view.findViewById(R.id.textWrong);
-        imageButtonClose = (ImageButton) view.findViewById(R.id.close);
+        imageButtonClose = (Button) view.findViewById(R.id.close);
 
-        textViewWrong.setText("다시 한 번 생각해보자~\n" + id + ", 할 수 있어!");
+        textViewWrong.setText("다시 한 번 생각해보자~\n" + nickname + ", 할 수 있어!");
 
         imageButtonClose.setOnClickListener(new View.OnClickListener() {
             @Override

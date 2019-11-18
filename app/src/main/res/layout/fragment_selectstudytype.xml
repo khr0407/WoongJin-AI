@@ -36,7 +36,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/typo_sherlock_b"
+                android:fontFamily="@font/bmjua_ttf"
                 android:text="소리내어 읽기"
                 android:textColor="@color/white"
                 android:textSize="40dp"
@@ -63,7 +63,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/typo_sherlock_b"
+                android:fontFamily="@font/bmjua_ttf"
                 android:text="표시하며 읽기"
                 android:textColor="@color/white"
                 android:textSize="40dp"

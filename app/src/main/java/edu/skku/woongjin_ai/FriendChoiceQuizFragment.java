@@ -1,10 +1,12 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,8 +20,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,13 +39,13 @@ public class FriendChoiceQuizFragment extends Fragment {
 
     private FriendChoiceQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, question, answer, answer1, answer2, answer3, answer4, uid, star, like, hint, key, ans = "";
+    String id, scriptnm, question, answer, answer1, answer2, answer3, answer4, uid, star, like, hint, key, ans = "", background, nickname;
     int cnt, flagA1 = 0, flagA2 = 0, flagA3 = 0, flagA4 = 0;
     float starFloat;
     ImageView imageViewS2, imageViewS3, imageViewS4, imageViewS5;
-    ImageButton imageButtonScript, imageButtonHint;
-    Button imageButtonCheck;
+    Button imageButtonScript, imageButtonHint, imageButtonCheck;
     TextView textViewAns1, textViewAns2, textViewAns3, textViewAns4;
+    DatabaseReference mPostReference;
 
     public FriendChoiceQuizFragment() {
 
@@ -84,6 +89,8 @@ public class FriendChoiceQuizFragment extends Fragment {
         hint = getArguments().getString("desc");
         key = getArguments().getString("key");
         cnt = getArguments().getInt("cnt");
+        background = getArguments().getString("background");
+        nickname = getArguments().getString("nickname");
 
         TextView textViewUid = (TextView) view.findViewById(R.id.uidFriendChoice);
         TextView textViewName = (TextView) view.findViewById(R.id.nameFriendChoice);
@@ -92,17 +99,29 @@ public class FriendChoiceQuizFragment extends Fragment {
         imageViewS3 = (ImageView) view.findViewById(R.id.star3);
         imageViewS4 = (ImageView) view.findViewById(R.id.star4);
         imageViewS5 = (ImageView) view.findViewById(R.id.star5);
-        imageButtonScript = (ImageButton) view.findViewById(R.id.scriptFriendChoice);
-        imageButtonHint = (ImageButton) view.findViewById(R.id.hintFriendChoice);
+        imageButtonScript = (Button) view.findViewById(R.id.scriptFriendChoice);
+        imageButtonHint = (Button) view.findViewById(R.id.hintFriendChoice);
         imageButtonCheck = (Button) view.findViewById(R.id.checkFriendChoice);
         textViewAns1 = (TextView) view.findViewById(R.id.ans1);
         textViewAns2 = (TextView) view.findViewById(R.id.ans2);
         textViewAns3 = (TextView) view.findViewById(R.id.ans3);
         textViewAns4 = (TextView) view.findViewById(R.id.ans4);
+        ConstraintLayout backgroundLayout = (ConstraintLayout) view.findViewById(R.id.backgroundchoice);
+
+        mPostReference = FirebaseDatabase.getInstance().getReference();
 
         starFloat = Float.parseFloat(star);
 
-        textViewUid.setText(uid + " 친구가 낸 질문");
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String unickname = dataSnapshot.child("user_list/" + uid + "/nickname").getValue().toString();
+                textViewUid.setText(unickname + " 친구가 낸 질문");
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+
         textViewName.setText(scriptnm);
         textViewQuestion.setText(question);
         textViewAns1.setText(answer1);
@@ -110,20 +129,23 @@ public class FriendChoiceQuizFragment extends Fragment {
         textViewAns3.setText(answer3);
         textViewAns4.setText(answer4);
 
+        if(background.equals("blue")) backgroundLayout.setBackgroundColor(Color.rgb(51, 153, 204));
+        else if(background.equals("red")) backgroundLayout.setBackgroundColor(Color.rgb(255, 102, 102));
+
         textViewAns1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagA1 == 0) {
                     ans = answer1;
-                    textViewAns1.setBackgroundResource(R.drawable.ic_icons_selector_correct);
-                    textViewAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns1.setBackgroundColor(Color.rgb(255, 153, 0));
+                    textViewAns2.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns3.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns4.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA1 = 1;
                     flagA2 = flagA3 = flagA4 = 0;
                 } else {
                     ans = "";
-                    textViewAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns1.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA1 = 0;
                 }
             }
@@ -134,15 +156,15 @@ public class FriendChoiceQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagA2 == 0){
                     ans = answer2;
-                    textViewAns2.setBackgroundResource(R.drawable.ic_icons_selector_correct);
-                    textViewAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns2.setBackgroundColor(Color.rgb(255, 153, 0));
+                    textViewAns1.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns3.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns4.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA2 = 1;
                     flagA1 = flagA3 = flagA4 = 0;
                 } else {
                     ans = "";
-                    textViewAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns2.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA2 = 0;
                 }
             }
@@ -153,15 +175,15 @@ public class FriendChoiceQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagA3 == 0){
                     ans = answer3;
-                    textViewAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
-                    textViewAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns3.setBackgroundColor(Color.rgb(255, 153, 0));
+                    textViewAns2.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns1.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns4.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA3 = 1;
                     flagA2 = flagA1 = flagA4 = 0;
                 } else {
                     ans = "";
-                    textViewAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns3.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA3 = 0;
                 }
             }
@@ -172,15 +194,15 @@ public class FriendChoiceQuizFragment extends Fragment {
             public void onClick(View v) {
                 if(flagA4 == 0){
                     ans = answer4;
-                    textViewAns4.setBackgroundResource(R.drawable.ic_icons_selector_correct);
-                    textViewAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
-                    textViewAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns4.setBackgroundColor(Color.rgb(255, 153, 0));
+                    textViewAns2.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns3.setBackgroundColor(Color.rgb(255, 255, 255));
+                    textViewAns1.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA4 = 1;
                     flagA2 = flagA3 = flagA1 = 0;
                 } else {
                     ans = "";
-                    textViewAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    textViewAns4.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA4 = 0;
                 }
             }
@@ -196,7 +218,7 @@ public class FriendChoiceQuizFragment extends Fragment {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
-                        Bundle bundle = new Bundle(7);
+                        Bundle bundle = new Bundle(8);
                         bundle.putString("id", id);
                         bundle.putString("scriptnm", scriptnm);
                         bundle.putString("uid", uid);
@@ -204,6 +226,7 @@ public class FriendChoiceQuizFragment extends Fragment {
                         bundle.putString("like", like);
                         bundle.putString("key", key);
                         bundle.putInt("cnt", cnt);
+                        bundle.putString("nickname", nickname);
                         ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment.setArguments(bundle);
 //                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
@@ -212,7 +235,7 @@ public class FriendChoiceQuizFragment extends Fragment {
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment);
                         Bundle bundle = new Bundle(1);
-                        bundle.putString("id", id);
+                        bundle.putString("nickname", nickname);
                         ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment.setArguments(bundle);
 //                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
@@ -251,13 +274,13 @@ public class FriendChoiceQuizFragment extends Fragment {
         });
 
         if(starFloat >= 1.5) {
-            imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+            imageViewS2.setImageResource(R.drawable.star_full);
             if(starFloat >= 2.5) {
-                imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                imageViewS3.setImageResource(R.drawable.star_full);
                 if(starFloat >= 3.5) {
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     if(starFloat >= 4.5) {
-                        imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                        imageViewS5.setImageResource(R.drawable.star_full);
                     }
                 }
             }

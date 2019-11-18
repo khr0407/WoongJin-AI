@@ -1,14 +1,17 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,12 +19,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,16 +39,16 @@ public class ChoiceTypeActivity extends AppCompatActivity
     DatabaseReference mPostReference;
     ImageView imageScript, imageCheck,imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     EditText editQuiz, editAns, editAns1, editAns2, editAns3, editAns4;
-    Intent intent, intentHome;
-    String id, scriptnm, backgroundID;
+    Intent intent, intentHome, intentType;
+    String id, scriptnm, backgroundID, thisWeek, nickname, bookname;
     String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "", desc = "";
-    int star = 0, starInt = 0;
+    int star = 0, starInt = 0, oldMadeCnt;
     int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
     int flagA1 =0, flagA2=0, flagA3=0,flagA4 =0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
-    FirebaseStorage storage;
-    private StorageReference storageReference, dataReference;
+//    FirebaseStorage storage;
+//    private StorageReference storageReference, dataReference;
     Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
 
     @Override
@@ -52,6 +60,8 @@ public class ChoiceTypeActivity extends AppCompatActivity
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        nickname = intent.getStringExtra("nickname");
+        thisWeek = intent.getStringExtra("thisWeek");
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageScript = (ImageView) findViewById(R.id.script);
@@ -80,20 +90,22 @@ public class ChoiceTypeActivity extends AppCompatActivity
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getInstance().getReference();
-        dataReference = storageReference.child("/scripts_background/" + backgroundID);
-        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.with(ChoiceTypeActivity.this)
-                        .load(uri)
-                        .placeholder(R.drawable.bot)
-                        .error(R.drawable.btn_x)
-                        .into(backgroundImage);
-                backgroundImage.setAlpha(0.5f);
-            }
-        });
+        getFirebaseDatabaseMadeInfo();
+
+//        storage = FirebaseStorage.getInstance();
+//        storageReference = storage.getInstance().getReference();
+//        dataReference = storageReference.child("/scripts_background/" + backgroundID);
+//        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Picasso.with(ChoiceTypeActivity.this)
+//                        .load(uri)
+//                        .placeholder(R.drawable.bot)
+//                        .error(R.drawable.btn_x)
+//                        .into(backgroundImage);
+//                backgroundImage.setAlpha(0.5f);
+//            }
+//        });
 
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +118,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 hintWritingFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+//                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
                 flagD = 1;
             }
         });
@@ -129,12 +141,10 @@ public class ChoiceTypeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(flagD != 2) {
-                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
-                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                    noHintButton.setImageResource(R.drawable.hint_no_selected);
                     flagD = 2;
                 } else {
-                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
-                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+                    noHintButton.setImageResource(R.drawable.hint_no);
                     flagD = 0;
                 }
             }
@@ -178,8 +188,20 @@ public class ChoiceTypeActivity extends AppCompatActivity
                         Toast.makeText(ChoiceTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                     } else {
                         postFirebaseDatabaseQuizChoice();
+                        uploadFirebaseUserCoinInfo();
                         if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
                         Toast.makeText(ChoiceTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
+
+                        oldMadeCnt++;
+                        mPostReference.child("user_list/" + id + "/my_week_list/week" + thisWeek + "/made").setValue(oldMadeCnt);
+
+                        intentType = new Intent(ChoiceTypeActivity.this, SelectTypeActivity.class);
+                        intentType.putExtra("id", id);
+                        intentType.putExtra("scriptnm", scriptnm);
+                        intentType.putExtra("background", backgroundID);
+                        intentType.putExtra("nickname", nickname);
+                        intentType.putExtra("thisWeek", thisWeek);
+                        startActivity(intentType);
                     }
                 }
 
@@ -193,7 +215,6 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 intentHome = new Intent(ChoiceTypeActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
-                //finish();
             }
         });
 
@@ -202,15 +223,15 @@ public class ChoiceTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS1 == 0) {
                     starInt = 1;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -225,17 +246,17 @@ public class ChoiceTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS2 == 0) {
                     starInt = 2;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -250,19 +271,19 @@ public class ChoiceTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS3 == 0) {
                     starInt = 3;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
+                    imageViewS3.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                     flagS3 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -277,21 +298,21 @@ public class ChoiceTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS4 == 0) {
                     starInt = 4;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
+                    imageViewS3.setImageResource(R.drawable.star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                     flagS3 = 1;
                     flagS4 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -306,11 +327,11 @@ public class ChoiceTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS5 == 0) {
                     starInt = 5;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
+                    imageViewS3.setImageResource(R.drawable.star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
+                    imageViewS5.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                     flagS3 = 1;
@@ -318,11 +339,11 @@ public class ChoiceTypeActivity extends AppCompatActivity
                     flagS5 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -331,20 +352,23 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 }
             }
         });
+
         editAns1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagA1 == 0 ) {
                     if(flagA2==0 && flagA3==0 && flagA4==0 ){
-                    editAns1.setBackgroundResource(R.drawable.ic_icons_selector_correct);
-                    flagA1 = 1;
-                    ans = editAns1.getText().toString();
+//                    editAns1.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                        editAns1.setBackgroundColor(Color.rgb(255, 153, 0));
+                        flagA1 = 1;
+                        ans = editAns1.getText().toString();
                     }
                     else{
                         Toast.makeText(ChoiceTypeActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    editAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+//                    editAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    editAns1.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA1 = 0;
                     ans="";
                 }
@@ -355,15 +379,17 @@ public class ChoiceTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagA2 == 0) {
                     if( flagA1==0 && flagA3==0 && flagA4==0){
-                    editAns2.setBackgroundResource(R.drawable.ic_icons_selector_correct);
-                    flagA2 = 1;
-                    ans = editAns2.getText().toString();
+//                    editAns2.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                        editAns2.setBackgroundColor(Color.rgb(255, 153, 0));
+                        flagA2 = 1;
+                        ans = editAns2.getText().toString();
                     }
                     else{
                         Toast.makeText(ChoiceTypeActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    editAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+//                    editAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    editAns2.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA2 = 0;
                     ans="";
                 }
@@ -374,7 +400,8 @@ public class ChoiceTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagA3 == 0 ) {
                     if(flagA2==0 && flagA4==0 && flagA1==0){
-                        editAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+//                        editAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                        editAns3.setBackgroundColor(Color.rgb(255, 153, 0));
                         flagA3 = 1;
                         ans = editAns3.getText().toString();
                     }
@@ -382,7 +409,8 @@ public class ChoiceTypeActivity extends AppCompatActivity
                         Toast.makeText(ChoiceTypeActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    editAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+//                    editAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    editAns3.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA3 = 0;
                     ans = "";
                 }
@@ -393,19 +421,35 @@ public class ChoiceTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagA4 == 0 ) {
                     if(flagA2==0 && flagA3==0 && flagA1==0){
-                    editAns4.setBackgroundResource(R.drawable.ic_icons_selector_correct);
-                    flagA4 = 1;
-                    ans = editAns4.getText().toString();
+//                    editAns4.setBackgroundResource(R.drawable.ic_icons_selector_correct);
+                        editAns4.setBackgroundColor(Color.rgb(255, 153, 0));
+                        flagA4 = 1;
+                        ans = editAns4.getText().toString();
                     }
                     else{
                         Toast.makeText(ChoiceTypeActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    editAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+//                    editAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
+                    editAns4.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA4 = 0;
                     ans = "";
                 }
             }
+        });
+    }
+
+    private void getFirebaseDatabaseMadeInfo() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                WeekInfo weekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + thisWeek).getValue(WeekInfo.class);
+                oldMadeCnt = weekInfo.made;
+
+                bookname = dataSnapshot.child("script_list/" + scriptnm + "/book_name").getValue().toString();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
     }
 
@@ -415,7 +459,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
-        QuizChoiceTypeInfo post = new QuizChoiceTypeInfo(id, quiz, ans, ans1, ans2, ans3, ans4, Integer.toString(starInt), desc, "0", ts, 1, "없음", 2);
+        QuizChoiceTypeInfo post = new QuizChoiceTypeInfo(id, quiz, ans, ans1, ans2, ans3, ans4, Integer.toString(starInt), desc, "0", ts, 1, "없음", 2, scriptnm, bookname);
         postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
@@ -424,6 +468,33 @@ public class ChoiceTypeActivity extends AppCompatActivity
         editAns2.setText("");
         editAns3.setText("");
         editAns4.setText("");
+    }
+
+    private void uploadFirebaseUserCoinInfo(){
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/get").setValue("10");
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/why").setValue("지문 [" + scriptnm + "]에 대한 퀴즈를 냈어요.");
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String key=dataSnapshot1.getKey();
+                    if(key.equals("user_list")){
+                        String mycoin=dataSnapshot1.child(id).child("coin").getValue().toString();
+                        int coin = Integer.parseInt(mycoin) + 10;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child("user_list/" + id).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     @Override

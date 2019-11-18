@@ -1,14 +1,17 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -16,12 +19,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,15 +40,15 @@ public class ShortwordTypeActivity extends AppCompatActivity
     DatabaseReference mPostReference;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     EditText editQuiz, editAns;
-    Intent intent, intentHome;
-    String id, scriptnm, backgroundID;
+    Intent intent, intentHome, intentType;
+    String id, scriptnm, backgroundID, thisWeek, nickname, bookname;
     String quiz = "", ans = "", desc = "";
-    int star = 0, starInt = 0;
+    int star = 0, starInt = 0, oldMadeCnt;
     int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
-    FirebaseStorage storage;
-    private StorageReference storageReference, dataReference;
+//    FirebaseStorage storage;
+//    private StorageReference storageReference, dataReference;
     Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
 
     @Override
@@ -51,6 +60,8 @@ public class ShortwordTypeActivity extends AppCompatActivity
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        nickname = intent.getStringExtra("nickname");
+        thisWeek = intent.getStringExtra("thisWeek");
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         imageViewS1 = (ImageView) findViewById(R.id.star1);
@@ -72,20 +83,22 @@ public class ShortwordTypeActivity extends AppCompatActivity
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getInstance().getReference();
-        dataReference = storageReference.child("/scripts_background/" + backgroundID);
-        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.with(ShortwordTypeActivity.this)
-                        .load(uri)
-                        .placeholder(R.drawable.bot)
-                        .error(R.drawable.btn_x)
-                        .into(backgroundImage);
-                backgroundImage.setAlpha(0.5f);
-            }
-        });
+        getFirebaseDatabaseMadeInfo();
+
+//        storage = FirebaseStorage.getInstance();
+//        storageReference = storage.getInstance().getReference();
+//        dataReference = storageReference.child("/scripts_background/" + backgroundID);
+//        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//            @Override
+//            public void onSuccess(Uri uri) {
+//                Picasso.with(ShortwordTypeActivity.this)
+//                        .load(uri)
+//                        .placeholder(R.drawable.bot)
+//                        .error(R.drawable.btn_x)
+//                        .into(backgroundImage);
+//                backgroundImage.setAlpha(0.5f);
+//            }
+//        });
 
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +111,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 hintWritingFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+//                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
                 flagD = 1;
             }
         });
@@ -121,12 +134,10 @@ public class ShortwordTypeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(flagD != 2) {
-                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
-                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
+                    noHintButton.setImageResource(R.drawable.hint_no_selected);
                     flagD = 2;
                 } else {
-                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
-                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+                    noHintButton.setImageResource(R.drawable.hint_no);
                     flagD = 0;
                 }
             }
@@ -166,8 +177,20 @@ public class ShortwordTypeActivity extends AppCompatActivity
                         Toast.makeText(ShortwordTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
                     } else {
                         postFirebaseDatabaseQuizShortword();
+                        uploadFirebaseUserCoinInfo();
                         if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
                         Toast.makeText(ShortwordTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
+
+                        oldMadeCnt++;
+                        mPostReference.child("user_list/" + id + "/my_week_list/week" + thisWeek + "/made").setValue(oldMadeCnt);
+
+                        intentType = new Intent(ShortwordTypeActivity.this, SelectTypeActivity.class);
+                        intentType.putExtra("id", id);
+                        intentType.putExtra("scriptnm", scriptnm);
+                        intentType.putExtra("background", backgroundID);
+                        intentType.putExtra("nickname", nickname);
+                        intentType.putExtra("thisWeek", thisWeek);
+                        startActivity(intentType);
                     }
                 }
             }
@@ -187,15 +210,15 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS1 == 0) {
                     starInt = 1;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -210,17 +233,17 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS2 == 0) {
                     starInt = 2;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -235,19 +258,19 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS3 == 0) {
                     starInt = 3;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
+                    imageViewS3.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                     flagS3 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -262,21 +285,21 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS4 == 0) {
                     starInt = 4;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
+                    imageViewS3.setImageResource(R.drawable.star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                     flagS3 = 1;
                     flagS4 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -291,11 +314,11 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagS5 == 0) {
                     starInt = 5;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS1.setImageResource(R.drawable.star_full);
+                    imageViewS2.setImageResource(R.drawable.star_full);
+                    imageViewS3.setImageResource(R.drawable.star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
+                    imageViewS5.setImageResource(R.drawable.star_full);
                     flagS1 = 1;
                     flagS2 = 1;
                     flagS3 = 1;
@@ -303,11 +326,11 @@ public class ShortwordTypeActivity extends AppCompatActivity
                     flagS5 = 1;
                 } else {
                     starInt = 0;
-                    imageViewS1.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
-                    imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_empty);
+                    imageViewS1.setImageResource(R.drawable.star_empty);
+                    imageViewS2.setImageResource(R.drawable.star_empty);
+                    imageViewS3.setImageResource(R.drawable.star_empty);
+                    imageViewS4.setImageResource(R.drawable.star_empty);
+                    imageViewS5.setImageResource(R.drawable.star_empty);
                     flagS1 = 0;
                     flagS2 = 0;
                     flagS3 = 0;
@@ -318,19 +341,62 @@ public class ShortwordTypeActivity extends AppCompatActivity
         });
     }
 
+    private void getFirebaseDatabaseMadeInfo() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                WeekInfo weekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + thisWeek).getValue(WeekInfo.class);
+                oldMadeCnt = weekInfo.made;
+
+                bookname = dataSnapshot.child("script_list/" + scriptnm + "/book_name").getValue().toString();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+    }
+
     private void postFirebaseDatabaseQuizShortword() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         ts = ts + id;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, "없음", 3);
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, "없음", 3, scriptnm, bookname);
         postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
         editQuiz.setText("");
         editAns.setText("");
     }
+
+    private void uploadFirebaseUserCoinInfo(){
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long now = System.currentTimeMillis();
+                Date date = new Date(now);
+                String today = new SimpleDateFormat("yyMMddHHmm").format(date);
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/get").setValue("10");
+                mPostReference.child("user_list/" + id + "/my_coin_list/" + today + "/why").setValue("지문 [" + scriptnm + "]에 대한 퀴즈를 냈어요.");
+
+                for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    String key=dataSnapshot1.getKey();
+                    if(key.equals("user_list")){
+                        String mycoin=dataSnapshot1.child(id).child("coin").getValue().toString();
+                        int coin = Integer.parseInt(mycoin) + 10;
+                        String coin_convert = Integer.toString(coin);
+                        mPostReference.child("user_list/" + id).child("coin").setValue(coin_convert);
+                        break;
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 

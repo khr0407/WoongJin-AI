@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rounded_white_transparent"
+    android:background="@drawable/black_transparent"
     android:clickable="true">
 
     <LinearLayout
@@ -15,12 +15,12 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"/>
+            android:layout_weight="1.4"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.5"
+            android:layout_weight="1.8"
             android:weightSum="8">
 
             <LinearLayout
@@ -40,7 +40,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:gravity="center"
-                android:fontFamily="@font/typo_sherlock_b"
+                android:fontFamily="@font/bmjua_ttf"
                 android:textSize="30dp"
                 android:background="@drawable/ic_icons_speech_bubble3"/>
 
@@ -56,19 +56,22 @@
             android:layout_height="0dp"
             android:layout_weight="0.3"/>
 
-        <ImageButton
+        <Button
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_weight="0.4"
-            android:background="#00ff0000"
-            android:layout_gravity="end"
-            android:src="@drawable/ic_icons_see_again"/>
+            android:layout_weight="1"
+            android:background="@color/orange"
+            android:text="다시 풀기"
+            android:fontFamily="@font/bmjua_ttf"
+            android:textSize="20dp"
+            android:padding="10dp"
+            android:layout_gravity="end"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.3"/>
+            android:layout_weight="1"/>
 
     </LinearLayout>
 
