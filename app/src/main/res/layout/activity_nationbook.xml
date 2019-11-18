@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightorange">
+    android:background="@drawable/bg_book_light">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,29 +14,27 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:weightSum="10">
 
             <ImageButton
                 android:id="@+id/home"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_icons_go_to_home"
+                android:src="@drawable/go_home"
+                android:scaleType="centerCrop"
+                android:padding="40dp"
                 android:background="#00ff0000"
-                android:layout_weight="1" />
-
-            <ImageButton
-                android:id="@+id/tempSave"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_icons_temp_storage"
-                android:background="#00ff0000"
-                android:layout_weight="1" />
+                android:layout_weight="2" />
 
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:src="@drawable/ic_icons_step1"/>
+                android:src="@drawable/steps"
+                android:scaleType="centerCrop"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"/>
 
         </LinearLayout>
 
@@ -44,31 +42,36 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:orientation="horizontal"
-            android:layout_weight="2"
-            android:weightSum="23">
+            android:layout_weight="1.5"
+            android:weightSum="9">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="2"></LinearLayout>
 
-            <ImageView
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/bot"
-                android:layout_weight="5"/>
+                android:layout_weight="5">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_icons_speech_bubble2"
-                android:text="어떤 종류의 책을 읽어볼까?"
-                android:textSize="40dp"
-                android:fontFamily="@font/typo_sherlock_b"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:layout_weight="14"
-                android:padding="20dp" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/nationbook_board"
+                    android:scaleType="centerCrop"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="어떤 종류의 책을 읽어볼까?"
+                    android:textSize="40dp"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:layout_gravity="center"
+                    android:gravity="center"/>
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -80,12 +83,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"></LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
+            android:layout_weight="5.5"
             android:orientation="horizontal"
             android:weightSum="20">
 
@@ -98,7 +96,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="18"
-                android:background="@drawable/rounded_white"
                 android:orientation="vertical"
                 android:weightSum="2">
 
@@ -109,44 +106,40 @@
                     android:layout_weight="1"
                     android:weightSum="4">
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/science"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="과학"
-                        android:textSize="50dp"
-                        android:fontFamily="@font/typo_sherlock_b"
+                        android:src="@drawable/science"
+                        android:scaleType="centerInside"
                         android:background="#00ff0000"/>
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/history"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="역사"
-                        android:textSize="50dp"
-                        android:fontFamily="@font/typo_sherlock_b"
+                        android:src="@drawable/history"
+                        android:scaleType="centerInside"
                         android:background="#00ff0000"/>
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/news"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="어린이 시사"
-                        android:textSize="50dp"
-                        android:fontFamily="@font/typo_sherlock_b"
+                        android:src="@drawable/news"
+                        android:scaleType="centerInside"
                         android:background="#00ff0000"/>
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/morality"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="도덕"
-                        android:textSize="50dp"
-                        android:fontFamily="@font/typo_sherlock_b"
+                        android:src="@drawable/ethics"
+                        android:scaleType="centerInside"
                         android:background="#00ff0000"/>
 
                 </LinearLayout>
@@ -158,44 +151,40 @@
                     android:layout_weight="1"
                     android:weightSum="4">
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/mistery"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="미스터리"
-                        android:textSize="50dp"
-                        android:fontFamily="@font/typo_sherlock_b"
+                        android:src="@drawable/mistery"
+                        android:scaleType="centerInside"
                         android:background="#00ff0000"/>
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/comics"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="만화"
-                        android:textSize="50dp"
-                        android:fontFamily="@font/typo_sherlock_b"
+                        android:src="@drawable/funnystories"
+                        android:scaleType="centerInside"
                         android:background="#00ff0000"/>
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/oldstory"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="동화"
-                        android:textSize="50dp"
-                        android:fontFamily="@font/typo_sherlock_b"
+                        android:src="@drawable/fairytale"
+                        android:scaleType="centerInside"
                         android:background="#00ff0000"/>
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/greatman"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="위인전"
-                        android:textSize="50dp"
-                        android:fontFamily="@font/typo_sherlock_b"
+                        android:src="@drawable/great_man"
+                        android:scaleType="centerInside"
                         android:background="#00ff0000"/>
 
                 </LinearLayout>
@@ -213,7 +202,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"></LinearLayout>
+            android:layout_weight="1"></LinearLayout>
 
     </LinearLayout>
 
