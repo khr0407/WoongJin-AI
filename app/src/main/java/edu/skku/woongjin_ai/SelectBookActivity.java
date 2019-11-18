@@ -28,8 +28,8 @@ public class SelectBookActivity extends AppCompatActivity {
     TextView textView;
     public DatabaseReference mPostReference;
     ListView bookListView;
-    ArrayList<String> bookArrayList, backgroundArrayList;
-    ArrayAdapter<String> bookArrayAdapter;
+    ArrayList<String> bookArrayList, backgroundArrayList, studiedBookArrayList;
+    SelectBookListAdapter selectBookListAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,8 +51,8 @@ public class SelectBookActivity extends AppCompatActivity {
 
         bookArrayList = new ArrayList<String>();
         backgroundArrayList = new ArrayList<String>();
-        bookArrayAdapter = new ArrayAdapter<String>(SelectBookActivity.this, android.R.layout.simple_list_item_1);
-        bookListView.setAdapter(bookArrayAdapter);
+        studiedBookArrayList = new ArrayList<String>();
+        selectBookListAdapter = new SelectBookListAdapter();
 
         getFirebaseDatabaseBookList();
 
@@ -94,27 +94,42 @@ public class SelectBookActivity extends AppCompatActivity {
     }
 
     private void getFirebaseDatabaseBookList(){
-        final ValueEventListener postListener = new ValueEventListener() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                studiedBookArrayList.clear();
                 bookArrayList.clear();
                 backgroundArrayList.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_script_list").getChildren()) {
+                    String key = snapshot.getKey();
+                    studiedBookArrayList.add(key);
+                }
+
+                for(DataSnapshot snapshot : dataSnapshot.child("script_list").getChildren()){
                     String type = snapshot.child("type").getValue().toString();
                     if(type.equals(bookType)) {
                         String key = snapshot.getKey();
-                        String background = snapshot.child("background").getValue().toString();
-                        bookArrayList.add(key);
-                        backgroundArrayList.add(background);
+                        int flag = 0;
+                        for(String script : studiedBookArrayList) {
+                            if(key.equals(script)) {
+                                flag = 1;
+                                break;
+                            }
+                        }
+                        if(flag == 0) {
+                            String key1 = snapshot.getKey();
+                            String background = snapshot.child("background").getValue().toString();
+                            bookArrayList.add(key1);
+                            backgroundArrayList.add(background);
+                            selectBookListAdapter.addItem(key1);
+                        }
                     }
                 }
-                bookArrayAdapter.clear();
-                bookArrayAdapter.addAll(bookArrayList);
-                bookArrayAdapter.notifyDataSetChanged();
+                bookListView.setAdapter(selectBookListAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
-        };
-        mPostReference.child("script_list").addValueEventListener(postListener);
+        });
     }
 }

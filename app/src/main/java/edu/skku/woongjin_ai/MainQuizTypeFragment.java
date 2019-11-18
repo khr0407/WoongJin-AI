@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -22,9 +25,11 @@ public class MainQuizTypeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    ImageButton meButton, friendButton;
+    Button meButton, friendButton;
     Intent intent;
-    String id;
+    String id, nickname;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     private MainQuizTypeFragment.OnFragmentInteractionListener mListener;
 
@@ -57,16 +62,24 @@ public class MainQuizTypeFragment extends Fragment {
         final Context context = container.getContext();
 
         id = getArguments().getString("id");
+        nickname = getArguments().getString("nickname");
+
         intent = new Intent(getActivity(), NationQuizActivity.class);
         intent.putExtra("id", id);
+        intent.putExtra("nickname", nickname);
 
-        meButton = (ImageButton) view.findViewById(R.id.me);
-        friendButton = (ImageButton) view.findViewById(R.id.friend);
+        meButton = (Button) view.findViewById(R.id.me);
+        friendButton = (Button) view.findViewById(R.id.friend);
+
+        fragmentManager = getFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
         meButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intent.putExtra("quizType", "me");
+                fragmentTransaction.remove(((MainActivity)getActivity()).mainQuizTypeFragment);
+                fragmentTransaction.commit();
                 startActivity(intent);
             }
         });
@@ -75,6 +88,8 @@ public class MainQuizTypeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 intent.putExtra("quizType", "friend");
+                fragmentTransaction.remove(((MainActivity)getActivity()).mainQuizTypeFragment);
+                fragmentTransaction.commit();
                 startActivity(intent);
             }
         });

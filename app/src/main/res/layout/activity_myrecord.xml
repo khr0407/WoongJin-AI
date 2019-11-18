@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:weightSum="7.6">
+
+        <LinearLayout
+            android:id="@+id/LinearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="10">
+
+            <ImageButton
+                android:id="@+id/home"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#00ff0000"
+                android:src="@drawable/ic_icons_go_to_home"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:orientation="horizontal"
+                android:background="@drawable/rounded"
+                android:padding="8dp"
+                android:weightSum="6">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:id="@+id/userName"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="test"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:id="@+id/userGrade"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="test"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/ic_money"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/userCoin"
+                    android:fontFamily="@font/typo_sherlock_b"
+                    android:textSize="@dimen/activity_vertical_margin"
+                    android:layout_weight="1.5"
+                    android:gravity="center"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5.2"
+            android:orientation="horizontal"
+            android:weightSum="13"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            //6. record
+            <LinearLayout
+                android:id="@+id/record_list"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:orientation="vertical"
+                android:weightSum="7"
+                android:background="@drawable/rounded_yellow"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="2.4"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="  누적 출석일 수"
+                        android:layout_gravity="center"
+                        android:gravity="left"
+                        android:fontFamily="@font/typo_sherlock_b"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/attendDays"
+                        android:text="test"
+                        android:layout_gravity="center"
+                        android:gravity="right"
+                        android:fontFamily="@font/typo_sherlock_l"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="2.4"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="  읽은 지문 개수"
+                        android:layout_gravity="center"
+                        android:gravity="left"
+                        android:fontFamily="@font/typo_sherlock_b"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/scriptNum"
+                        android:text="test"
+                        android:layout_gravity="center"
+                        android:gravity="right"
+                        android:fontFamily="@font/typo_sherlock_l"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="2.4"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="  만든 문제 수"
+                        android:layout_gravity="center"
+                        android:gravity="left"
+                        android:fontFamily="@font/typo_sherlock_b"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/myQnum"
+                        android:text="test"
+                        android:layout_gravity="center"
+                        android:gravity="right"
+                        android:fontFamily="@font/typo_sherlock_l"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="2.4"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="  친구 문제 풀어본 횟수"
+                        android:layout_gravity="center"
+                        android:gravity="left"
+                        android:fontFamily="@font/typo_sherlock_b"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/solveQnum"
+                        android:text="test"
+                        android:layout_gravity="center"
+                        android:gravity="right"
+                        android:fontFamily="@font/typo_sherlock_l"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="2.4"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="  폭탄 해체 횟수"
+                        android:layout_gravity="center"
+                        android:gravity="left"
+                        android:fontFamily="@font/typo_sherlock_b"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/bombNum"
+                        android:text="test"
+                        android:layout_gravity="center"
+                        android:gravity="right"
+                        android:fontFamily="@font/typo_sherlock_l"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="2.4"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    >
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="  퀴즈 버킷 챌린지 성공 횟수"
+                        android:layout_gravity="center"
+                        android:gravity="left"
+                        android:fontFamily="@font/typo_sherlock_b"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:id="@+id/bucketNum"
+                        android:text="test"
+                        android:layout_gravity="center"
+                        android:gravity="right"
+                        android:fontFamily="@font/typo_sherlock_l"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.2"
+                        />
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            //4. hunjang
+            <LinearLayout
+                android:id="@+id/hoonjang"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:orientation="horizontal"
+                android:background="@drawable/rounded_green"
+                >
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
+

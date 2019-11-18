@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="6.3"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/HomeAndTemp"
+            android:layout_margin="8dp"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:weightSum="10"
+            >
+            <ImageView
+                android:id="@+id/home"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_icons_go_to_home"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/instruction"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_icons_speech_bubble2"
+                android:text="@string/my_Q_list"
+                android:textSize="30dp"
+                android:fontFamily="@font/typo_sherlock_b"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_weight="7"
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:layout_weight="5"
+            android:weightSum="12.8"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"></LinearLayout>
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10.8"
+                android:id="@+id/contentShowScript"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="10.8"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4.5"
+                        android:background="@drawable/rounded_yellow"
+                        >
+                        <ListView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="3dp"
+                            android:id="@+id/quizlist"
+                            android:clickable="true"
+                            android:focusable="true"
+                            >
+                            <!--여기 어카지-->
+                        </ListView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.8"/>
+
+                        <FrameLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="5.5"
+                            android:background="@drawable/rounded_blue"
+                            android:id="@+id/seequiz_fragment"
+                            android:orientation="vertical"
+                            >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="왼쪽 리스트에서 자세히 보고 싶은 문제를 클릭해봐!"
+                            android:fontFamily="@font/typo_sherlock_b"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:id="@+id/default_beforeclick"
+                            />
+                        </FrameLayout>
+
+
+                    </LinearLayout>
+
+            </FrameLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"></LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"></LinearLayout>
+
+    </LinearLayout>
+</FrameLayout>

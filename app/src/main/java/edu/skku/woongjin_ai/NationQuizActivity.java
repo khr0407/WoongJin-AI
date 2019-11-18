@@ -24,13 +24,13 @@ import java.util.ArrayList;
 public class NationQuizActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentMakeQuiz, intentFriendQuiz;
-    String id, quizType;
+    String id, quizType, nickname;
     TextView textView;
     ImageButton homeButton;
     public DatabaseReference mPostReference;
     ListView studiedBookListView;
+    SelectBookListAdapter selectBookListAdapter;
     ArrayList<String> studiedBookArrayList, backgroundArrayList;
-    ArrayAdapter<String> studiedBookArrayAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class NationQuizActivity extends AppCompatActivity {
         intent = getIntent();
         id = intent.getStringExtra("id");
         quizType = intent.getStringExtra("quizType");
+        nickname = intent.getStringExtra("nickname");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -49,15 +50,14 @@ public class NationQuizActivity extends AppCompatActivity {
 
         studiedBookArrayList = new ArrayList<String>();
         backgroundArrayList = new ArrayList<String>();
-        studiedBookArrayAdapter = new ArrayAdapter<String>(NationQuizActivity.this, android.R.layout.simple_list_item_1);
-        studiedBookListView.setAdapter(studiedBookArrayAdapter);
+        selectBookListAdapter = new SelectBookListAdapter();
 
         getFirebaseDatabaseStudiedBookList();
 
         if(quizType.equals("me")) {
-            textView.setText(id + "가 읽은 책 목록이야~\n추가로 문제를 내고 싶은 책을 클릭하면 문제를 만들 수 있어!\n연필 아이콘 개수는 " + id + "가 낸 문제 개수와 같아");
+            textView.setText(nickname + "(이)가 읽은 책 목록이야~\n문제를 내고 싶은 책을 클릭하면 문제를 만들 수 있어!");
         } else if(quizType.equals("friend")) {
-            textView.setText(id + "가 읽은 책 목록이야~\n책을 클릭하면 다른 친구들이 낸 문제를 풀어보고 평가할 수 있어!");
+            textView.setText(nickname + "(이)가 읽은 책 목록이야~\n책을 클릭하면 다른 친구들이 낸 문제를 풀어보고 평가할 수 있어!");
         }
 
         studiedBookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -69,12 +69,14 @@ public class NationQuizActivity extends AppCompatActivity {
                     intentMakeQuiz.putExtra("scriptnm", studiedBookArrayList.get(position));
                     intentMakeQuiz.putExtra("background", backgroundArrayList.get(position));
                     startActivity(intentMakeQuiz);
+                    finish();
                 } else if(quizType.equals("friend")) {
                     intentFriendQuiz = new Intent(NationQuizActivity.this, ShowFriendQuizActivity.class);
                     intentFriendQuiz.putExtra("id", id);
                     intentFriendQuiz.putExtra("scriptnm", studiedBookArrayList.get(position));
                     intentFriendQuiz.putExtra("background", backgroundArrayList.get(position));
                     startActivity(intentFriendQuiz);
+                    finish();
                 }
             }
         });
@@ -85,6 +87,7 @@ public class NationQuizActivity extends AppCompatActivity {
                 intentHome = new Intent(NationQuizActivity.this, MainActivity.class);
                 intentHome.putExtra("id", id);
                 startActivity(intentHome);
+                finish();
             }
         });
     }
@@ -95,24 +98,14 @@ public class NationQuizActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 studiedBookArrayList.clear();
                 backgroundArrayList.clear();
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_script_list").getChildren()) {
                     String key = snapshot.getKey();
-                    if(key.equals("kakaouser_list") || key.equals("user_list")) {
-                        for(DataSnapshot snapshot1 : snapshot.getChildren()) {
-                            String key1 = snapshot1.getKey();
-                            if(key1.equals(id)) {
-                                for(DataSnapshot snapshot2 : snapshot1.child("scripts").getChildren()) {
-                                    String scriptnm = snapshot2.getKey();
-                                    studiedBookArrayList.add(scriptnm);
-                                }
-                                break;
-                            }
-                        }
-                    }
+                    studiedBookArrayList.add(key);
+                    selectBookListAdapter.addItem(key);
                 }
-                studiedBookArrayAdapter.clear();
-                studiedBookArrayAdapter.addAll(studiedBookArrayList);
-                studiedBookArrayAdapter.notifyDataSetChanged();
+                studiedBookListView.setAdapter(selectBookListAdapter);
+
                 for(DataSnapshot snapshot : dataSnapshot.child("script_list").getChildren()) {
                     String key = snapshot.getKey();
                     for(String script : studiedBookArrayList) {

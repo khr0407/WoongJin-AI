@@ -92,6 +92,8 @@ public class HintVideoFragment extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 if(type.equals("ox")) {
+                    ((OXTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
+                    ((OXTypeActivity)getActivity()).flagD = 0;
                     fragmentTransaction.remove(((OXTypeActivity)getActivity()).hintVideoFragment);
                     fragmentTransaction.commit();
                 } else if(type.equals("choice")) {

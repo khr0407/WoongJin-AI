@@ -24,12 +24,15 @@
                 android:background="#00ff0000"
                 android:src="@drawable/ic_icons_go_to_home"/>
 
-            <ImageButton
+            <Button
                 android:id="@+id/myPage"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#00ff0000"/>
+                android:text="마이페이지"
+                android:textSize="20dp"
+                android:fontFamily="@font/typo_sherlock_b"
+                android:background="@drawable/rounded_yellow"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -61,62 +64,94 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"/>
 
-            <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="4"
-            android:orientation="vertical"
-            android:background="@drawable/rounded_white"
-            android:weightSum="6">
-
-            <TextView
-                android:id="@+id/textShowFriendQuiz"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/typo_sherlock_l"
-                android:textSize="30dp"
-                android:gravity="center"/>
-
-            <ListView
-                android:id="@+id/myFriendQuizList"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"
-                android:padding="20dp"/>
-
-        </LinearLayout>
-
-            <LinearLayout
+            <FrameLayout
+                android:id="@+id/contentShowScript"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"/>
+                android:layout_weight="10">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:orientation="vertical"
-                android:background="@drawable/rounded_white"
-                android:weightSum="6">
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:text="추천수가 많은 질문도 풀어보자"
-                    android:fontFamily="@font/typo_sherlock_l"
-                    android:textSize="30dp"
-                    android:gravity="center"/>
+                    android:layout_height="match_parent"
+                    android:weightSum="10"
+                    android:orientation="horizontal">
 
-                <ListView
-                    android:id="@+id/likeQuizList"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="5"
-                    android:padding="20dp"/>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4.5"
+                        android:orientation="vertical"
+                        android:background="@drawable/rounded_white"
+                        android:weightSum="6">
 
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/textShowFriendQuiz"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/typo_sherlock_l"
+                            android:textSize="30dp"
+                            android:gravity="center"/>
+
+                        <ListView
+                            android:id="@+id/myFriendQuizList"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="5"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:padding="20dp"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                    <FrameLayout
+                        android:id="@+id/contentShowHint"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4.5">
+
+                        <FrameLayout
+                            android:id="@+id/contentShowFriendQuiz"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:background="@drawable/rounded_white"
+                                android:weightSum="6">
+
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:text="추천수가 많은 질문도 풀어보자"
+                                    android:fontFamily="@font/typo_sherlock_l"
+                                    android:textSize="30dp"
+                                    android:gravity="center"/>
+
+                                <ListView
+                                    android:id="@+id/likeQuizList"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="5"
+                                    android:padding="20dp"/>
+
+                            </LinearLayout>
+
+                        </FrameLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"

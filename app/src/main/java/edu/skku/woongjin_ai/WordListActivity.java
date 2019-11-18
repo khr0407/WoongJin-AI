@@ -35,7 +35,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class WordListActivity extends AppCompatActivity{
-        //implements ShowScriptFragment.OnFragmentInteractionListener
+    //implements ShowScriptFragment.OnFragmentInteractionListener
 
     DatabaseReference mPostReference;
     Intent intent, intentHome;
@@ -43,8 +43,9 @@ public class WordListActivity extends AppCompatActivity{
     ImageView backgroundImage;
     ImageButton scriptButton;
     FirebaseStorage storage;
-    ListView mListView;
-    ArrayList<String> wordArraylist = new ArrayList();
+    ListView wordListView;
+    ArrayList<String> wordArrayList;
+    WordListAdapter wordListAdapter;
     //Fragment showScriptFragment;
 
     private StorageReference storageReference, dataReference;
@@ -57,12 +58,14 @@ public class WordListActivity extends AppCompatActivity{
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
-        mListView = (ListView)findViewById(R.id.wordlist);
+        wordListView = (ListView)findViewById(R.id.wordlist);
         ImageView imageHome = (ImageView) findViewById(R.id.home);
         TextView title = (TextView) findViewById(R.id.title);
         backgroundImage = (ImageView) findViewById(R.id.background);
         scriptButton = (ImageButton) findViewById(R.id.script);
 
+        wordArrayList = new ArrayList<String>();
+        wordListAdapter = new WordListAdapter();
 
         title.setText("지문 제목: " + scriptnm);
         //showScriptFragment = new ShowScriptFragment();
@@ -111,58 +114,24 @@ public class WordListActivity extends AppCompatActivity{
     }
 
     private void getFirebaseDatabaseWordList(){
-
-        final ValueEventListener postListener = new ValueEventListener() {
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.child("user_list").getChildren()) {
-                    String key = snapshot.getKey();
-                    if(id.equals(key))
-                    {
-                        for(DataSnapshot snapshot1 : snapshot.child("scripts").getChildren()) {
-                            String scriptkey = snapshot1.getKey();
-                            if (scriptnm.equals(scriptkey)) {
-                                for(DataSnapshot snapshot2 : snapshot1.child("word_list").getChildren()) {
-                                    WordListAdapter wAdapter = new WordListAdapter();
-                                    String wordlistkey = snapshot2.getKey();
-                                    wordArraylist.add(wordlistkey);
-                                    for(int i = 0 ; i < wordArraylist.size(); i++) {
-                                        wAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_pen_hand), wordArraylist.get(i), ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_learn), ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_script));
-                                    }
-                                    mListView.setAdapter(wAdapter);
-                                }
-                            }
-                        }
-                    }
-                }
-                for(DataSnapshot snapshot : dataSnapshot.child("kakaouser_list").getChildren()) {
-                    String key = snapshot.getKey();
-                    if(id.equals(key))
-                    {
+                wordArrayList.clear();
 
-                        for(DataSnapshot snapshot1 : snapshot.child("scripts").getChildren()) {
-                            String scriptkey = snapshot1.getKey();
-                            if (scriptnm.equals(scriptkey)) {
-                                for(DataSnapshot snapshot2 : snapshot1.child("word_list").getChildren()) {
-                                    WordListAdapter wAdapter = new WordListAdapter();
-                                    String wordlistkey = snapshot2.getKey();
-                                    wordArraylist.add(wordlistkey);
-                                    for(int i = 0 ; i < wordArraylist.size(); i++) {
-                                        wAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_pen_hand), wordArraylist.get(i), ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_learn), ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_script));
-                                    }
-                                    mListView.setAdapter(wAdapter);
-                                }
-                            }
-                        }
-                    }
+                for(DataSnapshot snapshot : dataSnapshot.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list").getChildren()) {
+                    String key = snapshot.getKey();
+                    wordArrayList.add(key);
                 }
+
+                for(int i=0; i<wordArrayList.size(); i++) {
+                    wordListAdapter.addItem(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_pen_hand), wordArrayList.get(i), ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_learn), ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_icons_script));
+                }
+                wordListView.setAdapter(wordListAdapter);
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
-        };
-        mPostReference.addValueEventListener(postListener);
-
-
+        });
     }
 /*
     private void dataSetting() {

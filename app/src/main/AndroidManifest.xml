@@ -17,7 +17,7 @@
         android:name=".GlobalApplication"
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/aikorean"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -68,8 +68,6 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".AddFriendActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".ChatListActivity"
-            android:screenOrientation="landscape"/>
         <activity android:name=".WebViewActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".WordListActivity"
@@ -78,11 +76,11 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".MyQuizActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".LikeQuizActivity"
+            android:screenOrientation="landscape"/>
         <activity android:name=".ChatroomActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
-        <activity android:name=".NationGameActivity"
-            android:screenOrientation="landscape"/>
         <activity android:name=".NationBookActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".NationQuizActivity"
@@ -90,6 +88,32 @@
         <activity android:name=".SelectBookActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".ShowFriendQuizActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".MyRecordActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".QuizbucketMain"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Quizbucketselecttype"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Quizbucketstart"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Quizbucketstart2"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Test"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".QuizbucketOX"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Quizbucketshortword"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Quizbucketchoice"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SvQuizbucketshortword"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SvQuizbucketOX"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SvQuizbucketchoice"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Quizbucketquiztype"
             android:screenOrientation="landscape"/>
     </application>
 </manifest>
