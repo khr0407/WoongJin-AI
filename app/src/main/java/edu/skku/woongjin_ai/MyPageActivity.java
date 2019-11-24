@@ -344,7 +344,8 @@ public class MyPageActivity extends AppCompatActivity{
                                 userGrade1.setText(me.grade + "학년");
                                 userCoin.setText(me.coin + "코인");
                                 profileUri = me.profile;
-                                if (!profileUri.equals("noimage")) {
+                                //내 정보 받아오기
+                                if (!profileUri.equals("noimage")) { //파베 프로필 정보  noimage 아니면 프로필 부분에 내 사진 보이게
                                     storage = FirebaseStorage.getInstance();
                                     storageReference = storage.getInstance().getReference();
                                     dataReference = storageReference.child("/profile/" + profileUri);
@@ -355,11 +356,12 @@ public class MyPageActivity extends AppCompatActivity{
                                                     .load(uri)
                                                     .error(R.drawable.btn_x)
                                                     .into(myFace);
-                                            //myFace.setBackground(drawable);
-                                            //myFace.setClipToOutline(true);
                                         }
                                     });
                                 }
+
+
+                                //나의 성과
                                 for (DataSnapshot snapshot2 : snapshot1.getChildren()) {
                                     String key2 = snapshot2.getKey();
                                     if (key2.equals("my_week_list")) {

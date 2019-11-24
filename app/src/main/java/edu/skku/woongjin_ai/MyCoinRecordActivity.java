@@ -27,7 +27,6 @@ public class MyCoinRecordActivity extends AppCompatActivity {
     ListView coinlist;
     String id, uname, ugrade, ucoin;
     TextView username, usergrade, usercoin;
-    //ArrayList<CoinRecordListItem> coinRecordListItemArrayList=new ArrayList<CoinRecordListItem>();
     CoinRecordListAdapter coinRecordListAdapter=new CoinRecordListAdapter();
 
     @Override

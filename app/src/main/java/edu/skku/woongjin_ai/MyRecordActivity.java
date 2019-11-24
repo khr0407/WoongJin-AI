@@ -20,11 +20,15 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,6 +69,8 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
 
     ArrayList<String> week_made, week_correct, week_level, week_like, week_attend, week_bombcnt;
     ArrayList<Entry> entries;
+    ArrayList<String> dates;
+
 
     MaterialCalendarView materialCalendarView;
     ArrayList<String> attendedDatesList;
@@ -100,6 +106,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
 
         materialCalendarView = (MaterialCalendarView) findViewById(R.id.attendCalendar);
         attendedDatesList = new ArrayList<String>();
+        dates=new ArrayList<String>();
 
         materialCalendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
@@ -139,13 +146,6 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
 
         showHoonjang=new ShowHoonjangCriteriaFragment();
 
-        
-        //week_attend=new long[MAX_SIZE];
-        //week_cnt=new int[MAX_SIZE];
-        //week_correct=new int[MAX_SIZE];
-        //week_level=new float[MAX_SIZE];
-       // week_like=new int[MAX_SIZE];
-
         week_attend=new ArrayList<String>();
         week_made=new ArrayList<String>();
         week_correct=new ArrayList<String>();
@@ -173,6 +173,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
         });
 
         graph_attend.setOnClickListener(new View.OnClickListener(){
+            //그래프 내부 데이터 설정 - MP AndroidChart API 사용
             @Override
             public void onClick(View v) {
                 graph_attend.setBackgroundColor(getResources().getColor(R.color.blue));
@@ -188,17 +189,29 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
-                    entries.add(new Entry(j, Float.parseFloat(week_attend.get(j))));
+                    dates.add(j+1+"주");
+                    entries.add(new Entry(j, Integer.parseInt(week_attend.get(j))));
                 }
                 LineDataSet dataset = new LineDataSet(entries, "주간 출석일 수");
                 xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
                 xAxis.setTextSize(15);
                 xAxis.setDrawGridLines(false);
+                xAxis.setGranularityEnabled(true);
+                xAxis.setValueFormatter(new IAxisValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        if(dates.size()>(int)value)
+                            return dates.get((int)value);
+                        else
+                            return null;
+                    }
+                });
                 left.setDrawGridLines(false);
-                right.setEnabled(false);
-                right.setDrawGridLines(false);
-                dataset.setValueTextSize(20);
+                left.setTextSize(15);
+                dataset.setValueTextSize(18);
                 LineData data = new LineData(dataset);
+                xAxis.setYOffset(10f);
+                left.setXOffset(10f);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
                 lineChart.animateY(1000);
@@ -387,6 +400,7 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
 
     private void getFirebaseDatabaseWeekInfo(){
         final ValueEventListener postListener = new ValueEventListener() {
+            //배열에 미리 데이터 넣어놓기 (그래프 그릴때 씀)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 week_like.clear();
