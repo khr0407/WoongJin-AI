@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:background="@color/lightorange">
+    android:background="@color/dimgray">
 
     <LinearLayout
         android:id="@+id/linearLayout15"
@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="9"
-                    android:background="@drawable/rounded_blue"
+                    android:background="#B9E2FA"
                     android:orientation="vertical">
 
                     <TextView
@@ -136,7 +136,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="8.7"
                     android:orientation="vertical"
-                    android:background="@drawable/rounded_yellow">
+                    android:background="#FFF978">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -190,7 +190,6 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
     </LinearLayout>
 </LinearLayout>
