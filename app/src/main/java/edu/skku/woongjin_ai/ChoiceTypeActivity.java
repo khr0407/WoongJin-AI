@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,28 +17,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.skku.woongjin_ai.mediarecorder.MediaRecorderActivity;
+
 public class ChoiceTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener{
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener/*, HintVideoFragment.OnFragmentInteractionListener*/{
 
     DatabaseReference mPostReference;
     ImageView imageScript, imageCheck,imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     EditText editQuiz, editAns, editAns1, editAns2, editAns3, editAns4;
-    Intent intent, intentHome, intentType;
+    Intent intent, intentHome, intentType, intentVideo;
     String id, scriptnm, backgroundID, thisWeek, nickname, bookname;
     String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "", desc = "";
     int star = 0, starInt = 0, oldMadeCnt;
@@ -47,7 +44,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
     int flagA1 =0, flagA2=0, flagA3=0,flagA4 =0;
     ImageView backgroundImage;
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
-//    FirebaseStorage storage;
+    //    FirebaseStorage storage;
 //    private StorageReference storageReference, dataReference;
     Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
 
@@ -85,6 +82,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         hintWritingButton = (ImageButton) findViewById(R.id.hintWriting);
         hintVideoButton = (ImageButton) findViewById(R.id.hintVideo);
         noHintButton = (ImageButton) findViewById(R.id.noHint);
+
 
         title.setText("지문 제목: " + scriptnm);
 
@@ -126,6 +124,10 @@ public class ChoiceTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                intentVideo = new Intent(ChoiceTypeActivity.this, MediaRecorderActivity.class);
+                intentVideo.putExtra("id", id);
+                startActivity(intentVideo);
+                /*
                 hintVideoFragment = new HintVideoFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentShowScriptChoice, hintVideoFragment);
@@ -134,6 +136,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 hintVideoFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
+                */
             }
         });
 
@@ -141,10 +144,10 @@ public class ChoiceTypeActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if(flagD != 2) {
-                    noHintButton.setImageResource(R.drawable.hint_no_selected);
+                    noHintButton.setBackgroundColor(Color.rgb(255, 153, 0));
                     flagD = 2;
                 } else {
-                    noHintButton.setImageResource(R.drawable.hint_no);
+                    noHintButton.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagD = 0;
                 }
             }

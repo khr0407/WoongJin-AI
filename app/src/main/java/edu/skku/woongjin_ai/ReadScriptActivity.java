@@ -35,7 +35,7 @@ public class ReadScriptActivity extends AppCompatActivity
     TextView textview_title, textview_script_1, textview_script_2;
     ImageButton goHome;
     TextView goMakeQuiz;
-//    TextView goStudyWord;
+    //    TextView goStudyWord;
 //    FirebaseStorage storage;
 //    private StorageReference storageReference, dataReference;
     Fragment selectStudyTypeFragment;

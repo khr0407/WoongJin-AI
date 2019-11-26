@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -248,6 +247,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     bundle.putInt("cnt", quiz.cnt);
                     bundle.putString("scriptnm", quiz.scriptnm);
                     bundle.putString("nickname", nickname);
+                    bundle.putString("url", quiz.url);
                     if(isFriendQuiz) bundle.putString("background", "blue");
                     else bundle.putString("background", "red");
                     friendOXQuizFragment.setArguments(bundle);
@@ -275,6 +275,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                         bundle.putString("desc", quiz.desc);
                         bundle.putString("key", quiz.key);
                         bundle.putInt("cnt", quiz.cnt);
+                        bundle.putString("url", quiz.url);
                         bundle.putString("scriptnm", quiz.scriptnm);
                         bundle.putString("nickname", nickname);
                         if(isFriendQuiz) bundle.putString("background", "blue");
@@ -301,6 +302,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                         bundle.putInt("cnt", quiz.cnt);
                         bundle.putString("scriptnm", quiz.scriptnm);
                         bundle.putString("nickname", nickname);
+                        bundle.putString("url", quiz.url);
 
                         if(isFriendQuiz) bundle.putString("background", "blue");
                         else bundle.putString("background", "red");

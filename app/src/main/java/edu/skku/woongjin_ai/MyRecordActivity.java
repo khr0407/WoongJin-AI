@@ -142,12 +142,12 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
 
         showHoonjang=new ShowHoonjangCriteriaFragment();
 
-        
+
         //week_attend=new long[MAX_SIZE];
         //week_cnt=new int[MAX_SIZE];
         //week_correct=new int[MAX_SIZE];
         //week_level=new float[MAX_SIZE];
-       // week_like=new int[MAX_SIZE];
+        // week_like=new int[MAX_SIZE];
 
         week_attend=new ArrayList<String>();
         week_made=new ArrayList<String>();

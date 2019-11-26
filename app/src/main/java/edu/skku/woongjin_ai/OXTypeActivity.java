@@ -2,48 +2,43 @@ package edu.skku.woongjin_ai;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.skku.woongjin_ai.mediarecorder.MediaRecorderActivity;
+
 public class OXTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener {
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener/*, HintVideoFragment.OnFragmentInteractionListener*/ {
 
     DatabaseReference mPostReference;
     ImageView imageO, imageX;
     EditText editQuiz;
-    Intent intent, intentHome, intentType;
-    String id, scriptnm, backgroundID, thisWeek, nickname, bookname;
-    String quiz = "", ans = "", desc = "";
+    Intent intent, intentHome, intentType, intentVideo;
+    String id, scriptnm, backgroundID, thisWeek, nickname, bookname, ts;
+    String quiz = "", ans = "", desc = "", url;
     int star = 0 , starInt = 0, oldMadeCnt;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     int flagAO = 0, flagAX = 0, flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
@@ -51,7 +46,8 @@ public class OXTypeActivity extends AppCompatActivity
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
 //    FirebaseStorage storage;
 //    private StorageReference storageReference, dataReference;
-    Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
+    Fragment showScriptFragment, hintWritingFragment;
+    private static final int REQUEST_CODE = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,8 +80,11 @@ public class OXTypeActivity extends AppCompatActivity
 
         title.setText("지문 제목: " + scriptnm);
 
-        mPostReference = FirebaseDatabase.getInstance().getReference();
+        Long tsLong = System.currentTimeMillis()/1000;
+        ts = tsLong.toString();
+        ts = ts +id;
 
+        mPostReference = FirebaseDatabase.getInstance().getReference(); // Get the default bucket
         getFirebaseDatabaseUserInfo();
 
 //        storage = FirebaseStorage.getInstance();
@@ -121,14 +120,11 @@ public class OXTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hintVideoFragment = new HintVideoFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptOX, hintVideoFragment);
-                Bundle bundle = new Bundle(1);
-                bundle.putString("type", "ox");
-                hintVideoFragment.setArguments(bundle);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                flagD = 3;
+                intentVideo = new Intent(OXTypeActivity.this, MediaRecorderActivity.class);
+                startActivity(intentVideo);
+                hintVideoButton.setColorFilter(Color.parseColor("#E4FF9800"), PorterDuff.Mode.MULTIPLY);
+                noHintButton.setImageResource(R.drawable.hint_no);
             }
         });
 
@@ -137,6 +133,7 @@ public class OXTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagD != 2) {
                     noHintButton.setImageResource(R.drawable.hint_no_selected);
+                    hintVideoButton.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.MULTIPLY);
                     flagD = 2;
                 } else {
                     noHintButton.setImageResource(R.drawable.hint_no);
@@ -165,11 +162,16 @@ public class OXTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagD == 0) {
                     Toast.makeText(OXTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
-                } else {
+                }
+                else {
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
                     if(flagD == 2) {
                         desc = "없음";
-                    } else {
+                    }
+                    else if (flagD == 3) {
+                        desc = "video";
+                    }
+                    else {
                         desc = hintWritingFragment1.editTextHint.getText().toString();
                     }
                     quiz = editQuiz.getText().toString();
@@ -179,7 +181,8 @@ public class OXTypeActivity extends AppCompatActivity
                     } else {
                         postFirebaseDatabaseQuizOX();
                         uploadFirebaseUserCoinInfo();
-                        if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
+                        if(flagD == 1)
+                            hintWritingFragment1.editTextHint.setText("");
                         Toast.makeText(OXTypeActivity.this, "출제 완료!", Toast.LENGTH_SHORT).show();
 
                         oldMadeCnt++;
@@ -380,13 +383,21 @@ public class OXTypeActivity extends AppCompatActivity
         });
     }
 
+    /*
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            url = data.getStringExtra("url");
+        }
+    }
+    */
     private void getFirebaseDatabaseUserInfo() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 WeekInfo weekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + thisWeek).getValue(WeekInfo.class);
                 oldMadeCnt = weekInfo.made;
-
                 bookname = dataSnapshot.child("script_list/" + scriptnm + "/book_name").getValue().toString();
             }
             @Override
@@ -397,10 +408,7 @@ public class OXTypeActivity extends AppCompatActivity
     private void postFirebaseDatabaseQuizOX() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        Long tsLong = System.currentTimeMillis()/1000;
-        String ts = tsLong.toString();
-        ts = ts + id;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, "없음", 1, scriptnm, bookname);
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, url, 1, scriptnm, bookname);
         postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
