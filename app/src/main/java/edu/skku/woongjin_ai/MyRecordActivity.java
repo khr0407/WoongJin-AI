@@ -204,7 +204,6 @@ public class MyRecordActivity extends AppCompatActivity  {
                 //
                 xAxis=lineChart.getXAxis();
                 xAxis.setGranularityEnabled(true);
-                //
                 xAxis.setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
@@ -214,7 +213,21 @@ public class MyRecordActivity extends AppCompatActivity  {
                             return null;
                     }
                 });
+                left.setGranularityEnabled(true);
+                left.resetAxisMaximum();
+                left.setValueFormatter(new IAxisValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        return Integer.toString((int)value);
+                    }
+                });
                 LineDataSet dataset = new LineDataSet(entries, "주간 출석일 수");
+                dataset.setValueFormatter(new IValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                        return Integer.toString((int)value);//return your text
+                    }
+                });
                 dataset.setValueTextSize(18);
                 dataset.setLineWidth(6);
                 dataset.setCircleRadius(12);
@@ -259,7 +272,21 @@ public class MyRecordActivity extends AppCompatActivity  {
                             return null;
                     }
                 });
+                left.setGranularityEnabled(true);
+                left.resetAxisMaximum();
+                left.setValueFormatter(new IAxisValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        return Integer.toString((int)value);
+                    }
+                });
                 LineDataSet dataset = new LineDataSet(entries, "주간 만든 문제 수");
+                dataset.setValueFormatter(new IValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                        return Integer.toString((int)value);//return your text
+                    }
+                });
                 dataset.setValueTextSize(18);
                 dataset.setLineWidth(6);
                 dataset.setCircleRadius(12);
@@ -267,6 +294,7 @@ public class MyRecordActivity extends AppCompatActivity  {
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
+                lineChart.setBackgroundColor(Color.rgb(255,245,238));
                 lineChart.animateY(500);
             }
         });
@@ -301,7 +329,21 @@ public class MyRecordActivity extends AppCompatActivity  {
                             return null;
                     }
                 });
+                left.setGranularityEnabled(true);
+                left.resetAxisMaximum();
+                left.setValueFormatter(new IAxisValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        return Integer.toString((int)value);
+                    }
+                });
                 LineDataSet dataset = new LineDataSet(entries, "주간 맞춘 문제 수");
+                dataset.setValueFormatter(new IValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                        return Integer.toString((int)value);//return your text
+                    }
+                });
                 dataset.setValueTextSize(18);
                 dataset.setLineWidth(6);
                 dataset.setCircleRadius(12);
@@ -309,6 +351,7 @@ public class MyRecordActivity extends AppCompatActivity  {
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
+                lineChart.setBackgroundColor(Color.rgb(255,245,238));
                 lineChart.animateY(500);
             }
         });
@@ -342,6 +385,8 @@ public class MyRecordActivity extends AppCompatActivity  {
                             return null;
                     }
                 });
+                left.setGranularityEnabled(true);
+                left.setAxisMaximum(5);
                 LineDataSet dataset = new LineDataSet(entries, "주간 평균 레벨");
                 dataset.setValueTextSize(18);
                 dataset.setLineWidth(6);
@@ -350,6 +395,7 @@ public class MyRecordActivity extends AppCompatActivity  {
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
+                lineChart.setBackgroundColor(Color.rgb(255,245,238));
                 lineChart.animateY(500);
             }
         });
@@ -383,7 +429,21 @@ public class MyRecordActivity extends AppCompatActivity  {
                             return null;
                     }
                 });
+                left.setGranularityEnabled(true);
+                left.resetAxisMaximum();
+                left.setValueFormatter(new IAxisValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        return Integer.toString((int)value);
+                    }
+                });
                 LineDataSet dataset = new LineDataSet(entries, "주간 좋아요 수");
+                dataset.setValueFormatter(new IValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                        return Integer.toString((int)value);//return your text
+                    }
+                });
                 dataset.setValueTextSize(18);
                 dataset.setLineWidth(6);
                 dataset.setCircleRadius(12);
@@ -391,6 +451,7 @@ public class MyRecordActivity extends AppCompatActivity  {
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
+                lineChart.setBackgroundColor(Color.rgb(255,245,238));
                 lineChart.animateY(500);
             }
         });
@@ -424,7 +485,21 @@ public class MyRecordActivity extends AppCompatActivity  {
                             return null;
                     }
                 });
+                left.setGranularityEnabled(true);
+                left.resetAxisMaximum();
+                left.setValueFormatter(new IAxisValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        return Integer.toString((int)value);
+                    }
+                });
                 LineDataSet dataset = new LineDataSet(entries, "해체한 폭탄 수");
+                dataset.setValueFormatter(new IValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                        return Integer.toString((int)value);//return your text
+                    }
+                });
                 dataset.setValueTextSize(18);
                 dataset.setLineWidth(6);
                 dataset.setCircleRadius(12);
@@ -432,6 +507,7 @@ public class MyRecordActivity extends AppCompatActivity  {
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
+                lineChart.setBackgroundColor(Color.rgb(255,245,238));
                 lineChart.animateY(500);
             }
         });
