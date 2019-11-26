@@ -397,7 +397,7 @@ public class OXTypeActivity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 WeekInfo weekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + thisWeek).getValue(WeekInfo.class);
-                //oldMadeCnt = weekInfo.made;
+                oldMadeCnt = weekInfo.made;
                 bookname = dataSnapshot.child("script_list/" + scriptnm + "/book_name").getValue().toString();
             }
             @Override
