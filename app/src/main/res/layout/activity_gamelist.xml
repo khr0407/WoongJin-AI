@@ -31,16 +31,16 @@
                 android:id="@+id/home"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_margin="5dp"
                 android:layout_weight="1.5"
                 android:background="#00ff0000"
-                android:layout_margin="5dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/go_home" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2.5"
+                android:layout_weight="2.2"
                 android:orientation="horizontal" />
 
             <ImageButton
@@ -57,7 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
-                android:layout_weight="5"
+                android:layout_weight="4.8"
                 android:background="@drawable/ic_menu_frame"
                 android:padding="8dp"
                 android:weightSum="6">
@@ -69,8 +69,8 @@
                     android:layout_gravity="center"
                     android:layout_weight="2"
                     android:fontFamily="@font/bmjua_ttf"
-                    android:textColor="@color/white"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     android:textSize="25dp" />
 
                 <TextView
@@ -103,6 +103,12 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:orientation="vertical"></LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -128,7 +134,7 @@
                         android:id="@+id/gamelist"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white">
+                        android:background="#FFFACD">
 
                     </ListView>
                 </LinearLayout>

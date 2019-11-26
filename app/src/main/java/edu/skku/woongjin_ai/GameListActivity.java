@@ -198,8 +198,9 @@ public class GameListActivity extends AppCompatActivity
                                     find = 1;
                                     break;
                                 }
-                                else if (temp_state.equals("gaming1") || temp_state.equals("gaming2") || temp_state.equals("gaming3") || temp_state.equals("gaming4")
-                                        || temp_state.equals("gaming5") || temp_state.equals("gaming6")) {
+                                /*else if (temp_state.equals("gaming1") || temp_state.equals("gaming2") || temp_state.equals("gaming3") || temp_state.equals("gaming4")
+                                        || temp_state.equals("gaming5") || temp_state.equals("gaming6")) {*/
+                                else if (temp_state.equals("gaming1") || temp_state.equals("gaming2")) {
                                     timestamp_key = temp_timestamp;
                                     user1_key = temp_user1;
                                     user2_key = temp_user2;
@@ -256,8 +257,9 @@ public class GameListActivity extends AppCompatActivity
                                     find = 1;
                                     break;
                                 }
-                                else if (temp_state.equals("gaming1") || temp_state.equals("gaming2") || temp_state.equals("gaming3") || temp_state.equals("gaming4")
-                                        || temp_state.equals("gaming5") || temp_state.equals("gaming6")) {
+                                /*else if (temp_state.equals("gaming1") || temp_state.equals("gaming2") || temp_state.equals("gaming3") || temp_state.equals("gaming4")
+                                        || temp_state.equals("gaming5") || temp_state.equals("gaming6")) {*/
+                                else if (temp_state.equals("gaming1") || temp_state.equals("gaming2")) {
                                     timestamp_key = temp_timestamp;
                                     user1_key = temp_user1;
                                     user2_key = temp_user2;
@@ -289,7 +291,8 @@ public class GameListActivity extends AppCompatActivity
                     if (find == 0) {
                         Toast.makeText(GameListActivity.this, "이미 끝난 게임입니다.", Toast.LENGTH_SHORT).show();
                     }
-                    else if (find == 1 && last.equals(nickname_key) && bomb_cnt-'0' == 6) {
+                    //else if (find == 1 && bomb_cnt-'0' == 6) {
+                    else if (find == 1 && bomb_cnt-'0' == 2) {
                         Toast.makeText(GameListActivity.this, "문제를 더 이상 만들 수 없습니다!", Toast.LENGTH_SHORT).show();
                     }
                     else if (find == 1 && last.equals(nickname_key) && solve.equals("none")) {
@@ -311,7 +314,8 @@ public class GameListActivity extends AppCompatActivity
                         intent_makebombtype.putExtra("state", state_key);
                         startActivity(intent_makebombtype);
                     }
-                    else if (find == 1 && !last.equals(nickname_key) && (!solve.equals("none") || solve.equals(nickname_key)) && bomb_cnt-'0' != 6) {
+                    //else if (find == 1 && !last.equals(nickname_key) && (!solve.equals("none") || solve.equals(nickname_key)) && bomb_cnt-'0' != 6) {
+                    else if (find == 1 && !last.equals(nickname_key) && (!solve.equals("none") || solve.equals(nickname_key)) && bomb_cnt-'0' != 2) {
                         Toast.makeText(GameListActivity.this, "상대방에게 다시 폭탄을 돌려주자!", Toast.LENGTH_SHORT).show();
                         intent_makebombtype = new Intent(GameListActivity.this, MakeBombTypeActivity.class);
                         intent_makebombtype.putExtra("timestamp", timestamp_key);
@@ -337,7 +341,7 @@ public class GameListActivity extends AppCompatActivity
                     if (find == 0) {
                         Toast.makeText(GameListActivity.this, "이미 끝난 게임입니다.", Toast.LENGTH_SHORT).show();
                     }
-                    else if (find == 1 && last.equals(nickname_key)) {
+                    else if (find == 1 && last.equals(nickname_key) && !solve.equals("none")) {
                         Toast.makeText(GameListActivity.this, "상대방이 아직 문제를 제출하지 않았습니다.", Toast.LENGTH_SHORT).show();
                     }
                     else if (find == 1 && last.equals("none") && solve.equals("none")) {
@@ -430,7 +434,7 @@ public class GameListActivity extends AppCompatActivity
                             public void onCancelled(DatabaseError databaseError) {
                             }
                         };
-                        qaPostReference.addValueEventListener(findQna);
+                        qaPostReference.addListenerForSingleValueEvent(findQna);
                     }
                 }
                 else if(check_gamelist == 0) {
@@ -457,9 +461,10 @@ public class GameListActivity extends AppCompatActivity
                         String user2 = postSnapshot.child("user2").getValue().toString();
                         String temp_status = postSnapshot.child("state").getValue().toString();
                         char bombcount;
-                        if(!temp_status.equals("win") && !temp_status.equals("win1") && !temp_status.equals("win2")){
+                        if(!temp_status.equals("win") && !temp_status.equals("win1") && !temp_status.equals("win2")){ //gaming0~6
                             bombcount = temp_status.charAt(6);
-                        }else{
+                        }
+                        else { //win, win1, win2
                             bombcount='x';
                         }
                         if(bombcount=='0'){
@@ -477,17 +482,29 @@ public class GameListActivity extends AppCompatActivity
                             withwhom=get.user2;
                             roomname=get.roomname;
 
-                            if (bombcount=='x'){ //ok
+                            if (bombcount=='x' && temp_status.equals("win")){ //ok
                                 status="end";
                             }
-                            else if (bombcount=='0'||(bombcount-'0')%2==0 && solveperson.equals(nickname_key)) {
-                                status="myturn";
+                            else if (bombcount=='x' && temp_status.equals("win1")){ //ok
+                                status="iwin";
                             }
-                            else if ((bombcount-'0')%2==0 && solveperson.equals("none")) { //ok
-                                status="newbomb";
+                            else if (bombcount=='x' && temp_status.equals("win2")){ //ok
+                                status="youwin";
                             }
-                            else if ((bombcount-'0')%2==1) { //ok
-                                status="elseturn";
+                            else if (bombcount=='0') {
+                                status="makeplease";
+                            }
+                            else if (!lastperson.equals(nickname_key) && solveperson.equals(nickname_key)) {
+                                status="myturn"; //내가 폭탄 만들 차례
+                            }
+                            else if (!lastperson.equals(nickname_key) && solveperson.equals("none")) { //ok
+                                status="newbomb"; //새 폭탄이 도착했어요 (내가 폭탄을 풀 차례)
+                            }
+                            else if (lastperson.equals(nickname_key) && solveperson.equals("none")) { //ok
+                                status="elsenotsolve"; //친구가 폭탄을 아직 풀지 않음
+                            }
+                            else if (lastperson.equals(nickname_key) && !solveperson.equals("none")) { //ok
+                                status = "elsenotmake"; //친구가 폭탄을 아직 만들지 않음
                             }
                             else{
                                 Log.d("폭탄에러났슈user1", "에러유");
@@ -502,17 +519,29 @@ public class GameListActivity extends AppCompatActivity
                             withwhom=get.user1;
                             roomname=get.roomname;
 
-                            if (bombcount=='x'){ //ok
+                            if (bombcount=='x' && temp_status.equals("win")){ //ok
                                 status="end";
                             }
-                            else if ((bombcount-'0')%2==1 && solveperson.equals(nickname_key)) {
-                                status="myturn";
+                            else if (bombcount=='x' && temp_status.equals("win1")){ //ok
+                                status="youwin";
                             }
-                            else if ((bombcount-'0')%2==1 && solveperson.equals("none")) { //ok
-                                status="newbomb";
+                            else if (bombcount=='x' && temp_status.equals("win2")){ //ok
+                                status="iwin";
                             }
-                            else if ((bombcount-'0')%2==0) { //ok
-                                status="elseturn";
+                            else if (bombcount=='0') {
+                                status="makeplease";
+                            }
+                            else if (!lastperson.equals(nickname_key) && solveperson.equals(nickname_key)) {
+                                status="myturn"; //내가 폭탄 만들 차례
+                            }
+                            else if (!lastperson.equals(nickname_key) && solveperson.equals("none")) { //ok
+                                status="newbomb"; //새 폭탄이 도착했어요 (내가 폭탄을 풀 차례)
+                            }
+                            else if (lastperson.equals(nickname_key) && solveperson.equals("none")) { //ok
+                                status="elsenotsolve"; //친구가 폭탄을 아직 풀지 않음
+                            }
+                            else if (lastperson.equals(nickname_key) && !solveperson.equals("none")) { //ok
+                                status="elsenotmake"; //친구가 폭탄을 아직 만들지 않음
                             }
                             else{
                                 Log.d("폭탄에러났슈user2", "에러유");

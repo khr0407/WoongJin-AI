@@ -77,7 +77,7 @@ public class CorrectBombFragment extends AppCompatActivity {
                         String coin_convert = Integer.toString(coin);
                         String solved_convert=Integer.toString(solvedbomb);
                         mPostReference.child(key).child("coin").setValue(coin_convert);
-                        mPostReference.child(key).child("my_week_list/week"+weeknum+"/solvebomb").setValue(solved_convert);
+                        mPostReference.child(key).child("my_week_list/week"+weeknum+"/solvebomb").setValue(solvedbomb);
                         break;
                     }
                 }

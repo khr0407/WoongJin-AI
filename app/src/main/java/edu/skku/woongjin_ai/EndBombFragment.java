@@ -62,7 +62,7 @@ public class EndBombFragment extends AppCompatActivity {
                         String gamer_count=postSnapshot.child("my_week_list/week"+weeknum+"/solvebomb").getValue().toString();
                         int solvedbomb=Integer.parseInt(gamer_count)+1;
                         String solved_convert=Integer.toString(solvedbomb);
-                        mPostReference.child(key).child("my_week_list/week"+weeknum+"/solvebomb").setValue(solved_convert);
+                        mPostReference.child(key).child("my_week_list/week"+weeknum+"/solvebomb").setValue(solvedbomb);
                         int coin = Integer.parseInt(gamer_coin) + 60;
                         String coin_convert = Integer.toString(coin);
                         mPostReference.child(key).child("coin").setValue(coin_convert);
