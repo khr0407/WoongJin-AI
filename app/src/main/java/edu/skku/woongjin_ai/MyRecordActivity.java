@@ -108,10 +108,13 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
                 .setCalendarDisplayMode(CalendarMode.MONTHS)
                 .commit();
 
+        materialCalendarView.setDynamicHeightEnabled(true);
+
         materialCalendarView.addDecorators(
                 new SundayDecorator(),
                 new SaturdayDecorator(),
-                new OnDayDecorator());
+                new OnDayDecorator(),
+                new MakeBoldDecorator());
 
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -542,13 +545,32 @@ public class MyRecordActivity extends AppCompatActivity implements  ShowHoonjang
 
         @Override
         public void decorate(DayViewFacade view) {
-            view.addSpan(new StyleSpan(Typeface.BOLD));
+            view.addSpan(new StyleSpan(Typeface.BOLD_ITALIC));
             view.addSpan(new RelativeSizeSpan(1.4f));
             view.addSpan(new ForegroundColorSpan(Color.GREEN));
         }
 
         public void setDate(Date date) {
             this.date = CalendarDay.from(date);
+        }
+    }
+
+    private class MakeBoldDecorator implements DayViewDecorator {
+
+        private final Calendar calendar = Calendar.getInstance();
+
+        public MakeBoldDecorator() {}
+
+        @Override
+        public boolean shouldDecorate(CalendarDay day) {
+            day.copyTo(calendar);
+            int weekDay = calendar.get(Calendar.DATE);
+            return weekDay > 0 && weekDay < 32;
+        }
+
+        @Override
+        public void decorate(DayViewFacade view) {
+            view.addSpan((new StyleSpan(Typeface.BOLD)));
         }
     }
 }

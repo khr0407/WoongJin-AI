@@ -102,9 +102,9 @@ public class ReadScriptActivity extends AppCompatActivity
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.contentReadScript, selectStudyTypeFragment);
-        transaction.commit();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.contentReadScript, selectStudyTypeFragment);
+//        transaction.commit();
 
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override
