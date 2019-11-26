@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
+<FrameLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hoonjangframe"
+    >
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,44 +36,25 @@
 
 
 
-            <ImageButton
-                android:id="@+id/record"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:background="#00FFFFFF"
-                android:layout_margin="5dp"
-                android:layout_gravity="center"
-                android:src="@drawable/record_room"
-                android:scaleType="fitCenter"
-                />
-
-
-            <ImageButton
-                android:id="@+id/FriendList"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:background="#00FFFFFF"
-                android:layout_margin="5dp"
-                android:src="@drawable/friend_room"
-                android:scaleType="fitCenter"
-                />
+                android:layout_weight="3"/>
 
             <Button
-                android:id="@+id/CoinRecord"
+                android:id="@+id/showHoonjang"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
                 android:layout_margin="5dp"
                 android:scaleType="centerCrop"
-                android:text="코인 기록실"
+                android:text="훈장 기준이 궁금해요!"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:background="@drawable/ic_menu_format"
                 android:fontFamily="@font/bmjua_ttf"
                 android:textColor="@color/white"
-                android:textSize="27dp"
+                android:textSize="15dp"
 
                 />
 
@@ -227,7 +211,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:textSize="25dp"
-                            android:text="ㅁㅁ초등학교"
+                            android:textColor="@color/black"
                             android:fontFamily="@font/bmjua_ttf"
                             />
 
@@ -238,7 +222,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:textSize="25dp"
-                            android:text="ㅁ학년"
+                            android:textColor="@color/black"
                             android:fontFamily="@font/bmjua_ttf"/>
 
                     </LinearLayout>
@@ -249,11 +233,70 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1.2"
                         android:gravity="center"
-                        android:textSize="30dp"
-                        android:text="김웅진"
+                        android:textSize="35dp"
+                        android:textColor="@color/black"
                         android:fontFamily="@font/bmjua_ttf"/>
 
 
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.7"
+                    android:weightSum="3"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/record"
+                        android:layout_width="200dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:scaleType="centerCrop"
+                        android:text="성적 기록실"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/ic_menu_format"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:textColor="@color/white"
+                        android:textSize="27dp"
+                        />
+
+                    <Button
+                        android:id="@+id/FriendList"
+                        android:layout_width="200dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:scaleType="centerCrop"
+                        android:text="친구 목록"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/ic_menu_format"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:textColor="@color/white"
+                        android:textSize="27dp"
+                        />
+
+                    <Button
+                        android:id="@+id/CoinRecord"
+                        android:layout_width="200dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:scaleType="centerCrop"
+                        android:text="코인 기록실"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/ic_menu_format"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:textColor="@color/white"
+                        android:textSize="27dp"
+
+                        />
 
                 </LinearLayout>
 
@@ -714,6 +757,6 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+</FrameLayout>
 
 
