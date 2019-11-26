@@ -75,7 +75,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/nationbook_board"
                     android:textSize="40dp"
                     android:text="문제 만들기 예시를 보여줄게!"
                     android:textColor="@color/white"

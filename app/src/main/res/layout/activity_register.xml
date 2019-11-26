@@ -39,7 +39,8 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="100dp"
                         android:background="#FFC89A"
-                        android:hint="Name"
+                        android:hint="이름"
+                        android:fontFamily="@font/bmjua_ttf"
                         android:padding="10dp"
                         android:textColor="#ffffff"
                         android:textColorHint="#ffffff" />
@@ -58,7 +59,8 @@
                             android:layout_gravity="center"
                             android:layout_marginRight="10dp"
                             android:background="#FFC89A"
-                            android:hint="Nickname"
+                            android:hint="닉네임"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:padding="10dp"
                             android:textColor="#ffffff"
                             android:textColorHint="#ffffff" />
@@ -68,7 +70,8 @@
                             android:layout_width="80dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:text="Check"
+                            android:text="중복체크"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:textColor="#FF8C00"
                             android:textSize="15dp"
                             android:textStyle="bold" />
@@ -88,7 +91,8 @@
                             android:layout_gravity="center"
                             android:layout_marginRight="10dp"
                             android:background="#FFC89A"
-                            android:hint="ID"
+                            android:hint="아이디"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:padding="10dp"
                             android:textColor="#ffffff"
                             android:textColorHint="#ffffff" />
@@ -98,7 +102,8 @@
                             android:layout_width="80dp"
                             android:layout_height="40dp"
                             android:layout_gravity="center"
-                            android:text="Check ID"
+                            android:text="중복체크"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:textColor="#FF8C00"
                             android:textSize="12.5dp"
                             android:textStyle="bold" />
@@ -111,7 +116,8 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:background="#FFC89A"
-                        android:hint="Password"
+                        android:hint="비밀번호"
+                        android:fontFamily="@font/bmjua_ttf"
                         android:inputType="textPassword"
                         android:padding="10dp"
                         android:textColor="#ffffff"
@@ -130,6 +136,7 @@
                             android:text="성별"
                             android:textAlignment="center"
                             android:textSize="19dp"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:textStyle="bold"
                             android:layout_gravity="center"/>
 
@@ -145,6 +152,7 @@
                             android:text="학년"
                             android:textAlignment="center"
                             android:textSize="19dp"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:textStyle="bold"
                             android:layout_gravity="center"/>
 
@@ -164,7 +172,8 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:background="#FFC89A"
-                        android:hint="School"
+                        android:hint="학교"
+                        android:fontFamily="@font/bmjua_ttf"
                         android:padding="10dp"
                         android:textColor="#ffffff"
                         android:textColorHint="#ffffff" />
@@ -176,7 +185,8 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:background="#FF8C00"
-                        android:text="Register"
+                        android:text="회원가입하기"
+                        android:fontFamily="@font/bmjua_ttf"
                         android:textColor="#FFFFFF"
                         android:textSize="20dp"
                         android:textStyle="bold" />
@@ -200,9 +210,10 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_gravity="center"
-            android:text="Member Registration"
+            android:text="회원가입"
             android:textAlignment="center"
             android:textColor="#ffffff"
+            android:fontFamily="@font/bmjua_ttf"
             android:textSize="30dp"
             android:textStyle="bold" />
     </LinearLayout>

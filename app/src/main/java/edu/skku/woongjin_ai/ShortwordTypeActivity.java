@@ -2,6 +2,7 @@ package edu.skku.woongjin_ai;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,7 +11,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,14 +36,13 @@ public class ShortwordTypeActivity extends AppCompatActivity
     DatabaseReference mPostReference;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     EditText editQuiz, editAns;
-    Intent intent, intentHome, intentType, intentVideo;
-    String id, scriptnm, backgroundID, thisWeek;
+    Intent intent, intentHome, intentType, intentVideo, intenturl;
+    String id, scriptnm, backgroundID, thisWeek, nickname, bookname, url, ts;
     String quiz = "", ans = "", desc = "";
     int star = 0, starInt = 0, oldMadeCnt;
     int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
     ImageView backgroundImage;
-    ImageButton checkButton, scriptButton;
-    Button hintWritingButton, hintVideoButton, noHintButton;
+    ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
 //    FirebaseStorage storage;
 //    private StorageReference storageReference, dataReference;
     Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
@@ -54,9 +53,11 @@ public class ShortwordTypeActivity extends AppCompatActivity
         setContentView(R.layout.activity_shortwordtype);
 
         intent = getIntent();
+        intenturl = getIntent();
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        nickname = intent.getStringExtra("nickname");
         thisWeek = intent.getStringExtra("thisWeek");
 
         ImageView imageHome = (ImageView) findViewById(R.id.home);
@@ -71,11 +72,15 @@ public class ShortwordTypeActivity extends AppCompatActivity
         backgroundImage = (ImageView) findViewById(R.id.background);
         checkButton = (ImageButton) findViewById(R.id.check);
         scriptButton = (ImageButton) findViewById(R.id.script);
-        hintWritingButton = (Button) findViewById(R.id.hintWriting);
-        hintVideoButton = (Button) findViewById(R.id.hintVideo);
-        noHintButton = (Button) findViewById(R.id.noHint);
+        hintWritingButton = (ImageButton) findViewById(R.id.hintWriting);
+        hintVideoButton = (ImageButton) findViewById(R.id.hintVideo);
+        noHintButton = (ImageButton) findViewById(R.id.noHint);
 
         title.setText("지문 제목: " + scriptnm);
+
+        Long tsLong = System.currentTimeMillis()/1000;
+        ts = tsLong.toString();
+        ts = ts + id;
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -97,7 +102,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
 //        });
 
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
-            @Override
+
             public void onClick(View v) {
                 hintWritingFragment = new HintWritingFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -115,8 +120,8 @@ public class ShortwordTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                flagD = 3;
                 intentVideo = new Intent(ShortwordTypeActivity.this, MediaRecorderActivity.class);
-                intentVideo.putExtra("id", id);
                 startActivity(intentVideo);
                 /*
                 hintVideoFragment = new HintVideoFragment();
@@ -131,18 +136,27 @@ public class ShortwordTypeActivity extends AppCompatActivity
             }
         });
 
-        noHintButton.setOnClickListener(new View.OnClickListener() {
+        hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                flagD = 3;
+                intentVideo = new Intent(ShortwordTypeActivity.this, MediaRecorderActivity.class);
+                startActivity(intentVideo);
+                hintVideoButton.setColorFilter(Color.parseColor("#E4FF9800"), PorterDuff.Mode.MULTIPLY);
+                noHintButton.setImageResource(R.drawable.hint_no);
+            }
+        });
+
+        noHintButton.setOnClickListener(new View.OnClickListener() { // flagD == 2
+            @Override
+
+            public void onClick(View v) {
                 if(flagD != 2) {
-//                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_after);
-//                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
-                    noHintButton.setBackgroundColor(Color.rgb(255, 153, 0));
+                    noHintButton.setImageResource(R.drawable.hint_no_selected);
+                    hintVideoButton.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.MULTIPLY);
                     flagD = 2;
                 } else {
-//                    noHintButton.setImageResource(R.drawable.ic_icons_no_hint_before);
-//                    checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
-                    noHintButton.setBackgroundColor(Color.rgb(255, 255, 255));
+                    noHintButton.setImageResource(R.drawable.hint_no);
                     flagD = 0;
                 }
             }
@@ -171,7 +185,10 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 } else {
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
                     if(flagD == 2) {
-                        desc="없음";
+                        desc = "없음";
+                    }
+                    else if (flagD == 3) {
+                        desc = "video";
                     } else {
                         desc = hintWritingFragment1.editTextHint.getText().toString();
                     }
@@ -193,6 +210,8 @@ public class ShortwordTypeActivity extends AppCompatActivity
                         intentType.putExtra("id", id);
                         intentType.putExtra("scriptnm", scriptnm);
                         intentType.putExtra("background", backgroundID);
+                        intentType.putExtra("nickname", nickname);
+                        intentType.putExtra("thisWeek", thisWeek);
                         startActivity(intentType);
                     }
                 }
@@ -350,6 +369,8 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 WeekInfo weekInfo = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + thisWeek).getValue(WeekInfo.class);
                 oldMadeCnt = weekInfo.made;
+
+                bookname = dataSnapshot.child("script_list/" + scriptnm + "/book_name").getValue().toString();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
@@ -359,10 +380,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
     private void postFirebaseDatabaseQuizShortword() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        Long tsLong = System.currentTimeMillis()/1000;
-        String ts = tsLong.toString();
-        ts = ts + id;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, "없음", 3);
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, url, 3, scriptnm, bookname);
         postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);

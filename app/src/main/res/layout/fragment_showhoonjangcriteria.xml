@@ -2,22 +2,24 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/rounded_white_transparent"
+    android:background="@drawable/black_transparent"
     android:clickable="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="80dp"
+        android:padding="40dp"
         android:weightSum="8">
 
-        <ImageButton
+        <Button
             android:id="@+id/close"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="0dp"
-            android:src="@drawable/ic_icons_close"
-            android:background="#00ff0000"
+            android:background="@drawable/rounded_white"
+            android:text="닫기"
+            android:fontFamily="@font/bmjua_ttf"
+            android:textColor="@color/dimgray"
             android:layout_gravity="end"
             android:layout_weight="1"/>
 
@@ -35,7 +37,8 @@
                 android:textSize="40dp"
                 android:textStyle="bold"
                 android:text="훈장의 기준이 궁금해~?"
-                android:fontFamily="@font/typo_sherlock_b"
+                android:textColor="@color/yellow"
+                android:fontFamily="@font/bmjua_ttf"
                 android:layout_weight="8"/>
 
         </LinearLayout>
@@ -60,7 +63,7 @@
                     android:layout_weight="1.5"
                     android:text=""
                     android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
                     />
                 <TextView
@@ -68,30 +71,30 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="레벨 1"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="30dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="레벨 2"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="30dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@color/blue"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="레벨 3"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="30dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@color/red"
                     />
 
             </LinearLayout>
@@ -103,41 +106,97 @@
                 android:orientation="horizontal"
                 android:weightSum="4.5"
                 >
-                <TextView
+
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.5"
-                    android:text="출석왕"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
-                    android:gravity="center"
-                    />
+                    android:weightSum="7"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/attend_1"
+                        android:layout_margin="3dp"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/attend_2"
+                        android:layout_margin="3dp"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/attend_3"
+                        android:layout_margin="3dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:orientation="vertical"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="2"
+                            android:text="출석왕"
+                            android:textSize="25dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/lightgreen"
+                            />
+
+                        <TextView
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:text="누적 출석일"
+                            android:textSize="15dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="누적 출석일\n30일"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:text="30일"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="100일"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="365일"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
 
             </LinearLayout>
@@ -149,41 +208,96 @@
                 android:orientation="horizontal"
                 android:weightSum="4.5"
                 >
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.5"
-                    android:text="다독왕"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
-                    android:gravity="center"
-                    />
+                    android:weightSum="7"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/read_1"
+                        android:layout_margin="3dp"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/read_2"
+                        android:layout_margin="3dp"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/read_3"
+                        android:layout_margin="3dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:orientation="vertical"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="2"
+                            android:text="다독왕"
+                            android:textSize="25dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/lightgreen"
+                            />
+
+                        <TextView
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:text="읽은 지문 수"
+                            android:textSize="15dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="읽은 지문\n50개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:text="50개"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="100개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="150개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
 
             </LinearLayout>
@@ -195,41 +309,96 @@
                 android:orientation="horizontal"
                 android:weightSum="4.5"
                 >
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.5"
-                    android:text="출제왕"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
-                    android:gravity="center"
-                    />
+                    android:weightSum="7"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/quiz_1"
+                        android:layout_margin="3dp"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/quiz_2"
+                        android:layout_margin="3dp"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/quiz_3"
+                        android:layout_margin="3dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:orientation="vertical"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="2"
+                            android:text="출제왕"
+                            android:textSize="25dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/lightgreen"
+                            />
+
+                        <TextView
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:text="만든 문제 수"
+                            android:textSize="15dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="만든 퀴즈 수\n30개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:text="30개"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="60개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="100개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
 
             </LinearLayout>
@@ -241,41 +410,96 @@
                 android:orientation="horizontal"
                 android:weightSum="4.5"
                 >
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.5"
-                    android:text="문제 사냥꾼"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
-                    android:gravity="center"
-                    />
+                    android:weightSum="7"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/quizhunter_1"
+                        android:layout_margin="3dp"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/quizhunter_2"
+                        android:layout_margin="3dp"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/quizhunter_3"
+                        android:layout_margin="3dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:orientation="vertical"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="2"
+                            android:text="문제사냥꾼"
+                            android:textSize="25dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/lightgreen"
+                            />
+
+                        <TextView
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:text="푼 문제 수"
+                            android:textSize="15dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="푼 문제 수\n50개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:text="50개"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="100개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="150개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
 
             </LinearLayout>
@@ -287,41 +511,96 @@
                 android:orientation="horizontal"
                 android:weightSum="4.5"
                 >
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.5"
-                    android:text="폭탄마스터"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
-                    android:gravity="center"
-                    />
+                    android:weightSum="7"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/bombmaster_1"
+                        android:layout_margin="3dp"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/bombmaster_2"
+                        android:layout_margin="3dp"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/bombmaster_3"
+                        android:layout_margin="3dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:orientation="vertical"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="2"
+                            android:text="폭탄마스터"
+                            android:textSize="25dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/lightgreen"
+                            />
+
+                        <TextView
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:text="해체한 폭탄 수"
+                            android:textSize="15dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="해체한 폭탄 수\n30개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:text="30개"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="60개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="100개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
 
             </LinearLayout>
@@ -333,41 +612,96 @@
                 android:orientation="horizontal"
                 android:weightSum="4.5"
                 >
-                <TextView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.5"
-                    android:text="협동왕"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
-                    android:gravity="center"
-                    />
+                    android:weightSum="7"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/bucket_1"
+                        android:layout_margin="3dp"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/bucket_2"
+                        android:layout_margin="3dp"
+                        />
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/bucket_3"
+                        android:layout_margin="3dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="4"
+                        android:orientation="vertical"
+                        android:weightSum="3">
+
+                        <TextView
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="2"
+                            android:text="협동왕"
+                            android:textSize="25dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/lightgreen"
+                            />
+
+                        <TextView
+                            android:layout_height="0dp"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:text="완성한 퀴즈 버킷 수"
+                            android:textSize="15dp"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/colorPrimary"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="완성한 퀴즈 버킷 수\n10개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:text="10개"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="20개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="30개"
-                    android:textSize="20dp"
-                    android:fontFamily="@font/typo_sherlock_l"
+                    android:textSize="23dp"
+                    android:fontFamily="@font/bmjua_ttf"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     />
 
             </LinearLayout>

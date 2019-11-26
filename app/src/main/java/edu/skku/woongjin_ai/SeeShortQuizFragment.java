@@ -8,21 +8,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class SeeShortQuizFragment extends Fragment implements  ShowWhoLikedFragment.OnFragmentInteractionListener{
 
@@ -92,7 +83,7 @@ public class SeeShortQuizFragment extends Fragment implements  ShowWhoLikedFragm
         if(mine_or_like.equals("0"))//내문제보기
             wholike.setText(like+"명이 좋아했어요!");
         else//좋아요한문제보기
-            wholike.setText(uid+"친구가 만든 문제!\n"+like+"명이 좋아했어요!");
+            wholike.setText(uid+"친구가 만든 문제!");
 
         Title = view.findViewById(R.id.title);
         Answer=view.findViewById(R.id.answerContent);
@@ -157,13 +148,13 @@ public class SeeShortQuizFragment extends Fragment implements  ShowWhoLikedFragm
         });
 
         if(starFloat >= 1.5) {
-            imageViewS2.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+            imageViewS2.setImageResource(R.drawable.star_full);
             if(starFloat >= 2.5) {
-                imageViewS3.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                imageViewS3.setImageResource(R.drawable.star_full);
                 if(starFloat >= 3.5) {
-                    imageViewS4.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                    imageViewS4.setImageResource(R.drawable.star_full);
                     if(starFloat >= 4.5) {
-                        imageViewS5.setImageResource(R.drawable.ic_icons_difficulty_star_full);
+                        imageViewS5.setImageResource(R.drawable.star_full);
                     }
                 }
             }

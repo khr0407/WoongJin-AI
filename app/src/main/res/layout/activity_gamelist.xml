@@ -58,7 +58,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="5dp"
                 android:layout_weight="5"
-                android:background="@drawable/ic_empty_frame"
+                android:background="@drawable/ic_menu_frame"
                 android:padding="8dp"
                 android:weightSum="6">
 

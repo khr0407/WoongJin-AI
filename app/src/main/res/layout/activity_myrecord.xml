@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="10"
+        android:weightSum="11"
         android:background="@drawable/mypage_background"
         android:padding="@dimen/activity_horizontal_margin"
         >
@@ -39,13 +39,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 />
-
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:text="훈장 기준이 궁금해요!"
-                android:background="@drawable/ic_empty_frame"
+                android:background="@drawable/ic_menu_format"
                 android:layout_margin="5dp"
                 android:fontFamily="@font/bmjua_ttf"
                 android:textColor="@color/white"
@@ -58,7 +57,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="5"
                 android:orientation="horizontal"
-                android:background="@drawable/ic_empty_frame"
+                android:background="@drawable/ic_menu_frame"
                 android:layout_margin="5dp"
                 android:padding="8dp"
                 android:weightSum="6">
@@ -72,21 +71,21 @@
                     android:gravity="center"
                     android:text="test"
                     android:fontFamily="@font/bmjua_ttf"
-                    android:textColor="@color/white"
                     android:textSize="25dp"
+                    android:textColor="@color/black"
                     />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"
+                    android:layout_weight="1.5"
                     android:id="@+id/userGrade1"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="test"
                     android:fontFamily="@font/bmjua_ttf"
-                    android:textColor="@color/white"
                     android:textSize="25dp"
+                    android:textColor="@color/black"
                     />
 
                 <ImageView
@@ -101,11 +100,11 @@
                     android:layout_height="match_parent"
                     android:id="@+id/userCoin"
                     android:fontFamily="@font/bmjua_ttf"
-                    android:textColor="@color/white"
                     android:textSize="25dp"
-                    android:layout_weight="1.5"
-                    android:layout_gravity="center"
-                    android:gravity="center"/>
+                    android:layout_weight="2"
+                    android:gravity="center|left"
+                    android:textColor="@color/black"
+                    />
 
             </LinearLayout>
 
@@ -189,7 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:weightSum="5.4"
+                    android:weightSum="6.5"
                     android:orientation="horizontal"
                     >
 
@@ -274,6 +273,23 @@
                         android:id="@+id/graph_like"
                         />
 
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="해체한\n폭탄 개수"
+                        android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:background="@color/lightred"
+                        android:textColor="@color/white"
+                        android:id="@+id/graph_bombcnt"
+                        />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -307,7 +323,33 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.5"/>
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="9"
+                android:orientation="horizontal"
+                />
+
+            <Button
+                android:id="@+id/goback"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="뒤로가기"
+                android:fontFamily="@font/bmjua_ttf"
+                android:background="@drawable/ic_menu_format"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:scaleType="centerCrop"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -9,21 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class SeeChoiceQuizFragment extends Fragment implements ShowWhoLikedFragment.OnFragmentInteractionListener{
 
@@ -98,7 +89,7 @@ public class SeeChoiceQuizFragment extends Fragment implements ShowWhoLikedFragm
         if(mine_or_like.equals("0"))//내문제보기
             wholike.setText(like+"명이 좋아했어요!");
         else//좋아요한문제보기
-            wholike.setText(uid+"친구가 만든 문제!\n"+like+"명이 좋아했어요!");
+            wholike.setText(uid+"친구가 만든 문제!");
 
         Title = view.findViewById(R.id.title);
         QuizContent = view.findViewById(R.id.quizContent);

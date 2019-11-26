@@ -150,6 +150,7 @@
                         android:padding="5dp"
                         android:background="@null"
                         android:fontFamily="@font/bmjua_ttf"
+                        android:gravity="center_vertical"
                         android:textSize="20dp"/>
 
                 </LinearLayout>

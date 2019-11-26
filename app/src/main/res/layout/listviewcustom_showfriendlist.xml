@@ -62,20 +62,20 @@
 
         </LinearLayout>
 
-        <!--
-        <ImageButton
-            android:id="@+id/addFriendButton"
+        <Button
+            android:id="@+id/addrecommendfriend"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:scaleType="fitCenter"
             android:background="#00ffffff"
-            android:src="@drawable/ic_add_friend"
-            android:visibility="visible"
-            android:clickable="true"
+            android:visibility="invisible"
+            android:clickable="false"
+            android:textColor="@color/black"
+            android:text="+"
+            android:textSize="90dp"
             />
-            -->
 
         <LinearLayout
             android:layout_width="0dp"

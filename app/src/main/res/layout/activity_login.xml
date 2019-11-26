@@ -40,11 +40,10 @@
                         android:layout_marginTop="100dp"
                         android:background="#FFC89A"
                         android:ems="10"
-                        android:hint="ID를 입력하세요"
+                        android:hint="아이디를 입력하세요"
                         android:padding="10dp"
-                        android:text=""
-                        android:textColor="#ffffff"
-                        android:textColorHint="#ffffff" />
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
 
                     <EditText
                         android:id="@+id/editTextPW"
@@ -55,10 +54,10 @@
                         android:background="#FFC89A"
                         android:ems="10"
                         android:inputType="textPassword"
-                        android:hint="Password를 입력하세요"
+                        android:hint="비밀번호를 입력하세요"
                         android:padding="10dp"
-                        android:textColor="#ffffff"
-                        android:textColorHint="#ffffff" />
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white" />
 
                     <Button
                         android:id="@+id/buttonLogin"
@@ -67,7 +66,8 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:background="#FF8C00"
-                        android:text="Login"
+                        android:text="로그인"
+                        android:fontFamily="@font/bmjua_ttf"
                         android:textColor="#FFFFFF"
                         android:textSize="20dp"
                         android:textStyle="bold" />
@@ -79,7 +79,8 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="10dp"
                         android:background="#FF8C00"
-                        android:text="Register"
+                        android:text="회원가입"
+                        android:fontFamily="@font/bmjua_ttf"
                         android:textColor="#FFFFFF"
                         android:textSize="20dp"
                         android:textStyle="bold" />
@@ -127,8 +128,9 @@
                         <CheckBox
                             android:id="@+id/checkBox"
                             android:layout_width="wrap_content"
-                            android:layout_height="20dp"
+                            android:layout_height="25dp"
                             android:layout_centerHorizontal="true"
+                            android:fontFamily="@font/bmjua_ttf"
                             android:text="자동로그인" />
                     </LinearLayout>
                 </LinearLayout>
