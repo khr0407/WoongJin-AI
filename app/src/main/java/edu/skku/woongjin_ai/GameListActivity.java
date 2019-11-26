@@ -198,8 +198,9 @@ public class GameListActivity extends AppCompatActivity
                                     find = 1;
                                     break;
                                 }
-                                else if (temp_state.equals("gaming1") || temp_state.equals("gaming2") || temp_state.equals("gaming3") || temp_state.equals("gaming4")
-                                        || temp_state.equals("gaming5") || temp_state.equals("gaming6")) {
+                                /*else if (temp_state.equals("gaming1") || temp_state.equals("gaming2") || temp_state.equals("gaming3") || temp_state.equals("gaming4")
+                                        || temp_state.equals("gaming5") || temp_state.equals("gaming6")) {*/
+                                else if (temp_state.equals("gaming1") || temp_state.equals("gaming2")) {
                                     timestamp_key = temp_timestamp;
                                     user1_key = temp_user1;
                                     user2_key = temp_user2;
@@ -256,8 +257,9 @@ public class GameListActivity extends AppCompatActivity
                                     find = 1;
                                     break;
                                 }
-                                else if (temp_state.equals("gaming1") || temp_state.equals("gaming2") || temp_state.equals("gaming3") || temp_state.equals("gaming4")
-                                        || temp_state.equals("gaming5") || temp_state.equals("gaming6")) {
+                                /*else if (temp_state.equals("gaming1") || temp_state.equals("gaming2") || temp_state.equals("gaming3") || temp_state.equals("gaming4")
+                                        || temp_state.equals("gaming5") || temp_state.equals("gaming6")) {*/
+                                else if (temp_state.equals("gaming1") || temp_state.equals("gaming2")) {
                                     timestamp_key = temp_timestamp;
                                     user1_key = temp_user1;
                                     user2_key = temp_user2;
@@ -289,7 +291,8 @@ public class GameListActivity extends AppCompatActivity
                     if (find == 0) {
                         Toast.makeText(GameListActivity.this, "이미 끝난 게임입니다.", Toast.LENGTH_SHORT).show();
                     }
-                    else if (find == 1 && bomb_cnt-'0' == 6) {
+                    //else if (find == 1 && bomb_cnt-'0' == 6) {
+                    else if (find == 1 && bomb_cnt-'0' == 2) {
                         Toast.makeText(GameListActivity.this, "문제를 더 이상 만들 수 없습니다!", Toast.LENGTH_SHORT).show();
                     }
                     else if (find == 1 && last.equals(nickname_key) && solve.equals("none")) {
@@ -311,7 +314,8 @@ public class GameListActivity extends AppCompatActivity
                         intent_makebombtype.putExtra("state", state_key);
                         startActivity(intent_makebombtype);
                     }
-                    else if (find == 1 && !last.equals(nickname_key) && (!solve.equals("none") || solve.equals(nickname_key)) && bomb_cnt-'0' != 6) {
+                    //else if (find == 1 && !last.equals(nickname_key) && (!solve.equals("none") || solve.equals(nickname_key)) && bomb_cnt-'0' != 6) {
+                    else if (find == 1 && !last.equals(nickname_key) && (!solve.equals("none") || solve.equals(nickname_key)) && bomb_cnt-'0' != 2) {
                         Toast.makeText(GameListActivity.this, "상대방에게 다시 폭탄을 돌려주자!", Toast.LENGTH_SHORT).show();
                         intent_makebombtype = new Intent(GameListActivity.this, MakeBombTypeActivity.class);
                         intent_makebombtype.putExtra("timestamp", timestamp_key);

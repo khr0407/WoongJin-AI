@@ -110,7 +110,8 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                         };
                         mPostReference.addListenerForSingleValueEvent(check);
                         correct_end = 1;
-                        if (bomb_cnt == '6') {
+                        //if (bomb_cnt == '6') {
+                        if (bomb_cnt == '2') {
                             wPostReference.child("state").setValue("win");
                             intent_end.putExtra("id", id_key);
                             intent_end.putExtra("nickname", nickname_key);
@@ -119,7 +120,8 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                             startActivity(intent_end);
                             finish();
                         }
-                        else if (bomb_cnt != '6') {
+                        //else if (bomb_cnt != '6') {
+                        else if (bomb_cnt != '2') {
                             intent_correct.putExtra("timestamp", timestamp_key);
                             intent_correct.putExtra("id", id_key);
                             intent_correct.putExtra("nickname", nickname_key);
