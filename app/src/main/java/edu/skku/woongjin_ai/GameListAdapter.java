@@ -51,7 +51,7 @@ public class GameListAdapter extends BaseAdapter {
         String state=gameListItem.getStatus();
         if(state.equals("end")){
             status.setTextColor(Color.parseColor("#696969")); //회색
-            status.setText("6문제 모두\n다했어요!");
+            status.setText("같이\n다 풀었어요!");
         }else if(state.equals("iwin")){
             status.setTextColor(Color.parseColor("#8A2BE2")); //보라색
             status.setText("내가\n이겼어요!");
