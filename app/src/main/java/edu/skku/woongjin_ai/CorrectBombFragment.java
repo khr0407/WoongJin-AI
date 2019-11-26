@@ -42,6 +42,7 @@ public class CorrectBombFragment extends AppCompatActivity {
         intent_makebombtype = new Intent(CorrectBombFragment.this, MakeBombTypeActivity.class);
 
         send = (ImageButton) findViewById(R.id.send);
+
         textCheckCorrect = (TextView) findViewById(R.id.textCheck);
 
         timestamp_key = intent.getStringExtra("timestamp");

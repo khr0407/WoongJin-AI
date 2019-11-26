@@ -91,7 +91,7 @@ public class ShowFriendListAdapter extends BaseAdapter {
         if (!showFriendListItem.getFaceFriend().equals("noimage")) {
             storage = FirebaseStorage.getInstance();
             storageReference = storage.getInstance().getReference();
-            dataReference = storageReference.child("/profile/" + showFriendListItem.getFaceFriend());
+            dataReference = storageReference.child("profile/" + showFriendListItem.getFaceFriend());
             dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
