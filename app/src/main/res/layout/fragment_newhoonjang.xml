@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_white_transparent"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="80dp"
+        android:weightSum="11">
+
+        <ImageButton
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_icons_close"
+            android:background="#00ff0000"
+            android:layout_gravity="end"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:text="축하합니다!!!"
+            android:fontFamily="@font/bmjua_ttf"
+            android:textColor="@color/colorPrimary"
+            android:textSize="50dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:weightSum="3"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/hoonjangImage"
+                android:scaleType="fitCenter"
+                />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:fontFamily="@font/bmjua_ttf"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:id="@+id/congratulation"
+            />
+
+
+        <!--
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:text="더 이상 보지 않기"
+                android:fontFamily="@font/bmjua_ttf"
+                android:textSize="20dp"
+                android:id="@+id/nomore"
+                />
+
+        </LinearLayout>
+        -->
+
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/BiggestFrame"
+   >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="11"
+        android:background="@drawable/mypage_background"
+        android:padding="@dimen/activity_horizontal_margin"
+        >
+
+        <LinearLayout
+            android:id="@+id/LinearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="10.5">
+
+            <ImageButton
+                android:id="@+id/home"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:background="#00ff0000"
+                android:scaleType="centerCrop"
+                android:layout_margin="5dp"
+                android:src="@drawable/go_home"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                />
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="훈장 기준이 궁금해요!"
+                android:background="@drawable/ic_menu_format"
+                android:layout_margin="5dp"
+                android:fontFamily="@font/bmjua_ttf"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:id="@+id/showHoonjang"
+                />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:orientation="horizontal"
+                android:background="@drawable/ic_menu_frame"
+                android:layout_margin="5dp"
+                android:padding="8dp"
+                android:weightSum="6">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:id="@+id/userName1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="test"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:textSize="25dp"
+                    android:textColor="@color/black"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.5"
+                    android:id="@+id/userGrade1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="test"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:textSize="25dp"
+                    android:textColor="@color/black"
+                    />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:src="@drawable/ic_coin"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/userCoin"
+                    android:fontFamily="@font/bmjua_ttf"
+                    android:textSize="25dp"
+                    android:layout_weight="2"
+                    android:gravity="center|left"
+                    android:textColor="@color/black"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"/-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:weightSum="10.9"
+            >
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"/>
+
+            //4. record
+            <LinearLayout
+                android:id="@+id/record_list"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="4"
+                android:orientation="vertical"
+                android:weightSum="7"
+                android:padding="5dp"
+                android:background="@drawable/record_frame">
+                //android:background="@color/white"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    />
+
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                    android:id="@+id/attendCalendar"
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="6"
+                    android:padding="20dp"
+                    app:mcv_selectionColor="#a9dbf0cb"
+                    app:mcv_showOtherDates="defaults"
+                    app:mcv_tileSize="60dp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"/>
+
+            //6. graph
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:orientation="vertical"
+                android:weightSum="10"
+                >
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:weightSum="6.5"
+                    android:orientation="horizontal"
+                    >
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="출석일수"
+                        android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:background="@color/lightred"
+                        android:textColor="@color/white"
+                        android:id="@+id/graph_attend"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="만든 문제 수"
+
+                        android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:background="@color/lightred"
+                        android:textColor="@color/white"
+                        android:id="@+id/graph_made"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="맞춘 문제\n개수"
+                        android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:background="@color/lightred"
+                        android:textColor="@color/white"
+                        android:id="@+id/graph_correct"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="내 문제\n평균 레벨"
+                        android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:background="@color/lightred"
+                        android:textColor="@color/white"
+                        android:id="@+id/graph_level"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="받은 좋아요"
+                        android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:background="@color/lightred"
+                        android:textColor="@color/white"
+                        android:id="@+id/graph_like"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.1"/>
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="해체한\n폭탄 개수"
+                        android:layout_marginEnd="6dp"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:background="@color/lightred"
+                        android:textColor="@color/white"
+                        android:id="@+id/graph_bombcnt"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="8.5"
+                    android:background="@color/white"
+                    android:padding="20dp"
+                    >
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/chart"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"/>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="9"
+                android:orientation="horizontal"
+                />
+
+            <Button
+                android:id="@+id/goback"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:text="뒤로가기"
+                android:fontFamily="@font/bmjua_ttf"
+                android:background="@drawable/ic_menu_format"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:scaleType="centerCrop"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>
+
