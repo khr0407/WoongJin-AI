@@ -1,5 +1,4 @@
 <resources>
-
     <string name="app_name">웅진AI</string>
     <string name="kakaolink_host">kakaolink</string>
     <string name="kakao_app_key">9b109e056f527fd17f5135bf36f86a15</string>
@@ -19,7 +18,4 @@
     <string name="select_book">"위인전"을 선택했네!\n어떤 책을 읽어볼까? 읽고 싶은 책을 클릭해줘!</string>
     <string name="like_Q_list">내가 좋아요를 누른 질문들의 목록이야!\n클릭하면 자세한 문제를 볼 수 있어~</string>
     <string name="my_Q_list">내가 만든 질문들의 목록이야!\n클릭하면 자세한 문제를 볼 수 있어~</string>
-    <string name="btnCapture">녹화하기</string>
-    <string name="need_camera_permissions">웅진에서 카메라, 오디오를 이용하고자 합니다. 동의하시겠습니까?</string>
-
 </resources>

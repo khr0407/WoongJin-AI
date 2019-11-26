@@ -5,10 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-feature android:name="android.hardware.camera2.full" />
     <uses-feature android:name="android.hardware.location.gps" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -114,10 +114,6 @@
         <activity android:name=".EndBombFragment"
             android:screenOrientation="landscape" />
         <activity android:name=".MyCoinRecordActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".mediarecorder.MediaRecorderActivity"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".ShowVideoHintActivity"
             android:screenOrientation="landscape"/>
     </application>
 </manifest>

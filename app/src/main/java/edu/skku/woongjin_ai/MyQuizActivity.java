@@ -320,7 +320,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                                 myQuizListAdapter.addItem(profile, id, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), quizinfo.book_name, quizinfo.scriptnm, quizinfo.question);
                             else
                                 myQuizListAdapter.addItem(profile, id, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), quizinfo.book_name, quizinfo.scriptnm, quizinfo.question);
-                        }
+                            }
                         for(int i=0; i<myChoiceList.size(); i++){
                             QuizChoiceTypeInfo quizinfo=myChoiceList.get(i);
                             float stars=Float.parseFloat(quizinfo.star);
@@ -349,7 +349,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                                 myQuizListAdapter.addItem(profile, id, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_empty), quizinfo.book_name, quizinfo.scriptnm, quizinfo.question);
                             else
                                 myQuizListAdapter.addItem(profile, id, ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), ContextCompat.getDrawable(getApplicationContext(), R.drawable.star_full), quizinfo.book_name, quizinfo.scriptnm, quizinfo.question);
-                        }
+                            }
                         quizlist.setAdapter(myQuizListAdapter);
                     }
                     //final ValueEventListener quiz_list = mPostReference.child("quiz_list").addValueEventListener(postListener);

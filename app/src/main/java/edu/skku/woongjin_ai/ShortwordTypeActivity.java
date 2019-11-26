@@ -2,7 +2,6 @@ package edu.skku.woongjin_ai;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,34 +9,39 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.skku.woongjin_ai.mediarecorder.MediaRecorderActivity;
-
 public class ShortwordTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener/*, HintVideoFragment.OnFragmentInteractionListener*/{
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     EditText editQuiz, editAns;
-    Intent intent, intentHome, intentType, intentVideo, intenturl;
-    String id, scriptnm, backgroundID, thisWeek, nickname, bookname, url, ts;
+    Intent intent, intentHome, intentType;
+    String id, scriptnm, backgroundID, thisWeek, nickname, bookname;
     String quiz = "", ans = "", desc = "";
     int star = 0, starInt = 0, oldMadeCnt;
     int flagS1 = 0, flagS2 = 0, flagS3 = 0, flagS4 = 0, flagS5 = 0, flagD = 0;
@@ -53,7 +57,6 @@ public class ShortwordTypeActivity extends AppCompatActivity
         setContentView(R.layout.activity_shortwordtype);
 
         intent = getIntent();
-        intenturl = getIntent();
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
@@ -78,10 +81,6 @@ public class ShortwordTypeActivity extends AppCompatActivity
 
         title.setText("지문 제목: " + scriptnm);
 
-        Long tsLong = System.currentTimeMillis()/1000;
-        ts = tsLong.toString();
-        ts = ts + id;
-
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         getFirebaseDatabaseMadeInfo();
@@ -102,7 +101,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
 //        });
 
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
-
+            @Override
             public void onClick(View v) {
                 hintWritingFragment = new HintWritingFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -120,10 +119,6 @@ public class ShortwordTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                flagD = 3;
-                intentVideo = new Intent(ShortwordTypeActivity.this, MediaRecorderActivity.class);
-                startActivity(intentVideo);
-                /*
                 hintVideoFragment = new HintVideoFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.contentShowScriptShortword, hintVideoFragment);
@@ -132,28 +127,14 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 hintVideoFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
-                */
             }
         });
 
-        hintVideoButton.setOnClickListener(new View.OnClickListener() {
+        noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                flagD = 3;
-                intentVideo = new Intent(ShortwordTypeActivity.this, MediaRecorderActivity.class);
-                startActivity(intentVideo);
-                hintVideoButton.setColorFilter(Color.parseColor("#E4FF9800"), PorterDuff.Mode.MULTIPLY);
-                noHintButton.setImageResource(R.drawable.hint_no);
-            }
-        });
-
-        noHintButton.setOnClickListener(new View.OnClickListener() { // flagD == 2
-            @Override
-
             public void onClick(View v) {
                 if(flagD != 2) {
                     noHintButton.setImageResource(R.drawable.hint_no_selected);
-                    hintVideoButton.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.MULTIPLY);
                     flagD = 2;
                 } else {
                     noHintButton.setImageResource(R.drawable.hint_no);
@@ -185,10 +166,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 } else {
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
                     if(flagD == 2) {
-                        desc = "없음";
-                    }
-                    else if (flagD == 3) {
-                        desc = "video";
+                        desc="없음";
                     } else {
                         desc = hintWritingFragment1.editTextHint.getText().toString();
                     }
@@ -380,7 +358,10 @@ public class ShortwordTypeActivity extends AppCompatActivity
     private void postFirebaseDatabaseQuizShortword() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, url, 3, scriptnm, bookname);
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
+        ts = ts + id;
+        QuizOXShortwordTypeInfo post = new QuizOXShortwordTypeInfo(id, quiz, ans, Integer.toString(starInt), desc, "0", ts, 1, "없음", 3, scriptnm, bookname);
         postValues = post.toMap();
         childUpdates.put("/quiz_list/" + scriptnm + "/" + ts + "/", postValues);
         mPostReference.updateChildren(childUpdates);
