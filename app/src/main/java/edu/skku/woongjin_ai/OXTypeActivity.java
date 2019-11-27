@@ -2,6 +2,7 @@ package edu.skku.woongjin_ai;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -35,13 +36,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.skku.woongjin_ai.mediarecorder.MediaRecorderActivity;
+
 public class OXTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener {
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener {
 
     DatabaseReference mPostReference;
     ImageView imageO, imageX;
     EditText editQuiz;
-    Intent intent, intentHome, intentType;
+    Intent intent, intentHome, intentType, intentVideo;
     String id, scriptnm, backgroundID, thisWeek, nickname, bookname;
     String quiz = "", ans = "", desc = "";
     int star = 0 , starInt = 0, oldMadeCnt;
@@ -121,14 +124,12 @@ public class OXTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hintVideoFragment = new HintVideoFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptOX, hintVideoFragment);
-                Bundle bundle = new Bundle(1);
-                bundle.putString("type", "ox");
-                hintVideoFragment.setArguments(bundle);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                flagD = 3;
+                intentVideo = new Intent(OXTypeActivity.this, MediaRecorderActivity.class);
+                intentVideo.putExtra("id",id);
+                startActivity(intentVideo);
+                hintVideoButton.setColorFilter(Color.parseColor("#E4FF9800"), PorterDuff.Mode.MULTIPLY);
+                noHintButton.setImageResource(R.drawable.hint_no);
             }
         });
 
@@ -137,6 +138,7 @@ public class OXTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagD != 2) {
                     noHintButton.setImageResource(R.drawable.hint_no_selected);
+                    hintVideoButton.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.MULTIPLY);
                     flagD = 2;
                 } else {
                     noHintButton.setImageResource(R.drawable.hint_no);
@@ -169,7 +171,11 @@ public class OXTypeActivity extends AppCompatActivity
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
                     if(flagD == 2) {
                         desc = "없음";
-                    } else {
+                    }
+                    else if (flagD == 3) {
+                        desc = "video";
+                    }
+                    else {
                         desc = hintWritingFragment1.editTextHint.getText().toString();
                     }
                     quiz = editQuiz.getText().toString();
