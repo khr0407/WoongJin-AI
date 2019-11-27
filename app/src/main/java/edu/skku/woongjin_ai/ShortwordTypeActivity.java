@@ -2,6 +2,7 @@ package edu.skku.woongjin_ai;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,13 +35,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.skku.woongjin_ai.mediarecorder.MediaRecorderActivity;
+
 public class ShortwordTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener{
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     EditText editQuiz, editAns;
-    Intent intent, intentHome, intentType;
+    Intent intent, intentHome, intentType, intentVideo;
     String id, scriptnm, backgroundID, thisWeek, nickname, bookname;
     String quiz = "", ans = "", desc = "";
     int star = 0, starInt = 0, oldMadeCnt;
@@ -119,14 +122,12 @@ public class ShortwordTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hintVideoFragment = new HintVideoFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptShortword, hintVideoFragment);
-                Bundle bundle = new Bundle(1);
-                bundle.putString("type", "shortword");
-                hintVideoFragment.setArguments(bundle);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                flagD = 3;
+                intentVideo = new Intent(ShortwordTypeActivity.this, MediaRecorderActivity.class);
+                intentVideo.putExtra("id",id);
+                startActivity(intentVideo);
+                hintVideoButton.setColorFilter(Color.parseColor("#E4FF9800"), PorterDuff.Mode.MULTIPLY);
+                noHintButton.setImageResource(R.drawable.hint_no);
             }
         });
 
@@ -135,6 +136,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagD != 2) {
                     noHintButton.setImageResource(R.drawable.hint_no_selected);
+                    hintVideoButton.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.MULTIPLY);
                     flagD = 2;
                 } else {
                     noHintButton.setImageResource(R.drawable.hint_no);
@@ -166,7 +168,10 @@ public class ShortwordTypeActivity extends AppCompatActivity
                 } else {
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
                     if(flagD == 2) {
-                        desc="없음";
+                        desc = "없음";
+                    }
+                    else if (flagD == 3) {
+                        desc = "video";
                     } else {
                         desc = hintWritingFragment1.editTextHint.getText().toString();
                     }
@@ -174,7 +179,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
                     ans = editAns.getText().toString();
 
                     if(quiz.length() == 0 || ans.length() == 0 || desc.length() == 0 || starInt < 1 ) {
-                        Toast.makeText(ShortwordTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ShortwordTypeActivity.this, "빈칸을 채워주세요", Toast.LENGTH_SHORT).show();
                     } else {
                         postFirebaseDatabaseQuizShortword();
                         uploadFirebaseUserCoinInfo();
