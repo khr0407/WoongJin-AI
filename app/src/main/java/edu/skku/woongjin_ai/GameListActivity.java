@@ -157,30 +157,30 @@ public class GameListActivity extends AppCompatActivity
                             String temp_state = postSnapshot.child("state").getValue().toString();
                             if ((temp_roomname.equals(roomname_key) && temp_user1.equals(nickname_key) && temp_user2.equals(friend_nickname))) {
                                 if (temp_state.equals("win")) {
-                                    Toast.makeText(GameListActivity.this, "Both win!", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(GameListActivity.this, "Both win!", Toast.LENGTH_SHORT).show();
                                     find = 0;
                                     break;
                                 }
                                 else if (temp_state.equals("win1")) {
                                     if (temp_user1.equals(nickname_key)) { //user1이 이겼고, user1이 본인일 때
-                                        Toast.makeText(GameListActivity.this, "You win!", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(GameListActivity.this, "You win!", Toast.LENGTH_SHORT).show();
                                         find = 0;
                                         break;
                                     }
                                     else if (!temp_user1.equals(nickname_key)) { //user1이 이겼는데, user1이 본인이 아니라 상대방일 때
-                                        Toast.makeText(GameListActivity.this, "You lose...", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(GameListActivity.this, "You lose...", Toast.LENGTH_SHORT).show();
                                         find = 0;
                                         break;
                                     }
                                 }
                                 else if (temp_state.equals("win2")) {
                                     if (temp_user2.equals(nickname_key)) { //user2이 이겼고, user2이 본인일 때
-                                        Toast.makeText(GameListActivity.this, "You win!", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(GameListActivity.this, "You win!", Toast.LENGTH_SHORT).show();
                                         find = 0;
                                         break;
                                     }
                                     else if (!temp_user2.equals(nickname_key)) { //user2이 이겼는데, user2이 본인이 아니라 상대방일 때
-                                        Toast.makeText(GameListActivity.this, "You lose...", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(GameListActivity.this, "You lose...", Toast.LENGTH_SHORT).show();
                                         find = 0;
                                         break;
                                     }
@@ -216,30 +216,30 @@ public class GameListActivity extends AppCompatActivity
                             }
                             else if (temp_roomname.equals(roomname_key) && temp_user1.equals(friend_nickname) && temp_user2.equals(nickname_key)) {
                                 if (temp_state.equals("win")) {
-                                    Toast.makeText(GameListActivity.this, "Both win!", Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(GameListActivity.this, "Both win!", Toast.LENGTH_SHORT).show();
                                     find = 0;
                                     break;
                                 }
                                 else if (temp_state.equals("win1")) {
                                     if (temp_user1.equals(nickname_key)) { //user1이 이겼고, user1이 본인일 때
-                                        Toast.makeText(GameListActivity.this, "You win!", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(GameListActivity.this, "You win!", Toast.LENGTH_SHORT).show();
                                         find = 0;
                                         break;
                                     }
                                     else if (!temp_user1.equals(nickname_key)) { //user1이 이겼는데, user1이 본인이 아니라 상대방일 때
-                                        Toast.makeText(GameListActivity.this, "You lose...", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(GameListActivity.this, "You lose...", Toast.LENGTH_SHORT).show();
                                         find = 0;
                                         break;
                                     }
                                 }
                                 else if (temp_state.equals("win2")) {
                                     if (temp_user2.equals(nickname_key)) { //user2이 이겼고, user2이 본인일 때
-                                        Toast.makeText(GameListActivity.this, "You win!", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(GameListActivity.this, "You win!", Toast.LENGTH_SHORT).show();
                                         find = 0;
                                         break;
                                     }
                                     else if (!temp_user2.equals(nickname_key)) { //user2이 이겼는데, user2이 본인이 아니라 상대방일 때
-                                        Toast.makeText(GameListActivity.this, "You lose...", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(GameListActivity.this, "You lose...", Toast.LENGTH_SHORT).show();
                                         find = 0;
                                         break;
                                     }

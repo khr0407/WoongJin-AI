@@ -47,6 +47,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+import static java.sql.Types.NULL;
+
 public class MyRecordActivity extends AppCompatActivity  {
 
     public DatabaseReference mPostReference;
@@ -105,18 +107,17 @@ public class MyRecordActivity extends AppCompatActivity  {
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setTextSize(15);
-        left.setTextSize(15);
         xAxis.setDrawGridLines(false);
         left.setDrawGridLines(false);
+        left.setAxisMinimum(0);
         right.setDrawGridLines(false);
         right.setEnabled(false);
-        xAxis.setYOffset(10f);
-        left.setXOffset(10f);
 
 
         materialCalendarView = (MaterialCalendarView) findViewById(R.id.attendCalendar);
         attendedDatesList = new ArrayList<String>();
         dates=new ArrayList<String>();
+
 
         materialCalendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
@@ -168,6 +169,8 @@ public class MyRecordActivity extends AppCompatActivity  {
         getFirebaseDatabaseWeekInfo();
         getFirebaseDatabaseUserInfo();
 
+
+
         goHome.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -201,7 +204,6 @@ public class MyRecordActivity extends AppCompatActivity  {
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
-                    dates.add(j+1+"주");
                     entries.add(new Entry(j, Integer.parseInt(week_attend.get(j))));
                 }
                 //
@@ -218,10 +220,11 @@ public class MyRecordActivity extends AppCompatActivity  {
                 });
                 left.setGranularityEnabled(true);
                 left.resetAxisMaximum();
+                left.setAxisMinimum(0);
                 left.setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
-                        return Integer.toString((int)value);
+                        return Integer.toString((int)value)+"회";
                     }
                 });
                 LineDataSet dataset = new LineDataSet(entries, "주간 출석일 수");
@@ -280,7 +283,7 @@ public class MyRecordActivity extends AppCompatActivity  {
                 left.setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
-                        return Integer.toString((int)value);
+                        return Integer.toString((int)value)+"개";
                     }
                 });
                 LineDataSet dataset = new LineDataSet(entries, "주간 만든 문제 수");
@@ -318,7 +321,6 @@ public class MyRecordActivity extends AppCompatActivity  {
                 }
                 entries.clear();
                 for(int j=0; j<total_week ; j++){
-                    dates.add(j+1+"주");
                     entries.add(new Entry(j, Float.parseFloat(week_correct.get(j))));
                 }
                 xAxis=lineChart.getXAxis();
@@ -337,7 +339,7 @@ public class MyRecordActivity extends AppCompatActivity  {
                 left.setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
-                        return Integer.toString((int)value);
+                        return Integer.toString((int)value)+"개";
                     }
                 });
                 LineDataSet dataset = new LineDataSet(entries, "주간 맞춘 문제 수");
@@ -390,6 +392,13 @@ public class MyRecordActivity extends AppCompatActivity  {
                 });
                 left.setGranularityEnabled(true);
                 left.setAxisMaximum(5);
+                left.setGranularityEnabled(true);
+                left.setValueFormatter(new IAxisValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        return Integer.toString((int)value)+"레벨";
+                    }
+                });
                 LineDataSet dataset = new LineDataSet(entries, "주간 평균 레벨");
                 dataset.setValueTextSize(18);
                 dataset.setLineWidth(6);
@@ -437,7 +446,7 @@ public class MyRecordActivity extends AppCompatActivity  {
                 left.setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
-                        return Integer.toString((int)value);
+                        return Integer.toString((int)value)+"개";
                     }
                 });
                 LineDataSet dataset = new LineDataSet(entries, "주간 좋아요 수");
@@ -493,7 +502,7 @@ public class MyRecordActivity extends AppCompatActivity  {
                 left.setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
-                        return Integer.toString((int)value);
+                        return Integer.toString((int)value)+"개";
                     }
                 });
                 LineDataSet dataset = new LineDataSet(entries, "해체한 폭탄 수");
@@ -528,6 +537,7 @@ public class MyRecordActivity extends AppCompatActivity  {
                 week_attend.clear();
                 week_made.clear();
                 week_bombcnt.clear();
+                dates.clear();
                 total_week=0;
                 DataSnapshot snapshot=dataSnapshot.child("user_list").child(id).child("my_week_list");
                 for(DataSnapshot snapshot1:snapshot.getChildren()){ //week껍데기
@@ -539,6 +549,9 @@ public class MyRecordActivity extends AppCompatActivity  {
                     week_like.add(snapshot1.child("like").getValue().toString());
                     week_bombcnt.add(snapshot1.child("solvebomb").getValue().toString());
                     total_week++;
+                }
+                for(int j=0; j<total_week ; j++){
+                    dates.add(j+1+"주");
                 }
             }
 
