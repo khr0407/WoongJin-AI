@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         setting = getSharedPreferences("nomore", MODE_PRIVATE);
         nomore_atd = setting.getString("main_attend", "keepgoing");
         nomore_read = setting.getString("main_read", "keepgoing");
@@ -69,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         getFirebaseDatabaseUserInfo();
         postFirebaseDatabaseAttend();
 
+        // go to Book Nation
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             }
         });
 
+        // go to Quiz Nation
         quizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             }
         });
 
+        // go to Game Nation
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             }
         });
 
+        // go to My Page
         myPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         });
     }
 
+    // check attendance
     private void postFirebaseDatabaseAttend() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -201,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         });
     }
 
+    // get user information
     private void getFirebaseDatabaseUserInfo() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -229,9 +234,6 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                 Log.d("nomore", nomore_atd);
                 String atdcnt=Integer.toString(AttendCount);
                 Log.d("AttendCount", atdcnt);
-                //setting = getSharedPreferences("nomore", MODE_PRIVATE);
-                //nomore_atd = setting.getString("main_attend", "keepgoing");
-                //nomore_read = setting.getString("main_read", "keepgoing");
 
                 if(AttendCount==365 && nomore_atd.equals("stop2")) {
                     uploadFirebaseUserCoinInfo_H("출석왕", 3);
