@@ -2,6 +2,7 @@ package edu.skku.woongjin_ai;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,13 +34,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.skku.woongjin_ai.mediarecorder.MediaRecorderActivity;
+
 public class ChoiceTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener{
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
     ImageView imageScript, imageCheck,imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     EditText editQuiz, editAns, editAns1, editAns2, editAns3, editAns4;
-    Intent intent, intentHome, intentType;
+    Intent intent, intentHome, intentType, intentVideo;
     String id, scriptnm, backgroundID, thisWeek, nickname, bookname;
     String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "", desc = "";
     int star = 0, starInt = 0, oldMadeCnt;
@@ -49,7 +52,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
 //    FirebaseStorage storage;
 //    private StorageReference storageReference, dataReference;
-    Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
+    Fragment showScriptFragment, hintWritingFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -126,14 +129,12 @@ public class ChoiceTypeActivity extends AppCompatActivity
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hintVideoFragment = new HintVideoFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptChoice, hintVideoFragment);
-                Bundle bundle = new Bundle(1);
-                bundle.putString("type", "choice");
-                hintVideoFragment.setArguments(bundle);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                flagD = 3;
+                intentVideo = new Intent(ChoiceTypeActivity.this, MediaRecorderActivity.class);
+                intentVideo.putExtra("id",id);
+                startActivity(intentVideo);
+                hintVideoButton.setColorFilter(Color.parseColor("#E4FF9800"), PorterDuff.Mode.MULTIPLY);
+                noHintButton.setImageResource(R.drawable.hint_no);
             }
         });
 
@@ -142,6 +143,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
             public void onClick(View v) {
                 if(flagD != 2) {
                     noHintButton.setImageResource(R.drawable.hint_no_selected);
+                    hintVideoButton.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.MULTIPLY);
                     flagD = 2;
                 } else {
                     noHintButton.setImageResource(R.drawable.hint_no);
@@ -174,8 +176,12 @@ public class ChoiceTypeActivity extends AppCompatActivity
                     quiz = editQuiz.getText().toString();
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
                     if(flagD == 2) {
-                        desc="없음";
-                    } else {
+                        desc = "없음";
+                    }
+                    else if (flagD == 3) {
+                        desc = "video";
+                    }
+                    else {
                         desc = hintWritingFragment1.editTextHint.getText().toString();
                     }
                     quiz = editQuiz.getText().toString();
@@ -185,7 +191,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
                     ans4 = editAns4.getText().toString();
 
                     if(quiz.length() == 0 || ans.length() == 0 || ans1.length() == 0 || ans2.length() == 0 || ans3.length() == 0 || ans4.length() == 0 || desc.length() == 0 || starInt < 1) {
-                        Toast.makeText(ChoiceTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChoiceTypeActivity.this, "빈칸을 채워주세요", Toast.LENGTH_SHORT).show();
                     } else {
                         postFirebaseDatabaseQuizChoice();
                         uploadFirebaseUserCoinInfo();
