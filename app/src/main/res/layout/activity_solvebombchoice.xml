@@ -160,22 +160,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1"
-                        android:background="#00FFFFFF"
-                        android:padding="15dp"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/battle_bubble" />
-
-                </LinearLayout>
+                    android:orientation="vertical"/>
 
                 <LinearLayout
                     android:layout_width="0dp"

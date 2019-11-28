@@ -8,16 +8,23 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -26,7 +33,7 @@ import java.util.Date;
 public class SelectTypeActivity extends AppCompatActivity implements NewHoonjangFragment.OnFragmentInteractionListener{
 
     Intent intent, intentHome, intentOX, intentChoice, intentShortword, intentTemplate;
-    String id, scriptnm, backgroundID, thisWeek;
+    String id, scriptnm, backgroundID, nickname, thisWeek;
     ImageButton frameOX, frameChoice, frameShortword;
     ImageButton goHome;
     NewHoonjangFragment hoonjangFragment;
@@ -45,8 +52,14 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selecttype);
 
+        intent = getIntent();
+        id = intent.getStringExtra("id");
+        scriptnm = intent.getStringExtra("scriptnm");
+        backgroundID = intent.getStringExtra("background");
+        nickname = intent.getStringExtra("nickname");
+        thisWeek = intent.getStringExtra("thisWeek");
 
-        setting = getSharedPreferences("nomore", MODE_PRIVATE);
+        setting = getSharedPreferences("nomore", MODE_PRIVATE); //터진다????????????????????????????????????????????
         nomore = setting.getString("quiz", "keepgoing");
 
         goHome = (ImageButton) findViewById(R.id.home);
@@ -58,14 +71,8 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
         TextView textViewId = (TextView) findViewById(R.id.makeQuiz);
 //        backgroundImage = (ImageView) findViewById(R.id.background);
 
-        intent = getIntent();
-        id = intent.getStringExtra("id");
-        scriptnm = intent.getStringExtra("scriptnm");
-        backgroundID = intent.getStringExtra("background");
-        thisWeek = intent.getStringExtra("thisWeek");
-
         textViewTitle.setText("지문 제목: " + scriptnm);
-        textViewId.setText(id + "(이)가 직접 문제를 만들어볼까?\n퀴즈를 내고 이 달의 출제왕이 되어보자!");
+        textViewId.setText(nickname + "(이)가 직접 문제를 만들어볼까?\n퀴즈를 내고 이 달의 출제왕이 되어보자!");
 
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
@@ -93,6 +100,8 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 intentTemplate.putExtra("id", id);
                 intentTemplate.putExtra("scriptnm", scriptnm);
                 intentTemplate.putExtra("background", backgroundID);
+                intentTemplate.putExtra("nickname", nickname);
+                intentTemplate.putExtra("thisWeek", thisWeek);
                 startActivity(intentTemplate);
             }
         });
@@ -113,6 +122,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 intentOX.putExtra("id", id);
                 intentOX.putExtra("scriptnm", scriptnm);
                 intentOX.putExtra("background", backgroundID);
+                intentOX.putExtra("nickname", nickname);
                 intentOX.putExtra("thisWeek", thisWeek);
                 startActivity(intentOX);
             }
@@ -125,6 +135,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 intentChoice.putExtra("id", id);
                 intentChoice.putExtra("scriptnm", scriptnm);
                 intentChoice.putExtra("background", backgroundID);
+                intentChoice.putExtra("nickname", nickname);
                 intentChoice.putExtra("thisWeek", thisWeek);
                 startActivity(intentChoice);
             }
@@ -137,6 +148,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
                 intentShortword.putExtra("id", id);
                 intentShortword.putExtra("scriptnm", scriptnm);
                 intentShortword.putExtra("background", backgroundID);
+                intentShortword.putExtra("nickname", nickname);
                 intentShortword.putExtra("thisWeek", thisWeek);
                 startActivity(intentShortword);
             }

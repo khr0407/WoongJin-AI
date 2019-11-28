@@ -3,13 +3,15 @@ package edu.skku.woongjin_ai;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
 
     public DatabaseReference mPostReference;
     Intent intent, intentBook, intentGamelist, intentMyPage;
-    String id, nickname = "";
+    String id, nickname="";
+    String school, mygrade, profile, myname;
     LinearLayout bookButton, quizButton, gameButton;
     Button myPageButton;
     TextView userNickname;
@@ -45,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         setting = getSharedPreferences("nomore", MODE_PRIVATE);
         nomore_atd = setting.getString("main_attend", "keepgoing");
@@ -66,16 +68,19 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         getFirebaseDatabaseUserInfo();
         postFirebaseDatabaseAttend();
 
+        // go to Book Nation
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intentBook = new Intent(MainActivity.this, NationBookActivity.class);
                 intentBook.putExtra("id", id);
                 intentBook.putExtra("nickname", nickname);
+                intentBook.putExtra("thisWeek", Integer.toString(thisWeek));
                 startActivity(intentBook);
             }
         });
 
+        // go to Quiz Nation
         quizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             }
         });
 
+        // go to Game Nation
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,17 +107,23 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             }
         });
 
+        // go to My Page
         myPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intentMyPage = new Intent(MainActivity.this, MyPageActivity.class);
                 intentMyPage.putExtra("id", id);
                 intentMyPage.putExtra("nickname", nickname);
+                intentMyPage.putExtra("grade", mygrade);
+                intentMyPage.putExtra("profile", profile);
+                intentMyPage.putExtra("school", school);
+                intentMyPage.putExtra("name", myname );
                 startActivity(intentMyPage);
             }
         });
     }
 
+    // check attendance
     private void postFirebaseDatabaseAttend() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -150,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/level").setValue(0);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/like").setValue(0);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/made").setValue(0);
+                    mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/solvebomb").setValue(0);
                     mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/firstDateOfWeek").setValue(startDate2);
                 } else startDate = dataSnapshot.child("user_list/" + id + "/my_week_list/week" + weekNum + "/firstDateOfWeek").getValue().toString();
 
@@ -184,18 +197,25 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                         mPostReference.child("user_list/" + id + "/my_week_list/week" + weekNum + "/attend_list/" + dayOfWeekS).setValue(today);
                     }
                 }
+
+                thisWeek = weekNum;
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
     }
 
+    // get user information
     private void getFirebaseDatabaseUserInfo() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 me = dataSnapshot.child("user_list/" + id).getValue(UserInfo.class);
                 nickname = me.nickname;
+                mygrade=me.grade;
+                myname=me.name;
+                school=me.school;
+                profile=me.profile;
                 userNickname.setText("안녕 " + nickname + "!\n여행하고 싶은 나라를 골라보자!");
                 int AttendCount=0;
                 long ReadCount=0;
@@ -214,9 +234,6 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                 Log.d("nomore", nomore_atd);
                 String atdcnt=Integer.toString(AttendCount);
                 Log.d("AttendCount", atdcnt);
-                //setting = getSharedPreferences("nomore", MODE_PRIVATE);
-                //nomore_atd = setting.getString("main_attend", "keepgoing");
-                //nomore_read = setting.getString("main_read", "keepgoing");
 
                 if(AttendCount==365 && nomore_atd.equals("stop2")) {
                     uploadFirebaseUserCoinInfo_H("출석왕", 3);

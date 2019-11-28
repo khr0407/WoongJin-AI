@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent"
+<FrameLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hoonjangframe"
+    >
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:weightSum="10"
+        android:weightSum="11"
         android:background="@drawable/mypage_background"
         android:padding="@dimen/activity_horizontal_margin"
         >
@@ -18,7 +21,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
-            android:padding="5dp"
+            android:padding="7dp"
             android:weightSum="11">
 
             <ImageButton
@@ -33,44 +36,25 @@
 
 
 
-            <ImageButton
-                android:id="@+id/record"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:background="#00FFFFFF"
-                android:layout_margin="5dp"
-                android:layout_gravity="center"
-                android:src="@drawable/record_room"
-                android:scaleType="fitCenter"
-                />
-
-
-            <ImageButton
-                android:id="@+id/FriendList"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1.5"
-                android:background="#00FFFFFF"
-                android:layout_margin="5dp"
-                android:src="@drawable/friend_room"
-                android:scaleType="fitCenter"
-                />
+                android:layout_weight="3"/>
 
             <Button
-                android:id="@+id/CoinRecord"
+                android:id="@+id/showHoonjang"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.5"
                 android:layout_margin="5dp"
                 android:scaleType="centerCrop"
-                android:text="코인 기록실"
+                android:text="훈장 기준이 궁금해요!"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:background="@drawable/ic_menu_format"
                 android:fontFamily="@font/bmjua_ttf"
                 android:textColor="@color/white"
-                android:textSize="23dp"
+                android:textSize="15dp"
 
                 />
 
@@ -138,7 +122,7 @@
             android:id="@+id/LinearLayout2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="9"
+            android:layout_weight="10"
             android:orientation="horizontal"
             android:padding="5dp"
             android:weightSum="9">
@@ -150,13 +134,13 @@
                 android:orientation="vertical"
                 android:weightSum="2"
                 android:background="@drawable/ic_profile_format"
-                android:padding="20dp"
+                android:padding="30dp"
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_weight="0.9"
                     android:orientation="horizontal"
                     android:weightSum="4"
                     >
@@ -208,39 +192,118 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
+                    android:layout_weight="0.3"
+                    android:orientation="horizontal"
                     android:weightSum="3">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.8"
+                        android:orientation="vertical"
+                        android:weightSum="2"
+                        >
+
+                        <TextView
+                            android:id="@+id/userSchool"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="25dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/bmjua_ttf"
+                            />
+
+                        <TextView
+                            android:id="@+id/userGrade"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="25dp"
+                            android:textColor="@color/black"
+                            android:fontFamily="@font/bmjua_ttf"/>
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/userName"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.2"
                         android:gravity="center"
-                        android:textSize="30dp"
+                        android:textSize="35dp"
+                        android:textColor="@color/black"
                         android:fontFamily="@font/bmjua_ttf"/>
 
-                    <TextView
-                        android:id="@+id/userSchool"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textSize="30dp"
-                        android:fontFamily="@font/bmjua_ttf"
-                        />
 
-                    <TextView
-                        android:id="@+id/userGrade"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textSize="30dp"
-                        android:fontFamily="@font/bmjua_ttf"/>
 
                 </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.7"
+                    android:weightSum="3"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/record"
+                        android:layout_width="200dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:scaleType="centerCrop"
+                        android:text="성적 기록실"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/ic_menu_format"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:textColor="@color/white"
+                        android:textSize="27dp"
+                        />
+
+                    <Button
+                        android:id="@+id/FriendList"
+                        android:layout_width="200dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:scaleType="centerCrop"
+                        android:text="친구 목록"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/ic_menu_format"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:textColor="@color/white"
+                        android:textSize="27dp"
+                        />
+
+                    <Button
+                        android:id="@+id/CoinRecord"
+                        android:layout_width="200dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:scaleType="centerCrop"
+                        android:text="코인 기록실"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:background="@drawable/ic_menu_format"
+                        android:fontFamily="@font/bmjua_ttf"
+                        android:textColor="@color/white"
+                        android:textSize="27dp"
+
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.1"/>
 
             </LinearLayout>
 
@@ -255,7 +318,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1.6"
                     android:padding="10dp"
                     android:background="@drawable/hoonjang_frame"
                     android:orientation="vertical"
@@ -420,16 +483,12 @@
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.1"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1.5"
-                    android:weightSum="6.1"
+                    android:weightSum="7.3"
                     android:padding="10dp"
                     android:background="@drawable/record_frame"
                     android:orientation="vertical"
@@ -444,7 +503,7 @@
                             android:scrollbarSize="30dp"
                             android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
-                            android:textSize="25dp" />
+                            android:textSize="30dp" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -465,7 +524,7 @@
                                 android:text="저번 주"
                                 android:fontFamily="@font/bmjua_ttf"
                                 android:gravity="center"
-                                android:textSize="25dp"/>
+                                android:textSize="28dp"/>
 
                             <TextView
                                 android:layout_width="0dp"
@@ -475,7 +534,7 @@
                                 android:fontFamily="@font/bmjua_ttf"
                                 android:gravity="center"
                                 android:textColor="@color/orange"
-                                android:textSize="25dp"/>
+                                android:textSize="28dp"/>
 
                         </LinearLayout>
 
@@ -494,7 +553,7 @@
                             android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textColor="@color/black"
-                            android:textSize="20dp"
+                            android:textSize="25dp"
                             />
 
 
@@ -539,7 +598,7 @@
                             android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textColor="@color/black"
-                            android:textSize="20dp"
+                            android:textSize="25dp"
                             />
 
 
@@ -582,7 +641,7 @@
                             android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:textColor="@color/black"
-                            android:textSize="20dp"
+                            android:textSize="25dp"
                             />
 
                         <TextView
@@ -608,7 +667,49 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1.2"
+                        android:orientation="horizontal"
+                        android:weightSum="3.4"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1.4"
+                            android:text="해체한 폭탄 수"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:gravity="center"
+                            android:textColor="@color/black"
+                            android:textSize="25dp"
+                            />
 
+
+                        <TextView
+                            android:id="@+id/lastSolveBombCnt"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:textSize="30dp"
+                            android:text="데이터 없음"
+                            />
+
+                        <TextView
+                            android:id="@+id/thisSolveBombCnt"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:fontFamily="@font/bmjua_ttf"
+                            android:textSize="30dp"
+                            android:textColor="@color/orange"
+                            android:text="데이터 없음"
+                            />
+
+                    </LinearLayout>
 
 
 
@@ -661,6 +762,6 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+</FrameLayout>
 
 

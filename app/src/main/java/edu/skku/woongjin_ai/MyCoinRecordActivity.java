@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,11 +22,11 @@ import java.util.ArrayList;
 public class MyCoinRecordActivity extends AppCompatActivity {
 
     public DatabaseReference mPostReference;
+    Button goback;
     Intent intent, intentGoHome;
     ListView coinlist;
     String id, uname, ugrade, ucoin;
     TextView username, usergrade, usercoin;
-    //ArrayList<CoinRecordListItem> coinRecordListItemArrayList=new ArrayList<CoinRecordListItem>();
     CoinRecordListAdapter coinRecordListAdapter=new CoinRecordListAdapter();
 
     @Override
@@ -46,7 +47,7 @@ public class MyCoinRecordActivity extends AppCompatActivity {
         username=(TextView)findViewById(R.id.userName1);
         usergrade=(TextView)findViewById(R.id.userGrade1);
         usercoin=(TextView)findViewById(R.id.userCoin);
-
+        goback=(Button)findViewById(R.id.goback);
         username.setText(uname);
         usergrade.setText(ugrade);
         usercoin.setText(ucoin);
@@ -59,6 +60,13 @@ public class MyCoinRecordActivity extends AppCompatActivity {
                 intentGoHome = new Intent(MyCoinRecordActivity.this, MainActivity.class);
                 intentGoHome.putExtra("id", id);
                 startActivity(intentGoHome);
+            }
+        });
+
+        goback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
             }
         });
 

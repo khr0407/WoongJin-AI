@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 public class HintWritingFragment extends Fragment {
 
@@ -56,7 +58,6 @@ public class HintWritingFragment extends Fragment {
         final Context context = container.getContext();
 
         type = getArguments().getString("type");
-
 
         editTextHint = (EditText) view.findViewById(R.id.hint);
         Button goBackButton = (Button) view.findViewById(R.id.goBack);

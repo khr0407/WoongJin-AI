@@ -42,6 +42,7 @@ public class CorrectBombFragment extends AppCompatActivity {
         intent_makebombtype = new Intent(CorrectBombFragment.this, MakeBombTypeActivity.class);
 
         send = (ImageButton) findViewById(R.id.send);
+
         textCheckCorrect = (TextView) findViewById(R.id.textCheck);
 
         timestamp_key = intent.getStringExtra("timestamp");
@@ -76,7 +77,7 @@ public class CorrectBombFragment extends AppCompatActivity {
                         String coin_convert = Integer.toString(coin);
                         String solved_convert=Integer.toString(solvedbomb);
                         mPostReference.child(key).child("coin").setValue(coin_convert);
-                        mPostReference.child(key).child("my_week_list/week"+weeknum+"/solvebomb").setValue(solved_convert);
+                        mPostReference.child(key).child("my_week_list/week"+weeknum+"/solvebomb").setValue(solvedbomb);
                         break;
                     }
                 }

@@ -41,9 +41,9 @@ public class NationGameActivity extends AppCompatActivity {
     private DatabaseReference mPostReference, sPostReference, gPostReference;
     ListView friend_list, script_list;
     ArrayList<ShowFriendListItem> data;
-    ArrayList<String> data1;
+    ArrayList<String> scriptArrayList;
     ShowFriendListAdapter arrayAdapter;
-    ArrayAdapter<String> arrayAdapter1;
+    ScriptListAdapter ScriptListAdapter;
 
     String id_key, nickname_key;
     String friend_nickname, script_name;
@@ -76,17 +76,17 @@ public class NationGameActivity extends AppCompatActivity {
         friend_list = findViewById(R.id.friend_list);
         script_list = findViewById(R.id.script_list);
         data = new ArrayList<>();
-        data1 = new ArrayList<String>();
+        scriptArrayList = new ArrayList<String>();
 
         intent = getIntent();
         id_key = intent.getStringExtra("id");
         nickname_key = intent.getStringExtra("nickname");
 
         arrayAdapter = new ShowFriendListAdapter();
-        arrayAdapter1 = new ArrayAdapter<String>(NationGameActivity.this, android.R.layout.simple_list_item_1);
+        ScriptListAdapter = new ScriptListAdapter();
+
 
         friend_list.setAdapter(arrayAdapter);
-        script_list.setAdapter(arrayAdapter1);
 
         mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list").child(id_key).child("my_friend_list");
         sPostReference = FirebaseDatabase.getInstance().getReference().child("script_list");
@@ -137,7 +137,8 @@ public class NationGameActivity extends AppCompatActivity {
         script_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
-                script_name = script_list.getItemAtPosition(position).toString();
+                ScriptListItem temp_show = (ScriptListItem) parent.getItemAtPosition(position);
+                script_name = temp_show.getTitle();
                 check_script = 1;
             }
         });
@@ -226,7 +227,7 @@ public class NationGameActivity extends AppCompatActivity {
                     ShowFriendListAdapter showFriendListAdapter = new ShowFriendListAdapter();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         UserInfo friend = snapshot.getValue(UserInfo.class);
-                        showFriendListAdapter.addItem(friend.profile, friend.nickname, friend.grade, friend.school);
+                        showFriendListAdapter.addItem(friend.profile, friend.nickname, friend.grade, friend.school, friend.id, friend.nickname, false);
                     }
                     friend_list.setAdapter(showFriendListAdapter);
                 }
@@ -241,54 +242,22 @@ public class NationGameActivity extends AppCompatActivity {
         }
     }
 
-
-    /*public void getFirebaseDatabase() {
-        try {
-            final ValueEventListener postListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String key = snapshot.child("nickname").getValue().toString();
-                        Log.d("friend key", key);
-                        data.add(key);
-                    }
-                    arrayAdapter.clear();
-                    arrayAdapter.addAll(data);
-                    arrayAdapter.notifyDataSetChanged();
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            };
-            mPostReference.addValueEventListener(postListener);
-
-        } catch (java.lang.NullPointerException e) {
-
-        }
-    }*/
-
     public void getFirebaseDatabaseScriptList() {
-        try {
-            final ValueEventListener postListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String key = snapshot.getKey();
-                        Log.d("friend key", key);
-                        data1.add(key);
-                    }
-                    arrayAdapter1.clear();
-                    arrayAdapter1.addAll(data1);
-                    arrayAdapter1.notifyDataSetChanged();
+        sPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                scriptArrayList.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    String key = snapshot.getKey();
+                    String bookname = snapshot.child("book_name").getValue().toString();
+                    scriptArrayList.add(key);
+                    ScriptListAdapter.addItem(key, bookname);
                 }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                }
-            };
-            sPostReference.addValueEventListener(postListener);
-
-        } catch (java.lang.NullPointerException e) {
-        }
+                script_list.setAdapter(ScriptListAdapter);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
     }
 
     public void postListDatabase(boolean add) {

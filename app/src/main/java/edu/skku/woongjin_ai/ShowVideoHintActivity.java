@@ -28,7 +28,7 @@ public class ShowVideoHintActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showvideohint);
 
-        Button closeButton = (Button)findViewById(R.id.close);
+        closeButton = (Button)findViewById(R.id.close);
         intent = getIntent();
         url = intent.getStringExtra("url"); //비디오 이름 받기
         VideoView video = (VideoView)findViewById(R.id.showVideoHint);

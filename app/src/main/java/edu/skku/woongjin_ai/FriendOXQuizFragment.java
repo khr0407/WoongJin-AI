@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,8 +21,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,11 +40,13 @@ public class FriendOXQuizFragment extends Fragment {
 
     private FriendOXQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "", background;
+    String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "", background, nickname, url;
     int cnt, flagAO = 0, flagAX = 0;
     float starFloat;
+    Intent videoIntent;
     ImageView imageO, imageX, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     Button imageButtonScript, imageButtonHint, imageButtonCheck;
+    DatabaseReference mPostReference;
 
     public FriendOXQuizFragment() {
 
@@ -81,6 +87,8 @@ public class FriendOXQuizFragment extends Fragment {
         key = getArguments().getString("key");
         cnt = getArguments().getInt("cnt");
         background = getArguments().getString("background");
+        nickname = getArguments().getString("nickname");
+        url = getArguments().getString("url");
 
         TextView textViewUid = view.findViewById(R.id.uidFriendOX);
         TextView textViewName = view.findViewById(R.id.nameFriendOX);
@@ -96,9 +104,20 @@ public class FriendOXQuizFragment extends Fragment {
         imageButtonCheck = (Button) view.findViewById(R.id.checkFriendOX);
         ConstraintLayout backgroundLayout = (ConstraintLayout) view.findViewById(R.id.backgroundox);
 
+        mPostReference = FirebaseDatabase.getInstance().getReference();
+
         starFloat = Float.parseFloat(star);
 
-        textViewUid.setText(uid + " 친구가 낸 질문");
+        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String unickname = dataSnapshot.child("user_list/" + uid + "/nickname").getValue().toString();
+                textViewUid.setText(unickname + " 친구가 낸 질문");
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {            }
+        });
+
         textViewName.setText(scriptnm);
         textViewQuestion.setText(question);
 
@@ -115,7 +134,7 @@ public class FriendOXQuizFragment extends Fragment {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment);
-                        Bundle bundle = new Bundle(7);
+                        Bundle bundle = new Bundle(8);
                         bundle.putString("id", id);
                         bundle.putString("scriptnm", scriptnm);
                         bundle.putString("uid", uid);
@@ -123,6 +142,7 @@ public class FriendOXQuizFragment extends Fragment {
                         bundle.putString("like", like);
                         bundle.putString("key", key);
                         bundle.putInt("cnt", cnt);
+                        bundle.putString("nickname", nickname);
                         ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment.setArguments(bundle);
 //                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
@@ -131,7 +151,7 @@ public class FriendOXQuizFragment extends Fragment {
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment);
                         Bundle bundle = new Bundle(1);
-                        bundle.putString("id", id);
+                        bundle.putString("nickname", nickname);
                         ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment.setArguments(bundle);
 //                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
@@ -145,12 +165,20 @@ public class FriendOXQuizFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.contentShowHint, ((ShowFriendQuizActivity)getActivity()).showHintFragment);
-                Bundle bundle = new Bundle(1);
-                bundle.putString("hint", hint);
-                ((ShowFriendQuizActivity)getActivity()).showHintFragment.setArguments(bundle);
-//                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                if (hint.equals("video")) {
+                    videoIntent = new Intent(getActivity(), ShowVideoHintActivity.class);//fragment는 context타입이 아니기 떄문에 this쓸수 없기 떄문에 FriendShortwordQuizFragment.class하면 안됨
+                    videoIntent.putExtra("url", url);
+                    videoIntent.putExtra("scriptnm", scriptnm);
+                    videoIntent.putExtra("key", key);
+                    startActivity(videoIntent);
+                } else {
+                    fragmentTransaction.replace(R.id.contentShowHint, ((ShowFriendQuizActivity) getActivity()).showHintFragment);
+                    Bundle bundle = new Bundle(1);
+                    bundle.putString("hint", hint);
+                    ((ShowFriendQuizActivity) getActivity()).showHintFragment.setArguments(bundle);
+//                  fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
             }
         });
 

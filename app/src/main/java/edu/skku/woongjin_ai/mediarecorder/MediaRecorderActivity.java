@@ -57,8 +57,8 @@ public class MediaRecorderActivity extends Activity implements ActivityCompat.On
     private Button recordButton;
     private Button goBackButton, checkButton, chooseButton;
     private static final int REQUEST_CODE = 0;
-    Intent intent, urlIntent;
-    String id, scriptnm, key;
+    Intent intent;
+    String id;
 
     private final String[] requiredPermissions = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -71,6 +71,7 @@ public class MediaRecorderActivity extends Activity implements ActivityCompat.On
         setContentView(R.layout.activity_mediarecorder);
 
         intent = getIntent();
+        id = intent.getStringExtra("id");
         mPreview = (TextureView) findViewById(R.id.surface_view);
         recordButton = (Button) findViewById(R.id.record);
         goBackButton = (Button) findViewById(R.id.goBack);
@@ -198,7 +199,7 @@ public class MediaRecorderActivity extends Activity implements ActivityCompat.On
             releaseCamera();
 
             Log.d(TAG, "위치"+ getExternalFilesDir(Environment.DIRECTORY_DCIM));
-                // END_INCLUDE(stop_release_media_recorder)
+            // END_INCLUDE(stop_release_media_recorder)
 
         } else {
 
@@ -246,7 +247,7 @@ public class MediaRecorderActivity extends Activity implements ActivityCompat.On
     private boolean prepareVideoRecorder(){
 
         // BEGIN_INCLUDE (configure_preview)
-        mCamera = CameraHelp.getDefaultCameraInstance();
+        //mCamera = CameraHelp.getDefaultCameraInstance();
         mCamera = CameraHelp.getDefaultFrontFacingCameraInstance();
 
         // We need to make sure that our preview and recording video size are supported by the

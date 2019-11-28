@@ -31,7 +31,7 @@ public class ReadScriptActivity extends AppCompatActivity
         implements SelectStudyTypeFragment.OnFragmentInteractionListener, NewHoonjangFragment.OnFragmentInteractionListener {
     public DatabaseReference mPostReference;
     Intent intent, intentHome, intentMakeQuiz;
-    String id, scriptnm, backgroundID, script, studyType = "";
+    String id, scriptnm, backgroundID, script, studyType = "", nickname, thisWeek;
     TextView textview_title, textview_script_1, textview_script_2;
     ImageButton goHome;
     TextView goMakeQuiz;
@@ -50,6 +50,8 @@ public class ReadScriptActivity extends AppCompatActivity
         id= intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        nickname = intent.getStringExtra("nickname");
+        thisWeek = intent.getStringExtra("thisWeek");
 
         selectStudyTypeFragment = new SelectStudyTypeFragment();
 
@@ -100,9 +102,9 @@ public class ReadScriptActivity extends AppCompatActivity
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.contentReadScript, selectStudyTypeFragment);
-        transaction.commit();
+//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.contentReadScript, selectStudyTypeFragment);
+//        transaction.commit();
 
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +123,8 @@ public class ReadScriptActivity extends AppCompatActivity
                 intentMakeQuiz.putExtra("id", id);
                 intentMakeQuiz.putExtra("scriptnm", scriptnm);
                 intentMakeQuiz.putExtra("background", backgroundID);
+                intentMakeQuiz.putExtra("nickname", nickname);
+                intentMakeQuiz.putExtra("thisWeek", thisWeek);
                 startActivity(intentMakeQuiz);
             }
         });

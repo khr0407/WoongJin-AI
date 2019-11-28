@@ -26,7 +26,7 @@ public class MainQuizTypeFragment extends Fragment {
     private String mParam2;
 
     Button meButton, friendButton;
-    Intent intent;
+    Intent intentMakeQuiz, intentFriendQuiz;
     String id, nickname, thisWeek;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -65,11 +65,6 @@ public class MainQuizTypeFragment extends Fragment {
         nickname = getArguments().getString("nickname");
         thisWeek = getArguments().getString("thisWeek");
 
-        intent = new Intent(getActivity(), NationQuizActivity.class);
-        intent.putExtra("id", id);
-        intent.putExtra("nickname", nickname);
-        intent.putExtra("thisWeek", thisWeek);
-
         meButton = (Button) view.findViewById(R.id.me);
         friendButton = (Button) view.findViewById(R.id.friend);
 
@@ -79,20 +74,30 @@ public class MainQuizTypeFragment extends Fragment {
         meButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("quizType", "me");
+//                intentMakeQuiz.putExtra("quizType", "me");
+                intentMakeQuiz = new Intent(getActivity(), NationQuizActivity.class);
+                intentMakeQuiz.putExtra("id", id);
+                intentMakeQuiz.putExtra("nickname", nickname);
+                intentMakeQuiz.putExtra("thisWeek", thisWeek);
+
                 fragmentTransaction.remove(((MainActivity)getActivity()).mainQuizTypeFragment);
                 fragmentTransaction.commit();
-                startActivity(intent);
+                startActivity(intentMakeQuiz);
             }
         });
 
         friendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("quizType", "friend");
+//                intent.putExtra("quizType", "friend");
+                intentFriendQuiz = new Intent(getActivity(), ShowFriendQuizActivity.class);
+                intentFriendQuiz.putExtra("id", id);
+                intentFriendQuiz.putExtra("nickname", nickname);
+                intentFriendQuiz.putExtra("thisWeek", thisWeek);
+
                 fragmentTransaction.remove(((MainActivity)getActivity()).mainQuizTypeFragment);
                 fragmentTransaction.commit();
-                startActivity(intent);
+                startActivity(intentFriendQuiz);
             }
         });
 

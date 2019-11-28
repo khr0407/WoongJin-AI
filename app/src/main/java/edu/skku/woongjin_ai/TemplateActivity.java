@@ -24,7 +24,7 @@ import java.util.Random;
 public class TemplateActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentSelectType;
-    String id, scriptnm, backgroundID;
+    String id, scriptnm, backgroundID, thisWeek, nickname;
     TextView oxT, choiceT, shortwordT;
     ImageView imageHome;
     Button buttonGoBack;
@@ -58,6 +58,8 @@ public class TemplateActivity extends AppCompatActivity {
         id = intent.getStringExtra("id");
         scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
+        thisWeek = intent.getStringExtra("thisWeek");
+        nickname = intent.getStringExtra("nickname");
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
@@ -70,6 +72,8 @@ public class TemplateActivity extends AppCompatActivity {
                 intentSelectType.putExtra("id", id);
                 intentSelectType.putExtra("scriptnm", scriptnm);
                 intentSelectType.putExtra("background", backgroundID);
+                intentSelectType.putExtra("thisWeek", thisWeek);
+                intentSelectType.putExtra("nickname", nickname);
                 startActivity(intentSelectType);
             }
         });
@@ -167,38 +171,38 @@ public class TemplateActivity extends AppCompatActivity {
                 int bound, rand;
                 String post;
                 if(cnt1 == 0) {
-                    post = "Q. 탬플릿\nA. 탬플릿\nDesc: 탬플릿\nLevel: 탬플릿";
+                    post = "데이터 없음";
                     oxT.setText(post);
                 } else {
                     bound = 3;
                     if(cnt1 < 3) bound = cnt1;
                     rand = generator.nextInt(bound);
                     QuizOXShortwordTypeInfo post1 = quizListOX.get(rand);
-                    post = "Q. " + post1.question + "\nA. " + post1.answer + "\nDesc: " + post1.desc + "\nLevel: " + post1.star;
+                    post = "Q. " + post1.question + "\nA. " + post1.answer + "\n힌트: " + post1.desc + "\n레벨: " + post1.star;
                     oxT.setText(post);
                 }
 
                 if(cnt2 == 0) {
-                    post = "Q. 탬플릿\nA1. 탬플릿\nA2. 탬플릿\nA3. 탬플릿\nA4. 탬플릿\nA. 탬플릿\nDesc: 탬플릿\nLevel: 탬플릿";
+                    post = "데이터 없음";
                     choiceT.setText(post);
                 } else {
                     bound = 3;
                     if(cnt2 < 3) bound = cnt2;
                     rand = generator.nextInt(bound);
                     QuizChoiceTypeInfo post2 = quizListChoice.get(rand);
-                    post = "Q. " + post2.question + "\nA1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\nA. " + post2.answer + "\nDesc: " + post2.desc + "\nLevel: " + post2.star;
+                    post = "Q. " + post2.question + "\nA1. " + post2.answer1 + " A2. " + post2.answer2 + " A3. " + post2.answer3 + " A4. " + post2.answer4 + "\nA. " + post2.answer + "\n힌트: " + post2.desc + "\n레벨: " + post2.star;
                     choiceT.setText(post);
                 }
 
                 if(cnt3 == 0) {
-                    post = "Q. 탬플릿\nA. 탬플릿\nDesc: 탬플릿\nLevel: 탬플릿";
+                    post = "데이터 없음";
                     shortwordT.setText(post);
                 } else {
                     bound = 3;
                     if(cnt3 < 3) bound = cnt3;
                     rand = generator.nextInt(bound);
                     QuizOXShortwordTypeInfo post3 = quizListShortword.get(rand);
-                    post = "Q. " + post3.question + "\nA. " + post3.answer + "\nDesc: " + post3.desc + "\nLevel: " + post3.star;
+                    post = "Q. " + post3.question + "\nA. " + post3.answer + "\n힌트: " + post3.desc + "\n레벨: " + post3.star;
                     shortwordT.setText(post);
                 }
             }
