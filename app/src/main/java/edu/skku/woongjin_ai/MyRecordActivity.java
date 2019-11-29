@@ -112,7 +112,7 @@ public class MyRecordActivity extends AppCompatActivity  {
         left.setAxisMinimum(0);
         right.setDrawGridLines(false);
         right.setEnabled(false);
-
+        //그래프 축 설정들
 
         materialCalendarView = (MaterialCalendarView) findViewById(R.id.attendCalendar);
         attendedDatesList = new ArrayList<String>();
@@ -158,7 +158,6 @@ public class MyRecordActivity extends AppCompatActivity  {
 
         entries=new ArrayList<Entry>();
 
-
         week_attend=new ArrayList<String>();
         week_made=new ArrayList<String>();
         week_correct=new ArrayList<String>();
@@ -193,7 +192,7 @@ public class MyRecordActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 graph_attend.setBackgroundColor(getResources().getColor(R.color.blue));
                 f1=1;
-                if(f2==1||f3==1||f4==1||f5==1||f6==1){
+                if(f2==1||f3==1||f4==1||f5==1||f6==1){ //나머지 버튼들 색 원래대로 되돌림
                     graph_made.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_correct.setBackgroundColor(getResources().getColor(R.color.lightred));
                     graph_level.setBackgroundColor(getResources().getColor(R.color.lightred));
@@ -206,9 +205,7 @@ public class MyRecordActivity extends AppCompatActivity  {
                 for(int j=0; j<total_week ; j++){
                     entries.add(new Entry(j, Integer.parseInt(week_attend.get(j))));
                 }
-                //
-                xAxis=lineChart.getXAxis();
-                xAxis.setGranularityEnabled(true);
+                xAxis.setGranularityEnabled(true);//이게 있어야 커스텀 가능
                 xAxis.setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
@@ -217,35 +214,32 @@ public class MyRecordActivity extends AppCompatActivity  {
                         else
                             return null;
                     }
-                });
-                left.setGranularityEnabled(true);
-                left.resetAxisMaximum();
+                }); //x축에 값 중복되지 않게 커스텀
+                left.setGranularityEnabled(true); //이게 있어야 커스텀 가능
+                left.resetAxisMaximum(); //최대값 설정 지움
                 left.setAxisMinimum(0);
                 left.setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
-                        return Integer.toString((int)value)+"회";
+                        return Integer.toString((int)value)+"회"; //y축을 "n회" 형식으로 커스텀
                     }
                 });
                 LineDataSet dataset = new LineDataSet(entries, "주간 출석일 수");
                 dataset.setValueFormatter(new IValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-                        return Integer.toString((int)value);//return your text
+                        return Integer.toString((int)value);//노드 값을 int형으로 바꿈
                     }
                 });
-                dataset.setValueTextSize(18);
-                dataset.setLineWidth(6);
-                dataset.setCircleRadius(12);
-                dataset.setCircleHoleRadius(4);
-                //dataset.setCircleColorHole(Color.WHITE);
-                //dataset.setColor(Color.BLUE);
-                //dataset.setCircleColor(Color.BLUE);
+                dataset.setValueTextSize(18); //노드 텍스트 크기
+                dataset.setLineWidth(6); //그래프 굵기
+                dataset.setCircleRadius(12); //노드 반지름
+                dataset.setCircleHoleRadius(4); //노드 내부 흰색 원 반지름
                 LineData data = new LineData(dataset);
                 lineChart.setData(data);
                 lineChart.setDescription(null);
-                lineChart.setBackgroundColor(Color.rgb(255,245,238));
-                lineChart.animateY(500);
+                lineChart.setBackgroundColor(Color.rgb(255,245,238)); //배경색 지정(아이보리)
+                lineChart.animateY(500); //그래프 애니메이션 뜨는 시간 설정
             }
         });
 
@@ -390,8 +384,7 @@ public class MyRecordActivity extends AppCompatActivity  {
                             return null;
                     }
                 });
-                left.setGranularityEnabled(true);
-                left.setAxisMaximum(5);
+                left.setAxisMaximum(5); //레벨은 최대 5까지이므로 y축 maximum을 5로 지정
                 left.setGranularityEnabled(true);
                 left.setValueFormatter(new IAxisValueFormatter() {
                     @Override

@@ -81,15 +81,4 @@ public class ShowFriendListItem {
         this.visible_and_clickable = visible_and_clickable;
     }
 
-    /*
-
-    public String getMyid() {
-        return myid;
-    }
-
-    public void setMyid(String id){
-        this.myid=id;
-    }
-
-    */
 }

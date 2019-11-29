@@ -61,7 +61,7 @@ public class MyFriendQuizListAdapter extends BaseAdapter {
 
         MyFriendQuizListItem myFriendQuizListItem = getItem(position);
 
-        if(!myFriendQuizListItem.getProfile().equals("noimage")) {
+        if(!myFriendQuizListItem.getProfile().equals("noimage")) { //noimage가 아닌 경우(프사 등록되어있는 경우), 프로필사진 띄워줌
             storage = FirebaseStorage.getInstance();
             storageReference = storage.getReference();
             dataReference = storageReference.child("/profile/" + myFriendQuizListItem.getProfile());

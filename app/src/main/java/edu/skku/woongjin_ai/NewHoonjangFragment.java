@@ -68,7 +68,6 @@ public class NewHoonjangFragment extends Fragment {
         congratulation=(TextView)view.findViewById(R.id.congratulation);
         hoonjang=(ImageView)view.findViewById(R.id.hoonjangImage);
         close=(ImageButton)view.findViewById(R.id.close);
-        //nomore=(CheckBox)view.findViewById(R.id.nomore);
 
         what=getArguments().getString("what");
         level=getArguments().getInt("level");
@@ -76,16 +75,7 @@ public class NewHoonjangFragment extends Fragment {
 
         congratulation.setText(what+" 레벨 "+level+"달성!");
 
-
         mPostReference = FirebaseDatabase.getInstance().getReference();
-//
-//        nomore.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                SharedPreferences sharedPreferences = getSharedPreferences
-//            }
-//        });
-
 
         close.setOnClickListener(new View.OnClickListener(){
             @Override

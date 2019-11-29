@@ -305,8 +305,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                             }
                         quizlist.setAdapter(myQuizListAdapter);
                     }
-                    //final ValueEventListener quiz_list = mPostReference.child("quiz_list").addValueEventListener(postListener);
-                }
+                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

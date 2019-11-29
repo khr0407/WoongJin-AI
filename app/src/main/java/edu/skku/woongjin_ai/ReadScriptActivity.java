@@ -35,9 +35,6 @@ public class ReadScriptActivity extends AppCompatActivity
     TextView textview_title, textview_script_1, textview_script_2;
     ImageButton goHome;
     TextView goMakeQuiz;
-//    TextView goStudyWord;
-//    FirebaseStorage storage;
-//    private StorageReference storageReference, dataReference;
     Fragment selectStudyTypeFragment;
     NewHoonjangFragment hoonjangFragment;
 
@@ -59,7 +56,6 @@ public class ReadScriptActivity extends AppCompatActivity
         textview_script_1 = (TextView) findViewById(R.id.textview_script_1);
         textview_script_2 = (TextView) findViewById(R.id.textview_script_2);
         goHome = (ImageButton) findViewById(R.id.home);
-//        goStudyWord = (TextView) findViewById(R.id.studyWord);
         goMakeQuiz = (TextView) findViewById(R.id.makeQuiz);
 
         textview_title.setText(scriptnm);
@@ -74,22 +70,6 @@ public class ReadScriptActivity extends AppCompatActivity
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/ex").setValue("test3Ex");
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/meaning").setValue("test3Meaning");
 
-
-//        storage = FirebaseStorage.getInstance();
-//        storageReference = storage.getInstance().getReference();
-//        dataReference = storageReference.child("/scripts_background/" + backgroundID);
-//        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Picasso.with(ReadScriptActivity.this)
-//                        .load(uri)
-//                        .placeholder(R.drawable.bot)
-//                        .error(R.drawable.btn_x)
-//                        .into(backgroundImage);
-//                backgroundImage.setAlpha(0.5f);
-//            }
-//        });
-
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -102,9 +82,6 @@ public class ReadScriptActivity extends AppCompatActivity
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
 
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.contentReadScript, selectStudyTypeFragment);
-//        transaction.commit();
 
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override

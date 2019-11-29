@@ -143,8 +143,6 @@ public class MyPageActivity extends AppCompatActivity implements  ShowHoonjangCr
         weekInfos = new ArrayList<WeekInfo>();
         showHoonjang=new ShowHoonjangCriteriaFragment();
 
-        //myFace.setBackground(drawable);
-        //myFace.setClipToOutline(true);
 
         getFirebaseDatabaseUserInfo();
 
@@ -410,10 +408,10 @@ public class MyPageActivity extends AppCompatActivity implements  ShowHoonjangCr
                                     } else if (key2.equals("my_medal_list")) {
                                             for (DataSnapshot snapshot3 : snapshot2.getChildren()) {
                                                 String what_wang = snapshot3.getKey(); //출석왕? 무슨왕?
-                                                String[] array=snapshot3.getValue().toString().split("##");
+                                                String[] array=snapshot3.getValue().toString().split("##"); //파베에 올라간 형식 : 레벨##날짜 이므로 ##기준으로 자름
                                                 String level = array[0];
                                                 String date = array[1];
-                                                switch (what_wang) {
+                                                switch (what_wang) { //훈장 종류, 레벨 따라서 이미지 띄워줌
                                                     case "출석왕":
                                                         if(level.equals("Lev1"))
                                                             attendw.setImageDrawable(getDrawable(R.drawable.attend_1));

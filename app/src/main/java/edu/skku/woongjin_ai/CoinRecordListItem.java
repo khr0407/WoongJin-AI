@@ -3,9 +3,9 @@ package edu.skku.woongjin_ai;
 import android.graphics.drawable.Drawable;
 
 public class CoinRecordListItem {
-    private String howmany;
-    private String date;
-    private String why;
+    private String howmany; //코인 받은 amount
+    private String date;  //코인 받은 날짜 (년,월,일,시,분)
+    private String why; //코인 받은/잃은 사유 (ex: 지문 읽음, 폭탄 해체함 등)
 
     public String getHowmany() {
         return howmany;
