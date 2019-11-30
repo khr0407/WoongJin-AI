@@ -9,6 +9,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/*
+in SelectBookActivity
+ */
+
 public class SelectBookListAdapter extends BaseAdapter {
 
     private ArrayList<SelectBookListItem> selectBookListItems = new ArrayList<SelectBookListItem>();

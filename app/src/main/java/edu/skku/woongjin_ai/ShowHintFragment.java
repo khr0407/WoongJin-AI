@@ -16,6 +16,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/*
+from ShowFriendQuizActivity
+친구 문제 풀기 & 추천수 높은 문제 풀기에서 힌트 보기 선택시, 퀴즈 힌트가 글 힌트일 경우
+*/
 public class ShowHintFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -64,6 +68,7 @@ public class ShowHintFragment extends Fragment {
         textViewHint.setMovementMethod(new ScrollingMovementMethod());
         textViewHint.setText(hint);
 
+        // 닫기 버튼 이벤트
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

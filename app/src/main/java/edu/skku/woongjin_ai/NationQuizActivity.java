@@ -21,6 +21,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/*
+from MainQuizTypeFragment
+질문나라 - 문제 낼 지문 선택하기
+ */
 public class NationQuizActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentMakeQuiz, intentFriendQuiz;

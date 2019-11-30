@@ -2,6 +2,10 @@ package edu.skku.woongjin_ai;
 
 import android.graphics.drawable.Drawable;
 
+/*
+in MyFriendQuizListAdapter
+ */
+
 public class MyFriendQuizListItem {
     private String profile;
     private String user;

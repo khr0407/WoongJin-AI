@@ -19,6 +19,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+/*
+in ShowFriendQuizActivity
+ */
+
 public class MyFriendQuizListAdapter extends BaseAdapter {
 
     private ArrayList<MyFriendQuizListItem> myFriendQuizListItems = new ArrayList<MyFriendQuizListItem>();
@@ -67,6 +71,7 @@ public class MyFriendQuizListAdapter extends BaseAdapter {
 
         MyFriendQuizListItem myFriendQuizListItem = getItem(position);
 
+        // 유저 프로필 사진 가져오기
         if(!myFriendQuizListItem.getProfile().equals("noimage")) {
             storage = FirebaseStorage.getInstance();
             storageReference = storage.getReference();

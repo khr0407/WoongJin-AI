@@ -15,6 +15,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/*
+from ShowFriendQuizActivity
+친구 문제 풀기 틀렸을 경우
+ */
+
 public class WrongFriendQuizFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -63,6 +68,7 @@ public class WrongFriendQuizFragment extends Fragment {
 
         textViewWrong.setText("다시 한 번 생각해보자~\n" + nickname + ", 할 수 있어!");
 
+        // 닫기 버튼 이벤트
         imageButtonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

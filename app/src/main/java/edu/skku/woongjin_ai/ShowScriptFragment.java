@@ -22,6 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/*
+from OXTypeActivity, SelectTypeActivity, ShortwordActivity, ShowFriendQuizActivity
+지문 보여주기
+ */
+
 public class ShowScriptFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -76,6 +81,7 @@ public class ShowScriptFragment extends Fragment {
         textViewScript1.setMovementMethod(new ScrollingMovementMethod());
         textViewScript2.setMovementMethod(new ScrollingMovementMethod());
 
+        // 닫기 버튼 이벤트
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +134,7 @@ public class ShowScriptFragment extends Fragment {
             }
         });
 
+        // 데이터베이스에서 지문 가져오기
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

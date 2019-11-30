@@ -28,6 +28,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/*
+from SelectBookActivity
+지문 공부하기 - 소리내어 읽기(미구현) / 표시하며 읽기
+ */
+
 public class ReadScriptActivity extends AppCompatActivity
         implements SelectStudyTypeFragment.OnFragmentInteractionListener, NewHoonjangFragment.OnFragmentInteractionListener {
     public DatabaseReference mPostReference;
@@ -36,7 +41,6 @@ public class ReadScriptActivity extends AppCompatActivity
     TextView textview_title, textview_script_1, textview_script_2;
     ImageButton goHome;
     TextView goMakeQuiz;
-//    TextView goStudyWord;
 //    FirebaseStorage storage;
 //    private StorageReference storageReference, dataReference;
     Fragment selectStudyTypeFragment;
@@ -60,7 +64,6 @@ public class ReadScriptActivity extends AppCompatActivity
         textview_script_1 = (TextView) findViewById(R.id.textview_script_1);
         textview_script_2 = (TextView) findViewById(R.id.textview_script_2);
         goHome = (ImageButton) findViewById(R.id.home);
-//        goStudyWord = (TextView) findViewById(R.id.studyWord);
         goMakeQuiz = (TextView) findViewById(R.id.makeQuiz);
 
         textview_title.setText(scriptnm);
@@ -69,6 +72,7 @@ public class ReadScriptActivity extends AppCompatActivity
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
+        // 데이터베이스 단어장에 임시 단어 저장
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/time").setValue("2m");
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test1/ex").setValue("test1Ex");
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test1/meaning").setValue("test1Meaning");
@@ -77,7 +81,7 @@ public class ReadScriptActivity extends AppCompatActivity
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/ex").setValue("test3Ex");
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/meaning").setValue("test3Meaning");
 
-
+        // 배경 이미지
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
 //        dataReference = storageReference.child("/scripts_background/" + backgroundID);
@@ -93,6 +97,7 @@ public class ReadScriptActivity extends AppCompatActivity
 //            }
 //        });
 
+        // 데이터베이스에서 지문 가져오기
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -105,10 +110,12 @@ public class ReadScriptActivity extends AppCompatActivity
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
 
+        // 소리내어 읽기 / 표시하며 읽기 선택
 //        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 //        transaction.replace(R.id.contentReadScript, selectStudyTypeFragment);
 //        transaction.commit();
 
+        // 메인페이지 버튼 이벤트
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +125,7 @@ public class ReadScriptActivity extends AppCompatActivity
             }
         });
 
+        // 질문 만들기 버튼 이벤트
         goMakeQuiz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -132,8 +140,7 @@ public class ReadScriptActivity extends AppCompatActivity
             }
         });
 
-
-
+        // 지문 단어 공부하기 버튼 이벤트
 //        goStudyWord.setOnClickListener(new View.OnClickListener() {
 //        @Override
 //        public void onClick(View v) {
@@ -146,6 +153,7 @@ public class ReadScriptActivity extends AppCompatActivity
 //    });
     }
 
+    // 코인 수여, 데이터베이스에 저장
     private void uploadFirebaseUserCoinInfo(){
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

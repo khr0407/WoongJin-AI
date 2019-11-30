@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/*
+in ShowFriendQuizActivity
+ */
+
 public class LikeQuizListAdapter extends BaseAdapter {
 
     private ArrayList<LikeQuizListItem> likeQuizListItems = new ArrayList<LikeQuizListItem>();

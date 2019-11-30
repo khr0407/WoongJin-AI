@@ -38,6 +38,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/*
+first
+로그인 페이지
+ */
 
 public class LoginActivity extends AppCompatActivity {
     private SessionCallback callback;
@@ -98,7 +102,6 @@ public class LoginActivity extends AppCompatActivity {
                     for (DataSnapshot ds : dataSnapshot.child("user_list").getChildren()) {
                         String key = ds.getKey();
                         if (data.equals(key)) {
-                            //Toast.makeText(getApplicationContext(), "카카오 계정으로 가입되어 있는 ID입니다.", Toast.LENGTH_SHORT).show();
                             overlapflag = 1;
                             Intent intent_main = new Intent(LoginActivity.this, MainActivity.class);
                             intent_main.putExtra("id", data);
@@ -122,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
             mPostReference.addListenerForSingleValueEvent(overlapCheck);
         }
 
+        // 회원가입 버튼 이벤트
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // 로그인 버튼 이벤트
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -175,6 +180,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // 자동 로그인
         if (setting.getBoolean("Auto login is enabled", false)) {
             editTextID.setText(setting.getString("ID", ""));
             editTextPW.setText(setting.getString("PW", ""));

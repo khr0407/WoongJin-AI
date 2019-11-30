@@ -26,6 +26,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/*
+from ShowFriendQuizActivity
+친구 문제 풀기 - 정답시
+ */
+
 public class CorrectFriendQuizFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -98,12 +103,14 @@ public class CorrectFriendQuizFragment extends Fragment {
         textViewID.setText("정답이야 " + nickname + "! 수고했어^^");
         uploadFirebaseUserCoinInfo_correct();
 
+        // 데이터베이스 유저 정보에 푼 문제 정보 저장하기
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         today = format.format(date);
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/solved_list/" + key).setValue(today);
 
+        // 데이터베이스에서 현재 학습 정보 가져오기
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -117,13 +124,13 @@ public class CorrectFriendQuizFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {                        }
         });
 
-
+        // 난이도 평가 제출하기 버튼 이벤트
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(starInt == 0) {
                     Toast.makeText(context, "난이도를 선택해주세요", Toast.LENGTH_SHORT).show();
-                } else {
+                } else { // 평가한 난이도를 출제자, 문제 정보에 반영
                     float oldLevel = friendThisWeekInfo.level;
                     int oldCnt = friendThisWeekInfo.cnt;
                     float newLevel = (oldLevel * oldCnt + starInt) / (oldCnt + 1);
@@ -152,10 +159,11 @@ public class CorrectFriendQuizFragment extends Fragment {
             }
         });
 
+        // 좋아요 버튼 이벤트
         imageViewThumb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagT == 0) {
+                if(flagT == 0) { // 추천을 유저, 문제 정보에 반영
                     Toast.makeText(context, "좋아요를 눌렀습니다", Toast.LENGTH_SHORT).show();
 
                     mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/liked_list/" + key).setValue(today);
@@ -176,6 +184,7 @@ public class CorrectFriendQuizFragment extends Fragment {
             }
         });
 
+        // 난이도 평가1
         imageViewS1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,6 +208,7 @@ public class CorrectFriendQuizFragment extends Fragment {
             }
         });
 
+        // 난이도 평가2
         imageViewS2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,6 +234,7 @@ public class CorrectFriendQuizFragment extends Fragment {
             }
         });
 
+        // 난이도 평가3
         imageViewS3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -251,6 +262,7 @@ public class CorrectFriendQuizFragment extends Fragment {
             }
         });
 
+        // 난이도 평가4
         imageViewS4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,6 +292,7 @@ public class CorrectFriendQuizFragment extends Fragment {
             }
         });
 
+        // 난이도 평가5
         imageViewS5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -314,6 +327,7 @@ public class CorrectFriendQuizFragment extends Fragment {
         return view;
     }
 
+    // 코인 증정, 데이터베이스에 저장
     private void uploadFirebaseUserCoinInfo_correct(){
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -341,7 +355,7 @@ public class CorrectFriendQuizFragment extends Fragment {
         });
     }
 
-
+    // 코인 증정, 데이터베이스에 저장
     private void uploadFirebaseUserCoinInfo_rated(){
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
