@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,7 @@ public class ShowHintFragment extends Fragment {
         TextView textViewHint = (TextView) view.findViewById(R.id.hintShowHint);
         Button buttonClose = (Button) view.findViewById(R.id.close);
 
+        textViewHint.setMovementMethod(new ScrollingMovementMethod());
         textViewHint.setText(hint);
 
         buttonClose.setOnClickListener(new View.OnClickListener() {

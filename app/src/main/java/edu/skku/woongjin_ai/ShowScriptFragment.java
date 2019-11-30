@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,9 @@ public class ShowScriptFragment extends Fragment {
         Button buttonClose = (Button) view.findViewById(R.id.close);
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
+
+        textViewScript1.setMovementMethod(new ScrollingMovementMethod());
+        textViewScript2.setMovementMethod(new ScrollingMovementMethod());
 
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override

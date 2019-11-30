@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -63,6 +64,8 @@ public class ReadScriptActivity extends AppCompatActivity
         goMakeQuiz = (TextView) findViewById(R.id.makeQuiz);
 
         textview_title.setText(scriptnm);
+        textview_script_1.setMovementMethod(new ScrollingMovementMethod());
+        textview_script_2.setMovementMethod(new ScrollingMovementMethod());
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
