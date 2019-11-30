@@ -13,10 +13,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/*
-in ShowFriendQuizActivity
- */
-
 public class LikeQuizListAdapter extends BaseAdapter {
 
     private ArrayList<LikeQuizListItem> likeQuizListItems = new ArrayList<LikeQuizListItem>();
@@ -55,11 +51,6 @@ public class LikeQuizListAdapter extends BaseAdapter {
         TextView scriptName = (TextView) convertView.findViewById(R.id.scriptName);
         TextView question = (TextView) convertView.findViewById(R.id.question);
 
-        uid.setMovementMethod(new ScrollingMovementMethod());
-        bookName.setMovementMethod(new ScrollingMovementMethod());
-        scriptName.setMovementMethod(new ScrollingMovementMethod());
-        question.setMovementMethod(new ScrollingMovementMethod());
-
         LikeQuizListItem likeQuizListItem = getItem(position);
 
         likeCnt.setText(likeQuizListItem.getLikeCnt());
@@ -71,6 +62,7 @@ public class LikeQuizListAdapter extends BaseAdapter {
         bookName.setText(likeQuizListItem.getBookName());
         scriptName.setText(likeQuizListItem.getScriptName());
         question.setText(likeQuizListItem.getQuestion());
+        question.setMovementMethod(new ScrollingMovementMethod());
 
         return convertView;
     }

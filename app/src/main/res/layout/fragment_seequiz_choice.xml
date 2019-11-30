@@ -36,6 +36,7 @@
                 android:textSize="50dp"
                 android:textColor="@color/black"
                 android:gravity="center"
+                android:scrollbars="vertical"
                 android:fontFamily="@font/bmjua_ttf"/>
 
             <LinearLayout
@@ -113,6 +114,7 @@
 
                 <TextView
                     android:id="@+id/quizContent"
+                    android:scrollbars="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="3"
@@ -154,6 +156,7 @@
 
                         <TextView
                             android:id="@+id/first"
+                            android:scrollbars="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="2.5"
@@ -170,6 +173,7 @@
 
                         <TextView
                             android:id="@+id/third"
+                            android:scrollbars="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="2.5"
@@ -191,6 +195,7 @@
 
                         <TextView
                             android:id="@+id/second"
+                            android:scrollbars="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="2.5"
@@ -207,6 +212,7 @@
 
                         <TextView
                             android:id="@+id/fourth"
+                            android:scrollbars="vertical"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="2.5"
