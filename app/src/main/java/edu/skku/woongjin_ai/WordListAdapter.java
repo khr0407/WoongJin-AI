@@ -12,6 +12,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/*
+in WordListAdapter
+ */
+
 public class WordListAdapter extends BaseAdapter {
 
     private ArrayList<WordListItem> wordListItems = new ArrayList<WordListItem>();

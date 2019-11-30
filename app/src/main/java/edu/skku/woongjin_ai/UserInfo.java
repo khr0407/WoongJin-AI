@@ -3,6 +3,10 @@ package edu.skku.woongjin_ai;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+데이터베이스에서 유저 정보 가져올 때
+ */
+
 public class UserInfo {
     public String id;
     public String name;

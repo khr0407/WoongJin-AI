@@ -74,10 +74,10 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
         textViewTitle.setText("지문 제목: " + scriptnm);
         textViewId.setText(nickname + "(이)가 직접 문제를 만들어볼까?\n퀴즈를 내고 이 달의 출제왕이 되어보자!");
 
-
         mPostReference = FirebaseDatabase.getInstance().getReference();
         getFirebaseDatabaseMedalInfo();
 
+        // 배경 이미지 (background)
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
 //        dataReference = storageReference.child("/scripts_background/" + backgroundID);
@@ -93,6 +93,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
 //            }
 //        });
 
+        // 타입별 질문 예시보기 버튼 이벤트
         showTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,6 +107,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
             }
         });
 
+        // 메인 페이지로 돌아가기 버튼 이벤트
         goHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +117,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
             }
         });
 
+        // OX 문제 만들기 버튼 이벤트
         frameOX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,6 +131,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
             }
         });
 
+        // 객관식 문제 만들기 버튼 이벤트
         frameChoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,6 +145,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
             }
         });
 
+        // 단답형 문제 만들기 버튼 이벤트
         frameShortword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -155,7 +160,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
         });
     }
 
-
+    // 훈장 수여 자격 여부 확인 및 수여, 데이터베이스에 저장
     private void getFirebaseDatabaseMedalInfo() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -219,6 +224,7 @@ public class SelectTypeActivity extends AppCompatActivity implements NewHoonjang
         });
     }
 
+    // 훈장 수여에 따른 코인 증정 데이터 데이터베이스에 저장
     private void uploadFirebaseUserCoinInfo_H(String hoonjangname, int level){
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

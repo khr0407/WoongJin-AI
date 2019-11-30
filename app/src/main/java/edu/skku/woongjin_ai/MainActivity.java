@@ -26,6 +26,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/*
+from LoginActivity
+메인 페이지
+ */
+
 public class MainActivity extends AppCompatActivity implements NewHoonjangFragment.OnFragmentInteractionListener, MainQuizTypeFragment.OnFragmentInteractionListener{
 
     public DatabaseReference mPostReference;
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         getFirebaseDatabaseUserInfo();
         postFirebaseDatabaseAttend();
 
-        // go to Book Nation
+        // 독서 나라 버튼 이벤트
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             }
         });
 
-        // go to Quiz Nation
+        // 질문 나라 버튼 이벤트
         quizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             }
         });
 
-        // go to Game Nation
+        // 게임 나라 버튼 이벤트
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             }
         });
 
-        // go to My Page
+        // 마이페이지 버튼 이벤트
         myPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         });
     }
 
-    // check attendance
+    // 출석 체크
     private void postFirebaseDatabaseAttend() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -205,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         });
     }
 
-    // get user information
+    // 데이터베이스에서 유저 정보 가져오기
     private void getFirebaseDatabaseUserInfo() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -327,6 +332,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         });
     }
 
+    // 훈장 수여 자격 여부 확인 및 수여, 데이터베이스에 저장
     private void uploadFirebaseUserCoinInfo_H(String hoonjangname, int level){
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

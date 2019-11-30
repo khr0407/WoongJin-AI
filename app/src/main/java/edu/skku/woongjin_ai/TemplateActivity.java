@@ -21,6 +21,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+/*
+from SelectTypeActivity
+질문 타입별 예시 보기 페이지
+ */
+
 public class TemplateActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentSelectType;
@@ -65,6 +70,7 @@ public class TemplateActivity extends AppCompatActivity {
 
         final Random generator = new Random();
 
+        // 질문 타입 고르기 페이지로 돌아가기 버튼 이벤트
         buttonGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +84,7 @@ public class TemplateActivity extends AppCompatActivity {
             }
         });
 
+        // 메인 페이지 버튼 이벤트
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +95,7 @@ public class TemplateActivity extends AppCompatActivity {
             }
         });
 
+        // 보여줄 타입별 예시 질문 고르기
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

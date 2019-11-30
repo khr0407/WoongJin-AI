@@ -30,6 +30,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/*
+from ShowFriendQuizActivity
+질문나라 - 객관식 문제 풀기
+ */
+
 public class FriendChoiceQuizFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -210,12 +215,13 @@ public class FriendChoiceQuizFragment extends Fragment {
             }
         });
 
+        // 답 제출 버튼 이벤트
         imageButtonCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(ans.equals("")) {
                     Toast.makeText(context, "정답을 선택하세요.", Toast.LENGTH_SHORT).show();
-                } else {
+                } else { // 정답
                     if(ans.equals(answer)) {
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -230,44 +236,43 @@ public class FriendChoiceQuizFragment extends Fragment {
                         bundle.putInt("cnt", cnt);
                         bundle.putString("nickname", nickname);
                         ((ShowFriendQuizActivity)getActivity()).correctFriendQuizFragment.setArguments(bundle);
-//                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
-                    } else {
+                    } else { // 틀린 답
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.contentShowScript, ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment);
                         Bundle bundle = new Bundle(1);
                         bundle.putString("nickname", nickname);
                         ((ShowFriendQuizActivity)getActivity()).wrongFriendQuizFragment.setArguments(bundle);
-//                        fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.commit();
                     }
                 }
             }
         });
 
+        // 힌트 보기 버튼 이벤트
         imageButtonHint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                if (hint.equals("video")) {
+                if (hint.equals("video")) { // 영상 힌트
                     videoIntent = new Intent(getActivity(), ShowVideoHintActivity.class);//fragment는 context타입이 아니기 떄문에 this쓸수 없기 떄문에 FriendShortwordQuizFragment.class하면 안됨
                     videoIntent.putExtra("url", url);
                     videoIntent.putExtra("scriptnm", scriptnm);
                     videoIntent.putExtra("key", key);
                     startActivity(videoIntent);
-                } else {
+                } else { // 글 힌트 / 힌트 없음
                     fragmentTransaction.replace(R.id.contentShowHint, ((ShowFriendQuizActivity) getActivity()).showHintFragment);
                     Bundle bundle = new Bundle(1);
                     bundle.putString("hint", hint);
                     ((ShowFriendQuizActivity) getActivity()).showHintFragment.setArguments(bundle);
-//                  fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }
             }
         });
 
+        // 지문 보기 버튼 이벤트
         imageButtonScript.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -278,11 +283,11 @@ public class FriendChoiceQuizFragment extends Fragment {
                 bundle.putString("scriptnm", scriptnm);
                 bundle.putString("type", "friend");
                 ((ShowFriendQuizActivity)getActivity()).showScriptFragment.setArguments(bundle);
-//                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
 
+        // 난이도 표시
         if(starFloat >= 1.5) {
             imageViewS2.setImageResource(R.drawable.star_full);
             if(starFloat >= 2.5) {

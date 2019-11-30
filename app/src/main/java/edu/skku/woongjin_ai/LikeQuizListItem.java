@@ -2,6 +2,10 @@ package edu.skku.woongjin_ai;
 
 import android.graphics.drawable.Drawable;
 
+/*
+in LikeQuizListAdapter
+ */
+
 public class LikeQuizListItem {
     private String likeCnt;
     private String uid;

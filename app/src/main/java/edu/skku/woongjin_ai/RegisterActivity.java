@@ -26,6 +26,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/*
+from LoginActivity
+회원가입 페이지
+ */
+
 public class RegisterActivity extends AppCompatActivity {
     int use_id, use_nickname;
     private Spinner genderspinner;

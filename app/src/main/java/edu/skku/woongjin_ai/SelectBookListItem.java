@@ -1,5 +1,9 @@
 package edu.skku.woongjin_ai;
 
+/*
+in SelectBookListAdapter
+ */
+
 public class SelectBookListItem {
     private String title;
     private String bookName;
