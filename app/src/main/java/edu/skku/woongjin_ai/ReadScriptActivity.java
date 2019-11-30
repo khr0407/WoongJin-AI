@@ -41,11 +41,6 @@ public class ReadScriptActivity extends AppCompatActivity
     TextView textview_title, textview_script_1, textview_script_2;
     ImageButton goHome;
     TextView goMakeQuiz;
-<<<<<<< HEAD
-=======
-//    FirebaseStorage storage;
-//    private StorageReference storageReference, dataReference;
->>>>>>> a1edf660fa4291434aa7c8c49e9a8c054e406cf1
     Fragment selectStudyTypeFragment;
     NewHoonjangFragment hoonjangFragment;
 
@@ -84,26 +79,6 @@ public class ReadScriptActivity extends AppCompatActivity
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/ex").setValue("test3Ex");
         mPostReference.child("user_list/" + id + "/my_script_list/" + scriptnm + "/word_list/test3/meaning").setValue("test3Meaning");
 
-<<<<<<< HEAD
-=======
-        // 배경 이미지
-//        storage = FirebaseStorage.getInstance();
-//        storageReference = storage.getInstance().getReference();
-//        dataReference = storageReference.child("/scripts_background/" + backgroundID);
-//        dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Picasso.with(ReadScriptActivity.this)
-//                        .load(uri)
-//                        .placeholder(R.drawable.bot)
-//                        .error(R.drawable.btn_x)
-//                        .into(backgroundImage);
-//                backgroundImage.setAlpha(0.5f);
-//            }
-//        });
-
-        // 데이터베이스에서 지문 가져오기
->>>>>>> a1edf660fa4291434aa7c8c49e9a8c054e406cf1
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -115,14 +90,6 @@ public class ReadScriptActivity extends AppCompatActivity
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {            }
         });
-
-<<<<<<< HEAD
-=======
-        // 소리내어 읽기 / 표시하며 읽기 선택
-//        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.contentReadScript, selectStudyTypeFragment);
-//        transaction.commit();
->>>>>>> a1edf660fa4291434aa7c8c49e9a8c054e406cf1
 
         // 메인페이지 버튼 이벤트
         goHome.setOnClickListener(new View.OnClickListener() {
@@ -148,18 +115,6 @@ public class ReadScriptActivity extends AppCompatActivity
                 startActivity(intentMakeQuiz);
             }
         });
-
-        // 지문 단어 공부하기 버튼 이벤트
-//        goStudyWord.setOnClickListener(new View.OnClickListener() {
-//        @Override
-//        public void onClick(View v) {
-//            Intent intentStudyWord = new Intent(ReadScriptActivity.this, WordListActivity.class);
-//            intentStudyWord.putExtra("scriptnm",scriptnm);
-//            intentStudyWord.putExtra("id", id);
-//            intentStudyWord.putExtra("background", backgroundID);
-//            startActivity(intentStudyWord);
-//        }
-//    });
     }
 
     // 코인 수여, 데이터베이스에 저장
