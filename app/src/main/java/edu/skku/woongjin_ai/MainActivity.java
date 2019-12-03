@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
     Button myPageButton;
     TextView userNickname;
     MainQuizTypeFragment mainQuizTypeFragment;
+    MainGameTypeFragment mainGameTypeFragment;
     UserInfo me;
     NewHoonjangFragment hoonjangFragment_attend, hoonjangFragment_read;
 
@@ -98,12 +99,27 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.GameActivity, mainGameTypeFragment);
+                Bundle bundle = new Bundle(3);
+                bundle.putString("id", id);
+                bundle.putString("nickname", nickname);
+                bundle.putString("thisWeek", Integer.toString(thisWeek));
+                mainGameTypeFragment.setArguments(bundle);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        /*gameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 intentGamelist = new Intent(MainActivity.this, QuizbucketMain.class);
                 intentGamelist.putExtra("id", id);
                 intentGamelist.putExtra("nickname", nickname);
                 startActivity(intentGamelist);
             }
-        });
+        }); */
 
         myPageButton.setOnClickListener(new View.OnClickListener() {
             @Override

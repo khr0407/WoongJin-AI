@@ -14,12 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,12 +24,12 @@ public class Quizbucketshortword extends AppCompatActivity
         implements ShowScriptFragment.OnFragmentInteractionListener {
 
     DatabaseReference mPostReference;
-    EditText editQuiz, editAns;
+    EditText editQuiz, editDiff, editAns;
     Intent intent, intentHome, intentGameList;
-    String id_key, script, backgroundID;
-    String timestamp_key, nickname_key, user1, user2, user3, user4, user5, roomname_key, state_key;
-    char bomb_cnt;
-    String quiz = "", ans = "";
+    String id_key, scriptnm, backgroundID;
+    String timestamp_key, nickname_key, user1_key, user2_key, bucketcnt_key, roomname_key, state_key;
+    char quizcnt;
+    String quiz = "", diff = "", ans = "";
     ImageButton checkButton, scriptButton;
     Fragment showScriptFragment;
     ImageView imageHome;
@@ -46,27 +42,26 @@ public class Quizbucketshortword extends AppCompatActivity
 
         intent = getIntent();
         id_key = intent.getStringExtra("id");
-        script = intent.getStringExtra("script");
+        scriptnm = intent.getStringExtra("scriptnm");
         backgroundID = intent.getStringExtra("background");
         timestamp_key = intent.getStringExtra("timestamp");
         nickname_key = intent.getStringExtra("nickname");
-        user1 = intent.getStringExtra("user1");
-        user2 = intent.getStringExtra("user2");
-        user3 = intent.getStringExtra("user3");
-        user4 = intent.getStringExtra("user4");
-        user5 = intent.getStringExtra("user5");
+        user1_key = intent.getStringExtra("user1");
+        user2_key = intent.getStringExtra("user2");
+        bucketcnt_key = intent.getStringExtra("bucketcnt");
         state_key = intent.getStringExtra("state");
         roomname_key = intent.getStringExtra("roomname");
 
         imageHome = (ImageView) findViewById(R.id.home);
         editQuiz = (EditText) findViewById(R.id.quiz);
+        editDiff = (EditText) findViewById(R.id.diff);
         editAns = (EditText) findViewById(R.id.ans);
         title = (TextView) findViewById(R.id.title);
         checkButton = (ImageButton) findViewById(R.id.check);
         scriptButton = (ImageButton) findViewById(R.id.script);
 
-        title.setText("지문 제목: " + script);
-        bomb_cnt = state_key.charAt(6);
+        title.setText("지문 제목: " + scriptnm);
+        quizcnt = state_key.charAt(6);
 
         mPostReference = FirebaseDatabase.getInstance().getReference().child("chatroom_bucket_list");
 
@@ -75,10 +70,10 @@ public class Quizbucketshortword extends AppCompatActivity
             public void onClick(View v) {
                 showScriptFragment = new ShowScriptFragment();
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptShortword, showScriptFragment);
+                transaction.replace(R.id.contents3, showScriptFragment);
                 Bundle bundle = new Bundle(2);
-                bundle.putString("script", script);
-                bundle.putString("type", "shortword");
+                bundle.putString("scriptnm", scriptnm);
+                bundle.putString("type", "makebombshortword");
                 showScriptFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
@@ -89,6 +84,7 @@ public class Quizbucketshortword extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 quiz = editQuiz.getText().toString();
+                diff = editDiff.getText().toString();
                 ans = editAns.getText().toString();
 
                 if(quiz.length() == 0 || ans.length() == 0) {
@@ -120,13 +116,15 @@ public class Quizbucketshortword extends AppCompatActivity
     private void postFirebaseDatabaseQuizShortword() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        FBquizbucketPost1 post = new FBquizbucketPost1(quiz, ans, "shortword", "none", nickname_key);
+        Firebase_QBOXShortword post = new Firebase_QBOXShortword(quiz, diff, ans, "shortword", "none", nickname_key);
         postValues = post.toMap();
-        int temp_cnt = bomb_cnt - '0' + 1;
+        int temp_cnt = quizcnt - '0' + 1;
         childUpdates.put("quiz"+temp_cnt, postValues);
         mPostReference.child(timestamp_key).child("quiz_list").updateChildren(childUpdates);
         mPostReference.child(timestamp_key).child("state").setValue("gaming"+temp_cnt);
+        mPostReference.child(timestamp_key).child("bucketcnt").setValue("bucket"+temp_cnt);
         editQuiz.setText("");
+        editDiff.setText("");
         editAns.setText("");
     }
     @Override

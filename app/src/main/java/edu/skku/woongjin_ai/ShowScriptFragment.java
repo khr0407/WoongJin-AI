@@ -97,27 +97,27 @@ public class ShowScriptFragment extends Fragment {
                     fragmentTransaction.commit();
                 }
                 else if(type.equals("solvebombchoice")) {
-                    fragmentTransaction.remove(((SolveBombChoiceActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.remove(((SvQuizbucketchoice)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
                 }
                 else if(type.equals("solvebombox")) {
-                    fragmentTransaction.remove(((SolveBombOXActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.remove(((SvQuizbucketOX)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
                 }
                 else if(type.equals("solvebombshortword")) {
-                    fragmentTransaction.remove(((SolveBombShortwordActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.remove(((SvQuizbucketshortword)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
                 }
                 else if(type.equals("makebombchoice")) {
-                    fragmentTransaction.remove(((MakeBombChoiceActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.remove(((Quizbucketchoice)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
                 }
                 else if(type.equals("makebombox")) {
-                    fragmentTransaction.remove(((MakeBombOXActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.remove(((QuizbucketOX)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
                 }
                 else if(type.equals("makebombshortword")) {
-                    fragmentTransaction.remove(((MakeBombShortwordActivity)getActivity()).showScriptFragment);
+                    fragmentTransaction.remove(((Quizbucketshortword)getActivity()).showScriptFragment);
                     fragmentTransaction.commit();
                 }
 

@@ -14,14 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,12 +25,12 @@ public class Quizbucketchoice extends AppCompatActivity
 
     DatabaseReference mPostReference;
     ImageView imageScript, imageCheck, imageHome;
-    EditText editQuiz, editAns, editAns1, editAns2, editAns3, editAns4;
+    EditText editQuiz, editDiff, editAns, editAns1, editAns2, editAns3, editAns4;
     Intent intent, intentHome, intentGameList;
     String id_key, scriptnm, backgroundID;
-    String timestamp_key, nickname_key, user1_key, user2_key, roomname_key, state_key;
-    char bomb_cnt;
-    String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "";
+    String timestamp_key, nickname_key, user1_key, user2_key, roomname_key, bucketcnt_key, state_key;
+    char quizcnt;
+    String quiz = "", diff = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "";
     int flagA1 = 0, flagA2 = 0, flagA3 = 0, flagA4 = 0;
     ImageButton checkButton, scriptButton;
     Fragment showScriptFragment;
@@ -56,6 +50,7 @@ public class Quizbucketchoice extends AppCompatActivity
         nickname_key = intent.getStringExtra("nickname");
         user1_key = intent.getStringExtra("user1");
         user2_key = intent.getStringExtra("user2");
+        bucketcnt_key = intent.getStringExtra("bucketcnt");
         state_key = intent.getStringExtra("state");
         roomname_key = intent.getStringExtra("roomname");
 
@@ -63,6 +58,7 @@ public class Quizbucketchoice extends AppCompatActivity
         imageScript = (ImageView) findViewById(R.id.script);
         imageCheck = (ImageView) findViewById(R.id.check);
         editQuiz = (EditText) findViewById(R.id.quiz);
+        editDiff = (EditText) findViewById(R.id.diff);
         editAns = (EditText) findViewById(R.id.ans);
         editAns1 = (EditText) findViewById(R.id.ans1);
         editAns2 = (EditText) findViewById(R.id.ans2);
@@ -78,9 +74,9 @@ public class Quizbucketchoice extends AppCompatActivity
         num4 = findViewById(R.id.num4);
 
         title.setText("지문 제목: " + scriptnm);
-        bomb_cnt = state_key.charAt(6);
+        quizcnt = state_key.charAt(6);
 
-        mPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list");
+        mPostReference = FirebaseDatabase.getInstance().getReference().child("chatroom_bucket_list");
 
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +100,7 @@ public class Quizbucketchoice extends AppCompatActivity
                 HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
 
                 quiz = editQuiz.getText().toString();
+                diff = editDiff.getText().toString();
                 ans1 = editAns1.getText().toString();
                 ans2 = editAns2.getText().toString();
                 ans3 = editAns3.getText().toString();
@@ -216,17 +213,19 @@ public class Quizbucketchoice extends AppCompatActivity
     private void postFirebaseDatabaseQuizChoice() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        Firebase_Quizbucketchoice post = new Firebase_Quizbucketchoice(quiz, ans, ans1, ans2, ans3, ans4, "choice", "none", nickname_key);
+        Firebase_QBChoice post = new Firebase_QBChoice(quiz, diff, ans, ans1, ans2, ans3, ans4, "choice", "none", nickname_key);
         postValues = post.toMap();
-        int temp_cnt = bomb_cnt - '0' + 1;
+        int temp_cnt = quizcnt - '0' + 1;
         childUpdates.put("quiz"+temp_cnt, postValues);
         mPostReference.child(timestamp_key).child("quiz_list").updateChildren(childUpdates);
         mPostReference.child(timestamp_key).child("state").setValue("gaming"+temp_cnt);
+        mPostReference.child(timestamp_key).child("bucketcnt").setValue("bucket"+temp_cnt);
         editQuiz.setText("");
         editAns1.setText("");
         editAns2.setText("");
         editAns3.setText("");
         editAns4.setText("");
+        editDiff.setText("");
     }
 
     @Override

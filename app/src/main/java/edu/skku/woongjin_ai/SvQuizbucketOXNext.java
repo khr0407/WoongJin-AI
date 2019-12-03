@@ -7,14 +7,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,34 +24,37 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class SvQuizbucketshortword extends AppCompatActivity implements ShowScriptFragment.OnFragmentInteractionListener {
+public class SvQuizbucketOXNext extends AppCompatActivity implements ShowScriptFragment.OnFragmentInteractionListener {
     DatabaseReference mPostReference, wPostReference;
-    Intent intent, intent_correct, intent_wrong, intent_end;
+    Intent intent, intent_correct, intent_wrong, intent_end, intent_gameover;
     String timestamp_key, id_key, nickname_key, user1_key, user2_key, bucketcnt_key, roomname_key, script_key, state_key, question_key, diff_key, answer_key;
     char quizcnt;
     TextView timer, gamers, question, diff;
-    EditText answer_edit;
+    ImageView imageO, imageX;
     ImageButton imageButtonScript;
     Button imageButtonCheck;
     String user_answer;
+    int flagAO = 0, flagAX = 0;
     Fragment showScriptFragment;
 
     ImageView bomb_animate;
 
     int second = 60;
     int correct_end = 0;
+    int wrong = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_svquizbucketshortword);
+        setContentView(R.layout.activity_svquizbucketoxnext);
 
         timer = (TextView) findViewById(R.id.timer);
         mHandler.sendEmptyMessage(0);
         gamers = (TextView) findViewById(R.id.gamers);
         question = (TextView) findViewById(R.id.question);
         diff = (TextView) findViewById(R.id.diff);
-        answer_edit = (EditText) findViewById(R.id.answer_edit);
+        imageO = (ImageView) findViewById(R.id.otype);
+        imageX = (ImageView) findViewById(R.id.xtype);
         imageButtonScript = (ImageButton) findViewById(R.id.script);
         imageButtonCheck = (Button)findViewById(R.id.check);
 
@@ -62,9 +63,11 @@ public class SvQuizbucketshortword extends AppCompatActivity implements ShowScri
         bomb_animate.startAnimation(wave);
 
         intent = getIntent();
-        intent_wrong = new Intent(SvQuizbucketshortword.this, QBWrongFragment.class);
-        intent_end = new Intent(SvQuizbucketshortword.this, QBEndFragment.class);
-        intent_correct = new Intent(SvQuizbucketshortword.this, QBCorrectFragment.class);
+        intent_correct = new Intent(SvQuizbucketOXNext.this, QBCorrectFragment.class);
+        intent_wrong = new Intent(SvQuizbucketOXNext.this, QBWrongFragment.class);
+        intent_gameover = new Intent(SvQuizbucketOXNext.this, QBGameoverFragment.class);
+        intent_end = new Intent(SvQuizbucketOXNext.this, QBEndFragment.class);
+
         timestamp_key = intent.getStringExtra("timestamp");
         id_key = intent.getStringExtra("id");
         nickname_key = intent.getStringExtra("nickname");
@@ -82,19 +85,56 @@ public class SvQuizbucketshortword extends AppCompatActivity implements ShowScri
         mPostReference = FirebaseDatabase.getInstance().getReference().child("chatroom_bucket_list").child(timestamp_key).child("quiz_list");
         wPostReference  = FirebaseDatabase.getInstance().getReference().child("chatroom_bucket_list").child(timestamp_key);
 
+        timer.setText(roomname_key);
         gamers.setText(user1_key + " vs " + user2_key);
         question.setText(question_key);
         diff.setText("난이도 : " + diff_key);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        imageO.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(flagAO == 0) {
+                    if(flagAX == 1) {
+                        imageX.setImageResource(R.drawable.x_white);
+                        flagAX = 0;
+                    }
+                    user_answer = "o";
+                    imageO.setImageResource(R.drawable.o_orange);
+                    flagAO = 1;
+                } else {
+                    user_answer = "";
+                    imageO.setImageResource(R.drawable.o_white);
+                    flagAO = 0;
+                }
+            }
+        });
+
+        imageX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(flagAX == 0) {
+                    if(flagAO == 1) {
+                        imageO.setImageResource(R.drawable.o_white);
+                        flagAO = 0;
+                    }
+                    user_answer = "x";
+                    imageX.setImageResource(R.drawable.x_orange);
+                    flagAX = 1;
+                } else {
+                    user_answer = "";
+                    imageX.setImageResource(R.drawable.x_white);
+                    flagAX = 0;
+                }
+            }
+        });
+
+        int count = quizcnt - '0';
 
         imageButtonCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user_answer = answer_edit.getText().toString();
                 if (user_answer.equals("")) {
-                    Toast.makeText(SvQuizbucketshortword.this, "정답을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SvQuizbucketOXNext.this, "정답을 입력하세요.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     if (user_answer.equals(answer_key)) {
@@ -106,18 +146,6 @@ public class SvQuizbucketshortword extends AppCompatActivity implements ShowScri
                                     if (quiznum.equals("quiz" + quizcnt)) {
                                         mPostReference.child(quiznum).child("solve").setValue(nickname_key);
                                         //이부분
-                                        wPostReference.child("state").setValue("gamingover");
-                                        intent_correct.putExtra("timestamp", timestamp_key);
-                                        intent_correct.putExtra("id", id_key);
-                                        intent_correct.putExtra("nickname", nickname_key);
-                                        intent_correct.putExtra("user1", user1_key);
-                                        intent_correct.putExtra("user2", user2_key);
-                                        intent_correct.putExtra("bucketcnt", bucketcnt_key);
-                                        intent_correct.putExtra("roomname", roomname_key);
-                                        intent_correct.putExtra("scriptnm", script_key);
-                                        intent_correct.putExtra("state", state_key);
-                                        startActivity(intent_correct);
-                                        finish();
                                         break;
                                     }
                                 }
@@ -126,17 +154,10 @@ public class SvQuizbucketshortword extends AppCompatActivity implements ShowScri
                             public void onCancelled(DatabaseError databaseError) { }
                         };
                         mPostReference.addListenerForSingleValueEvent(check);
+
                         correct_end = 1;
+
                         if (quizcnt == '2') {
-                            wPostReference.child("state").setValue("win");
-                            intent_end.putExtra("id", id_key);
-                            intent_end.putExtra("nickname", nickname_key);
-                            intent_end.putExtra("user1", user1_key);
-                            intent_end.putExtra("user2", user2_key);
-                            startActivity(intent_end);
-                            finish();
-                        }
-                        else if (quizcnt != '2') {
                             intent_correct.putExtra("timestamp", timestamp_key);
                             intent_correct.putExtra("id", id_key);
                             intent_correct.putExtra("nickname", nickname_key);
@@ -149,9 +170,45 @@ public class SvQuizbucketshortword extends AppCompatActivity implements ShowScri
                             startActivity(intent_correct);
                             finish();
                         }
+
+                        else if (quizcnt == '3') {
+                            intent_correct.putExtra("timestamp", timestamp_key);
+                            intent_correct.putExtra("id", id_key);
+                            intent_correct.putExtra("nickname", nickname_key);
+                            intent_correct.putExtra("user1", user1_key);
+                            intent_correct.putExtra("user2", user2_key);
+                            intent_correct.putExtra("bucketcnt", bucketcnt_key);
+                            intent_correct.putExtra("roomname", roomname_key);
+                            intent_correct.putExtra("scriptnm", script_key);
+                            intent_correct.putExtra("state", state_key);
+                            startActivity(intent_correct);
+                            finish();
+                        }
+
+                        else if (quizcnt == '4') {
+                            wPostReference.child("state").setValue("gamingover");
+                            intent_end.putExtra("id", id_key);
+                            intent_end.putExtra("nickname", nickname_key);
+                            intent_end.putExtra("user1", user1_key);
+                            intent_end.putExtra("user2", user2_key);
+                            startActivity(intent_end);
+                            finish();
+                        }
                     }
                     else if (!user_answer.equals(answer_key)) {
-                        Toast.makeText(SvQuizbucketshortword.this, "다시 시도해보세요.", Toast.LENGTH_SHORT).show();
+                        wrong = 1;
+                        if (nickname_key.equals(user1_key)) {
+                            wPostReference.child("state").setValue("gameover");
+                        }
+                        else if (nickname_key.equals(user2_key)) {
+                            wPostReference.child("state").setValue("gameover");
+                        }
+                        intent_gameover.putExtra("id", id_key);
+                        intent_gameover.putExtra("nickname", nickname_key);
+                        intent_gameover.putExtra("user1", user1_key);
+                        intent_gameover.putExtra("user2", user2_key);
+                        startActivity(intent_gameover);
+                        finish();
                     }
                 }
             }
@@ -165,14 +222,13 @@ public class SvQuizbucketshortword extends AppCompatActivity implements ShowScri
                 transaction.replace(R.id.contents, showScriptFragment);
                 Bundle bundle = new Bundle(2);
                 bundle.putString("scriptnm", script_key);
-                bundle.putString("type", "solvebombshortword");
+                bundle.putString("type", "solvebombox");
                 showScriptFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
     }
-
     Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             second--;
@@ -181,7 +237,7 @@ public class SvQuizbucketshortword extends AppCompatActivity implements ShowScri
             // 메세지를 처리하고 또다시 핸들러에 메세지 전달 (1000ms 지연)
             mHandler.sendEmptyMessageDelayed(0,1000);
 
-            if (second == 0 && correct_end == 0) {
+            if (second == 0 && correct_end == 0 && wrong == 0) { //correct_end 정답일 때 1로 바뀜
                 if (nickname_key.equals(user1_key)) {
                     wPostReference.child("state").setValue("win2");
                 }
@@ -196,8 +252,8 @@ public class SvQuizbucketshortword extends AppCompatActivity implements ShowScri
                 finish();
             }
             if (correct_end == 1) {} //답을 맞췄을 때
+            if (wrong == 1) {} //답을 틀렸을 때
         }
-        //답을 맞췄을 때
     };
 
     @Override

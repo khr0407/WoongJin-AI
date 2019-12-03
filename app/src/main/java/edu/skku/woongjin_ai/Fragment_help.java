@@ -61,7 +61,7 @@ public class Fragment_help extends Fragment {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 if (type.equals("gamelist")) {
-                    fragmentTransaction.remove(((GameListActivity) getActivity()).Fragment_help);
+                    fragmentTransaction.remove(((QuizbucketMain) getActivity()).Fragment_help);
                     fragmentTransaction.commit();
                 }
             }

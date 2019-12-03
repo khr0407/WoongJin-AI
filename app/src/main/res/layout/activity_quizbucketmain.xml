@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/battle_class">>
+    android:background="@drawable/bucket_bg">>
+
 
     <LinearLayout
         android:id="@+id/linearLayout12"
@@ -124,7 +125,7 @@
                         android:id="@+id/gamelist"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#8EFB8E">
+                        android:background="#FFFFCC">
 
                     </ListView>
                 </LinearLayout>
@@ -151,7 +152,7 @@
                         android:background="#3C467D"
                         android:fontFamily="@font/bmjua_ttf"
                         android:gravity="center"
-                        android:text="게임방 만들기"
+                        android:text="시작하기"
                         android:textSize="25dp"
                         android:textColor="@color/white" />
 
@@ -202,7 +203,7 @@
                             android:fontFamily="@font/bmjua_ttf"
                             android:gravity="center"
                             android:padding="40dp"
-                            android:text="폭탄퀴즈를 통해\n\n웅머니를 모아보자~!"
+                            android:text="친구와 함께\n퀴즈 버킷 챌린지를\n시작해볼까?"
                             android:textSize="25dp" />
 
                     </FrameLayout>
@@ -229,13 +230,13 @@
                         android:orientation="horizontal"></LinearLayout>
 
                     <ImageView
-                        android:id="@+id/makebomb"
+                        android:id="@+id/game_send"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#00FFFFFF"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/makebomb" />
+                        android:src="@drawable/ic_game_send" />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -244,12 +245,12 @@
                         android:orientation="horizontal"></LinearLayout>
 
                     <ImageView
-                        android:id="@+id/solvebomb"
+                        android:id="@+id/game_get"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/solvebomb"
+                        android:src="@drawable/ic_game_get"
                         android:background="#00FFFFFF"/>
 
                     <LinearLayout

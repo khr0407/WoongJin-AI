@@ -78,9 +78,6 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".LikeQuizActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".ChatroomActivity"
-            android:screenOrientation="landscape"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
         <activity android:name=".NationBookActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".NationQuizActivity"
@@ -93,11 +90,7 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".QuizbucketMain"
             android:screenOrientation="landscape"/>
-        <activity android:name=".Quizbucketselecttype"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".Quizbucketstart"
-            android:screenOrientation="landscape"/>
-        <activity android:name=".Quizbucketstart2"
+        <activity android:name=".Quizbucketstart1"
             android:screenOrientation="landscape"/>
         <activity android:name=".Test"
             android:screenOrientation="landscape"/>
@@ -115,5 +108,22 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".Quizbucketquiztype"
             android:screenOrientation="landscape"/>
+        <activity android:name=".QBCorrectFragment"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".QBWrongFragment"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".QBEndFragment"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".QuizbucketstartNext"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".QuizbucketOXNext"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SvQuizbucketOXNext"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".QBGameoverFragment"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".MainGameTypeFragment"
+            android:screenOrientation="landscape"/>
+
     </application>
 </manifest>

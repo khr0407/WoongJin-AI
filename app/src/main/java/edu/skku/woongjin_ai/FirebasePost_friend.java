@@ -7,7 +7,7 @@ public class FirebasePost_friend {
     public String nickname;
     public String name;
     public FirebasePost_friend(){
-        // Default constructor required for calls to DataSnapshot.getValue(FirebasePost_list.class)
+        // Default constructor required for calls to DataSnapshot.getValue(FirebasePost_QBlist.class)
     }
     public FirebasePost_friend(String nickname, String name) {
         this.nickname = nickname;

@@ -20,7 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QuizbucketOX extends AppCompatActivity
+public class QuizbucketOXNext extends AppCompatActivity
         implements ShowScriptFragment.OnFragmentInteractionListener {
 
     DatabaseReference mPostReference;
@@ -40,7 +40,7 @@ public class QuizbucketOX extends AppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quizbucketox);
+        setContentView(R.layout.activity_quizbucketoxnext);
 
         intent = getIntent();
         id_key = intent.getStringExtra("id");
@@ -66,6 +66,8 @@ public class QuizbucketOX extends AppCompatActivity
         title.setText("지문 제목: " + scriptnm);
         quizcnt = state_key.charAt(6);
 
+        int count = quizcnt - '0';
+
         mPostReference = FirebaseDatabase.getInstance().getReference().child("chatroom_bucket_list");
 
         scriptButton.setOnClickListener(new View.OnClickListener() {
@@ -90,17 +92,82 @@ public class QuizbucketOX extends AppCompatActivity
                 quiz = editQuiz.getText().toString();
                 diff = editDiff.getText().toString();
                 if (quiz.length() == 0 || (flagAO == 0 && flagAX == 0)) {
-                    Toast.makeText(QuizbucketOX.this, "빈 칸을 채워주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuizbucketOXNext.this, "빈 칸을 채워주세요", Toast.LENGTH_SHORT).show();
                 } else if (diff.length() == 0 || (flagAO == 0 && flagAX == 0)) {
-                    Toast.makeText(QuizbucketOX.this, "난이도를 설정해주세요!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(QuizbucketOXNext.this, "난이도를 설정해주세요!", Toast.LENGTH_SHORT).show();
                 } else {
-                    postFirebaseDatabaseQuizOX();
-                    Toast.makeText(QuizbucketOX.this, "출제 완료!", Toast.LENGTH_SHORT).show();
-                    intentGameList = new Intent(QuizbucketOX.this, QuizbucketMain.class);
-                    intentGameList.putExtra("id", id_key);
-                    intentGameList.putExtra("nickname", nickname_key);
-                    startActivity(intentGameList);
-                    finish();
+                    if(count == 0) {
+                        postFirebaseDatabaseQuizOX();
+                        Toast.makeText(QuizbucketOXNext.this, "출제 완료!", Toast.LENGTH_SHORT).show();
+                        intentGameList = new Intent(QuizbucketOXNext.this, QuizbucketMain.class);
+                        intentGameList.putExtra("id", id_key);
+                        intentGameList.putExtra("nickname", nickname_key);
+                        startActivity(intentGameList);
+                        finish();
+                    }
+                    else if(count == 1) { // user2가 user3한테
+                        Toast.makeText(QuizbucketOXNext.this, "출제 완료!", Toast.LENGTH_SHORT).show();
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        Map<String, Object> postValues = null;
+
+                        Firebase_QBOXShortword post = new Firebase_QBOXShortword(quiz, diff, ans, "ox","none", nickname_key);
+                        postValues = post.toMap();
+                        int temp_cnt = count - '0' + 1;
+                        childUpdates.put("quiz"+temp_cnt, postValues);
+                        mPostReference.child(timestamp_key).child("quiz_list").updateChildren(childUpdates);
+                        mPostReference.child(timestamp_key).child("state").setValue("gaming"+temp_cnt);
+                        mPostReference.child(timestamp_key).child("bucketcnt").setValue("bucket"+temp_cnt);
+                        editQuiz.setText("");
+                        editDiff.setText("");
+
+                        intentGameList = new Intent(QuizbucketOXNext.this, QuizbucketMain.class);
+                        intentGameList.putExtra("id", id_key);
+                        intentGameList.putExtra("nickname", nickname_key);
+                        startActivity(intentGameList);
+                        finish();
+                    }
+                    else if(count == 2) { // user3이 user4한테
+                        Toast.makeText(QuizbucketOXNext.this, "출제 완료!", Toast.LENGTH_SHORT).show();
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        Map<String, Object> postValues = null;
+
+                        Firebase_QBOXShortword post = new Firebase_QBOXShortword(quiz, diff, ans, "ox","none", nickname_key);
+                        postValues = post.toMap();
+                        int temp_cnt = count - '0' + 1;
+                        childUpdates.put("quiz"+temp_cnt, postValues);
+                        mPostReference.child(timestamp_key).child("quiz_list").updateChildren(childUpdates);
+                        mPostReference.child(timestamp_key).child("state").setValue("gaming"+temp_cnt);
+                        mPostReference.child(timestamp_key).child("bucketcnt").setValue("bucket"+temp_cnt);
+                        editQuiz.setText("");
+                        editDiff.setText("");
+
+                        intentGameList = new Intent(QuizbucketOXNext.this, QuizbucketMain.class);
+                        intentGameList.putExtra("id", id_key);
+                        intentGameList.putExtra("nickname", nickname_key);
+                        startActivity(intentGameList);
+                        finish();
+                    }
+                    else if(count == 3) { // user4가 user5한테
+                        Toast.makeText(QuizbucketOXNext.this, "출제 완료!", Toast.LENGTH_SHORT).show();
+                        Map<String, Object> childUpdates = new HashMap<>();
+                        Map<String, Object> postValues = null;
+
+                        Firebase_QBOXShortword post = new Firebase_QBOXShortword(quiz, diff, ans, "ox","none", nickname_key);
+                        postValues = post.toMap();
+                        int temp_cnt = count - '0' + 1;
+                        childUpdates.put("quiz"+temp_cnt, postValues);
+                        mPostReference.child(timestamp_key).child("quiz_list").updateChildren(childUpdates);
+                        mPostReference.child(timestamp_key).child("state").setValue("gaming"+temp_cnt);
+                        mPostReference.child(timestamp_key).child("bucketcnt").setValue("bucket"+temp_cnt);
+                        editQuiz.setText("");
+                        editDiff.setText("");
+
+                        intentGameList = new Intent(QuizbucketOXNext.this, QuizbucketMain.class);
+                        intentGameList.putExtra("id", id_key);
+                        intentGameList.putExtra("nickname", nickname_key);
+                        startActivity(intentGameList);
+                        finish();
+                    }
                 }
             }
         });
@@ -108,7 +175,7 @@ public class QuizbucketOX extends AppCompatActivity
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentHome = new Intent(QuizbucketOX.this, MainActivity.class);
+                intentHome = new Intent(QuizbucketOXNext.this, MainActivity.class);
                 intentHome.putExtra("id", id_key);
                 startActivity(intentHome);
                 finish();
@@ -157,7 +224,6 @@ public class QuizbucketOX extends AppCompatActivity
     private void postFirebaseDatabaseQuizOX() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-
         Firebase_QBOXShortword post = new Firebase_QBOXShortword(quiz, diff, ans, "ox","none", nickname_key);
         postValues = post.toMap();
         int temp_cnt = quizcnt - '0' + 1;
