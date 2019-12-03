@@ -29,6 +29,8 @@ import com.kakao.usermgmt.response.model.User;
 import java.util.ArrayList;
 
 public class ShowWhoLikedFragment extends Fragment {
+    //마이페이지 - 내가 만든 문제함 - 문제 클릭 - 내 문제 상세정보 프래그먼트 - "n명이 좋아했어요!" 클릭 시 또 다른 프래그먼트로 좋아요 누른 사람 리스트 띄우는 프래그먼트
+    //미완성임..
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -77,21 +79,9 @@ public class ShowWhoLikedFragment extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_wholiked, container, false);
         final Context context = container.getContext();
 
-        //int backType=getArguments().getInt("type");
-        //String key=getArguments().getString("quizKey");
-        //showFriendListAdapter=activity.getFirebaseDatabaseUserList(key);
-        //likedfriends=(ListView)view.findViewById(R.id.wholiked_list);
-        //Uinfos=new ArrayList<UserInfo>();
         close=(ImageButton)view.findViewById(R.id.close);
 
-
-
-
-        //getFirebaseDatabaseUserInfo();
         mPostReference=FirebaseDatabase.getInstance().getReference();
-
-        //likedfriends.setAdapter(showFriendListAdapter);
-
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,17 +125,5 @@ public class ShowWhoLikedFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    /*
-    private void getFirebaseDatabaseUserInfo() {
-        final ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        };
-    }*/
 
 }

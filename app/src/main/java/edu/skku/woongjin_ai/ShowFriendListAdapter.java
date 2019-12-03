@@ -58,7 +58,7 @@ public class ShowFriendListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         Context context = parent.getContext();
 
-        WhoAmI=context.getSharedPreferences("myinfo", Context.MODE_PRIVATE);
+        WhoAmI=context.getSharedPreferences("myinfo", Context.MODE_PRIVATE); //ShowFriendActivity에서 내 정보로 초기화해둠
 
         mPostReference = FirebaseDatabase.getInstance().getReference().child("user_list");
 
@@ -91,7 +91,7 @@ public class ShowFriendListAdapter extends BaseAdapter {
         if (!showFriendListItem.getFaceFriend().equals("noimage")) {
             storage = FirebaseStorage.getInstance();
             storageReference = storage.getInstance().getReference();
-            dataReference = storageReference.child("/profile/" + showFriendListItem.getFaceFriend());
+            dataReference = storageReference.child("profile/" + showFriendListItem.getFaceFriend());
             dataReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {

@@ -2,6 +2,7 @@ package edu.skku.woongjin_ai;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,13 +35,20 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.skku.woongjin_ai.mediarecorder.MediaRecorderActivity;
+
+/*
+from SelectTypeActivity
+단답형 문제 만들기
+ */
+
 public class ShortwordTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener{
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
     ImageView imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     EditText editQuiz, editAns;
-    Intent intent, intentHome, intentType;
+    Intent intent, intentHome, intentType, intentVideo;
     String id, scriptnm, backgroundID, thisWeek, nickname, bookname;
     String quiz = "", ans = "", desc = "";
     int star = 0, starInt = 0, oldMadeCnt;
@@ -83,8 +91,9 @@ public class ShortwordTypeActivity extends AppCompatActivity
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        getFirebaseDatabaseMadeInfo();
+        getFirebaseDatabaseUserInfo();
 
+        // 배경이미지 넣기 (background)
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
 //        dataReference = storageReference.child("/scripts_background/" + backgroundID);
@@ -100,6 +109,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
 //            }
 //        });
 
+        // 글 힌트주기 버튼 이벤트
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,25 +126,26 @@ public class ShortwordTypeActivity extends AppCompatActivity
             }
         });
 
+        // 영상 힌트주기 버튼 이벤트
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hintVideoFragment = new HintVideoFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptShortword, hintVideoFragment);
-                Bundle bundle = new Bundle(1);
-                bundle.putString("type", "shortword");
-                hintVideoFragment.setArguments(bundle);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                flagD = 3;
+                intentVideo = new Intent(ShortwordTypeActivity.this, MediaRecorderActivity.class);
+                intentVideo.putExtra("id",id);
+                startActivity(intentVideo);
+                hintVideoButton.setColorFilter(Color.parseColor("#E4FF9800"), PorterDuff.Mode.MULTIPLY);
+                noHintButton.setImageResource(R.drawable.hint_no);
             }
         });
 
+        // 힌트 없음 버튼 이벤트
         noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagD != 2) {
                     noHintButton.setImageResource(R.drawable.hint_no_selected);
+                    hintVideoButton.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.MULTIPLY);
                     flagD = 2;
                 } else {
                     noHintButton.setImageResource(R.drawable.hint_no);
@@ -143,6 +154,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
             }
         });
 
+        // 지문 보기 버튼 이벤트
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,24 +170,28 @@ public class ShortwordTypeActivity extends AppCompatActivity
             }
         });
 
+        // 출제 완료 버튼 이벤트
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagD == 0) {
+                if(flagD == 0) { // 힌트 고르지 않음
                     Toast.makeText(ShortwordTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
                 } else {
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
-                    if(flagD == 2) {
-                        desc="없음";
-                    } else {
+                    if(flagD == 2) { // 힌트 없음
+                        desc = "없음";
+                    }
+                    else if (flagD == 3) { // 영상 힌트
+                        desc = "video";
+                    } else { // 글 힌트
                         desc = hintWritingFragment1.editTextHint.getText().toString();
                     }
                     quiz = editQuiz.getText().toString();
                     ans = editAns.getText().toString();
 
                     if(quiz.length() == 0 || ans.length() == 0 || desc.length() == 0 || starInt < 1 ) {
-                        Toast.makeText(ShortwordTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
-                    } else {
+                        Toast.makeText(ShortwordTypeActivity.this, "빈칸을 채워주세요", Toast.LENGTH_SHORT).show();
+                    } else { // 출제 완료
                         postFirebaseDatabaseQuizShortword();
                         uploadFirebaseUserCoinInfo();
                         if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
@@ -196,6 +212,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
             }
         });
 
+        // 홈 버튼 이벤트
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -205,6 +222,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별1
         imageViewS1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -228,6 +246,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별2
         imageViewS2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,6 +272,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별3
         imageViewS3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,6 +300,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별4
         imageViewS4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -309,6 +330,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별5
         imageViewS5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -341,7 +363,8 @@ public class ShortwordTypeActivity extends AppCompatActivity
         });
     }
 
-    private void getFirebaseDatabaseMadeInfo() {
+    // 유저 made 데이터와 지문 책이름 데이터 가져오기
+    private void getFirebaseDatabaseUserInfo() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -355,6 +378,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
         });
     }
 
+    // 데이터베이스에 출제한 단답형 퀴즈 저장
     private void postFirebaseDatabaseQuizShortword() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
@@ -369,6 +393,7 @@ public class ShortwordTypeActivity extends AppCompatActivity
         editAns.setText("");
     }
 
+    // 데이터베이스에 받은 코인 데이터 올리기
     private void uploadFirebaseUserCoinInfo(){
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

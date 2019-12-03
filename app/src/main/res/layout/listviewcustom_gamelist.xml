@@ -47,17 +47,16 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/game_status"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:id="@+id/game_status"
             android:layout_gravity="center"
-            android:gravity="center"
+            android:layout_weight="2"
             android:fontFamily="@font/bmjua_ttf"
-            android:textSize="20dp"
+            android:gravity="center"
             android:text="게임상황"
             android:textColor="@color/black"
-        />
+            android:textSize="25dp" />
 
     </LinearLayout>
 

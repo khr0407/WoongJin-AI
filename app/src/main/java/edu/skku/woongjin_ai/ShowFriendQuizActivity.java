@@ -31,6 +31,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
+/*
+from MainQuizTypeFragment
+친구 질문 풀기 - 내 친구 문제 풀기(default) / 추천수 높은 문제 풀기
+ */
+
 public class ShowFriendQuizActivity extends AppCompatActivity
         implements FriendOXQuizFragment.OnFragmentInteractionListener, FriendChoiceQuizFragment.OnFragmentInteractionListener, FriendShortwordQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener, ShowHintFragment.OnFragmentInteractionListener, CorrectFriendQuizFragment.OnFragmentInteractionListener, WrongFriendQuizFragment.OnFragmentInteractionListener {
 
@@ -111,7 +116,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         myFriendQuizListAdapter = new MyFriendQuizListAdapter();
         likeQuizListAdapter = new LikeQuizListAdapter();
 
-        setting = getSharedPreferences("nomore", MODE_PRIVATE);
+        setting = getSharedPreferences("nomore", MODE_PRIVATE); //훈장 프래그먼트 한번만 열리고 그 후엔 열리지 않게 하기 위함.
         nomore = setting.getString("showfriendquiz", "keepgoing");
 
         getFirebaseDatabaseUserInfo();
@@ -124,6 +129,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         intentUpdate.putExtra("nickname", nickname);
         intentUpdate.putExtra("background", background);
 
+        // 내 친구 문제 풀기 버튼 이벤트
         friendQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,6 +159,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
             }
         });
 
+        // 추천수 높은 문제 풀기 버튼 이벤트
         likeQuizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,6 +189,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
             }
         });
 
+        // 메인페이지 버튼 이벤트
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,6 +199,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
             }
         });
 
+        // 마이페이지 버튼 이벤트
         myPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,6 +209,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
             }
         });
 
+        // 문제 리스트뷰 클릭 이벤트
         quizListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
@@ -229,7 +239,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     cnt1 = cntOXL;
                     cnt2 = cntChoiceL;
                 }
-                if(position < cnt1) {
+                if(position < cnt1) { // OX 문제
                     flag = 1;
                     QuizOXShortwordTypeInfo quiz;
                     if(isFriendQuiz) quiz = myFriendOXQuizListR.get(position);
@@ -254,7 +264,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     transaction.commit();
                 } else {
                     position -= cnt1;
-                    if(position < cnt2) {
+                    if(position < cnt2) { // 객관식 문제
                         flag = 2;
                         QuizChoiceTypeInfo quiz;
                         if(isFriendQuiz) quiz = myFriendChoiceQuizListR.get(position);
@@ -281,7 +291,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                         else bundle.putString("background", "red");
                         friendChoiceQuizFragment.setArguments(bundle);
                         transaction.commit();
-                    } else {
+                    } else { // 주관식 문제
                         position -= cnt2;
                         flag = 3;
                         QuizOXShortwordTypeInfo quiz;
@@ -312,6 +322,8 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         });
     }
 
+    // 데이터베이스에서 내 친구 문제 가져오기
+    // 아직 풀지 않은 내 친구의 문제들 중 각 유형당 랜덤으로 5개 이하 보여준다.
     private void getFirebaseDatabaseMyFriendQuiz() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -485,6 +497,8 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         });
     }
 
+    // 데이터베이스에서 추천수 높은 문제 가져오기
+    // 각 유형별로 추천수 제일 높은 문제 3개 가져와서 그 중 랜덤으로 2개 보여주기
     private void getFirebaseDatabaseLikeQuiz() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -519,13 +533,13 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                                 String type = snapshot1.child("type").getValue().toString();
                                 if (type.equals("1")) {
                                     QuizOXShortwordTypeInfo quiz = snapshot1.getValue(QuizOXShortwordTypeInfo.class);
-                                    likeOXQuizList.add(quiz);
+                                    if(!quiz.uid.equals(id)) likeOXQuizList.add(quiz);
                                 } else if (type.equals("2")) {
                                     QuizChoiceTypeInfo quiz = snapshot1.getValue(QuizChoiceTypeInfo.class);
-                                    likeChoiceQuizList.add(quiz);
+                                    if(!quiz.uid.equals(id)) likeChoiceQuizList.add(quiz);
                                 } else if (type.equals("3")) {
                                     QuizOXShortwordTypeInfo quiz = snapshot1.getValue(QuizOXShortwordTypeInfo.class);
-                                    likeShortQuizList.add(quiz);
+                                    if(!quiz.uid.equals(id)) likeShortQuizList.add(quiz);
                                 }
                             }
                         }
@@ -669,6 +683,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         });
     }
 
+    // 훈장 수여 자격 확인 및 수여
     private void getFirebaseDatabaseHoonjangInfo() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -711,12 +726,12 @@ public class ShowFriendQuizActivity extends AppCompatActivity
                     bundle.putInt("level", 2);
                     hoonjangFragment.setArguments(bundle);
                     transaction.commit();
-                }else if(SolvedCount==50 && nomore.equals("stop1")){
-                    uploadFirebaseUserCoinInfo_H("문제사냥꾼", 1);
+                }else if(SolvedCount==50 && nomore.equals("stop1")){ //푼 문제 수가 50개 - 문제사냥꾼 레벨1 충족한 경우임
+                    uploadFirebaseUserCoinInfo_H("문제사냥꾼", 1); //코인 지급 함수 호출, 파베에 코인 기록 올림
                     mPostReference.child("user_list/" + id + "/my_medal_list/문제사냥꾼").setValue("Lev1##"+MedalUpdate);
                     SharedPreferences sf = getSharedPreferences("nomore", MODE_PRIVATE);
                     editor=sf.edit();
-                    editor.putString("showfriendquiz", "stop1");
+                    editor.putString("showfriendquiz", "stop1"); //추후에 프래그먼트 더이상 뜨지 않게 하기 위함
                     editor.commit();
                     transaction.replace(R.id.friendquizFrame, hoonjangFragment);
                     Bundle bundle = new Bundle(3);
@@ -732,6 +747,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         });
     }
 
+    // 코인 증정, 데이터베이스에 저장
     private void uploadFirebaseUserCoinInfo_H(String hoonjangname, int level){
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -759,6 +775,7 @@ public class ShowFriendQuizActivity extends AppCompatActivity
         });
     }
 
+    // 데이터베이스에서 유저 정보 가져오기
     private void getFirebaseDatabaseUserInfo() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

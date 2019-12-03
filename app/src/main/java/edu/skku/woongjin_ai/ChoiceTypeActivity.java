@@ -2,6 +2,7 @@ package edu.skku.woongjin_ai;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,13 +34,20 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.skku.woongjin_ai.mediarecorder.MediaRecorderActivity;
+
+/*
+from SelectTypeActivity
+객관식 문제 만들기
+ */
+
 public class ChoiceTypeActivity extends AppCompatActivity
-        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener, HintVideoFragment.OnFragmentInteractionListener{
+        implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener{
 
     DatabaseReference mPostReference;
     ImageView imageScript, imageCheck,imageViewS1, imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     EditText editQuiz, editAns, editAns1, editAns2, editAns3, editAns4;
-    Intent intent, intentHome, intentType;
+    Intent intent, intentHome, intentType, intentVideo;
     String id, scriptnm, backgroundID, thisWeek, nickname, bookname;
     String quiz = "", ans = "", ans1 = "", ans2 = "", ans3 = "", ans4 = "", desc = "";
     int star = 0, starInt = 0, oldMadeCnt;
@@ -49,7 +57,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
     ImageButton checkButton, scriptButton, hintWritingButton, hintVideoButton, noHintButton;
 //    FirebaseStorage storage;
 //    private StorageReference storageReference, dataReference;
-    Fragment showScriptFragment, hintWritingFragment, hintVideoFragment;
+    Fragment showScriptFragment, hintWritingFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,8 +98,9 @@ public class ChoiceTypeActivity extends AppCompatActivity
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
-        getFirebaseDatabaseMadeInfo();
+        getFirebaseDatabaseUserInfo();
 
+        // 배경이미지 넣기 (background)
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
 //        dataReference = storageReference.child("/scripts_background/" + backgroundID);
@@ -107,6 +116,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
 //            }
 //        });
 
+        // 글 힌트주기 버튼 이벤트
         hintWritingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,30 +128,30 @@ public class ChoiceTypeActivity extends AppCompatActivity
                 hintWritingFragment.setArguments(bundle);
                 transaction.addToBackStack(null);
                 transaction.commit();
-//                checkButton.setImageResource(R.drawable.ic_icons_quiz_complete);
                 flagD = 1;
             }
         });
 
+        // 영상 힌트주기 버튼 이벤트
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hintVideoFragment = new HintVideoFragment();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.contentShowScriptChoice, hintVideoFragment);
-                Bundle bundle = new Bundle(1);
-                bundle.putString("type", "choice");
-                hintVideoFragment.setArguments(bundle);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                flagD = 3;
+                intentVideo = new Intent(ChoiceTypeActivity.this, MediaRecorderActivity.class);
+                intentVideo.putExtra("id",id);
+                startActivity(intentVideo);
+                hintVideoButton.setColorFilter(Color.parseColor("#E4FF9800"), PorterDuff.Mode.MULTIPLY);
+                noHintButton.setImageResource(R.drawable.hint_no);
             }
         });
 
+        // 힌트 없음 버튼 이벤트
         noHintButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagD != 2) {
                     noHintButton.setImageResource(R.drawable.hint_no_selected);
+                    hintVideoButton.setColorFilter(Color.parseColor("#FFFFFF"), PorterDuff.Mode.MULTIPLY);
                     flagD = 2;
                 } else {
                     noHintButton.setImageResource(R.drawable.hint_no);
@@ -150,6 +160,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
             }
         });
 
+        // 지문 보기 버튼 이벤트
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,17 +176,21 @@ public class ChoiceTypeActivity extends AppCompatActivity
             }
         });
 
+        // 출제 완료 버튼 이벤트
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagD == 0) {
+                if(flagD == 0) { // 힌트 고르지 않음
                     Toast.makeText(ChoiceTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
                 } else {
                     quiz = editQuiz.getText().toString();
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
-                    if(flagD == 2) {
-                        desc="없음";
-                    } else {
+                    if(flagD == 2) { // 힌트 없음
+                        desc = "없음";
+                    }
+                    else if (flagD == 3) { // 영상 힌트
+                        desc = "video";
+                    } else { // 글 힌트
                         desc = hintWritingFragment1.editTextHint.getText().toString();
                     }
                     quiz = editQuiz.getText().toString();
@@ -185,8 +200,8 @@ public class ChoiceTypeActivity extends AppCompatActivity
                     ans4 = editAns4.getText().toString();
 
                     if(quiz.length() == 0 || ans.length() == 0 || ans1.length() == 0 || ans2.length() == 0 || ans3.length() == 0 || ans4.length() == 0 || desc.length() == 0 || starInt < 1) {
-                        Toast.makeText(ChoiceTypeActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
-                    } else {
+                        Toast.makeText(ChoiceTypeActivity.this, "빈칸을 채워주세요", Toast.LENGTH_SHORT).show();
+                    } else { // 출제 완료
                         postFirebaseDatabaseQuizChoice();
                         uploadFirebaseUserCoinInfo();
                         if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
@@ -209,6 +224,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
             }
         });
 
+        // 홈 버튼 이벤트
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -218,6 +234,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별1
         imageViewS1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -241,6 +258,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별2
         imageViewS2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -266,6 +284,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별3
         imageViewS3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -293,6 +312,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별4
         imageViewS4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -322,6 +342,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별5
         imageViewS5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -353,12 +374,12 @@ public class ChoiceTypeActivity extends AppCompatActivity
             }
         });
 
+        // 객관식 답1
         editAns1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagA1 == 0 ) {
                     if(flagA2==0 && flagA3==0 && flagA4==0 ){
-//                    editAns1.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                         editAns1.setBackgroundColor(Color.rgb(255, 153, 0));
                         flagA1 = 1;
                         ans = editAns1.getText().toString();
@@ -367,19 +388,20 @@ public class ChoiceTypeActivity extends AppCompatActivity
                         Toast.makeText(ChoiceTypeActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-//                    editAns1.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     editAns1.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA1 = 0;
                     ans="";
                 }
             }
         });
+
+
+        // 객관식 답2
         editAns2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagA2 == 0) {
                     if( flagA1==0 && flagA3==0 && flagA4==0){
-//                    editAns2.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                         editAns2.setBackgroundColor(Color.rgb(255, 153, 0));
                         flagA2 = 1;
                         ans = editAns2.getText().toString();
@@ -388,19 +410,19 @@ public class ChoiceTypeActivity extends AppCompatActivity
                         Toast.makeText(ChoiceTypeActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-//                    editAns2.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     editAns2.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA2 = 0;
                     ans="";
                 }
             }
         });
+
+        // 객관식 답3
         editAns3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagA3 == 0 ) {
                     if(flagA2==0 && flagA4==0 && flagA1==0){
-//                        editAns3.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                         editAns3.setBackgroundColor(Color.rgb(255, 153, 0));
                         flagA3 = 1;
                         ans = editAns3.getText().toString();
@@ -409,19 +431,20 @@ public class ChoiceTypeActivity extends AppCompatActivity
                         Toast.makeText(ChoiceTypeActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-//                    editAns3.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     editAns3.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA3 = 0;
                     ans = "";
                 }
             }
         });
+
+
+        // 객관식 답4
         editAns4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(flagA4 == 0 ) {
                     if(flagA2==0 && flagA3==0 && flagA1==0){
-//                    editAns4.setBackgroundResource(R.drawable.ic_icons_selector_correct);
                         editAns4.setBackgroundColor(Color.rgb(255, 153, 0));
                         flagA4 = 1;
                         ans = editAns4.getText().toString();
@@ -430,7 +453,6 @@ public class ChoiceTypeActivity extends AppCompatActivity
                         Toast.makeText(ChoiceTypeActivity.this, "먼저 정답을 초기화하세요", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-//                    editAns4.setBackgroundResource(R.drawable.ic_icons_selector_standard);
                     editAns4.setBackgroundColor(Color.rgb(255, 255, 255));
                     flagA4 = 0;
                     ans = "";
@@ -439,7 +461,8 @@ public class ChoiceTypeActivity extends AppCompatActivity
         });
     }
 
-    private void getFirebaseDatabaseMadeInfo() {
+    // 유저 made 데이터와 지문 책이름 데이터 가져오기
+    private void getFirebaseDatabaseUserInfo() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -453,6 +476,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         });
     }
 
+    // 데이터베이스에 출제한 객관식 퀴즈 저장
     private void postFirebaseDatabaseQuizChoice() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
@@ -470,6 +494,7 @@ public class ChoiceTypeActivity extends AppCompatActivity
         editAns4.setText("");
     }
 
+    // 데이터베이스에 받은 코인 데이터 올리기
     private void uploadFirebaseUserCoinInfo(){
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

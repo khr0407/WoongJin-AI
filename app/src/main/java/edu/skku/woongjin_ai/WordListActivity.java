@@ -34,6 +34,11 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+/*
+from ReadScriptActivity
+단어장, 단어 공부하기 페이지(구현중)
+ */
+
 public class WordListActivity extends AppCompatActivity{
     //implements ShowScriptFragment.OnFragmentInteractionListener
 
@@ -102,20 +107,20 @@ public class WordListActivity extends AppCompatActivity{
                 startActivity(intentQuiz);
             }
         });
-/*
-        scriptButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.wordlistFragment, showScriptFragment);
-                Bundle bundle = new Bundle(2);
-                bundle.putString("scriptnm", scriptnm);
-                showScriptFragment.setArguments(bundle);
-                transaction.addToBackStack(null);
-                transaction.commit();
-            }
-        });
-*/
+
+//        scriptButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.wordlistFragment, showScriptFragment);
+//                Bundle bundle = new Bundle(2);
+//                bundle.putString("scriptnm", scriptnm);
+//                showScriptFragment.setArguments(bundle);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
+//            }
+//        });
+
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

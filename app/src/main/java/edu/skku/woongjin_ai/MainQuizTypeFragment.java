@@ -17,6 +17,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/*
+from MainActivity
+메인페이지에서 질문나라 선택 후 문제 만들기/친구 문제 풀기 선택하기
+ */
+
 public class MainQuizTypeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -71,10 +76,10 @@ public class MainQuizTypeFragment extends Fragment {
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
+        // 문제 만들기 버튼 이벤트
         meButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                intentMakeQuiz.putExtra("quizType", "me");
                 intentMakeQuiz = new Intent(getActivity(), NationQuizActivity.class);
                 intentMakeQuiz.putExtra("id", id);
                 intentMakeQuiz.putExtra("nickname", nickname);
@@ -86,10 +91,10 @@ public class MainQuizTypeFragment extends Fragment {
             }
         });
 
+        // 친구 문제 풀기 버튼 이벤트
         friendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                intent.putExtra("quizType", "friend");
                 intentFriendQuiz = new Intent(getActivity(), ShowFriendQuizActivity.class);
                 intentFriendQuiz.putExtra("id", id);
                 intentFriendQuiz.putExtra("nickname", nickname);

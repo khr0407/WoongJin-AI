@@ -55,12 +55,14 @@ public class CoinRecordListAdapter extends BaseAdapter {
         day=beforeparse.substring(4, 6);
         hour=beforeparse.substring(6, 8);
         minute=beforeparse.substring(8);
+        //코인 받은 날짜 (YYMMDDhhmm) 파싱
 
         why.setText(coinRecordListItem.getWhy());
         String get=coinRecordListItem.getHowmany();
         if(get.substring(0,1).equals("-")){
             howmany.setTextColor(Color.parseColor("#EB0000"));
             howmany.setText(get);
+            //코인을 잃은 기록이면 빨간색으로 글씨 색 바꿈
         }else{
             howmany.setText("+"+get);
         }

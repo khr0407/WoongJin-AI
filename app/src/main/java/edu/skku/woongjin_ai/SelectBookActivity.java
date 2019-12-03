@@ -21,6 +21,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/*
+from NationBookActivity
+지문 선택하기
+ */
+
 public class SelectBookActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentReadScript;
@@ -89,6 +94,7 @@ public class SelectBookActivity extends AppCompatActivity {
             }
         });
 
+        // 메인페이지 버튼 이벤트
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +105,7 @@ public class SelectBookActivity extends AppCompatActivity {
         });
     }
 
+    // 데이터베이스에서 카테고리에 맞는 지문 불러오기
     private void getFirebaseDatabaseBookList(){
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

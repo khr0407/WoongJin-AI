@@ -28,7 +28,7 @@ import static android.media.CamcorderProfile.get;
 
 public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragment.OnFragmentInteractionListener, SeeChoiceQuizFragment.OnFragmentInteractionListener, SeeShortQuizFragment.OnFragmentInteractionListener, ShowScriptFragment.OnFragmentInteractionListener, ShowWhoLikedFragment.OnFragmentInteractionListener{
 
-    public DatabaseReference mPostReference, uPostReference;
+    public DatabaseReference mPostReference;
     Intent intent, intentHome, intentUpdate;
     Button goback;
     String id, profile;
@@ -89,7 +89,6 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
 
         intentUpdate = new Intent(MyQuizActivity.this, MyQuizActivity.class);
         intentUpdate.putExtra("id", id);
-        ////
 
         getFirebaseDatabaseMyQuizList();
 
@@ -222,35 +221,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
         }
     }
 
-    /*
-    public ShowFriendListAdapter getFirebaseDatabaseUserList(String QKEY) {
-        ShowFriendListAdapter showFriendListAdapterL=new ShowFriendListAdapter();
-        mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Uinfos.clear();
-                DataSnapshot snapshot=dataSnapshot.child("user_list");
-                for (DataSnapshot snapshot1 : snapshot.getChildren()) { //uid 키값
-                    DataSnapshot snapshot2=snapshot1.child("my_script_list");
-                    for(DataSnapshot snapshot3:snapshot2.getChildren()){ //스크립트 각각
-                        DataSnapshot snapshot5=snapshot3.child("liked_list");
-                        for(DataSnapshot snapshot4:snapshot5.getChildren()){
-                            String key=snapshot4.getKey();
-                            if(key.equals(QKEY)){
-                                UserInfo friend = snapshot1.getValue(UserInfo.class);
-                                Uinfos.add(friend);
-                                showFriendListAdapterL.addItem(friend.profile, friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
-                            }
-                        }
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {            }
-        });
-        return showFriendListAdapterL;
-    }
-    */
+
     private void getFirebaseDatabaseMyQuizList() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -258,7 +229,7 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                 myOXList.clear();
                 myChoiceList.clear();
                 myShortList.clear();
-
+                //퀴즈 데이터 받아오기
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String key = snapshot.getKey();
                     if (key.equals("quiz_list")) {
@@ -271,31 +242,13 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                                     if (type.equals("1")) {
                                         QuizOXShortwordTypeInfo quiz = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
                                         myOXList.add(quiz);
-                                        //ox type
-                                        //QuizOXShortwordTypeInfo get = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
-//                                        String quiz=snapshot2.child("question").getValue().toString();
-//                                        String myQuiz = "[" + scriptTitle + "] Q." + quiz;
-//                                        myQuizList.add(myQuiz);
-//                                        myQuizListAdapter.addItem(myQuiz);
                                     } else if (type.equals("2")) {
                                         QuizChoiceTypeInfo quiz = snapshot2.getValue(QuizChoiceTypeInfo.class);
                                         myChoiceList.add(quiz);
-                                        //choice
-//                                        QuizChoiceTypeInfo get = snapshot2.getValue(QuizChoiceTypeInfo.class);
-//                                        String myQuiz = "[" + scriptTitle + "] Q." + get.question;
-//                                        myQuizList.add(myQuiz);
-//                                        myQuizListAdapter.addItem(myQuiz);
                                     } else {
                                         QuizOXShortwordTypeInfo quiz = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
                                         myShortList.add(quiz);
-                                        //shortwrd
-//                                        QuizOXShortwordTypeInfo get = snapshot2.getValue(QuizOXShortwordTypeInfo.class);
-//                                        String myQuiz = "[" + scriptTitle + "] Q." + get.question;
-//                                        myQuizList.add(myQuiz);
-//                                        myQuizListAdapter.addItem(myQuiz);
                                     }
-                                    //
-
                                 }
                             }
                         }
@@ -304,8 +257,8 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                         cntChoice = myChoiceList.size();
                         cntShort = myShortList.size();
 
-                        //String profile, String user, Drawable star2, Drawable star3, Drawable star4, Drawable star5,
-                        // String bookName, String scriptName, String question
+                        //난이도별로 퀴즈리스트 어댑터에 아이템 추가
+
 
                         for(int i=0; i<myOXList.size(); i++) {
                             QuizOXShortwordTypeInfo quizinfo=myOXList.get(i);
@@ -352,45 +305,13 @@ public class MyQuizActivity extends AppCompatActivity implements SeeOXQuizFragme
                             }
                         quizlist.setAdapter(myQuizListAdapter);
                     }
-                    //final ValueEventListener quiz_list = mPostReference.child("quiz_list").addValueEventListener(postListener);
-                }
+                 }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
     }
-
-    /*
-    private void getFirebaseDatabaseUserInfo() {
-        final ValueEventListener postListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Uinfos.clear();
-                DataSnapshot snapshot=dataSnapshot.child("user_list");
-                for (DataSnapshot snapshot1 : snapshot.getChildren()) { //uid 키값
-                    DataSnapshot snapshot2=snapshot1.child("my_script_list");
-                    for(DataSnapshot snapshot3:snapshot2.getChildren()){ //스크립트 각각
-                        DataSnapshot snapshot5=snapshot3.child("liked_list");
-                        for(DataSnapshot snapshot4:snapshot5.getChildren()){
-                            String qkey=snapshot4.getKey();
-                            if(qkey.equals(key)){
-                                UserInfo friend = snapshot1.getValue(UserInfo.class);
-                                Uinfos.add(friend);
-                                showFriendListAdapter.addItem(getResources().getDrawable(R.drawable.kakao_default_profile_image), friend.nickname + "[" + friend.name + "]", friend.grade, friend.school);
-                            }
-                        }
-                    }
-                }
-                likedfriends.setAdapter(showFriendListAdapter);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        };
-    }
-    */
-
     @Override
     public void onFragmentInteraction(Uri uri) {
 

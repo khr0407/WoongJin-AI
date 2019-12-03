@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,7 +106,9 @@ public class SeeOXQuizFragment extends Fragment implements ShowWhoLikedFragment.
         starFloat = Float.parseFloat(star);
 
         Title.setText(scriptnm);
+        Title.setMovementMethod(new ScrollingMovementMethod());
         QuizContent.setText(question);
+        QuizContent.setMovementMethod(new ScrollingMovementMethod());
 
         //wholike눌렀을때 fragment..
         wholike.setOnClickListener(new View.OnClickListener(){

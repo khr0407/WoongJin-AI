@@ -1,6 +1,7 @@
 package edu.skku.woongjin_ai;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,9 +41,10 @@ public class FriendShortwordQuizFragment extends Fragment {
 
     private FriendShortwordQuizFragment.OnFragmentInteractionListener mListener;
 
-    String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "", background, nickname;
+    String id, scriptnm, question, answer, uid, star, like, hint, key, ans = "", background, nickname, url;
     int cnt, flagAO = 0, flagAX = 0;
     float starFloat;
+    Intent videoIntent;
     ImageView imageViewS2, imageViewS3, imageViewS4, imageViewS5;
     Button imageButtonScript, imageButtonHint, imageButtonCheck;
     EditText editTextAns;
@@ -88,6 +90,7 @@ public class FriendShortwordQuizFragment extends Fragment {
         cnt = getArguments().getInt("cnt");
         background = getArguments().getString("background");
         nickname = getArguments().getString("nickname");
+        url = getArguments().getString("url");
 
         TextView textViewUid = view.findViewById(R.id.uidFriendShortword);
         TextView textViewName = view.findViewById(R.id.nameFriendShortword);
@@ -164,12 +167,20 @@ public class FriendShortwordQuizFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.contentShowHint, ((ShowFriendQuizActivity)getActivity()).showHintFragment);
-                Bundle bundle = new Bundle(1);
-                bundle.putString("hint", hint);
-                ((ShowFriendQuizActivity)getActivity()).showHintFragment.setArguments(bundle);
-//                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                if (hint.equals("video")) {
+                    videoIntent = new Intent(getActivity(), ShowVideoHintActivity.class);//fragment는 context타입이 아니기 떄문에 this쓸수 없기 떄문에 FriendShortwordQuizFragment.class하면 안됨
+                    videoIntent.putExtra("url", url);
+                    videoIntent.putExtra("scriptnm", scriptnm);
+                    videoIntent.putExtra("key", key);
+                    startActivity(videoIntent);
+                } else {
+                    fragmentTransaction.replace(R.id.contentShowHint, ((ShowFriendQuizActivity) getActivity()).showHintFragment);
+                    Bundle bundle = new Bundle(1);
+                    bundle.putString("hint", hint);
+                    ((ShowFriendQuizActivity) getActivity()).showHintFragment.setArguments(bundle);
+//                  fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
             }
         });
 

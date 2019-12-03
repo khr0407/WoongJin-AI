@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -117,10 +118,17 @@ public class SeeChoiceQuizFragment extends Fragment implements ShowWhoLikedFragm
         textViewAns3.setText(answer3);
         textViewAns4.setText(answer4);
 
+        textViewAns1.setMovementMethod(new ScrollingMovementMethod());
+        textViewAns2.setMovementMethod(new ScrollingMovementMethod());
+        textViewAns3.setMovementMethod(new ScrollingMovementMethod());
+        textViewAns4.setMovementMethod(new ScrollingMovementMethod());
+
         starFloat = Float.parseFloat(star);
 
         Title.setText(scriptnm);
         QuizContent.setText(question);
+        Title.setMovementMethod(new ScrollingMovementMethod());
+        QuizContent.setMovementMethod(new ScrollingMovementMethod());
 
         //wholike눌렀을때 fragment..
         wholike.setOnClickListener(new View.OnClickListener(){

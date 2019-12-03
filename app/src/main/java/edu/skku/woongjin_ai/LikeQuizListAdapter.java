@@ -3,6 +3,7 @@ package edu.skku.woongjin_ai;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class LikeQuizListAdapter extends BaseAdapter {
         bookName.setText(likeQuizListItem.getBookName());
         scriptName.setText(likeQuizListItem.getScriptName());
         question.setText(likeQuizListItem.getQuestion());
+        question.setMovementMethod(new ScrollingMovementMethod());
 
         return convertView;
     }

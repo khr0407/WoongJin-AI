@@ -44,20 +44,16 @@ public class ShowFriendActivity extends Activity {
     UserInfo me;
     String id_key, nickname_key;
     EditText findID;
-    //    String friend_nickname;
     String myprofile,myschool,mygrade,mynickname,myname;
     String newfriend_nickname;
     String sfriend_nickname, sfriend_name, sfriend_id, sfriend_grade, sfriend_school, sfriend_profile;
-    ImageButton invitefriend, addfriend, imageButtonHome;
+    ImageButton invitefriend, imageButtonHome;
     Button search, goback;
     Intent intent, intentHome;
     int check_recommend;
     UserInfo searched;
-    UserInfo ME;
     ArrayList<UserInfo> searchList;
     ShowFriendListAdapter showFriendListAdapterS;
-
-    ImageButton searchedAddfriend;
 
     int searchedFlag=0;
 
@@ -66,24 +62,14 @@ public class ShowFriendActivity extends Activity {
 
     FirebaseStorage storage;
 
-    String FriendID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_showfriend);
 
-
-
-
-        //searchedFace=(ImageView)findViewById(R.id.friendFace);
-        //searchedName=(TextView)findViewById(R.id.friendName);
-        //searchedGrade=(TextView)findViewById(R.id.friendGrade);
-        //searchedSchool=(TextView)findViewById(R.id.friendSchool);
-        //searchedAddfriend=(ImageButton)findViewById(R.id.addFriendButton);
         goback=(Button)findViewById(R.id.goback);
 
-//        check_choose = 0;
         check_recommend = 0;
 
         invitefriend = (ImageButton) findViewById(R.id.invitefriend);
@@ -122,7 +108,7 @@ public class ShowFriendActivity extends Activity {
         editor.putString("myname", myname);
         editor.putString("myid", id_key);
         editor.commit();
-
+        //친구 검색하고 나서 검색된 친구 추가 버튼 눌렀을 때 파베에 올리기 위함 - ShowFriendListAdapter에서 사용
 
         mPostReference2 = FirebaseDatabase.getInstance().getReference();
         mPostReference = FirebaseDatabase.getInstance().getReference();
@@ -284,8 +270,8 @@ public class ShowFriendActivity extends Activity {
                         UserInfo friend=snapshot2.getValue(UserInfo.class);
                         String grade=friend.grade;
                         String uid=friend.id;
-                        if(grade.equals(mygrade) && !uid.equals(id_key)){
-                            recommendList.add(friend);
+                        if(grade.equals(mygrade) && !uid.equals(id_key)){ //학년이 같으면
+                            recommendList.add(friend); //추천 친구에 저장
                         }
 
                     }

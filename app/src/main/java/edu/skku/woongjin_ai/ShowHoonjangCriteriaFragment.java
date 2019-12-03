@@ -67,7 +67,7 @@ public class ShowHoonjangCriteriaFragment extends Fragment {
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.remove(((MyRecordActivity)getActivity()).showHoonjang);
+                fragmentTransaction.remove(((MyPageActivity)getActivity()).showHoonjang);
                 fragmentTransaction.commit();
             }
         });

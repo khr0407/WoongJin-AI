@@ -3,6 +3,10 @@ package edu.skku.woongjin_ai;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+데이터베이스에서 유저의 week별 학습 정보 가져올 때
+ */
+
 public class WeekInfo {
     public int correct;
     public float level;
