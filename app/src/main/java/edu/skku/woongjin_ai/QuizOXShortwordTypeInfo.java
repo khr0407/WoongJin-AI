@@ -3,6 +3,10 @@ package edu.skku.woongjin_ai;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+OX, 단답형 질문
+ */
+
 public class QuizOXShortwordTypeInfo {
     public String uid;
     public String question;

@@ -8,6 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+/*
+from MainActivity
+독서나라
+지문 카테고리 고르기
+ */
+
 public class NationBookActivity extends AppCompatActivity {
 
     Intent intent, intentHome, intentSelectBook;
@@ -40,6 +46,7 @@ public class NationBookActivity extends AppCompatActivity {
         oldstoryButton = (ImageButton) findViewById(R.id.oldstory);
         greatmanButton = (ImageButton) findViewById(R.id.greatman);
 
+        // 과학 카테고리 버튼 이벤트
         scienceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +55,7 @@ public class NationBookActivity extends AppCompatActivity {
             }
         });
 
+        // 역사 카테고리 버튼 이벤트
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +64,7 @@ public class NationBookActivity extends AppCompatActivity {
             }
         });
 
+        // 시사 카테고리 버튼 이벤트
         newsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +73,7 @@ public class NationBookActivity extends AppCompatActivity {
             }
         });
 
+        // 도덕 카테고리 버튼 이벤트
         moralityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +82,7 @@ public class NationBookActivity extends AppCompatActivity {
             }
         });
 
+        // 미스터리 카테고리 버튼 이벤트
         misteryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +91,7 @@ public class NationBookActivity extends AppCompatActivity {
             }
         });
 
+        // 웃긴 이야기 카테고리 버튼 이벤트
         comicsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,6 +100,7 @@ public class NationBookActivity extends AppCompatActivity {
             }
         });
 
+        // 전래동화 카테고리 버튼 이벤트
         oldstoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,6 +109,7 @@ public class NationBookActivity extends AppCompatActivity {
             }
         });
 
+        // 위인전 카테고리 버튼 이벤트
         greatmanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,6 +118,7 @@ public class NationBookActivity extends AppCompatActivity {
             }
         });
 
+        // 메인페이지 가기 버튼 이벤트
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -3,6 +3,7 @@ package edu.skku.woongjin_ai;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,10 @@ import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+/*
+in ShowFriendQuizActivity
+ */
 
 public class MyFriendQuizListAdapter extends BaseAdapter {
 
@@ -59,8 +64,14 @@ public class MyFriendQuizListAdapter extends BaseAdapter {
         TextView scriptName = (TextView) convertView.findViewById(R.id.scriptName);
         TextView question = (TextView) convertView.findViewById(R.id.question);
 
+        user.setMovementMethod(new ScrollingMovementMethod());
+        bookName.setMovementMethod(new ScrollingMovementMethod());
+        scriptName.setMovementMethod(new ScrollingMovementMethod());
+        question.setMovementMethod(new ScrollingMovementMethod());
+
         MyFriendQuizListItem myFriendQuizListItem = getItem(position);
 
+        // 유저 프로필 사진 가져오기
         if(!myFriendQuizListItem.getProfile().equals("noimage")) {
             storage = FirebaseStorage.getInstance();
             storageReference = storage.getReference();

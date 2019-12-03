@@ -15,6 +15,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+/*
+from ReadScriptActivity
+공부 타입 고르기 - 소리내어 읽기/표시하며 읽기
+ */
+
 public class SelectStudyTypeFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";

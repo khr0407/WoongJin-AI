@@ -26,6 +26,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+/*
+from LoginActivity
+메인 페이지
+ */
+
 public class MainActivity extends AppCompatActivity implements NewHoonjangFragment.OnFragmentInteractionListener, MainQuizTypeFragment.OnFragmentInteractionListener{
 
     public DatabaseReference mPostReference;
@@ -49,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         setting = getSharedPreferences("nomore", MODE_PRIVATE);
         nomore_atd = setting.getString("main_attend", "keepgoing");
         nomore_read = setting.getString("main_read", "keepgoing");
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         getFirebaseDatabaseUserInfo();
         postFirebaseDatabaseAttend();
 
+        // 독서 나라 버튼 이벤트
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             }
         });
 
+        // 질문 나라 버튼 이벤트
         quizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             }
         });
 
+        // 게임 나라 버튼 이벤트
         gameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
             }
         });
 
+        // 마이페이지 버튼 이벤트
         myPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         });
     }
 
+    // 출석 체크
     private void postFirebaseDatabaseAttend() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -201,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         });
     }
 
+    // 데이터베이스에서 유저 정보 가져오기
     private void getFirebaseDatabaseUserInfo() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -229,9 +239,6 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
                 Log.d("nomore", nomore_atd);
                 String atdcnt=Integer.toString(AttendCount);
                 Log.d("AttendCount", atdcnt);
-                //setting = getSharedPreferences("nomore", MODE_PRIVATE);
-                //nomore_atd = setting.getString("main_attend", "keepgoing");
-                //nomore_read = setting.getString("main_read", "keepgoing");
 
                 if(AttendCount==365 && nomore_atd.equals("stop2")) {
                     uploadFirebaseUserCoinInfo_H("출석왕", 3);
@@ -325,6 +332,7 @@ public class MainActivity extends AppCompatActivity implements NewHoonjangFragme
         });
     }
 
+    // 훈장 수여 자격 여부 확인 및 수여, 데이터베이스에 저장
     private void uploadFirebaseUserCoinInfo_H(String hoonjangname, int level){
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

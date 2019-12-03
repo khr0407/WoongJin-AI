@@ -2,6 +2,10 @@ package edu.skku.woongjin_ai;
 
 import android.graphics.drawable.Drawable;
 
+/*
+in WordListAdapter
+ */
+
 public class WordListItem {
     private Drawable icon;
     private String word;

@@ -3,6 +3,10 @@ package edu.skku.woongjin_ai;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+객관식 질문
+ */
+
 public class QuizChoiceTypeInfo {
     public String uid;
     public String question;

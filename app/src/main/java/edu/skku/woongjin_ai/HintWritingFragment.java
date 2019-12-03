@@ -16,6 +16,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+/*
+from OXTypeActivity, ChoiceTypeActivity, ShortwordTypeActivity
+글 힌트 주기
+ */
+
 public class HintWritingFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
@@ -62,23 +67,21 @@ public class HintWritingFragment extends Fragment {
         editTextHint = (EditText) view.findViewById(R.id.hint);
         Button goBackButton = (Button) view.findViewById(R.id.goBack);
 
+        // 다른 힌트 선택하기 버튼 이벤트
         goBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 if(type.equals("ox")) {
-//                    ((OXTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     ((OXTypeActivity)getActivity()).flagD = 0;
                     fragmentTransaction.remove(((OXTypeActivity)getActivity()).hintWritingFragment);
                     fragmentTransaction.commit();
                 } else if(type.equals("choice")) {
-//                    ((ChoiceTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     ((ChoiceTypeActivity)getActivity()).flagD = 0;
                     fragmentTransaction.remove(((ChoiceTypeActivity)getActivity()).hintWritingFragment);
                     fragmentTransaction.commit();
                 } else if(type.equals("shortword")) {
-//                    ((ShortwordTypeActivity)getActivity()).checkButton.setImageResource(R.drawable.ic_icons_quiz_complete_inactivate);
                     ((ShortwordTypeActivity)getActivity()).flagD = 0;
                     fragmentTransaction.remove(((ShortwordTypeActivity)getActivity()).hintWritingFragment);
                     fragmentTransaction.commit();

@@ -38,6 +38,11 @@ import java.util.Map;
 
 import edu.skku.woongjin_ai.mediarecorder.MediaRecorderActivity;
 
+/*
+from SelectTypeActivity
+OX 문제 만들기
+ */
+
 public class OXTypeActivity extends AppCompatActivity
         implements ShowScriptFragment.OnFragmentInteractionListener, HintWritingFragment.OnFragmentInteractionListener {
 
@@ -91,6 +96,7 @@ public class OXTypeActivity extends AppCompatActivity
 
         getFirebaseDatabaseUserInfo();
 
+        // 배경이미지 넣기 (background)
 //        storage = FirebaseStorage.getInstance();
 //        storageReference = storage.getInstance().getReference();
 //        dataReference = storageReference.child("/scripts_background/" + backgroundID);
@@ -106,6 +112,7 @@ public class OXTypeActivity extends AppCompatActivity
 //            }
 //        });
 
+        // 글 힌트주기 버튼 이벤트
         hintWritingButton.setOnClickListener(new View.OnClickListener() { // flagD == 1
             @Override
             public void onClick(View v) {
@@ -121,6 +128,7 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
+        // 영상 힌트주기 버튼 이벤트
         hintVideoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +141,7 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
+        // 힌트 없음 버튼 이벤트
         noHintButton.setOnClickListener(new View.OnClickListener() { // flagD == 2
             @Override
             public void onClick(View v) {
@@ -147,6 +156,7 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
+        // 지문 보기 버튼 이벤트
         scriptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,27 +172,27 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
+        // 출제 완료 버튼 이벤트
         checkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flagD == 0) {
+                if(flagD == 0) { // 힌트 고르지 않음
                     Toast.makeText(OXTypeActivity.this, "힌트 타입을 고르시오.", Toast.LENGTH_SHORT).show();
                 } else {
                     HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
-                    if(flagD == 2) {
+                    if(flagD == 2) { // 힌트 없음
                         desc = "없음";
                     }
-                    else if (flagD == 3) {
+                    else if (flagD == 3) { // 영상 힌트
                         desc = "video";
-                    }
-                    else {
+                    } else { // 글 힌트
                         desc = hintWritingFragment1.editTextHint.getText().toString();
                     }
                     quiz = editQuiz.getText().toString();
 
                     if(quiz.length() == 0 || desc.length() == 0 || starInt < 1 || (flagAO == 0 && flagAX == 0)) {
                         Toast.makeText(OXTypeActivity.this, "빈 칸을 채워주세요", Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else { // 출제 완료
                         postFirebaseDatabaseQuizOX();
                         uploadFirebaseUserCoinInfo();
                         if(flagD == 1) hintWritingFragment1.editTextHint.setText("");
@@ -203,6 +213,7 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
+        // 홈 버튼 이벤트
         imageHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,6 +223,7 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별1
         imageViewS1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,6 +247,7 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별2
         imageViewS2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -260,6 +273,7 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별3
         imageViewS3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -287,6 +301,7 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별4
         imageViewS4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -316,6 +331,7 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
+        // 난이도 별5
         imageViewS5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -347,6 +363,7 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
+        // OX 답 O
         imageO.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -366,6 +383,7 @@ public class OXTypeActivity extends AppCompatActivity
             }
         });
 
+        // OX 답 X
         imageX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -386,6 +404,7 @@ public class OXTypeActivity extends AppCompatActivity
         });
     }
 
+    // 유저 made 데이터와 지문 책이름 데이터 가져오기
     private void getFirebaseDatabaseUserInfo() {
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -400,6 +419,7 @@ public class OXTypeActivity extends AppCompatActivity
         });
     }
 
+    // 데이터베이스에 출제한 OX 퀴즈 저장
     private void postFirebaseDatabaseQuizOX() {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
@@ -413,6 +433,7 @@ public class OXTypeActivity extends AppCompatActivity
         editQuiz.setText("");
     }
 
+    // 데이터베이스에 받은 코인 데이터 올리기
     private void uploadFirebaseUserCoinInfo(){
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

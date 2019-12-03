@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -56,19 +57,20 @@ import java.util.Iterator;
 
 import static com.kakao.usermgmt.StringSet.nickname;
 
-public class MyPageActivity extends AppCompatActivity{
+public class MyPageActivity extends AppCompatActivity implements  ShowHoonjangCriteriaFragment.OnFragmentInteractionListener{
 
     public DatabaseReference mPostReference;
     Intent intent, intentGoHome, intentAddFriend, intentCoinRecord, intent_LikeList, intent_QList, intentHome, intent_Record;
     String id, profileUri, mynickname, mygrade, myschool, myname, myprofile;
     ImageButton logout;
-    Button coin_record;
-    ImageButton goHome, btnLikeList, btnQList, btnFriendList, btnChangePicture, btnUpload, btnRecord;
+    Button coin_record, btnFriendList, btnRecord, Hoonjang;
+    ImageButton goHome, btnLikeList, btnQList, btnChangePicture, btnUpload;
     ImageView attendw, readw, quizw, quizhunterw, bombmasterw, bucketw;
     TextView userGrade, userSchool, userName, userCoin, userName1, userGrade1;
     TextView attendd, readd, quizd, quizhunterd, bombmasterd, bucketd;
     TextView textViewCorrectL, textViewCorrectT, textViewLikeL, textViewLikeT, textViewLevelL, textViewLevelT, textViewSolveBombL, textViewSolveBombT;
     ImageView myFace;
+    ShowHoonjangCriteriaFragment showHoonjang;
     UserInfo me;
     ArrayList<WeekInfo> weekInfos;
     FirebaseStorage storage;
@@ -99,7 +101,7 @@ public class MyPageActivity extends AppCompatActivity{
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
         ImageButton homeButton = (ImageButton) findViewById(R.id.home);
-        btnFriendList = (ImageButton) findViewById(R.id.FriendList);
+        btnFriendList = (Button) findViewById(R.id.FriendList);
         btnQList = (ImageButton) findViewById(R.id.QList);
         btnLikeList = (ImageButton) findViewById(R.id.LikeList);
         userName = (TextView) findViewById(R.id.userName);
@@ -118,7 +120,7 @@ public class MyPageActivity extends AppCompatActivity{
         btnChangePicture = (ImageButton) findViewById(R.id.changePicture);
         btnUpload = (ImageButton) findViewById(R.id.upload);
         myFace = (ImageView) findViewById(R.id.myFace);
-        btnRecord = (ImageButton) findViewById(R.id.record);
+        btnRecord = (Button) findViewById(R.id.record);
         goHome = (ImageButton) findViewById(R.id.home);
         attendw = (ImageView) findViewById(R.id.attend_wang);
         quizw = (ImageView) findViewById(R.id.quiz_wang);
@@ -135,10 +137,11 @@ public class MyPageActivity extends AppCompatActivity{
         coin_record=(Button)findViewById(R.id.CoinRecord);
         textViewSolveBombL =(TextView)findViewById(R.id.lastSolveBombCnt);
         textViewSolveBombT=(TextView)findViewById(R.id.thisSolveBombCnt);
+        Hoonjang=(Button)findViewById(R.id.showHoonjang);
 
 
         weekInfos = new ArrayList<WeekInfo>();
-
+        showHoonjang=new ShowHoonjangCriteriaFragment();
 
         //myFace.setBackground(drawable);
         //myFace.setClipToOutline(true);
@@ -152,6 +155,19 @@ public class MyPageActivity extends AppCompatActivity{
                 intentGoHome = new Intent(MyPageActivity.this, MainActivity.class);
                 intentGoHome.putExtra("id", id);
                 startActivity(intentGoHome);
+            }
+        });
+
+        Hoonjang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.commit();
+                showHoonjang=new ShowHoonjangCriteriaFragment();
+
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.hoonjangframe, showHoonjang);
+                transaction.commit();
             }
         });
 
@@ -344,7 +360,8 @@ public class MyPageActivity extends AppCompatActivity{
                                 userGrade1.setText(me.grade + "학년");
                                 userCoin.setText(me.coin + "코인");
                                 profileUri = me.profile;
-                                if (!profileUri.equals("noimage")) {
+                                //내 정보 받아오기
+                                if (!profileUri.equals("noimage")) { //파베 프로필 정보  noimage 아니면 프로필 부분에 내 사진 보이게
                                     storage = FirebaseStorage.getInstance();
                                     storageReference = storage.getInstance().getReference();
                                     dataReference = storageReference.child("/profile/" + profileUri);
@@ -355,11 +372,12 @@ public class MyPageActivity extends AppCompatActivity{
                                                     .load(uri)
                                                     .error(R.drawable.btn_x)
                                                     .into(myFace);
-                                            //myFace.setBackground(drawable);
-                                            //myFace.setClipToOutline(true);
                                         }
                                     });
                                 }
+
+
+                                //나의 성과
                                 for (DataSnapshot snapshot2 : snapshot1.getChildren()) {
                                     String key2 = snapshot2.getKey();
                                     if (key2.equals("my_week_list")) {
@@ -469,4 +487,8 @@ public class MyPageActivity extends AppCompatActivity{
             mPostReference.addValueEventListener(postListener);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+/*
+from OXTypeActivity, SelectTypeActivity, ShortwordActivity, ShowFriendQuizActivity
+지문 보여주기
+ */
 
 public class ShowScriptFragment extends Fragment {
 
@@ -72,6 +78,10 @@ public class ShowScriptFragment extends Fragment {
 
         mPostReference = FirebaseDatabase.getInstance().getReference();
 
+        textViewScript1.setMovementMethod(new ScrollingMovementMethod());
+        textViewScript2.setMovementMethod(new ScrollingMovementMethod());
+
+        // 닫기 버튼 이벤트
         buttonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +134,7 @@ public class ShowScriptFragment extends Fragment {
             }
         });
 
+        // 데이터베이스에서 지문 가져오기
         mPostReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
