@@ -9,10 +9,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
+
+/*
+from MainActivity
+메인페이지에서 게임나라 선택 후 폭탄 게임 / 퀴즈 버킷 챌린지 선택하기
+ */
 
 public class MainGameTypeFragment extends Fragment {
 
@@ -22,8 +29,8 @@ public class MainGameTypeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    Button BombGameButton, BucketChallengeButton;
-    Intent intentBombGame, intentBucketChallenge;
+    Button bombgameButton, quizbucketButton;
+    Intent intentBombGame, intentQuizbucket;
     String id, nickname, thisWeek;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -62,37 +69,40 @@ public class MainGameTypeFragment extends Fragment {
         nickname = getArguments().getString("nickname");
         thisWeek = getArguments().getString("thisWeek");
 
-        BombGameButton = (Button) view.findViewById(R.id.me);
-        BucketChallengeButton = (Button) view.findViewById(R.id.friend);
+        bombgameButton = (Button) view.findViewById(R.id.me);
+        quizbucketButton = (Button) view.findViewById(R.id.friend);
 
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
 
-        BombGameButton.setOnClickListener(new View.OnClickListener() {
+        // 폭탄 게임 버튼 이벤트
+        bombgameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 intentBombGame = new Intent(getActivity(), NationGameActivity.class);
                 intentBombGame.putExtra("id", id);
                 intentBombGame.putExtra("nickname", nickname);
-                intentBombGame.putExtra("thisWeek", thisWeek);
+
                 fragmentTransaction.remove(((MainActivity)getActivity()).mainGameTypeFragment);
                 fragmentTransaction.commit();
                 startActivity(intentBombGame);
             }
         });
 
-        BucketChallengeButton.setOnClickListener(new View.OnClickListener() {
+        // 퀴즈 버킷 챌린지 버튼 이벤트
+        quizbucketButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                intent.putExtra("quizType", "friend");
-                intentBucketChallenge = new Intent(getActivity(), QuizbucketMain.class);
-                intentBucketChallenge.putExtra("id", id);
-                intentBucketChallenge.putExtra("nickname", nickname);
-                intentBucketChallenge.putExtra("thisWeek", thisWeek);
+                /*
+                intentQuizbucket = new Intent(getActivity(), QuizbucketMain.class);
+                intentQuizbucket.putExtra("id", id);
+                intentQuizbucket.putExtra("nickname", nickname);
+                intentQuizbucket.putExtra("thisWeek", thisWeek);
 
                 fragmentTransaction.remove(((MainActivity)getActivity()).mainGameTypeFragment);
                 fragmentTransaction.commit();
-                startActivity(intentBucketChallenge);
+                startActivity(intentQuizbucket);
+                */
             }
         });
 
@@ -108,7 +118,7 @@ public class MainGameTypeFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof MainQuizTypeFragment.OnFragmentInteractionListener) {
+        if (context instanceof MainGameTypeFragment.OnFragmentInteractionListener) {
             mListener = (MainGameTypeFragment.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()

@@ -82,6 +82,10 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".NationQuizActivity"
             android:screenOrientation="landscape"/>
+        <activity android:name=".NationGameActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".GameListActivity"
+            android:screenOrientation="landscape"/>
         <activity android:name=".SelectBookActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".ShowFriendQuizActivity"
@@ -114,6 +118,12 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".QBEndFragment"
             android:screenOrientation="landscape"/>
+        <activity android:name=".CorrectBombFragment"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".WrongBombFragment"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".EndBombFragment"
+            android:screenOrientation="landscape"/>
         <activity android:name=".QuizbucketstartNext"
             android:screenOrientation="landscape"/>
         <activity android:name=".QuizbucketOXNext"
@@ -124,6 +134,23 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".MainGameTypeFragment"
             android:screenOrientation="landscape"/>
+        <activity android:name=".MakeBombChoiceActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".MakeBombOXActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".MakeBombShortwordActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".MakeBombTypeActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".ShowVideoHintActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SolveBombChoiceActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SolveBombOXActivity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".SolveBombShortwordActivity"
+            android:screenOrientation="landscape"/>
+
 
     </application>
 </manifest>
