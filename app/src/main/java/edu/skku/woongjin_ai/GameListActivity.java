@@ -48,7 +48,7 @@ public class GameListActivity extends AppCompatActivity
     String roomname_key, friend_nickname;
     String timestamp_key, user1_key, user2_key, script_key, state_key;
     char bomb_cnt;
-    String last, solve;
+    String last, solve; //last=문제 내는 사람, solve=문제 푸는 사람
     String type_key, question_key, answer_key, ans1_key, ans2_key, ans3_key, ans4_key;
     int find, check_gamelist;
     UserInfo me;
@@ -104,7 +104,7 @@ public class GameListActivity extends AppCompatActivity
 
         getFirebaseDatabaseUserInfo();
 
-        imageHome.setOnClickListener(new View.OnClickListener() {
+        imageHome.setOnClickListener(new View.OnClickListener() { //go home activity(main)
             @Override
             public void onClick(View v) {
                 Intent intentHome = new Intent(GameListActivity.this, MainActivity.class);
@@ -114,7 +114,7 @@ public class GameListActivity extends AppCompatActivity
             }
         });
 
-        create.setOnClickListener(new View.OnClickListener() {
+        create.setOnClickListener(new View.OnClickListener() { //go nationgame activity (create new gameroom)
             public void onClick(View view) {
                 Intent intent_nationgame = new Intent(GameListActivity.this, NationGameActivity.class);
                 intent_nationgame.putExtra("id", id_key);
@@ -123,7 +123,7 @@ public class GameListActivity extends AppCompatActivity
             }
         });
 
-        help.setOnClickListener(new View.OnClickListener() {
+        help.setOnClickListener(new View.OnClickListener() { //help fragment about bombgame
             @Override
             public void onClick(View v) {
                 Fragment_help = new Fragment_help();
@@ -280,12 +280,12 @@ public class GameListActivity extends AppCompatActivity
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 };
-                mPostReference.addValueEventListener(checkRoom);
+                mPostReference.addValueEventListener(checkRoom); //find room or check room for duplication
             }
         });
 
 
-        makebomb.setOnClickListener(new View.OnClickListener() {
+        makebomb.setOnClickListener(new View.OnClickListener() { //폭탄배틀신청
             public void onClick(View view) {
                 if (check_gamelist == 1) {
                     if (find == 0) {
@@ -335,7 +335,7 @@ public class GameListActivity extends AppCompatActivity
             }
         });
 
-        solvebomb.setOnClickListener(new View.OnClickListener() { //OX, choice, shortword type -> need to modify!!!
+        solvebomb.setOnClickListener(new View.OnClickListener() { //배틀 수락(폭탄 문제 풀러 가기)
             public void onClick(View view) {
                 if (check_gamelist == 1) {
                     if (find == 0) {
@@ -361,7 +361,7 @@ public class GameListActivity extends AppCompatActivity
                                     type_key = postSnapshot.child("type").getValue().toString();
                                     question_key = postSnapshot.child("question").getValue().toString();
                                     if (key.equals("quiz" + bomb_cnt)) {
-                                        if (type_key.equals("ox")) {
+                                        if (type_key.equals("ox")) { //ox type 
                                             answer_key = postSnapshot.child("answer").getValue().toString();
                                             ans1_key = "";
                                             ans2_key = "";
@@ -382,7 +382,7 @@ public class GameListActivity extends AppCompatActivity
                                             break;
 
                                         }
-                                        else if (type_key.equals("shortword")) {
+                                        else if (type_key.equals("shortword")) { //shortword type(단답식)
                                             answer_key = postSnapshot.child("answer").getValue().toString();
                                             ans1_key = "";
                                             ans2_key = "";
@@ -403,7 +403,7 @@ public class GameListActivity extends AppCompatActivity
                                             break;
 
                                         }
-                                        else if (type_key.equals("choice")) {
+                                        else if (type_key.equals("choice")) { //choice type(4지 선다형)
                                             answer_key = postSnapshot.child("answer").getValue().toString();
                                             ans1_key = postSnapshot.child("answer1").getValue().toString();
                                             ans2_key = postSnapshot.child("answer2").getValue().toString();
@@ -446,7 +446,7 @@ public class GameListActivity extends AppCompatActivity
         getFirebaseDatabase();
     }
 
-    public void getFirebaseDatabase() {
+    public void getFirebaseDatabase() { //현재 참여하고 있는 game list 보여주기 & state 표시
         try {
             ValueEventListener postListener = new ValueEventListener() {
                 @Override
