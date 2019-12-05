@@ -40,8 +40,8 @@ import java.util.Map;
 public class NationGameActivity extends AppCompatActivity {
     private DatabaseReference mPostReference, sPostReference, gPostReference;
     ListView friend_list, script_list;
-    ArrayList<ShowFriendListItem> data;
-    ArrayList<String> scriptArrayList;
+    ArrayList<ShowFriendListItem> data; //친구목록
+    ArrayList<String> scriptArrayList; //지문목록
     ShowFriendListAdapter arrayAdapter;
     ScriptListAdapter ScriptListAdapter;
 
@@ -63,8 +63,8 @@ public class NationGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nationgame);
 
 
-        check_choose = 0;
-        check_script = 0;
+        check_choose = 0; //choose friend check
+        check_script = 0; //choose script check
         flag = 0;
 
         invitefriend = (ImageButton) findViewById(R.id.invitefriend);
@@ -92,7 +92,7 @@ public class NationGameActivity extends AppCompatActivity {
         sPostReference = FirebaseDatabase.getInstance().getReference().child("script_list");
         gPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list");
 
-        imageButtonHome.setOnClickListener(new View.OnClickListener() {
+        imageButtonHome.setOnClickListener(new View.OnClickListener() { //go main activity (home)
             @Override
             public void onClick(View v) {
                 Intent intentHome = new Intent(NationGameActivity.this, MainActivity.class);
@@ -101,7 +101,7 @@ public class NationGameActivity extends AppCompatActivity {
             }
         });
 
-        invitefriend.setOnClickListener(new View.OnClickListener() {
+        invitefriend.setOnClickListener(new View.OnClickListener() { //kakaotalk button(invite button)
             @Override
             public void onClick(View view) {
                 TextTemplate params = TextTemplate.newBuilder(
@@ -125,7 +125,7 @@ public class NationGameActivity extends AppCompatActivity {
             }
         });
 
-        friend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        friend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() { //친구 목록에서 친구 선택하기
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //custom listview에서 data 받아오기
                 ShowFriendListItem temp_show = (ShowFriendListItem) parent.getItemAtPosition(position);
@@ -134,7 +134,7 @@ public class NationGameActivity extends AppCompatActivity {
             }
         });
 
-        script_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        script_list.setOnItemClickListener(new AdapterView.OnItemClickListener() { //지문 목록에서 지문 선택하기
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
                 ScriptListItem temp_show = (ScriptListItem) parent.getItemAtPosition(position);
@@ -143,7 +143,7 @@ public class NationGameActivity extends AppCompatActivity {
             }
         });
 
-        create.setOnClickListener(new View.OnClickListener() {
+        create.setOnClickListener(new View.OnClickListener() { //게임방 만들기 버튼(create new gameroom)
             @Override
             public void onClick(View view) {
                 text_roomname = editText_roomname.getText().toString();
@@ -195,7 +195,7 @@ public class NationGameActivity extends AppCompatActivity {
             }
         });
 
-        callback = new ResponseCallback<KakaoLinkResponse>() {
+        callback = new ResponseCallback<KakaoLinkResponse>() { //about kakaotalk invite button
             @Override
             public void onFailure(ErrorResult errorResult) {
                 Toast.makeText(getApplicationContext(), errorResult.getErrorMessage(), Toast.LENGTH_LONG).show();
@@ -206,8 +206,8 @@ public class NationGameActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Successfully sent KakaoLink v2 message.", Toast.LENGTH_LONG).show();
             }
         };
-        getFirebaseDatabase();
-        getFirebaseDatabaseScriptList();
+        getFirebaseDatabase(); //friend list
+        getFirebaseDatabaseScriptList(); //script list
     }
 
     private Map<String, String> getServerCallbackArgs() {
@@ -273,7 +273,7 @@ public class NationGameActivity extends AppCompatActivity {
         gPostReference.updateChildren(childUpdates);
     }
 
-    public boolean spaceCheck(String spaceCheck) {
+    public boolean spaceCheck(String spaceCheck) { //roomname check
         for (int i = 0 ; i < spaceCheck.length() ; i++) {
             if (spaceCheck.charAt(i) == ' ')
                 continue;
