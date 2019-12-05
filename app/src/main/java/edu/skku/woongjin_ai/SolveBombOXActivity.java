@@ -89,7 +89,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
         gamers.setText(user1_key + " vs " + user2_key);
         question.setText(question_key);
 
-        imageO.setOnClickListener(new View.OnClickListener() {
+        imageO.setOnClickListener(new View.OnClickListener() { //choose O as answer
             @Override
             public void onClick(View v) {
                 if(flagAO == 0) {
@@ -108,7 +108,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
             }
         });
 
-        imageX.setOnClickListener(new View.OnClickListener() {
+        imageX.setOnClickListener(new View.OnClickListener() { //choose X as answer
             @Override
             public void onClick(View v) {
                 if(flagAX == 0) {
@@ -127,14 +127,14 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
             }
         });
 
-        imageButtonCheck.setOnClickListener(new View.OnClickListener() {
+        imageButtonCheck.setOnClickListener(new View.OnClickListener() { //check answer 
             @Override
             public void onClick(View v) {
                 if (user_answer.equals("")) {
                     Toast.makeText(SolveBombOXActivity.this, "정답을 입력하세요.", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    if (user_answer.equals(answer_key)) {
+                    if (user_answer.equals(answer_key)) { //correct answer case
                         final ValueEventListener check = new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -154,7 +154,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                         correct_end = 1;
 
                         //if (bomb_cnt == '6') {
-                        if (bomb_cnt == '2') {
+                        if (bomb_cnt == '2') { // bomb relay ends
                             wPostReference.child("state").setValue("win");
                             intent_end.putExtra("id", id_key);
                             intent_end.putExtra("nickname", nickname_key);
@@ -164,7 +164,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                             finish();
                         }
                         //else if (bomb_cnt != '6') {
-                        else if (bomb_cnt != '2') {
+                        else if (bomb_cnt != '2') { //bomb relay not end, just correct
                             intent_correct.putExtra("timestamp", timestamp_key);
                             intent_correct.putExtra("id", id_key);
                             intent_correct.putExtra("nickname", nickname_key);
@@ -177,7 +177,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
                             finish();
                         }
                     }
-                    else if (!user_answer.equals(answer_key)) {
+                    else if (!user_answer.equals(answer_key)) { //wrong answer case
                         wrong = 1;
                         if (nickname_key.equals(user1_key)) {
                             wPostReference.child("state").setValue("win2");
@@ -196,7 +196,7 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
             }
         });
 
-        imageButtonScript.setOnClickListener(new View.OnClickListener() {
+        imageButtonScript.setOnClickListener(new View.OnClickListener() { //go main activity (home)
             @Override
             public void onClick(View v) {
                 showScriptFragment = new ShowScriptFragment();
@@ -211,13 +211,13 @@ public class SolveBombOXActivity extends AppCompatActivity implements ShowScript
             }
         });
     }
-    Handler mHandler = new Handler() {
+    Handler mHandler = new Handler() { //about Timer
         public void handleMessage(Message msg) {
             second--;
             timer.setText("00 :  " + second);
 
             // 메세지를 처리하고 또다시 핸들러에 메세지 전달 (1000ms 지연)
-            mHandler.sendEmptyMessageDelayed(0,1000);
+            mHandler.sendEmptyMessageDelayed(0,1000); //Limit time is 1 minute(1000ms)
 
             if (second == 0 && correct_end == 0 && wrong == 0) { //correct_end 정답일 때 1로 바뀜
                 if (nickname_key.equals(user1_key)) {
