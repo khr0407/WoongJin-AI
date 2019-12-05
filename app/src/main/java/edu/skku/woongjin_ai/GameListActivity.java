@@ -48,13 +48,13 @@ public class GameListActivity extends AppCompatActivity
     String roomname_key, friend_nickname;
     String timestamp_key, user1_key, user2_key, script_key, state_key;
     char bomb_cnt;
-    String last, solve; //last=문제 내는 사람, solve=문제 푸는 사람
+    String last, solve; //last = 문제 내는 사람, solve = 문제 푸는 사람 (Firebase Structure)
     String type_key, question_key, answer_key, ans1_key, ans2_key, ans3_key, ans4_key;
     int find, check_gamelist;
     UserInfo me;
 
-    ListView gamelist;
-    Button create;
+    ListView gamelist; //gamelist
+    Button create; //go nationgame activity
     ImageView makebomb, solvebomb;
     ImageView imageHome, help;
     TextView userName1, userGrade1, userCoin;
@@ -96,7 +96,7 @@ public class GameListActivity extends AppCompatActivity
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
 
         find = 0;
-        check_gamelist = 0;
+        check_gamelist = 0; //check listview 
 
         intent = getIntent();
         id_key = intent.getExtras().getString("id");
@@ -104,7 +104,7 @@ public class GameListActivity extends AppCompatActivity
 
         getFirebaseDatabaseUserInfo();
 
-        imageHome.setOnClickListener(new View.OnClickListener() { //go home activity(main)
+        imageHome.setOnClickListener(new View.OnClickListener() { //go main activity(home)
             @Override
             public void onClick(View v) {
                 Intent intentHome = new Intent(GameListActivity.this, MainActivity.class);
@@ -184,7 +184,7 @@ public class GameListActivity extends AppCompatActivity
                                         find = 0;
                                         break;
                                     }
-                                }
+                                } //win, win1, win2 state = completed state
                                 else if (temp_state.equals("gaming0")) {
                                     timestamp_key = temp_timestamp;
                                     user1_key = temp_user1;
@@ -243,7 +243,7 @@ public class GameListActivity extends AppCompatActivity
                                         find = 0;
                                         break;
                                     }
-                                }
+                                } //win, win1, win2 state = completed state
                                 else if (temp_state.equals("gaming0")) {
                                     timestamp_key = temp_timestamp;
                                     user1_key = temp_user1;
@@ -285,7 +285,7 @@ public class GameListActivity extends AppCompatActivity
         });
 
 
-        makebomb.setOnClickListener(new View.OnClickListener() { //폭탄배틀신청
+        makebomb.setOnClickListener(new View.OnClickListener() { //make bomb = 폭탄배틀신청
             public void onClick(View view) {
                 if (check_gamelist == 1) {
                     if (find == 0) {
@@ -335,7 +335,7 @@ public class GameListActivity extends AppCompatActivity
             }
         });
 
-        solvebomb.setOnClickListener(new View.OnClickListener() { //배틀 수락(폭탄 문제 풀러 가기)
+        solvebomb.setOnClickListener(new View.OnClickListener() { //solve bomb = 폭탄배틀수락(폭탄 문제 풀러 가기)
             public void onClick(View view) {
                 if (check_gamelist == 1) {
                     if (find == 0) {
@@ -361,7 +361,7 @@ public class GameListActivity extends AppCompatActivity
                                     type_key = postSnapshot.child("type").getValue().toString();
                                     question_key = postSnapshot.child("question").getValue().toString();
                                     if (key.equals("quiz" + bomb_cnt)) {
-                                        if (type_key.equals("ox")) { //ox type 
+                                        if (type_key.equals("ox")) { //ox type (OX 문제)
                                             answer_key = postSnapshot.child("answer").getValue().toString();
                                             ans1_key = "";
                                             ans2_key = "";
