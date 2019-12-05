@@ -82,7 +82,7 @@ public class MakeBombChoiceActivity extends AppCompatActivity
 
         mPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list");
 
-        scriptButton.setOnClickListener(new View.OnClickListener() {
+        scriptButton.setOnClickListener(new View.OnClickListener() { //read script using fragment
             @Override
             public void onClick(View v) {
                 showScriptFragment = new ShowScriptFragment();
@@ -97,17 +97,17 @@ public class MakeBombChoiceActivity extends AppCompatActivity
             }
         });
 
-        checkButton.setOnClickListener(new View.OnClickListener() {
+        checkButton.setOnClickListener(new View.OnClickListener() { //make problem complete! -> post into firebase
             @Override
             public void onClick(View v) {
                 quiz = editQuiz.getText().toString();
                 HintWritingFragment hintWritingFragment1 = (HintWritingFragment) getSupportFragmentManager().findFragmentById(R.id.contentSelectHint);
 
                 quiz = editQuiz.getText().toString();
-                ans1 = editAns1.getText().toString();
-                ans2 = editAns2.getText().toString();
-                ans3 = editAns3.getText().toString();
-                ans4 = editAns4.getText().toString();
+                ans1 = editAns1.getText().toString(); //보기 1번 
+                ans2 = editAns2.getText().toString(); //보기 2번
+                ans3 = editAns3.getText().toString(); //보기 3번
+                ans4 = editAns4.getText().toString(); //보기 4번
 
                 if(quiz.length() == 0 || ans.length() == 0 || ans1.length() == 0 || ans2.length() == 0 || ans3.length() == 0 || ans4.length() == 0) {
                     Toast.makeText(MakeBombChoiceActivity.this, "Fill all blanks", Toast.LENGTH_SHORT).show();
@@ -124,7 +124,7 @@ public class MakeBombChoiceActivity extends AppCompatActivity
             }
         });
 
-        imageHome.setOnClickListener(new View.OnClickListener() {
+        imageHome.setOnClickListener(new View.OnClickListener() { //go main activity (home)
             @Override
             public void onClick(View v) {
                 intentHome = new Intent(MakeBombChoiceActivity.this, MainActivity.class);
@@ -134,7 +134,7 @@ public class MakeBombChoiceActivity extends AppCompatActivity
             }
         });
 
-        num1.setOnClickListener(new View.OnClickListener() {
+        num1.setOnClickListener(new View.OnClickListener() { //choose ex1 as answer
             @Override
             public void onClick(View v) {
                 if (flagA1 == 0 ) {
@@ -154,7 +154,7 @@ public class MakeBombChoiceActivity extends AppCompatActivity
                 }
             }
         });
-        num2.setOnClickListener(new View.OnClickListener() {
+        num2.setOnClickListener(new View.OnClickListener() { //choose ex2 as answer
             @Override
             public void onClick(View v) {
                 if(flagA2 == 0) {
@@ -173,7 +173,7 @@ public class MakeBombChoiceActivity extends AppCompatActivity
                 }
             }
         });
-        num3.setOnClickListener(new View.OnClickListener() {
+        num3.setOnClickListener(new View.OnClickListener() { //choose ex3 as answer
             @Override
             public void onClick(View v) {
                 if(flagA3 == 0 ) {
@@ -192,7 +192,7 @@ public class MakeBombChoiceActivity extends AppCompatActivity
                 }
             }
         });
-        num4.setOnClickListener(new View.OnClickListener() {
+        num4.setOnClickListener(new View.OnClickListener() { //choose ex4 as answer
             @Override
             public void onClick(View v) {
                 if(flagA4 == 0 ) {
