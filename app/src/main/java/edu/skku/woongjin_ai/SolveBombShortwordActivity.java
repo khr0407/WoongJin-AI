@@ -85,7 +85,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        imageButtonCheck.setOnClickListener(new View.OnClickListener() {
+        imageButtonCheck.setOnClickListener(new View.OnClickListener() { //check answer button
             @Override
             public void onClick(View v) {
                 user_answer = answer_edit.getText().toString();
@@ -93,7 +93,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                     Toast.makeText(SolveBombShortwordActivity.this, "정답을 입력하세요.", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    if (user_answer.equals(answer_key)) {
+                    if (user_answer.equals(answer_key)) { //correct answer case
                         final ValueEventListener check = new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -111,7 +111,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                         mPostReference.addListenerForSingleValueEvent(check);
                         correct_end = 1;
                         //if (bomb_cnt == '6') {
-                        if (bomb_cnt == '2') {
+                        if (bomb_cnt == '2') { //bomb relay end
                             wPostReference.child("state").setValue("win");
                             intent_end.putExtra("id", id_key);
                             intent_end.putExtra("nickname", nickname_key);
@@ -121,7 +121,7 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                             finish();
                         }
                         //else if (bomb_cnt != '6') {
-                        else if (bomb_cnt != '2') {
+                        else if (bomb_cnt != '2') { //bomb relay not end, just correct
                             intent_correct.putExtra("timestamp", timestamp_key);
                             intent_correct.putExtra("id", id_key);
                             intent_correct.putExtra("nickname", nickname_key);
@@ -134,14 +134,14 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
                             finish();
                         }
                     }
-                    else if (!user_answer.equals(answer_key)) {
+                    else if (!user_answer.equals(answer_key)) { //wrong answer case
                         Toast.makeText(SolveBombShortwordActivity.this, "다시 시도해보세요.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
 
-        imageButtonScript.setOnClickListener(new View.OnClickListener() {
+        imageButtonScript.setOnClickListener(new View.OnClickListener() { //지문 보기
             @Override
             public void onClick(View v) {
                 showScriptFragment = new ShowScriptFragment();
@@ -157,13 +157,13 @@ public class SolveBombShortwordActivity extends AppCompatActivity implements Sho
         });
     }
 
-    Handler mHandler = new Handler() {
+    Handler mHandler = new Handler() { //타이머
         public void handleMessage(Message msg) {
             second--;
-            timer.setText("00 :  " + second);
+            timer.setText("00 :  " + second); 
 
             // 메세지를 처리하고 또다시 핸들러에 메세지 전달 (1000ms 지연)
-            mHandler.sendEmptyMessageDelayed(0,1000);
+            mHandler.sendEmptyMessageDelayed(0,1000); //time limit 1분, 1초씩 줄어든다
 
             if (second == 0 && correct_end == 0) {
                 if (nickname_key.equals(user1_key)) {
