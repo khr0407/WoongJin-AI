@@ -99,7 +99,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
         textViewAns3.setText(ans3_key);
         textViewAns4.setText(ans4_key);
 
-        textViewAns1.setOnClickListener(new View.OnClickListener() {
+        textViewAns1.setOnClickListener(new View.OnClickListener() { //check ex1 as answer
             @Override
             public void onClick(View v) {
                 if(flagA1 == 0) {
@@ -118,7 +118,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
             }
         });
 
-        textViewAns2.setOnClickListener(new View.OnClickListener() {
+        textViewAns2.setOnClickListener(new View.OnClickListener() { //check ex2 as answer
             @Override
             public void onClick(View v) {
                 if(flagA2 == 0){
@@ -137,7 +137,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
             }
         });
 
-        textViewAns3.setOnClickListener(new View.OnClickListener() {
+        textViewAns3.setOnClickListener(new View.OnClickListener() { //check ex3 as answer
             @Override
             public void onClick(View v) {
                 if(flagA3 == 0){
@@ -156,7 +156,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
             }
         });
 
-        textViewAns4.setOnClickListener(new View.OnClickListener() {
+        textViewAns4.setOnClickListener(new View.OnClickListener() { //check ex4 as answer
             @Override
             public void onClick(View v) {
                 if(flagA4 == 0){
@@ -178,14 +178,14 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        imageButtonCheck.setOnClickListener(new View.OnClickListener() {
+        imageButtonCheck.setOnClickListener(new View.OnClickListener() { //check answer
             @Override
             public void onClick(View v) {
                 if (user_answer.equals("")) {
                     Toast.makeText(SolveBombChoiceActivity.this, "정답을 입력하세요.", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    if (user_answer.equals(answer_key)) {
+                    if (user_answer.equals(answer_key)) { //correct answer case
                         final ValueEventListener check = new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -204,10 +204,10 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
                         
                         correct_end = 1;
 
-                        correct_end = 1;
+                        //correct_end = 1;
 
                         //if (bomb_cnt == '6') {
-                        if (bomb_cnt == '2') {
+                        if (bomb_cnt == '2') { //bomb relay end
                             wPostReference.child("state").setValue("win");
                             intent_end.putExtra("id", id_key);
                             intent_end.putExtra("nickname", nickname_key);
@@ -217,7 +217,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
                             finish();
                         }
                         //else if (bomb_cnt != '6') {
-                        else if (bomb_cnt != '2') {
+                        else if (bomb_cnt != '2') { //bomb relay not end, just correct
                             intent_correct.putExtra("timestamp", timestamp_key);
                             intent_correct.putExtra("id", id_key);
                             intent_correct.putExtra("nickname", nickname_key);
@@ -230,12 +230,12 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
                             finish();
                         }
                     }
-                    else if (!user_answer.equals(answer_key)) {
-                        if (count == 2) {
+                    else if (!user_answer.equals(answer_key)) { //정답확인기회 -> 총 2번이 주어짐
+                        if (count == 2) { //처음 틀렸을 때, 아직 1번의 기회가 남아있음
                             Toast.makeText(SolveBombChoiceActivity.this, "1번의 기회가 남았습니다. 다시 시도해보세요!", Toast.LENGTH_SHORT).show();
                             count = 1;
                         }
-                        else if (count == 1) {
+                        else if (count == 1) { //마지막 기회
                             wrong = 1;
                             if (nickname_key.equals(user1_key)) {
                                 wPostReference.child("state").setValue("win2");
@@ -255,7 +255,7 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
             }
         });
 
-        imageButtonScript.setOnClickListener(new View.OnClickListener() {
+        imageButtonScript.setOnClickListener(new View.OnClickListener() { //지문 보기 버튼
             @Override
             public void onClick(View v) {
                 showScriptFragment = new ShowScriptFragment();
@@ -270,13 +270,13 @@ public class SolveBombChoiceActivity extends AppCompatActivity implements ShowSc
             }
         });
     }
-    Handler mHandler = new Handler() {
+    Handler mHandler = new Handler() { //타이머
         public void handleMessage(Message msg) {
-            second--;
+            second--; 
             timer.setText("00 :  " + second);
 
             // 메세지를 처리하고 또다시 핸들러에 메세지 전달 (1000ms 지연)
-            mHandler.sendEmptyMessageDelayed(0,1000);
+            mHandler.sendEmptyMessageDelayed(0,1000); //time limit 1분, 1초씩 줄어드는 타이머
 
             if (second == 0 && correct_end == 0 && wrong == 0) {
                 if (nickname_key.equals(user1_key)) {
