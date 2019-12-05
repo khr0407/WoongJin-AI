@@ -72,7 +72,7 @@ public class MakeBombTypeActivity extends AppCompatActivity {
         script_title.setText("지문 제목: " + scriptnm);
         textViewId.setText(nickname_key + "(이)가 직접 폭탄으로 보낼 문제를 만들어볼까?");
 
-        goHome.setOnClickListener(new View.OnClickListener() {
+        goHome.setOnClickListener(new View.OnClickListener() { //go main activity(home)
             @Override
             public void onClick(View v) {
                 intentHome = new Intent(MakeBombTypeActivity.this, MainActivity.class);
@@ -82,7 +82,7 @@ public class MakeBombTypeActivity extends AppCompatActivity {
             }
         });
 
-        frameOX.setOnClickListener(new View.OnClickListener() {
+        frameOX.setOnClickListener(new View.OnClickListener() { //make ox type problem
             @Override
             public void onClick(View v) {
                 intentOX = new Intent(MakeBombTypeActivity.this, MakeBombOXActivity.class);
@@ -100,7 +100,7 @@ public class MakeBombTypeActivity extends AppCompatActivity {
             }
         });
 
-        frameChoice.setOnClickListener(new View.OnClickListener() {
+        frameChoice.setOnClickListener(new View.OnClickListener() { //make choice type problem
             @Override
             public void onClick(View v) {
                 intentChoice = new Intent(MakeBombTypeActivity.this, MakeBombChoiceActivity.class);
@@ -118,7 +118,7 @@ public class MakeBombTypeActivity extends AppCompatActivity {
             }
         });
 
-        frameShortword.setOnClickListener(new View.OnClickListener() {
+        frameShortword.setOnClickListener(new View.OnClickListener() { //make shortword type problem
             @Override
             public void onClick(View v) {
                 intentShortword = new Intent(MakeBombTypeActivity.this, MakeBombShortwordActivity.class);
