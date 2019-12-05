@@ -67,7 +67,7 @@ public class MakeBombShortwordActivity extends AppCompatActivity
 
         mPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list");
 
-        scriptButton.setOnClickListener(new View.OnClickListener() {
+        scriptButton.setOnClickListener(new View.OnClickListener() { //read script using fragment
             @Override
             public void onClick(View v) {
                 showScriptFragment = new ShowScriptFragment();
@@ -82,7 +82,7 @@ public class MakeBombShortwordActivity extends AppCompatActivity
             }
         });
 
-        checkButton.setOnClickListener(new View.OnClickListener() {
+        checkButton.setOnClickListener(new View.OnClickListener() { //make problem complete! -> post into firebase
             @Override
             public void onClick(View v) {
                 quiz = editQuiz.getText().toString();
@@ -103,7 +103,7 @@ public class MakeBombShortwordActivity extends AppCompatActivity
             }
         });
 
-        imageHome.setOnClickListener(new View.OnClickListener() {
+        imageHome.setOnClickListener(new View.OnClickListener() { //go main activity (home)
             @Override
             public void onClick(View v) {
                 intentHome = new Intent(MakeBombShortwordActivity.this, MainActivity.class);
