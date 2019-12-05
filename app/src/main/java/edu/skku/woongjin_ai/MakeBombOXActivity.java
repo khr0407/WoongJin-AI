@@ -71,7 +71,7 @@ public class MakeBombOXActivity extends AppCompatActivity
 
         mPostReference = FirebaseDatabase.getInstance().getReference().child("gameroom_list");
 
-        scriptButton.setOnClickListener(new View.OnClickListener() {
+        scriptButton.setOnClickListener(new View.OnClickListener() { //read script using fragment
             @Override
             public void onClick(View v) {
                 showScriptFragment = new ShowScriptFragment();
@@ -87,7 +87,7 @@ public class MakeBombOXActivity extends AppCompatActivity
         });
 
 
-        checkButton.setOnClickListener(new View.OnClickListener() {
+        checkButton.setOnClickListener(new View.OnClickListener() { //make problem complete! -> post into firebase
             @Override
             public void onClick(View v) {
                 quiz = editQuiz.getText().toString();
@@ -106,7 +106,7 @@ public class MakeBombOXActivity extends AppCompatActivity
             }
         });
 
-        imageHome.setOnClickListener(new View.OnClickListener() {
+        imageHome.setOnClickListener(new View.OnClickListener() { //go main activity(home)
             @Override
             public void onClick(View v) {
                 intentHome = new Intent(MakeBombOXActivity.this, MainActivity.class);
@@ -116,7 +116,7 @@ public class MakeBombOXActivity extends AppCompatActivity
             }
         });
 
-        imageO.setOnClickListener(new View.OnClickListener() {
+        imageO.setOnClickListener(new View.OnClickListener() { //choose O answer
             @Override
             public void onClick(View v) {
                 if(flagAO == 0) {
@@ -135,7 +135,7 @@ public class MakeBombOXActivity extends AppCompatActivity
             }
         });
 
-        imageX.setOnClickListener(new View.OnClickListener() {
+        imageX.setOnClickListener(new View.OnClickListener() { //choose X answer
             @Override
             public void onClick(View v) {
                 if(flagAX == 0) {
