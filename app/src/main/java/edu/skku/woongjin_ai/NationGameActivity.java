@@ -40,8 +40,8 @@ import java.util.Map;
 public class NationGameActivity extends AppCompatActivity {
     private DatabaseReference mPostReference, sPostReference, gPostReference;
     ListView friend_list, script_list;
-    ArrayList<ShowFriendListItem> data; //친구목록
-    ArrayList<String> scriptArrayList; //지문목록
+    ArrayList<ShowFriendListItem> data; //friend list
+    ArrayList<String> scriptArrayList; //script list
     ShowFriendListAdapter arrayAdapter;
     ScriptListAdapter ScriptListAdapter;
 
@@ -130,7 +130,7 @@ public class NationGameActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) { //custom listview에서 data 받아오기
                 ShowFriendListItem temp_show = (ShowFriendListItem) parent.getItemAtPosition(position);
                 friend_nickname = temp_show.getNameFriend();
-                check_choose = 1;
+                check_choose = 1; //choose friend 
             }
         });
 
@@ -139,7 +139,7 @@ public class NationGameActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long i) {
                 ScriptListItem temp_show = (ScriptListItem) parent.getItemAtPosition(position);
                 script_name = temp_show.getTitle();
-                check_script = 1;
+                check_script = 1; //choose script
             }
         });
 
@@ -147,8 +147,8 @@ public class NationGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 text_roomname = editText_roomname.getText().toString();
-                if (check_choose == 1 && check_script == 1) {
-                    if (friend_nickname.length() > 0 && spaceCheck(text_roomname) == false && text_roomname.length() > 0) { //create chat room
+                if (check_choose == 1 && check_script == 1) { //can make new gameroom if choose friend and script both
+                    if (friend_nickname.length() > 0 && spaceCheck(text_roomname) == false && text_roomname.length() > 0) {
                         final ValueEventListener checkRoomRegister = new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -156,14 +156,13 @@ public class NationGameActivity extends AppCompatActivity {
                                     String user1 = postSnapshot.child("user1").getValue().toString();
                                     String user2 = postSnapshot.child("user2").getValue().toString();
                                     String state = postSnapshot.child("state").getValue().toString();
-                                    Log.d("_user1", user1);
-                                    Log.d("_user2", user2);
+                                   
                                     if (!(state.equals("win") || state.equals("win1") || state.equals("win2")) &&
                                             editText_roomname.getText().toString().length() > 0 &&
                                             ((user1.equals(nickname_key) && user2.equals(friend_nickname)) || (user2.equals(nickname_key) && user1.equals(friend_nickname)))) { //있으면
                                         Toast.makeText(getApplicationContext(), "이미 " + friend_nickname + " 와 게임에 참여중입니다.\n 진행중인 request를 먼저 완료해주세요", Toast.LENGTH_SHORT).show();
                                         flag = 1;
-                                    }
+                                    } //현재 진행중인 게임이 있을 때(상대방과 덜 끝난 게임이 있을 때)
                                 }
                                 if (editText_roomname.getText().toString().length() > 0 && flag == 0) { //채팅방이 처음 만들어질 경우
                                     postListDatabase(true);
@@ -263,7 +262,7 @@ public class NationGameActivity extends AppCompatActivity {
     public void postListDatabase(boolean add) {
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
-        Long time = System.currentTimeMillis() / 1000;
+        Long time = System.currentTimeMillis() / 1000; //timestamp key
         String ts = time.toString();
         if(add) {
             FirebasePost_list post = new FirebasePost_list(editText_roomname.getText().toString(), nickname_key, friend_nickname, script_name,"gaming0" );
