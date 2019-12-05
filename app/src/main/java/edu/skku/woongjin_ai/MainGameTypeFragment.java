@@ -79,7 +79,7 @@ public class MainGameTypeFragment extends Fragment {
         bombgameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intentBombGame = new Intent(getActivity(), NationGameActivity.class);
+                intentBombGame = new Intent(getActivity(), GameListActivity.class);
                 intentBombGame.putExtra("id", id);
                 intentBombGame.putExtra("nickname", nickname);
 
